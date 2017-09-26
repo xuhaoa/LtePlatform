@@ -111,10 +111,12 @@ class NorthDownloader:
                         for sub_name in zfile.namelist():
                                 print(sub_name)
                                 zfile.extract(sub_name,osdir)
-                                if is_mro_filename_zte(sub_name):
+                                if is_mro_filename_zte(sub_name) and is_foshan_filename(sub_name):
                                     shutil.move(sub_name,os.path.join(mrodir,sub_name))
-                                elif is_mrs_filename_zte(sub_name):
+                                    print('download mro!')
+                                elif is_mrs_filename_zte(sub_name) and is_foshan_filename(sub_name):
                                     shutil.move(sub_name,os.path.join(mrsdir,sub_name))
+                                    print('download mrs!')
                                 else:
                                     os.remove(sub_name)
                                     
