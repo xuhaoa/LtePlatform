@@ -59,57 +59,69 @@
                 },
                 url: "/topic"
             })
-            .state('station',
+            .state('operation-station',
             {
                 views: {
                     'menu': {
-                        templateUrl: "/appViews/Home/StationSearchMenu.html",
-                        controller: "menu.station"
+                        templateUrl: viewDir + "StationSearchMenu.html",
+                        controller: "menu.operation-station"
                     },
                     "contents": {
-                        templateUrl: "/appViews/Home/Station.html",
-                        controller: "station.network"
+                        templateUrl: viewDir + "Station.html",
+                        controller: "operation-station.network"
                     },
                     "filter": {
-                        templateUrl: "/appViews/Home/StationFilter.html",
-                        controller: "station.filter"
+                        templateUrl: viewDir + "StationFilter.html",
+                        controller: "operation-station.filter"
                     }
 
                 },
-                url: "/station"
+                url: "/operation-station"
             })
             .state('operation-indoor',
             {
                 views: {
                     'menu': {
-                        templateUrl: "/appViews/Home/StationSearchMenu.html",
-                        controller: "menu.station"
+                        templateUrl: viewDir + "StationSearchMenu.html",
+                        controller: "menu.operation-indoor"
                     },
                     "contents": {
-                        templateUrl: "/appViews/Home/Station.html",
+                        templateUrl: viewDir + "Station.html",
                         controller: "operation-indoor.network"
                     },
                     "filter": {
-                        templateUrl: "/appViews/Home/IndoorFilter.html",
+                        templateUrl: viewDir + "IndoorFilter.html",
                         controller: "operation-indoor.filter"
                     }
 
                 },
                 url: "/operation-indoor"
             })
-            .state('common',
-            {
+            .state('common-station', {
                 views: {
                     'menu': {
-                        templateUrl: "/appViews/BasicKpi/CommonMenu.html",
-                        controller: "menu.common"
+                        templateUrl: viewDir + "StationSearchMenu.html",
+                        controller: "menu.common-station"
                     },
                     "contents": {
-                        templateUrl: "/appViews/BasicKpi/Common.html",
-                        controller: "common.network"
+                        templateUrl: viewDir + "Common.html",
+                        controller: "common-station.network"
                     }
                 },
-                url: "/common"
+                url: "/common-station"
+            })
+            .state('common-indoor', {
+                views: {
+                    'menu': {
+                        templateUrl: viewDir + "StationSearchMenu.html",
+                        controller: "menu.common-indoor"
+                    },
+                    "contents": {
+                        templateUrl: viewDir + "Common.html",
+                        controller: "common-indoor.network"
+                    }
+                },
+                url: "/common-indoor"
             })
             .state('flow',
             {

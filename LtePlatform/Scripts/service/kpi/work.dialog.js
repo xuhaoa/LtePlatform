@@ -67,11 +67,16 @@
             dialogTitle,
             beginDate,
             endDate,
-            appFormatService) {
+            appFormatService,
+            downSwitchService) {
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
-            $scope.itemGroups = appFormatService.generateIndoorGroups(station);
 
+            downSwitchService.getIndoorById(station.id).then(function (response) {
+                response.result[0].longtitute = station.longtitute;
+                response.result[0].lattitute = station.lattitute;
+                $scope.itemGroups = appFormatService.generateIndoorGroups(response.result[0]);
+            });
             $scope.dialogTitle = dialogTitle;
             $scope.ok = function() {
                 $uibModalInstance.close($scope.site);

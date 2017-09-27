@@ -701,6 +701,13 @@ angular.module('region.basic', ['app.core'])
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/add', station);
                 },
+                getIndoorById: function (id) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Indoor/single',
+                        {
+                        "id": id
+                         });
+                },
                 addCommonStation: function(station) {
                     return postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/StationCommon/add',
                         station);

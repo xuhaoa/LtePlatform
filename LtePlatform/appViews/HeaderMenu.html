@@ -8,24 +8,38 @@
                 <a role="menuitem" href="" ng-mouseover="commonMenu.$folded = !commonMenu.$folded">
                     <i ng-if="commonMenu.$folded" class="glyphicon glyphicon-chevron-down"></i>
                     <i ng-if="!commonMenu.$folded" class="glyphicon glyphicon-chevron-up"></i>
-                    公共信息
+                    标准站址
                 </a>
             </li>
             <li role="presentation" ng-if="!commonMenu.$folded">
-                <a role="menuitem" ng-href="/#/station" style="padding-left: 50px">
+                <a role="menuitem" ng-href="/#/common-station" style="padding-left: 50px">
+                    基站
+                    <i class="glyphicon glyphicon-apple"></i>
+                </a>
+            </li>
+            <li role="presentation" ng-if="!commonMenu.$folded">
+                <a role="menuitem" ng-href="/#/common-indoor" style="padding-left: 50px">
+                    室分
+                    <i class="glyphicon glyphicon-apple"></i>
+                </a>
+            </li>
+
+            <li role="presentation">
+                <a role="menuitem" href="" ng-mouseover="stationMenu.$folded = !stationMenu.$folded">
+                    <i ng-if="stationMenu.$folded" class="glyphicon glyphicon-chevron-down"></i>
+                    <i ng-if="!stationMenu.$folded" class="glyphicon glyphicon-chevron-up"></i>
+                    站址信息
+                </a>
+            </li>
+            <li role="presentation" ng-if="!stationMenu.$folded">
+                <a role="menuitem" ng-href="/#/operation-station" style="padding-left: 50px">
                     基站站点
                     <i class="glyphicon glyphicon-apple"></i>
                 </a>
             </li>
-            <li role="presentation" ng-if="!commonMenu.$folded">
+            <li role="presentation" ng-if="!stationMenu.$folded">
                 <a role="menuitem" ng-href="/#/operation-indoor" style="padding-left: 50px">
                     室分站点
-                    <i class="glyphicon glyphicon-apple"></i>
-                </a>
-            </li>
-            <li role="presentation" ng-if="!commonMenu.$folded">
-                <a role="menuitem" ng-href="/#/common" style="padding-left: 50px">
-                    标准站址
                     <i class="glyphicon glyphicon-apple"></i>
                 </a>
             </li>
@@ -135,11 +149,54 @@
                 </a>
             </li>
             <li role="presentation">
+                <a role="menuitem" href="" ng-mouseover="alarmMenu.$folded = !alarmMenu.$folded">
+                    <i ng-if="alarmMenu.$folded" class="glyphicon glyphicon-chevron-down"></i>
+                    <i ng-if="!alarmMenu.$folded" class="glyphicon glyphicon-chevron-up"></i>
+                    网络故障
+                </a>
+            </li>
+
+            <li role="presentation" ng-if="!alarmMenu.$folded">
+                <a role="menuitem" ng-href="/#/alarm-station" style="padding-left: 50px">
+                    基站
+                    <i class="glyphicon glyphicon-apple"></i>
+                </a>
+            </li>
+            <li role="presentation" ng-if="!alarmMenu.$folded">
+                <a role="menuitem" ng-href="/#/alarm-indoor" style="padding-left: 50px">
+                    室分
+                    <i class="glyphicon glyphicon-apple"></i>
+                </a>
+            </li>
+
+            <li role="presentation">
                 <a ng-href="/#/checking">
                     网络巡检
                     <i class="glyphicon glyphicon-star"></i>
                 </a>
             </li>
+
+            <li role="presentation">
+                <a role="menuitem" href="" ng-mouseover="checkMenu.$folded = !checkMenu.$folded">
+                    <i ng-if="checkMenu.$folded" class="glyphicon glyphicon-chevron-down"></i>
+                    <i ng-if="!checkMenu.$folded" class="glyphicon glyphicon-chevron-up"></i>
+                    网络巡检
+                </a>
+            </li>
+
+            <li role="presentation" ng-if="!checkMenu.$folded">
+                <a role="menuitem" ng-href="/#/checking-station" style="padding-left: 50px">
+                    基站
+                    <i class="glyphicon glyphicon-apple"></i>
+                </a>
+            </li>
+            <li role="presentation" ng-if="!checkMenu.$folded">
+                <a role="menuitem" ng-href="/#/checking-indoor" style="padding-left: 50px">
+                    室分
+                    <i class="glyphicon glyphicon-apple"></i>
+                </a>
+            </li>
+
             <li role="presentation">
                 <a ng-href="/#/fixing">
                     网络整治
@@ -147,8 +204,50 @@
                 </a>
             </li>
             <li role="presentation">
+                <a role="menuitem" href="" ng-mouseover="fixingMenu.$folded = !fixingMenu.$folded">
+                    <i ng-if="fixingMenu.$folded" class="glyphicon glyphicon-chevron-down"></i>
+                    <i ng-if="!fixingMenu.$folded" class="glyphicon glyphicon-chevron-up"></i>
+                    网络整治
+                </a>
+            </li>
+
+            <li role="presentation" ng-if="!fixingMenu.$folded">
+                <a role="menuitem" ng-href="/#/fixing-station" style="padding-left: 50px">
+                    基站
+                    <i class="glyphicon glyphicon-apple"></i>
+                </a>
+            </li>
+            <li role="presentation" ng-if="!fixingMenu.$folded">
+                <a role="menuitem" ng-href="/#/fixing-indoor" style="padding-left: 50px">
+                    室分
+                    <i class="glyphicon glyphicon-apple"></i>
+                </a>
+            </li>
+
+            <li role="presentation">
                 <a ng-href="/#/resource">资源资产</a>
             </li>
+            <li role="presentation">
+                <a role="menuitem" href="" ng-mouseover="resourceMenu.$folded = !resourceMenu.$folded">
+                    <i ng-if="resourceMenu.$folded" class="glyphicon glyphicon-chevron-down"></i>
+                    <i ng-if="!resourceMenu.$folded" class="glyphicon glyphicon-chevron-up"></i>
+                    资源资产
+                </a>
+            </li>
+
+            <li role="presentation" ng-if="!resourceMenu.$folded">
+                <a role="menuitem" ng-href="/#/resource-station" style="padding-left: 50px">
+                    基站
+                    <i class="glyphicon glyphicon-apple"></i>
+                </a>
+            </li>
+            <li role="presentation" ng-if="!resourceMenu.$folded">
+                <a role="menuitem" ng-href="/#/resource-indoor" style="padding-left: 50px">
+                    室分
+                    <i class="glyphicon glyphicon-apple"></i>
+                </a>
+            </li>
+
         </ul>
     </li>
     <li>
