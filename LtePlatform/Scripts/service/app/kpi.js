@@ -6008,8 +6008,8 @@ angular.module('kpi.work.dialog', ['myApp.url', 'myApp.region', "ui.bootstrap", 
             $scope.endDate = endDate;
 
             downSwitchService.getIndoorById(station.id).then(function (response) {
-                response.result[0]['longtitute'] = station['longtitute'];
-                response.result[0]['lattitute'] = station['lattitute'];
+                response.result[0].longtitute = station.longtitute;
+                response.result[0].lattitute = station.lattitute;
                 $scope.itemGroups = appFormatService.generateIndoorGroups(response.result[0]);
             });
             $scope.dialogTitle = dialogTitle;

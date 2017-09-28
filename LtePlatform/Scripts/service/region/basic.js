@@ -804,14 +804,15 @@
                             "type": type
                         });
                 },
-                getCommonStations: function(areaName, type, page, pageSize) {
+                getCommonStations: function (name, type, areaName, page, pageSize) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/StationCommon/search',
                         {
                             "curr_page": page,
                             "page_size": pageSize,
-                            "areaName": areaName,
-                            "type": type
+                            "stationName": name,
+                            "type": type,
+                            "areaName": areaName
                         });
                 },
                 getCommonStationIdAdd: function (distinct, type) {
