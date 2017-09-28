@@ -389,59 +389,74 @@
                 },
                 url: "/highvalue"
             })
-            .state('alarm',
+            .state('alarm-station',
             {
                 views: {
                     'menu': {
-                        templateUrl: "/appViews/Evaluation/AlarmSearchMenu.html",
-                        controller: "menu.alarm"
+                        templateUrl: viewDir + "StationSearchMenu.html",
+                        controller: "menu.alarm-station"
                     },
                     "contents": {
                         templateUrl: "/appViews/Evaluation/Alarm.html",
-                        controller: "alarm.network"
+                        controller: "alarm-station.network"
                     }
 
                 },
-                url: "/alarm"
+                url: "/alarm-station"
             })
-            .state('checking',
+            .state('alarm-indoor',
             {
                 views: {
                     'menu': {
-                        templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.checking"
+                        templateUrl: viewDir + "StationSearchMenu.html",
+                        controller: "menu.alarm-indoor"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/Evaluation/Alarm.html",
+                        controller: "alarm-indoor.network"
+                    }
+
+                },
+                url: "/alarm-indoor"
+            })
+            .state('checking-station',
+            {
+                views: {
+                    'menu': {
+                        templateUrl: viewDir + "StationSearchMenu.html",
+                        controller: "menu.checking-station"
                     },
                     "contents": {
                         templateUrl: "/appViews/Evaluation/Checking.html",
-                        controller: "checking.network"
+                        controller: "checking-station.network"
                     }
                 },
-                url: "/checking"
+                url: "/checking-station"
             })
             .state('checking-indoor',
             {
                 views: {
                     'menu': {
-                        templateUrl: "/appViews/DropDownMenu.html",
+                        templateUrl: viewDir + "StationSearchMenu.html",
                         controller: "menu.checking"
                     },
                     "contents": {
                         templateUrl: "/appViews/Evaluation/Checking.html",
-                        controller: "checking.network"
+                        controller: "checking-indoor.network"
                     }
                 },
                 url: "/checking-indoor"
             })
-            .state('fixing',
+            .state('fixing-station',
             {
                 views: {
                     'menu': {
-                        templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.fixing"
+                        templateUrl: viewDir + "StationSearchMenu.html",
+                        controller: "menu.fixing-station"
                     },
                     "contents": {
                         templateUrl: "/appViews/Evaluation/Fixing.html",
-                        controller: "fixing.network"
+                        controller: "fixing-station.network"
                     }
                 },
                 url: "/fixing"
@@ -450,15 +465,43 @@
             {
                 views: {
                     'menu': {
-                        templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.fixing"
+                        templateUrl: viewDir + "StationSearchMenu.html",
+                        controller: "menu.fixing-indoor"
                     },
                     "contents": {
                         templateUrl: "/appViews/Evaluation/Fixing.html",
-                        controller: "fixing.network"
+                        controller: "fixing-indoor.network"
                     }
                 },
                 url: "/fixing-indoor"
+            })
+            .state('resource-station', {
+                views: {
+                    'menu': {
+                        templateUrl: viewDir + "CommonMenu.html",
+                        controller: "menu.resource-station"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/Evaluation/Resource.html",
+                        controller: "resource-station.network"
+                    }
+
+                },
+                url: "/resource-station"
+            })
+            .state('resource-indoor', {
+                views: {
+                    'menu': {
+                        templateUrl: viewDir + "CommonMenu.html",
+                        controller: "menu.resource-indoor"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/Evaluation/Resource.html",
+                        controller: "resource-indoor.network"
+                    }
+
+                },
+                url: "/resource-indoor"
             })
             .state('special-station',
             {

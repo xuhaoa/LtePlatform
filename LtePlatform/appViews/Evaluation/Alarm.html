@@ -8,23 +8,17 @@
         <li role="menuitem">
             <a class="btn btn-sm btn-success" ng-click="changeLevel(0)">
                 <i class="glyphicon glyphicon-fullscreen"></i>
-                紧急
+                C
             </a>
         </li>
         <li role="menuitem">
             <a class="btn btn-sm btn-success" ng-click="changeLevel(1)">
                 <i class="glyphicon glyphicon-tree-conifer"></i>
-                重要
+                D
             </a>
         </li>
         <li role="menuitem">
             <a class="btn btn-sm btn-success" ng-click="changeLevel(2)">
-                <i class="glyphicon glyphicon-flag"></i>
-                一般
-            </a>
-        </li>
-        <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="changeLevel(3)">
                 <i class="glyphicon glyphicon-flag"></i>
                 全部
             </a>
@@ -32,29 +26,50 @@
     </ul>
 </div>
 
+
+
+
 <div class="btn-group-sm col-md-4" uib-dropdown dropdown-append-to-body>
-    <button id="nettype-button" type="button" class="btn btn-sm btn-default"
+    <button id="distinct-button" type="button" class="btn btn-sm btn-default"
             uib-dropdown-toggle ng-disabled="disabled">
-        <strong>网络-{{netType}}</strong>
+        <strong>区域-{{distinct}}</strong>
         <span class="caret"></span>
     </button>
     <ul uib-dropdown-menu role="menu" aria-labelledby="view-button">
         <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="changeNetType('L')">
+            <a class="btn btn-sm btn-success" ng-click="changeDistinct(1)">
                 <i class="glyphicon glyphicon-fullscreen"></i>
-                L
+                顺德区
             </a>
         </li>
         <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="changeNetType('C')">
+            <a class="btn btn-sm btn-success" ng-click="changeDistinct(2)">
                 <i class="glyphicon glyphicon-tree-conifer"></i>
-                C
+                南海区
             </a>
         </li>
         <li role="menuitem">
-            <a class="btn btn-sm btn-success" ng-click="changeNetType('VL')">
+            <a class="btn btn-sm btn-success" ng-click="changeDistinct(3)">
                 <i class="glyphicon glyphicon-flag"></i>
-                VL
+                禅城区
+            </a>
+        </li>
+        <li role="menuitem">
+            <a class="btn btn-sm btn-success" ng-click="changeDistinct(4)">
+                <i class="glyphicon glyphicon-flag"></i>
+                三水区
+            </a>
+        </li>
+        <li role="menuitem">
+            <a class="btn btn-sm btn-success" ng-click="changeDistinct(5)">
+                <i class="glyphicon glyphicon-flag"></i>
+                高明区
+            </a>
+        </li>
+        <li role="menuitem">
+            <a class="btn btn-sm btn-success" ng-click="changeDistinct(0)">
+                <i class="glyphicon glyphicon-flag"></i>
+                佛山市
             </a>
         </li>
     </ul>

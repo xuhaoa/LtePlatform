@@ -712,13 +712,14 @@
                     return postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/StationCommon/add',
                         station);
                 },
-                getAlarmStationByName: function(name, page, pageSize) {
+                getAlarmStationByName: function (name, type, page, pageSize) {
                     return generalHttpService
-                        .postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/search',
+                        .postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Alarm/search',
                         {
                             "curr_page": page,
                             "page_size": pageSize,
-                            "stationName": name
+                            "stationName": name,
+                            'type': type
                         });
                 },
                 getStationByFilter: function(areaName,
@@ -764,15 +765,15 @@
                             "indoortype": indoortype
                         });
                 },
-                getAlarmStations: function(areaName, levelIndex, netType, page, pageSize) {
+                getAlarmStations: function (areaName, alarmLevel, type, page, pageSize) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Alarm/search',
                         {
                             "curr_page": page,
                             "page_size": pageSize,
-                            "area_id": areaName,
-                            "net_type": netType,
-                            "alarmLevel": levelIndex
+                            "areaName": areaName,
+                            "type": type,
+                            "alarmLevel": alarmLevel
                         });
                 },
                 getAlarmStationById: function(id) {
