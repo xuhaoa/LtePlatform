@@ -73,7 +73,7 @@ namespace Lte.Domain.Common.Geo
         /// <param name="checkPoint">要判断的点</param>  
         /// <param name="polygonPoints">多边形的顶点</param>  
         /// <returns></returns>  
-        public static bool IsInPolygon(GeoPoint checkPoint, List<GeoPoint> polygonPoints)
+        public static bool IsInPolygon(this IGeoPoint<double> checkPoint, List<GeoPoint> polygonPoints)
         {
             var pointCount = polygonPoints.Count;
             var transferList = new List<bool>();
@@ -106,7 +106,7 @@ namespace Lte.Domain.Common.Geo
             return false;
         }
 
-        public static bool PointIsAboveTheRay(GeoPoint checkPoint, GeoPoint p1, GeoPoint p2)
+        public static bool PointIsAboveTheRay(IGeoPoint<double> checkPoint, GeoPoint p1, GeoPoint p2)
         {
             return (checkPoint.Lattitute - p1.Lattitute)*(p2.Longtitute - p1.Longtitute) >
                    (checkPoint.Longtitute - p1.Longtitute)*(p2.Lattitute - p1.Lattitute);

@@ -130,9 +130,11 @@ namespace Lte.Evaluations.ViewModels.RegionKpi
     }
 
     [AutoMapFrom(typeof(ENodeb), typeof(Town))]
-    public class ENodebView : IGeoPointReadonly<double>
+    public class ENodebView : IGeoPointReadonly<double>, ITownId
     {
         public int ENodebId { get; set; }
+
+        public int TownId { get; set; }
 
         public string Name { get; set; }
 

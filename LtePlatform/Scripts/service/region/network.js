@@ -109,6 +109,14 @@
                     planNum: planNum
                 });
             },
+            queryENodebsByTownArea: function(city, district, town) {
+                return generalHttpService.getApiData('ENodebQuery',
+                {
+                    city: city,
+                    district: district,
+                    town: town
+                });
+            },
             queryENodebStationInfo: function (stationNum) {
                 return generalHttpService.getApiData('ENodebStation', {
                     stationNum: stationNum

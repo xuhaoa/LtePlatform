@@ -104,6 +104,12 @@ namespace LtePlatform.Controllers.Parameters
         {
             return _service.GetByPlanNum(planNum);
         }
+
+        [HttpGet]
+        public IEnumerable<ENodebView> Get(string city, string district, string town)
+        {
+            return _service.GetByTownArea(city, district, town);
+        }
     }
 
     [ApiControl("在用基站查询控制器")]

@@ -377,6 +377,8 @@ namespace LtePlatform
             ninjectKernel.Bind<TownTestInfoService>().ToSelf();
 
             ninjectKernel.Bind<RrcRegionStatService>().ToSelf();
+
+            ninjectKernel.Bind<TownBoundaryService>().ToSelf();
         }
     }
 }

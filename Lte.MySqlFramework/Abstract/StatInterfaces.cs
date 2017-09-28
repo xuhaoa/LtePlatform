@@ -129,30 +129,14 @@ namespace Lte.MySqlFramework.Abstract
 
     public static class TownBoundaryQuery
     {
-        public static bool IsInTownRange(this List<TownBoundary> coors, GeoPoint point)
+        public static bool IsInTownRange(this List<TownBoundary> coors, IGeoPoint<double> point)
         {
-            foreach (var coor in coors)
-            {
-                var coorList = coor.Boundary.GetSplittedFields(' ');
-                var boundaryPoints = new List<GeoPoint>();
-                for (var i = 0; i < coorList.Length / 2; i++)
-                {
-                    boundaryPoints.Add(new GeoPoint(coorList[i * 2].ConvertToDouble(0), coorList[i * 2 + 1].ConvertToDouble(0)));
-                }
-                if (GeoMath.IsInPolygon(point, boundaryPoints)) return true;
-            }
-            return false;
+            return coors.Any(coor => point.IsInPolygon(coor.CoorList()));
         }
 
-        public static bool IsInTownRange(this TownBoundary coor, GeoPoint point)
+        public static bool IsInTownRange(this TownBoundary coor, IGeoPoint<double> point)
         {
-            var coorList = coor.Boundary.GetSplittedFields(' ');
-            var boundaryPoints = new List<GeoPoint>();
-            for (var i = 0; i < coorList.Length / 2; i++)
-            {
-                boundaryPoints.Add(new GeoPoint(coorList[i * 2].ConvertToDouble(0), coorList[i * 2 + 1].ConvertToDouble(0)));
-            }
-            return GeoMath.IsInPolygon(point, boundaryPoints);
+            return point.IsInPolygon(coor.CoorList());
         }
     }
 

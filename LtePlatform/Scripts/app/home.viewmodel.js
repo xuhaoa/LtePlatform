@@ -701,21 +701,6 @@ angular.module('home.route', ['app.common'])
                 },
                 url: "/resource"
             })
-            .state('resource-indoor',
-            {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.resource"
-                    },
-                    "contents": {
-                        templateUrl: "/appViews/BasicKpi/Resource.html",
-                        controller: "resource.network"
-                    }
-
-                },
-                url: "/resource-indoor"
-            })
             .state('construction',
             {
                 views: {

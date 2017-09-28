@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
@@ -306,6 +307,17 @@ namespace Lte.MySqlFramework.Entities
         public string AreaName { get; set; }
 
         public string Boundary { get; set; }
+
+        public List<GeoPoint> CoorList()
+        {
+            var coors = Boundary.GetSplittedFields(' ');
+            var coorList = new List<GeoPoint>();
+            for (var i = 0; i < coors.Length / 2; i++)
+            {
+                coorList.Add(new GeoPoint(coors[i * 2].ConvertToDouble(0), coors[i * 2 + 1].ConvertToDouble(0)));
+            }
+            return coorList;
+        }
     }
 
     public class AreaTestInfo : Entity, ITownId

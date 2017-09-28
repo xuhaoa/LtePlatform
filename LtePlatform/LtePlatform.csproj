@@ -398,7 +398,6 @@
     <Content Include="appViews\BasicKpi\HotspotDtDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\AssessmentDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\CheckDetails.html" />
-    <Content Include="appViews\Evaluation\Resourse.html" />
     <Content Include="appViews\Home\Common.html" />
     <Content Include="appViews\Home\DT.html" />
     <Content Include="appViews\BasicKpi\GridApp.html" />
@@ -514,6 +513,7 @@
     <Content Include="appViews\Parameters\Import\HotSpotCell.html" />
     <Content Include="appViews\Parameters\Map\CellsMapInfoBox.html" />
     <Content Include="appViews\Parameters\Map\HotSpotInfoBox.html" />
+    <Content Include="appViews\Parameters\Region\ArrangeInfo.html" />
     <Content Include="appViews\Parameters\Region\BtsConstruction.html" />
     <Content Include="appViews\Parameters\Region\ENodebFlow.html" />
     <Content Include="appViews\Parameters\Region\FlowKpiInfo.html" />

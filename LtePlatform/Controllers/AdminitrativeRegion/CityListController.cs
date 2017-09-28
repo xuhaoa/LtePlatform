@@ -81,9 +81,9 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
     [ApiControl("镇区边界计算控制器")]
     public class TownBoundaryController : ApiController
     {
-        private readonly TownQueryService _service;
+        private readonly TownBoundaryService _service;
 
-        public TownBoundaryController(TownQueryService service)
+        public TownBoundaryController(TownBoundaryService service)
         {
             _service = service;
         }

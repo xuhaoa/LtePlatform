@@ -22,6 +22,46 @@
                         }
                     });
                 },
+                arrangeTownENodebInfo: function (city, district, town) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Parameters/Region/ArrangeInfo.html',
+                        controller: 'arrange.eNodeb.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return city + district + town + "-" + "LTE基站镇区调整";
+                            },
+                            city: function () {
+                                return city;
+                            },
+                            district: function () {
+                                return district;
+                            },
+                            town: function () {
+                                return town;
+                            }
+                        }
+                    });
+                },
+                arrangeTownBtsInfo: function (city, district, town) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Parameters/Region/ArrangeInfo.html',
+                        controller: 'arrange.bts.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return city + district + town + "-" + "CDMA基站镇区调整";
+                            },
+                            city: function () {
+                                return city;
+                            },
+                            district: function () {
+                                return district;
+                            },
+                            town: function () {
+                                return town;
+                            }
+                        }
+                    });
+                },
                 showHotSpotsInfo: function(hotSpotList) {
                     menuItemService.showGeneralDialogWithAction({
                         templateUrl: '/appViews/Parameters/Map/HotSpotInfoBox.html',

@@ -1,4 +1,4 @@
-﻿angular.module('topic.dialog.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', "ui.bootstrap"])
+﻿angular.module('topic.dialog.parameters', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', 'topic.dialog', "ui.bootstrap"])
     .controller('town.eNodeb.dialog',
         function($scope,
             $uibModalInstance,
@@ -8,7 +8,8 @@
             town,
             networkElementService,
             appRegionService,
-            parametersChartService) {
+            parametersChartService,
+            mapDialogService) {
             $scope.dialogTitle = dialogTitle;
             networkElementService.queryENodebsInOneTown(city, district, town).then(function(eNodebs) {
                 $scope.eNodebList = eNodebs;
@@ -25,11 +26,42 @@
                     .getLteCellCountOptions(city + district + town + '室外', stat));
             });
 
+            $scope.arrangeENodebs = function() {
+                mapDialogService.arrangeTownENodebInfo(city, district, town);
+            };
+            $scope.arrangeBtss = function() {
+                mapDialogService.arrangeTownBtsInfo(city, district, town);
+            };
+
             $scope.ok = function() {
                 $uibModalInstance.close($scope.eNodeb);
             };
 
             $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+    })
+    .controller('arrange.eNodeb.dialog',
+        function($scope,
+            $uibModalInstance,
+            dialogTitle,
+            city,
+            district,
+            town,
+            networkElementService) {
+            $scope.dialogTitle = dialogTitle;
+            networkElementService.queryENodebsInOneTown(city, district, town).then(function (eNodebs) {
+                $scope.currentENodebList = eNodebs;
+            });
+            networkElementService.queryENodebsByTownArea(city, district, town).then(function (eNodebs) {
+                $scope.candidateENodebList = eNodebs;
+            });
+
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.eNodeb);
+            };
+
+            $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
         })

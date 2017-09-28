@@ -194,6 +194,43 @@ namespace Lte.Evaluations.DataService.Basic
         }
     }
 
+    public class TownBoundaryService
+    {
+        private readonly ITownBoundaryRepository _boundaryRepository;
+        private readonly ITownRepository _repository;
+
+        public TownBoundaryService(ITownRepository repository, ITownBoundaryRepository boundaryRepository)
+        {
+            _repository = repository;
+            _boundaryRepository = boundaryRepository;
+        }
+
+        public IEnumerable<TownBoundaryView> GetTownBoundaryViews(string city, string district, string town)
+        {
+            var item = _repository.QueryTown(city, district, town);
+            if (item == null) return new List<TownBoundaryView>();
+            var coors = _boundaryRepository.GetAllList(x => x.TownId == item.Id);
+            var boundaries = new List<TownBoundaryView>();
+            foreach (var coor in coors)
+            {
+                boundaries.Add(new TownBoundaryView
+                {
+                    Town = town,
+                    BoundaryGeoPoints = coor.CoorList()
+                });
+            }
+            return boundaries;
+        }
+
+        public bool IsInTownBoundaries(double longtitute, double lattitute, string city, string district, string town)
+        {
+            var item = _repository.QueryTown(city, district, town);
+            if (item == null) return false;
+            var point = new GeoPoint(longtitute, lattitute);
+            return _boundaryRepository.GetAllList(x => x.TownId == item.Id).IsInTownRange(point);
+        }
+    }
+
     public class TownQueryService
     {
         private readonly ITownRepository _repository;
@@ -202,11 +239,10 @@ namespace Lte.Evaluations.DataService.Basic
         private readonly IBtsRepository _btsRepository;
         private readonly ICellRepository _cellRepository;
         private readonly ICdmaCellRepository _cdmaCellRepository;
-        private readonly ITownBoundaryRepository _boundaryRepository;
 
         public TownQueryService(ITownRepository repository, IOptimzeRegionRepository optimzeRegionRepository,
             IENodebRepository eNodebRepositroy, IBtsRepository btsRepository,
-            ICellRepository cellRepository, ICdmaCellRepository cdmaCellRepository, ITownBoundaryRepository boundaryRepository)
+            ICellRepository cellRepository, ICdmaCellRepository cdmaCellRepository)
         {
             _repository = repository;
             _optimzeRegionRepository = optimzeRegionRepository;
@@ -214,7 +250,6 @@ namespace Lte.Evaluations.DataService.Basic
             _btsRepository = btsRepository;
             _cellRepository = cellRepository;
             _cdmaCellRepository = cdmaCellRepository;
-            _boundaryRepository = boundaryRepository;
         }
 
         public List<string> GetCities()
@@ -396,36 +431,6 @@ namespace Lte.Evaluations.DataService.Basic
                 : new Tuple<string, string, string>(town.CityName, town.DistrictName, town.TownName);
         }
 
-        public IEnumerable<TownBoundaryView> GetTownBoundaryViews(string city, string district, string town)
-        {
-            var item = _repository.QueryTown(city, district, town);
-            if (item == null) return new List<TownBoundaryView>();
-            var coors = _boundaryRepository.GetAllList(x => x.TownId == item.Id);
-            var boundaries = new List<TownBoundaryView>();
-            foreach (var coor in coors)
-            {
-                var coorList = coor.Boundary.GetSplittedFields(' ');
-                var boundaryPoints = new List<GeoPoint>();
-                for (var i = 0; i < coorList.Length / 2; i++)
-                {
-                    boundaryPoints.Add(new GeoPoint(coorList[i * 2].ConvertToDouble(0), coorList[i * 2 + 1].ConvertToDouble(0)));
-                }
-                boundaries.Add(new TownBoundaryView
-                {
-                    Town = town,
-                    BoundaryGeoPoints = boundaryPoints
-                });
-            }
-            return boundaries;
-        }
-
-        public bool IsInTownBoundaries(double longtitute, double lattitute, string city, string district, string town)
-        {
-            var item = _repository.QueryTown(city, district, town);
-            if (item == null) return false;
-            var point = new GeoPoint(longtitute, lattitute);
-            return _boundaryRepository.GetAllList(x => x.TownId == item.Id).IsInTownRange(point);
-        }
     }
 
     public class AlarmsService

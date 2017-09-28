@@ -2,8 +2,6 @@
 using AutoMapper;
 using Lte.Domain.Regular;
 using Lte.MySqlFramework.Abstract;
-using Lte.Parameters.Abstract.Basic;
-using Lte.Parameters.Entities.Basic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,20 +17,23 @@ namespace Lte.Evaluations.DataService.Basic
         private readonly IENodebRepository _eNodebRepository;
         private readonly IStationDictionaryRepository _stationDictionaryRepository;
         private readonly IDistributionRepository _distributionRepository;
+        private readonly ITownBoundaryRepository _boundaryRepository;
 
         public ENodebQueryService(ITownRepository townRepository, IENodebRepository eNodebRepository,
             IStationDictionaryRepository stationDictionaryRepository,
-            IDistributionRepository distributionRepository)
+            IDistributionRepository distributionRepository, ITownBoundaryRepository boundaryRepository)
         {
             _townRepository = townRepository;
             _eNodebRepository = eNodebRepository;
             _stationDictionaryRepository = stationDictionaryRepository;
             _distributionRepository = distributionRepository;
+            _boundaryRepository = boundaryRepository;
         }
 
         public IEnumerable<ENodebView> GetByTownNames(string city, string district, string town)
         {
             var townItem = _townRepository.QueryTown(city, district, town);
+            if (townItem == null) return new List<ENodebView>();
             var list = _eNodebRepository.GetAllList(x => x.TownId == townItem.Id).MapTo<List<ENodebView>>();
 
             list.ForEach(x=>
@@ -41,6 +42,31 @@ namespace Lte.Evaluations.DataService.Basic
                 x.DistrictName = district;
                 x.TownName = town;
             });
+            return list;
+        }
+
+        public IEnumerable<ENodebView> GetByTownArea(string city, string district, string town)
+        {
+            var list = new List<ENodebView>();
+            var townItem = _townRepository.QueryTown(city, district, town);
+            if (townItem == null) return list;
+            var boudary = _boundaryRepository.FirstOrDefault(x => x.TownId == townItem.Id);
+            if (boudary == null) return list;
+            foreach (var townEntity in _townRepository.GetAllList(x=>x.CityName==city&&x.DistrictName==district&&x.TownName!=town))
+            {
+                var views =
+                    _eNodebRepository.GetAllList(x => x.TownId == townEntity.Id)
+                        .Where(x => boudary.IsInTownRange(x))
+                        .MapTo<List<ENodebView>>();
+                views.ForEach(x =>
+                {
+                    x.CityName = city;
+                    x.DistrictName = district;
+                    x.TownName = townEntity.TownName;
+                    x.TownId = townItem.Id;
+                });
+                list.AddRange(views);
+            }
             return list;
         }
 

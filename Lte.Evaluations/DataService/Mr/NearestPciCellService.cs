@@ -39,16 +39,7 @@ namespace Lte.Evaluations.DataService.Mr
         {
             var townItem = _townRepository.QueryTown(district, town);
             if (townItem == null) return null;
-            return _boundaryRepository.GetAllList(x => x.TownId == townItem.Id).Select(x =>
-            {
-                var coors = x.Boundary.GetSplittedFields(' ');
-                var coorList = new List<GeoPoint>();
-                for (var i = 0; i < coors.Length / 2; i++)
-                {
-                    coorList.Add(new GeoPoint(coors[i * 2].ConvertToDouble(0), coors[i * 2 + 1].ConvertToDouble(0)));
-                }
-                return coorList;
-            }).ToList();
+            return _boundaryRepository.GetAllList(x => x.TownId == townItem.Id).Select(x => x.CoorList()).ToList();
         }
 
         public IEnumerable<AgpsCoverageTown> QueryAgpsCoverageTowns(List<AgpsMongo> stats, string type, DateTime statDate)
