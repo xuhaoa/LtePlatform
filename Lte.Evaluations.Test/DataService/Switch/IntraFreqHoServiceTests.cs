@@ -38,11 +38,11 @@ namespace Lte.Evaluations.DataService.Switch
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            _eNodebRepository.Setup(x => x.GetByENodebId(It.IsAny<int>())).Returns(new ENodeb
+            _eNodebRepository.Setup(x => x.FirstOrDefault(e => e.ENodebId == It.IsAny<int>())).Returns(new ENodeb
             {
                 Factory = "中兴"
             });
-            _eNodebRepository.Setup(x => x.GetByENodebId(It.Is<int>(id => id == 500814))).Returns(new ENodeb
+            _eNodebRepository.Setup(x => x.FirstOrDefault(e => e.ENodebId == It.Is<int>(id => id == 500814))).Returns(new ENodeb
             {
                 Factory = "华为"
             });

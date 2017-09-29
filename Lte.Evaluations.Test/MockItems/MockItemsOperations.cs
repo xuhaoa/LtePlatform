@@ -102,7 +102,7 @@ namespace Lte.Evaluations.MockItems
 
         public static void MockOperations(this Mock<IENodebRepository> repository)
         {
-            repository.Setup(x => x.GetByENodebId(It.IsAny<int>()))
+            repository.Setup(x => x.FirstOrDefault(e => e.ENodebId == It.IsAny<int>()))
                 .Returns<int>(eNodebId => repository.Object.GetAll().FirstOrDefault(x => x.ENodebId == eNodebId));
             
             repository.Setup(x => x.GetByName(It.IsAny<string>()))

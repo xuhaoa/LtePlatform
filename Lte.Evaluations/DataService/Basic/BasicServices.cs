@@ -424,7 +424,7 @@ namespace Lte.Evaluations.DataService.Basic
 
         public Tuple<string, string, string> GetTownNamesByENodebId(int eNodebId)
         {
-            var item = _eNodebRepository.GetByENodebId(eNodebId);
+            var item = _eNodebRepository.FirstOrDefault(x => x.ENodebId == eNodebId);
             var town = item == null ? null : _repository.Get(item.TownId);
             return town == null
                 ? null

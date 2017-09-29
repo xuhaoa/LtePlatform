@@ -125,6 +125,18 @@
                         town: town
                     });
             },
+            updateENodebTownInfo: function(view) {
+                return generalHttpService.postApiData('ENodebQuery',
+                    {
+                        view: view
+                    });
+            },
+            updateBtsTownInfo: function (view) {
+                return generalHttpService.postApiData('BtsQuery',
+                    {
+                        view: view
+                    });
+            },
             queryENodebStationInfo: function (stationNum) {
                 return generalHttpService.getApiData('ENodebStation', {
                     stationNum: stationNum

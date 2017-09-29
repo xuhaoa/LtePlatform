@@ -2388,12 +2388,25 @@ angular.module('topic.dialog.parameters', ['myApp.url', 'myApp.region', 'myApp.k
             town,
             networkElementService) {
             $scope.dialogTitle = dialogTitle;
-            networkElementService.queryENodebsInOneTown(city, district, town).then(function (eNodebs) {
-                $scope.currentENodebList = eNodebs;
-            });
-            networkElementService.queryENodebsByTownArea(city, district, town).then(function (eNodebs) {
-                $scope.candidateENodebList = eNodebs;
-            });
+
+            $scope.query = function() {
+                networkElementService.queryENodebsInOneTown(city, district, town).then(function(eNodebs) {
+                    $scope.currentENodebList = eNodebs;
+                });
+                networkElementService.queryENodebsByTownArea(city, district, town).then(function(eNodebs) {
+                    $scope.candidateENodebList = eNodebs;
+                });
+            };
+
+            $scope.arrangeLte = function(index) {
+                networkElementService.updateENodebTownInfo($scope.candidateENodebList[index]).then(function(result) {
+                    if (index < $scope.candidateENodebList.length - 1) {
+                        $scope.arrangeLte(index + 1);
+                    } else {
+                        $scope.query();
+                    }
+                });
+            };
 
             $scope.ok = function () {
                 $uibModalInstance.close($scope.eNodeb);
@@ -2402,7 +2415,9 @@ angular.module('topic.dialog.parameters', ['myApp.url', 'myApp.region', 'myApp.k
             $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
-    })
+
+            $scope.query();
+        })
     .controller('arrange.bts.dialog',
         function ($scope,
             $uibModalInstance,
@@ -2412,12 +2427,25 @@ angular.module('topic.dialog.parameters', ['myApp.url', 'myApp.region', 'myApp.k
             town,
             networkElementService) {
             $scope.dialogTitle = dialogTitle;
-            networkElementService.queryBtssInOneTown(city, district, town).then(function (btss) {
-                $scope.currentBtsList = btss;
-            });
-            networkElementService.queryBtssByTownArea(city, district, town).then(function (btss) {
-                $scope.candidateBtsList = btss;
-            });
+
+            $scope.query = function() {
+                networkElementService.queryBtssInOneTown(city, district, town).then(function(btss) {
+                    $scope.currentBtsList = btss;
+                });
+                networkElementService.queryBtssByTownArea(city, district, town).then(function(btss) {
+                    $scope.candidateBtsList = btss;
+                });
+            };
+
+            $scope.arrangeCdma = function (index) {
+                networkElementService.updateBtsTownInfo($scope.candidateBtsList[index]).then(function (result) {
+                    if (index < $scope.candidateBtsList.length - 1) {
+                        $scope.arrangeCdma(index + 1);
+                    } else {
+                        $scope.query();
+                    }
+                });
+            };
 
             $scope.ok = function () {
                 $uibModalInstance.close($scope.eNodeb);
@@ -2426,6 +2454,8 @@ angular.module('topic.dialog.parameters', ['myApp.url', 'myApp.region', 'myApp.k
             $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
+
+            $scope.query();
         })
     .controller('hot.spot.info.dialog',
         function($scope, $uibModalInstance, dialogTitle, hotSpotList) {

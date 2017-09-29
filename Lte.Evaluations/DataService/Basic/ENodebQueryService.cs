@@ -123,7 +123,7 @@ namespace Lte.Evaluations.DataService.Basic
 
         public ENodebView GetByENodebId(int eNodebId)
         {
-            var item = _eNodebRepository.GetByENodebId(eNodebId);
+            var item = _eNodebRepository.FirstOrDefault(x => x.ENodebId == eNodebId);
             return GenerateENodebView(item);
         }
 
@@ -147,7 +147,7 @@ namespace Lte.Evaluations.DataService.Basic
             var station =
                 _stationDictionaryRepository.FirstOrDefault(x => x.StationNum == stationNum && x.IsRru == false);
             if (station == null) return null;
-            var item = _eNodebRepository.GetByENodebId(station.ENodebId) ??
+            var item = _eNodebRepository.FirstOrDefault(x => x.ENodebId == station.ENodebId) ??
                        _eNodebRepository.FirstOrDefault(x => x.PlanNum == station.PlanNum);
             return GenerateENodebView(item);
         }
@@ -192,6 +192,15 @@ namespace Lte.Evaluations.DataService.Basic
             return _distributionRepository.GetAllList(x => x.District == district);
         }
 
+        public ENodeb UpdateTownInfo(ENodebView view)
+        {
+            var eNodeb = _eNodebRepository.FirstOrDefault(x => x.ENodebId == view.ENodebId);
+            if (eNodeb == null) return null;
+            eNodeb.TownId = view.TownId;
+            eNodeb = _eNodebRepository.Update(eNodeb);
+            _eNodebRepository.SaveChanges();
+            return eNodeb;
+        }
     }
 
     public class BtsConstructionService
@@ -453,6 +462,15 @@ namespace Lte.Evaluations.DataService.Basic
                                select bts;
             btss = btss.Except(excludedBtss).ToList();
             return btss.Any() ? btss.MapTo<IEnumerable<CdmaBtsView>>() : new List<CdmaBtsView>();
+        }
+
+        public CdmaBts UpdateTownInfo(CdmaBtsView view)
+        {
+            var bts = _btsRepository.FirstOrDefault(x => x.BtsId == view.BtsId);
+            if (bts == null) return null;
+            bts.TownId = view.TownId;
+            _btsRepository.SaveChanges();
+            return bts;
         }
     }
 }

@@ -99,7 +99,7 @@ namespace Lte.Evaluations.ViewModels.RegionKpi
 
         public void UpdateTown(IENodebRepository eNodebRepository, ITownRepository townRepository)
         {
-            var eNodeb = eNodebRepository.GetByENodebId(ENodebId);
+            var eNodeb = eNodebRepository.FirstOrDefault(x => x.ENodebId == ENodebId);
             if (eNodeb == null) return;
             ENodebName = eNodeb.Name;
             var town = eNodeb.TownId == -1 ? null : townRepository.Get(eNodeb.TownId);

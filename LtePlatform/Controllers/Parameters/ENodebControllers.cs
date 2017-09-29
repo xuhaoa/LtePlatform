@@ -115,6 +115,12 @@ namespace LtePlatform.Controllers.Parameters
         {
             return _service.GetByTownArea(city, district, town);
         }
+
+        [HttpPost]
+        public ENodeb Post(ENodebView view)
+        {
+            return _service.UpdateTownInfo(view);
+        }
     }
 
     [ApiControl("在用基站查询控制器")]
@@ -247,6 +253,12 @@ namespace LtePlatform.Controllers.Parameters
         public IEnumerable<CdmaBtsView> Get(string city, string district, string town)
         {
             return _service.GetByTownArea(city, district, town);
+        }
+
+        [HttpPost]
+        public CdmaBts Post(CdmaBtsView view)
+        {
+            return _service.UpdateTownInfo(view);
         }
     }
 

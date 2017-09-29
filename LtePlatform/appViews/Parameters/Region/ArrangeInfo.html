@@ -26,7 +26,12 @@
 </div>
 
 <div class="modal-footer">
-    <button class="btn btn-warning" ng-click="arranges()">调整LTE基站</button>
+    <button class="btn btn-warning" ng-if="candidateENodebList" ng-disabled="!candidateENodebList.length" ng-click="arrangeLte(0)">
+        调整LTE基站
+    </button>
+    <button class="btn btn-warning" ng-if="candidateBtsList" ng-disabled="!candidateBtsList.length" ng-click="arrangeCdma(0)">
+        调整CDMA基站
+    </button>
     <button class="btn btn-default" ng-click="ok()">保存信息</button>
     <button class="btn btn-default" type="button" ng-click="cancel()">放弃保存</button>
 </div>

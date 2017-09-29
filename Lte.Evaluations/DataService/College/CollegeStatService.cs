@@ -386,7 +386,7 @@ namespace Lte.Evaluations.DataService.College
             return results.Select(x =>
             {
                 var college = _collegeRepository.Get(x.CollegeId);
-                var eNodeb = _eNodebRepository.GetByENodebId(x.ENodebId);
+                var eNodeb = _eNodebRepository.FirstOrDefault(e => e.ENodebId == x.ENodebId);
                 var cell = eNodeb == null
                     ? null
                     : _cellRepository.GetBySectorId(x.ENodebId, x.SectorId);
@@ -407,7 +407,7 @@ namespace Lte.Evaluations.DataService.College
                 _repository.GetAllList(x => x.TestTime >= begin && x.TestTime < end && x.CollegeId == college.Id);
             var views = result.MapTo<IEnumerable<College4GTestView>>().Select(x =>
             {
-                var eNodeb = _eNodebRepository.GetByENodebId(x.ENodebId);
+                var eNodeb = _eNodebRepository.FirstOrDefault(e => e.ENodebId == x.ENodebId);
                 var cell = eNodeb == null
                     ? null
                     : _cellRepository.GetBySectorId(x.ENodebId, x.SectorId);

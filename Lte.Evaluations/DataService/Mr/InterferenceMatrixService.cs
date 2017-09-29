@@ -229,7 +229,7 @@ namespace Lte.Evaluations.DataService.Mr
             var views = results as InterferenceMatrixView[] ?? results.ToArray();
             foreach (var result in views.Where(x => x.DestENodebId > 0))
             {
-                var eNodeb = _eNodebRepository.GetByENodebId(result.DestENodebId);
+                var eNodeb = _eNodebRepository.FirstOrDefault(x => x.ENodebId == result.DestENodebId);
                 result.NeighborCellName = eNodeb?.Name + "-" + result.DestSectorId;
             }
             return views;
@@ -264,7 +264,7 @@ namespace Lte.Evaluations.DataService.Mr
             var victims = results as InterferenceVictimView[] ?? results.ToArray();
             foreach (var victim in victims)
             {
-                var eNodeb = _eNodebRepository.GetByENodebId(victim.VictimENodebId);
+                var eNodeb = _eNodebRepository.FirstOrDefault(x => x.ENodebId == victim.VictimENodebId);
                 victim.VictimCellName = eNodeb?.Name + "-" + victim.VictimSectorId;
                 var cell = _cellRepository.GetBySectorId(victim.VictimENodebId, victim.VictimSectorId);
                 victim.VictimPci = cell?.Pci ?? 0;

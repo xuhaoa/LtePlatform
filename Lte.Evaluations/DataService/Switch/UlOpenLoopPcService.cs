@@ -24,7 +24,7 @@ namespace Lte.Evaluations.DataService.Switch
 
         private IMongoQuery<CellOpenLoopPcView> ConstructCellQuery(int eNodebId, byte sectorId)
         {
-            var eNodeb = _eNodebRepository.GetByENodebId(eNodebId);
+            var eNodeb = _eNodebRepository.FirstOrDefault(x => x.ENodebId == eNodebId);
             if (eNodeb == null) return null;
             return eNodeb.Factory == "华为"
                 ? (IMongoQuery<CellOpenLoopPcView>)

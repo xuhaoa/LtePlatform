@@ -56,7 +56,7 @@ namespace Lte.Evaluations.DataService.Basic
             var station =
                 _stationDictionaryRepository.FirstOrDefault(x => x.StationNum == stationNum);
             if (station == null) return null;
-            var item = _eNodebRepository.GetByENodebId(station.ENodebId) ??
+            var item = _eNodebRepository.FirstOrDefault(x => x.ENodebId == station.ENodebId) ??
                        _eNodebRepository.FirstOrDefault(x => x.PlanNum == station.PlanNum);
             if (item == null) return new List<CellRruView>();
             return GetCellViews(item.ENodebId);
@@ -223,7 +223,7 @@ namespace Lte.Evaluations.DataService.Basic
         public static CellRruView ConstructCellRruView(this Cell cell, IENodebRepository repository, ILteRruRepository rruRepository)
         {
             var view = Mapper.Map<Cell, CellRruView>(cell);
-            var eNodeb = repository.GetByENodebId(cell.ENodebId);
+            var eNodeb = repository.FirstOrDefault(x => x.ENodebId == cell.ENodebId);
             view.ENodebName = eNodeb?.Name;
             var rru =
                 rruRepository.FirstOrDefault(x => x.ENodebId == cell.ENodebId && x.LocalSectorId == cell.LocalSectorId);
@@ -234,7 +234,7 @@ namespace Lte.Evaluations.DataService.Basic
         public static CellRruView ConstructCellRruView(this Cell cell, IENodebRepository repository, LteRru rru)
         {
             var view = Mapper.Map<Cell, CellRruView>(cell);
-            var eNodeb = repository.GetByENodebId(cell.ENodebId);
+            var eNodeb = repository.FirstOrDefault(x => x.ENodebId == cell.ENodebId);
             view.ENodebName = eNodeb?.Name;
             rru?.MapTo(view);
             return view;
@@ -275,7 +275,7 @@ namespace Lte.Evaluations.DataService.Basic
         public static NearestPciCellView ConstructView(this NearestPciCell stat, IENodebRepository repository)
         {
             var view = Mapper.Map<NearestPciCell, NearestPciCellView>(stat);
-            var eNodeb = repository.GetByENodebId(stat.NearestCellId);
+            var eNodeb = repository.FirstOrDefault(x => x.ENodebId == stat.NearestCellId);
             view.NearestENodebName = eNodeb == null ? "Undefined" : eNodeb.Name;
             return view;
         }
@@ -362,7 +362,7 @@ namespace Lte.Evaluations.DataService.Basic
 
         private IMongoQuery<CellPower> ConstructQuery(int eNodebId, byte sectorId)
         {
-            var eNodeb = _eNodebRepository.GetByENodebId(eNodebId);
+            var eNodeb = _eNodebRepository.FirstOrDefault(x => x.ENodebId == eNodebId);
             if (eNodeb == null) return null;
             return eNodeb.Factory == "华为"
                 ? (IMongoQuery<CellPower>)
@@ -445,7 +445,7 @@ namespace Lte.Evaluations.DataService.Basic
 
         private IMongoQuery<CellHuaweiMongo> ConstructQuery(int eNodebId, byte sectorId)
         {
-            var eNodeb = _eNodebRepository.GetByENodebId(eNodebId);
+            var eNodeb = _eNodebRepository.FirstOrDefault(x => x.ENodebId == eNodebId);
             if (eNodeb == null) return null;
             return eNodeb.Factory == "华为"
                 ? (IMongoQuery<CellHuaweiMongo>)new HuaweiCellQuery(_repository, eNodebId, sectorId)
@@ -460,7 +460,7 @@ namespace Lte.Evaluations.DataService.Basic
 
         public HuaweiLocalCellDef QueryLocalCellDef(int eNodebId)
         {
-            var eNodeb = _eNodebRepository.GetByENodebId(eNodebId);
+            var eNodeb = _eNodebRepository.FirstOrDefault(x => x.ENodebId == eNodebId);
             if (eNodeb == null || eNodeb.Factory != "华为") return null;
             var cells = _repository.GetRecentList(eNodebId);
             return new HuaweiLocalCellDef

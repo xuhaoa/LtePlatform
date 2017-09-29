@@ -135,7 +135,7 @@ namespace Lte.Evaluations.ViewModels.Precise
         public static Precise4GView ConstructView(PreciseCoverage4G stat, IENodebRepository repository)
         {
             var view = Mapper.Map<PreciseCoverage4G, Precise4GView>(stat);
-            var eNodeb = repository.GetByENodebId(stat.CellId);
+            var eNodeb = repository.FirstOrDefault(x => x.ENodebId == stat.CellId);
             view.ENodebName = eNodeb?.Name;
             return view;
         }
@@ -254,7 +254,7 @@ namespace Lte.Evaluations.ViewModels.Precise
         public static CellView ConstructView(Cell cell, IENodebRepository repository)
         {
             var view = Mapper.Map<Cell, CellView>(cell);
-            var eNodeb = repository.GetByENodebId(cell.ENodebId);
+            var eNodeb = repository.FirstOrDefault(x => x.ENodebId == cell.ENodebId);
             view.ENodebName = eNodeb?.Name;
             return view;
         }
@@ -293,7 +293,7 @@ namespace Lte.Evaluations.ViewModels.Precise
         public static CellPreciseKpiView ConstructView(Cell cell, IENodebRepository repository)
         {
             var view = Mapper.Map<Cell, CellPreciseKpiView>(cell);
-            var eNodeb = repository.GetByENodebId(cell.ENodebId);
+            var eNodeb = repository.FirstOrDefault(x => x.ENodebId == cell.ENodebId);
             view.ENodebName = eNodeb?.Name;
             return view;
         }

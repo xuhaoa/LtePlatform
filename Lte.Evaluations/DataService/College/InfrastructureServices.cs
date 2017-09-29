@@ -41,7 +41,7 @@ namespace Lte.Evaluations.DataService.College
                         x.HotspotName == collegeName && x.HotspotType == HotspotType.College &&
                         x.InfrastructureType == InfrastructureType.ENodeb);
             return (from id in ids
-                select _eNodebRepository.GetByENodebId(id.ENodebId)
+                select _eNodebRepository.FirstOrDefault(x => x.ENodebId == id.ENodebId)
                 into eNodeb
                 where eNodeb != null
                 select Mapper.Map<ENodeb, ENodebView>(eNodeb)).ToList();
