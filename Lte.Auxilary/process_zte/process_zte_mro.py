@@ -42,7 +42,12 @@ for root, dirs_no, files in os.walk('/home/wireless/zte_mro/'+date_dir):
             if item.tag == 'fileHeader':
                 startTime= item.attrib['startTime']
             elif item.tag == 'eNB':
-                item_id = item.attrib.get('MR.eNBId')
+                if 'MR.eNBId' in item.attrib.keys():
+                    item_id = item.attrib['MR.eNBId']
+                else:
+                    item_id=item.attrib['id']
+                for item_measurement in item.iterchildren():
+                    reader.read_zte(item_measurement, item_id)
                 for item_measurement in item.iterchildren():
                     reader.read_zte(item_measurement, item_id)
         if (item_id!=''):

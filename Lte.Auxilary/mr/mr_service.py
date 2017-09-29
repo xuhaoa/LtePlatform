@@ -10,6 +10,8 @@ from pymongo import MongoClient
 def to_dec(value):
     if '.' in value:
         return float(value)
+    elif '_' in value:
+        return value
     else:
         return int(value)
 
@@ -142,8 +144,15 @@ class MroReader:
                 item_dict = {}
                 item_position={}
                 neighbor_list=[]
-                neighbor_stat=NeighborStat(item_id+'-'+item_element.attrib['MR.objectId'], 0)
-                user_num=item_element.attrib['MR.MmeUeS1apId']
+                if 'MmeUeS1apId' in item_element.attrib.keys():
+                    user_num=item_element.attrib['MmeUeS1apId']
+                else:
+                    user_num=item_element.attrib['MR.MmeUeS1apId']
+                if 'MR.objectId' in item_element.attrib.keys():
+                    sector_id=item_element.attrib['MR.objectId']
+                else:
+                    sector_id=str(to_dec(item_element.attrib['id'])-to_dec(item_id)*256)
+                neighbor_stat=NeighborStat(item_id+'-'+sector_id, 0)
                 for item_v in item_element:
                     item_value = item_v.text.replace('NIL', '-1').split(' ')
                     _item_sub_dict = dict(zip(item_key, map(to_dec, item_value)))
@@ -155,7 +164,7 @@ class MroReader:
                     max_unicom_rsrp=0
                     unicom_earfcn=0
                     if not center_filled:
-                        item_dict.update({'id': item_id+'-'+item_element.attrib['MR.objectId']})                        
+                        item_dict.update({'id': item_id+'-'+sector_id})                        
                         item_dict.update({'Rsrp': _item_sub_dict['LteScRSRP']})                        
                         item_dict.update({'SinrUl': _item_sub_dict['LteScSinrUL']})
                         item_dict.update({'Ta': _item_sub_dict['LteScTadv']})                        
@@ -163,34 +172,35 @@ class MroReader:
                         neighbor_stat.stat['Pci']=_item_sub_dict['LteScPci']
                         item_dict.update({'Earfcn': _item_sub_dict['LteScEarfcn']})                        
                         center_filled=True
-                        longtitute=_item_sub_dict['Longitude']
-                        lattitute=_item_sub_dict['Latitude']
-                        if longtitute==-1 or lattitute==-1:
-                            if user_num in lon_dict.keys():
-                                longtitute=lon_dict[user_num]
-                            if user_num in lat_dict.keys():
-                                lattitute=lat_dict[user_num]
-                        if longtitute!=-1 and lattitute!=-1:
-                            item_position.update({'CellId': item_id+'-'+item_element.attrib['MR.objectId']})
-                            item_position.update({'Rsrp': _item_sub_dict['LteScRSRP']})
-                            item_position.update({'Ta': _item_sub_dict['LteScTadv']})
-                            has_position=True
-                            if  longtitute>200:
-                                longtitute=_item_sub_dict['Longitude'] * 360 *1.0/ 16777216
-                                lattitute=_item_sub_dict['Latitude'] * 90 / 8388608
-                            item_position.update({'Lontitute': longtitute})
-                            item_position.update({'Lattitute': lattitute})
-                            lon_dict.update({user_num: longtitute})
-                            lat_dict.update({user_num: lattitute})
-                            if _item_sub_dict['LteScRSRP']>max_telecom_rsrp and _item_sub_dict['LteScEarfcn'] in (100,75,1825,1850,2452,2446,2505,41400):
-                                max_telecom_rsrp=_item_sub_dict['LteScRSRP']
-                                telecom_earfcn=_item_sub_dict['LteScEarfcn']
-                            if _item_sub_dict['LteScRSRP']>max_mobile_rsrp and _item_sub_dict['LteScEarfcn'] in (37900,38098,38400,38950):
-                                max_mobile_rsrp=_item_sub_dict['LteScRSRP']
-                                mobile_earfcn=_item_sub_dict['LteScEarfcn']
-                            if _item_sub_dict['LteScRSRP']>max_unicom_rsrp and _item_sub_dict['LteScEarfcn'] in (1650,1506):
-                                max_unicom_rsrp=_item_sub_dict['LteScRSRP']
-                                unicom_earfcn=_item_sub_dict['LteScEarfcn']
+                        if 'Longitude' in _item_sub_dict.keys():
+                            longtitute=_item_sub_dict['Longitude']
+                            lattitute=_item_sub_dict['Latitude']
+                            if longtitute==-1 or lattitute==-1:
+                                if user_num in lon_dict.keys():
+                                    longtitute=lon_dict[user_num]
+                                if user_num in lat_dict.keys():
+                                    lattitute=lat_dict[user_num]
+                            if longtitute!=-1 and lattitute!=-1:
+                                item_position.update({'CellId': item_id+'-'+item_element.attrib['MR.objectId']})
+                                item_position.update({'Rsrp': _item_sub_dict['LteScRSRP']})
+                                item_position.update({'Ta': _item_sub_dict['LteScTadv']})
+                                has_position=True
+                                if  longtitute>200:
+                                    longtitute=_item_sub_dict['Longitude'] * 360 *1.0/ 16777216
+                                    lattitute=_item_sub_dict['Latitude'] * 90 / 8388608
+                                item_position.update({'Lontitute': longtitute})
+                                item_position.update({'Lattitute': lattitute})
+                                lon_dict.update({user_num: longtitute})
+                                lat_dict.update({user_num: lattitute})
+                                if _item_sub_dict['LteScRSRP']>max_telecom_rsrp and _item_sub_dict['LteScEarfcn'] in (100,75,1825,1850,2452,2446,2505,41400):
+                                    max_telecom_rsrp=_item_sub_dict['LteScRSRP']
+                                    telecom_earfcn=_item_sub_dict['LteScEarfcn']
+                                if _item_sub_dict['LteScRSRP']>max_mobile_rsrp and _item_sub_dict['LteScEarfcn'] in (37900,38098,38400,38950):
+                                    max_mobile_rsrp=_item_sub_dict['LteScRSRP']
+                                    mobile_earfcn=_item_sub_dict['LteScEarfcn']
+                                if _item_sub_dict['LteScRSRP']>max_unicom_rsrp and _item_sub_dict['LteScEarfcn'] in (1650,1506):
+                                    max_unicom_rsrp=_item_sub_dict['LteScRSRP']
+                                    unicom_earfcn=_item_sub_dict['LteScEarfcn']
                     if _item_sub_dict['LteNcPci']>=0:
                         _neighbor={}
                         _neighbor.update({'Pci': _item_sub_dict['LteNcPci']})
@@ -401,7 +411,11 @@ class MrsReader:
                     item_key = item_element.text.replace('MR.', '').replace('.','_').split(' ')
                 else:
                     item_dict={}
-                    item_dict.update({'CellId': eNodebId+'-'+item_element.attrib['MR.objectId']})
+                    if 'MR.objectId' in item_element.attrib.keys():
+                        sector_id=item_element.attrib['MR.objectId']
+                    else:
+                        sector_id=item_element.attrib['id']
+                    item_dict.update({'CellId': eNodebId+'-'+sector_id})
                     item_value = item_element[0].text.split(' ')
                     item_dict.update(dict(zip(item_key, map(int, item_value))))
                     item_dict.update({'StartTime': self.startTime})
