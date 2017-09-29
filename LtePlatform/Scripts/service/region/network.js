@@ -117,6 +117,14 @@
                     town: town
                 });
             },
+            queryBtssByTownArea: function (city, district, town) {
+                return generalHttpService.getApiData('BtsQuery',
+                    {
+                        city: city,
+                        district: district,
+                        town: town
+                    });
+            },
             queryENodebStationInfo: function (stationNum) {
                 return generalHttpService.getApiData('ENodebStation', {
                     stationNum: stationNum

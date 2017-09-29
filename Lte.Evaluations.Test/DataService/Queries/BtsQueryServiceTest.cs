@@ -27,7 +27,7 @@ namespace Lte.Evaluations.DataService.Queries
         {
             var module = new AbpAutoMapperModule(_typeFinder);
             module.PostInitialize();
-            _service = new BtsQueryService(_townRepository.Object, _btsRepository.Object);
+            _service = new BtsQueryService(_townRepository.Object, _btsRepository.Object, null);
             _townRepository.MockSixTowns();
             _townRepository.MockGetId<ITownRepository, Town>();
             _townRepository.MockOpertion();

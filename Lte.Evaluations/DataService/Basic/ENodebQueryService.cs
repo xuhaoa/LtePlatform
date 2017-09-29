@@ -369,11 +369,14 @@ namespace Lte.Evaluations.DataService.Basic
     {
         private readonly ITownRepository _townRepository;
         private readonly IBtsRepository _btsRepository;
+        private readonly ITownBoundaryRepository _boundaryRepository;
 
-        public BtsQueryService(ITownRepository townRepository, IBtsRepository btsRepository)
+        public BtsQueryService(ITownRepository townRepository, IBtsRepository btsRepository,
+            ITownBoundaryRepository boundaryRepository)
         {
             _townRepository = townRepository;
             _btsRepository = btsRepository;
+            _boundaryRepository = boundaryRepository;
         }
 
         public IEnumerable<CdmaBtsView> GetByTownNames(string city, string district, string town)
@@ -382,6 +385,30 @@ namespace Lte.Evaluations.DataService.Basic
             return townItem == null
                 ? null
                 : _btsRepository.GetAll().Where(x => x.TownId == townItem.Id).ToList().MapTo<IEnumerable<CdmaBtsView>>();
+        }
+
+        public IEnumerable<CdmaBtsView> GetByTownArea(string city, string district, string town)
+        {
+            var list = new List<CdmaBtsView>();
+            var townItem = _townRepository.QueryTown(city, district, town);
+            if (townItem == null) return list;
+            var boudary = _boundaryRepository.FirstOrDefault(x => x.TownId == townItem.Id);
+            if (boudary == null) return list;
+            foreach (var townEntity in _townRepository.GetAllList(x => x.CityName == city && x.DistrictName == district && x.TownName != town))
+            {
+                var views =
+                    _btsRepository.GetAllList(x => x.TownId == townEntity.Id)
+                        .Where(x => boudary.IsInTownRange(x))
+                        .MapTo<List<CdmaBtsView>>();
+                views.ForEach(x =>
+                {
+                    x.DistrictName = district;
+                    x.TownName = townEntity.TownName;
+                    x.TownId = townItem.Id;
+                });
+                list.AddRange(views);
+            }
+            return list;
         }
 
         public IEnumerable<CdmaBtsView> GetByGeneralName(string name)

@@ -2402,6 +2402,30 @@ angular.module('topic.dialog.parameters', ['myApp.url', 'myApp.region', 'myApp.k
             $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
+    })
+    .controller('arrange.bts.dialog',
+        function ($scope,
+            $uibModalInstance,
+            dialogTitle,
+            city,
+            district,
+            town,
+            networkElementService) {
+            $scope.dialogTitle = dialogTitle;
+            networkElementService.queryBtssInOneTown(city, district, town).then(function (btss) {
+                $scope.currentBtsList = btss;
+            });
+            networkElementService.queryBtssByTownArea(city, district, town).then(function (btss) {
+                $scope.candidateBtsList = btss;
+            });
+
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.eNodeb);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
         })
     .controller('hot.spot.info.dialog',
         function($scope, $uibModalInstance, dialogTitle, hotSpotList) {

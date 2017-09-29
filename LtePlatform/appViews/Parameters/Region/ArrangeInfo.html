@@ -7,6 +7,8 @@
         <div uib-accordion-group class="panel panel-success" is-open="true">
             <div uib-accordion-heading>
                 现有基站列表
+                <span ng-if="currentENodebList" class="badge">{{currentENodebList.length}}</span>
+                <span ng-if="currentBtsList" class="badge">{{currentBtsList.length}}</span>
             </div>
             <div ng-if="currentENodebList" e-nodeb-plain-table items="currentENodebList" begin-date="beginDate" end-date="endDate"></div>
             <div ng-if="currentBtsList" bts-plain-table items="currentBtsList"></div>
@@ -14,6 +16,8 @@
         <div uib-accordion-group class="panel panel-default">
             <div uib-accordion-heading>
                 同区候选基站列表
+                <span ng-if="candidateENodebList" class="badge">{{candidateENodebList.length}}</span>
+                <span ng-if="candidateBtsList" class="badge">{{candidateBtsList.length}}</span>
             </div>
             <div ng-if="candidateENodebList" e-nodeb-plain-table items="candidateENodebList" begin-date="beginDate" end-date="endDate"></div>
             <div ng-if="candidateBtsList" bts-plain-table items="candidateBtsList"></div>
