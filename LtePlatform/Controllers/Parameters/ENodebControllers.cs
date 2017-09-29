@@ -255,10 +255,10 @@ namespace LtePlatform.Controllers.Parameters
             return _service.GetByTownArea(city, district, town);
         }
 
-        [HttpPost]
-        public CdmaBts Post(CdmaBtsView view)
+        [HttpGet]
+        public CdmaBts Get(int btsId, int townId)
         {
-            return _service.UpdateTownInfo(view);
+            return _service.UpdateTownInfo(btsId, townId);
         }
     }
 

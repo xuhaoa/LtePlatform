@@ -463,11 +463,11 @@ namespace Lte.Evaluations.DataService.Basic
             return btss.Any() ? btss.MapTo<IEnumerable<CdmaBtsView>>() : new List<CdmaBtsView>();
         }
 
-        public CdmaBts UpdateTownInfo(CdmaBtsView view)
+        public CdmaBts UpdateTownInfo(int btsId, int townId)
         {
-            var bts = _btsRepository.FirstOrDefault(x => x.BtsId == view.BtsId);
+            var bts = _btsRepository.FirstOrDefault(x => x.BtsId == btsId);
             if (bts == null) return null;
-            bts.TownId = view.TownId;
+            bts.TownId = townId;
             _btsRepository.SaveChanges();
             return bts;
         }
