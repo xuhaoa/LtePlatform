@@ -116,10 +116,10 @@ namespace LtePlatform.Controllers.Parameters
             return _service.GetByTownArea(city, district, town);
         }
 
-        [HttpPost]
-        public ENodeb Post(ENodebView view)
+        [HttpGet]
+        public ENodeb Get(int eNodebId, int townId)
         {
-            return _service.UpdateTownInfo(view);
+            return _service.UpdateTownInfo(eNodebId, townId);
         }
     }
 

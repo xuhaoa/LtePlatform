@@ -2426,9 +2426,10 @@ angular.module('region.network', ['app.core'])
                     });
             },
             updateENodebTownInfo: function(view) {
-                return generalHttpService.postApiData('ENodebQuery',
+                return generalHttpService.getApiData('ENodebQuery',
                     {
-                        view: view
+                        eNodebId: view.eNodebId,
+                        townId: view.townId
                     });
             },
             updateBtsTownInfo: function (view) {

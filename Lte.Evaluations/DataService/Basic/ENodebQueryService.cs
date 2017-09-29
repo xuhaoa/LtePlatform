@@ -192,12 +192,11 @@ namespace Lte.Evaluations.DataService.Basic
             return _distributionRepository.GetAllList(x => x.District == district);
         }
 
-        public ENodeb UpdateTownInfo(ENodebView view)
+        public ENodeb UpdateTownInfo(int eNodebId, int townId)
         {
-            var eNodeb = _eNodebRepository.FirstOrDefault(x => x.ENodebId == view.ENodebId);
+            var eNodeb = _eNodebRepository.FirstOrDefault(x => x.ENodebId == eNodebId);
             if (eNodeb == null) return null;
-            eNodeb.TownId = view.TownId;
-            eNodeb = _eNodebRepository.Update(eNodeb);
+            eNodeb.TownId = townId;
             _eNodebRepository.SaveChanges();
             return eNodeb;
         }

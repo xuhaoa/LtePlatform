@@ -11,7 +11,7 @@ from pymongo import MongoClient
 import sys
 
 os.chdir('/home/wireless/huawei_mro')
-date_dir=generate_date_hours_shift(shift=-3)
+date_dir=generate_date_hours_shift(shift=-9)
 afilter = ['CDMA']
 db = MongoClient('mongodb://root:Abcdef9*@132.110.71.122')['ouyh']
 begin=datetime.datetime.now()
