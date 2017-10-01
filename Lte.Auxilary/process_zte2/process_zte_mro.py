@@ -12,7 +12,7 @@ import sys
 
 os.chdir('/home/wireless/huawei_mro')
 date_dir=generate_date_hours_shift(shift=-4)
-afilter = ['CDMA']
+afilter = ['CDMA', 'LteSccgi']
 db = MongoClient('mongodb://root:Abcdef9*@132.110.71.123')['ouyh']
 begin=datetime.datetime.now()
 
@@ -47,8 +47,6 @@ for root, dirs_no, files in os.walk('/home/wireless/zte_mro/'+date_dir):
                     item_id = item.attrib['MR.eNBId']
                 else:
                     item_id=item.attrib['id']
-                for item_measurement in item.iterchildren():
-                    reader.read_zte(item_measurement, item_id)
                 for item_measurement in item.iterchildren():
                     reader.read_zte(item_measurement, item_id)
         if (item_id!=''):

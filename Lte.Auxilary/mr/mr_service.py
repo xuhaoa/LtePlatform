@@ -10,10 +10,10 @@ from pymongo import MongoClient
 def to_dec(value):
     if '.' in value:
         return float(value)
-    elif '_' in value:
-        return value
-    else:
+    elif '_' not in value:
         return int(value)
+    else:
+        return value
 
 class NeighborStat:
     def __init__(self, cellId, pci, **kwargs):
@@ -157,6 +157,10 @@ class MroReader:
                     item_value = item_v.text.replace('NIL', '-1').split(' ')
                     _item_sub_dict = dict(zip(item_key, map(to_dec, item_value)))
                     _item_sub_dict = {k: v for k, v in _item_sub_dict.items() if not any(ext in k for ext in self.afilter)}
+                    if 'LteFddNcPci' in _item_sub_dict.keys() and _item_sub_dict['LteFddNcPci']>=0 and _item_sub_dict['LteNcPci']<0:
+                        _item_sub_dict['LteNcPci']=_item_sub_dict['LteFddNcPci']
+                        _item_sub_dict['LteNcRSRP']=_item_sub_dict['LteFddNcRSRP']
+                        _item_sub_dict['LteNcEarfcn']=_item_sub_dict['LteFddNcEarfcn']
                     max_telecom_rsrp=0
                     telecom_earfcn=0
                     max_mobile_rsrp=0

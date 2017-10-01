@@ -101,6 +101,7 @@
     <Compile Include="mr\test\mro_reader_test.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mr\test\mro_reader_zte_test2.py" />
     <Compile Include="mr\test\mro_reader_zte_test.py">
       <SubType>Code</SubType>
     </Compile>
