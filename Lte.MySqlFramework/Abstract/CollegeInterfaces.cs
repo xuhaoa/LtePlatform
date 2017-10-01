@@ -158,9 +158,7 @@ namespace Lte.MySqlFramework.Abstract
     public interface ITownRepository : IRepository<Town>
     {
         IEnumerable<Town> QueryTowns(string city, string district, string town);
-
-        Town QueryTown(string city, string district, string town);
-
+        
         Town QueryTown(string district, string town);
 
         List<Town> GetAll(string city);

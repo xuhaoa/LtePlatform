@@ -31,7 +31,6 @@ namespace Lte.Evaluations.DataService.Queries
             _service = new ENodebQueryService(_townRepository.Object, _eNodebRepository.Object, null, null, null);
             _townRepository.MockSixTowns();
             _townRepository.MockGetId<ITownRepository, Town>();
-            _townRepository.MockOpertion();
         }
 
         [TestCase(1, 1)]

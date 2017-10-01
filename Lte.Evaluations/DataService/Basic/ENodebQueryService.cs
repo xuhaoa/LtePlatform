@@ -32,7 +32,8 @@ namespace Lte.Evaluations.DataService.Basic
 
         public IEnumerable<ENodebView> GetByTownNames(string city, string district, string town)
         {
-            var townItem = _townRepository.QueryTown(city, district, town);
+            var townItem = _townRepository.GetAllList()
+                    .FirstOrDefault(x => x.CityName == city && x.DistrictName == district && x.TownName == town);
             if (townItem == null) return new List<ENodebView>();
             var list = _eNodebRepository.GetAllList(x => x.TownId == townItem.Id).MapTo<List<ENodebView>>();
 
@@ -48,7 +49,8 @@ namespace Lte.Evaluations.DataService.Basic
         public IEnumerable<ENodebView> GetByTownArea(string city, string district, string town)
         {
             var list = new List<ENodebView>();
-            var townItem = _townRepository.QueryTown(city, district, town);
+            var townItem = _townRepository.GetAllList()
+                    .FirstOrDefault(x => x.CityName == city && x.DistrictName == district && x.TownName == town);
             if (townItem == null) return list;
             var boudary = _boundaryRepository.FirstOrDefault(x => x.TownId == townItem.Id);
             if (boudary == null) return list;
@@ -389,7 +391,8 @@ namespace Lte.Evaluations.DataService.Basic
 
         public IEnumerable<CdmaBtsView> GetByTownNames(string city, string district, string town)
         {
-            var townItem = _townRepository.QueryTown(city, district, town);
+            var townItem = _townRepository.GetAllList()
+                    .FirstOrDefault(x => x.CityName == city && x.DistrictName == district && x.TownName == town);
             return townItem == null
                 ? null
                 : _btsRepository.GetAll().Where(x => x.TownId == townItem.Id).ToList().MapTo<IEnumerable<CdmaBtsView>>();
@@ -398,7 +401,8 @@ namespace Lte.Evaluations.DataService.Basic
         public IEnumerable<CdmaBtsView> GetByTownArea(string city, string district, string town)
         {
             var list = new List<CdmaBtsView>();
-            var townItem = _townRepository.QueryTown(city, district, town);
+            var townItem = _townRepository.GetAllList()
+                    .FirstOrDefault(x => x.CityName == city && x.DistrictName == district && x.TownName == town);
             if (townItem == null) return list;
             var boudary = _boundaryRepository.FirstOrDefault(x => x.TownId == townItem.Id);
             if (boudary == null) return list;

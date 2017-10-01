@@ -144,12 +144,7 @@ namespace Lte.MySqlFramework.Concrete
                 && (x.DistrictName == district || district.IndexOf(flag, StringComparison.Ordinal) >= 0)
                 && (x.CityName == city || city.IndexOf(flag, StringComparison.Ordinal) >= 0));
         }
-
-        public Town QueryTown(string city, string district, string town)
-        {
-            return FirstOrDefault(x => x.CityName == city && x.DistrictName == district && x.TownName == town);
-        }
-
+        
         public Town QueryTown(string district, string town)
         {
             return FirstOrDefault(x => x.DistrictName == district && x.TownName == town);

@@ -30,7 +30,6 @@ namespace Lte.Evaluations.DataService.Queries
             _service = new BtsQueryService(_townRepository.Object, _btsRepository.Object, null);
             _townRepository.MockSixTowns();
             _townRepository.MockGetId<ITownRepository, Town>();
-            _townRepository.MockOpertion();
         }
 
         [TestCase(1, 1)]

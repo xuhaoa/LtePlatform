@@ -207,7 +207,9 @@ namespace Lte.Evaluations.DataService.Basic
 
         public IEnumerable<TownBoundaryView> GetTownBoundaryViews(string city, string district, string town)
         {
-            var item = _repository.QueryTown(city, district, town);
+            var item =
+                _repository.GetAllList()
+                    .FirstOrDefault(x => x.CityName == city && x.DistrictName == district && x.TownName == town);
             if (item == null) return new List<TownBoundaryView>();
             var coors = _boundaryRepository.GetAllList(x => x.TownId == item.Id);
             var boundaries = new List<TownBoundaryView>();
@@ -224,7 +226,8 @@ namespace Lte.Evaluations.DataService.Basic
 
         public bool IsInTownBoundaries(double longtitute, double lattitute, string city, string district, string town)
         {
-            var item = _repository.QueryTown(city, district, town);
+            var item = _repository.GetAllList()
+                    .FirstOrDefault(x => x.CityName == city && x.DistrictName == district && x.TownName == town);
             if (item == null) return false;
             var point = new GeoPoint(longtitute, lattitute);
             return _boundaryRepository.GetAllList(x => x.TownId == item.Id).IsInTownRange(point);
@@ -379,7 +382,7 @@ namespace Lte.Evaluations.DataService.Basic
             });
             var cellENodebs = _cellRepository.GetAllInUseList();
             var cdmaCellBtsIds = _cdmaCellRepository.GetAllInUseList().Select(x => x.BtsId);
-            return (from town in _repository.GetAllList(x => x.CityName == city && x.DistrictName == district)
+            return (from town in _repository.GetAllList().Where(x => x.CityName == city && x.DistrictName == district)
                     let eNodebs = eNodebTownIds.Where(x => x.TownId == town.Id)
                     let btss = btsTownIds.Where(x => x.TownId == town.Id)
                     let cells = (from e in eNodebs join c in cellENodebs on e.ENodebId equals c.ENodebId select c)
@@ -418,7 +421,7 @@ namespace Lte.Evaluations.DataService.Basic
         public Town GetTown(string city, string district, string town)
         {
             return
-                _repository.FirstOrDefault(
+                _repository.GetAllList().FirstOrDefault(
                     x => x.CityName == city && x.DistrictName == district && x.TownName == town);
         }
 

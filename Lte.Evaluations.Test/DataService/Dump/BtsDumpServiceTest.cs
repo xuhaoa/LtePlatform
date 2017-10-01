@@ -32,7 +32,6 @@ namespace Lte.Evaluations.DataService.Dump
             _btsRepository.MockOperation();
             _btsRepository.MockGetId<IBtsRepository, CdmaBts>();
             _btsRepository.MockRepositorySaveItems<CdmaBts, IBtsRepository>();
-            _townRepository.MockOpertion();
             _townRepository.MockGetId<ITownRepository, Town>();
             _townRepository.MockSixTowns();
         }
