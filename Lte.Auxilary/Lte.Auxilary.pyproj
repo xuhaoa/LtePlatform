@@ -395,19 +395,47 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="process_zte2\process_zte_mro.sh" />
+    <Content Include="process_zte2\process_zte_mro_00_0.sh" />
+    <Content Include="process_zte2\process_zte_mro_00_1.sh" />
+    <Content Include="process_zte2\process_zte_mro_00_2.sh" />
+    <Content Include="process_zte2\process_zte_mro_00_3.sh" />
     <Content Include="process_zte2\process_zte_mro_15.sh" />
+    <Content Include="process_zte2\process_zte_mro_15_0.sh" />
+    <Content Include="process_zte2\process_zte_mro_15_1.sh" />
+    <Content Include="process_zte2\process_zte_mro_15_2.sh" />
+    <Content Include="process_zte2\process_zte_mro_15_3.sh" />
     <Content Include="process_zte2\process_zte_mro_30.sh" />
+    <Content Include="process_zte2\process_zte_mro_30_0.sh" />
+    <Content Include="process_zte2\process_zte_mro_30_1.sh" />
+    <Content Include="process_zte2\process_zte_mro_30_2.sh" />
+    <Content Include="process_zte2\process_zte_mro_30_3.sh" />
     <Content Include="process_zte2\process_zte_mro_45.sh" />
-    <Content Include="process_zte\process_zte_mro.sh">
+    <Content Include="process_zte2\process_zte_mro_45_0.sh" />
+    <Content Include="process_zte2\process_zte_mro_45_1.sh" />
+    <Content Include="process_zte2\process_zte_mro_45_2.sh" />
+    <Content Include="process_zte2\process_zte_mro_45_3.sh" />
+    <Content Include="process_zte\process_zte_mro_00_3.sh" />
+    <Content Include="process_zte\process_zte_mro_00_2.sh" />
+    <Content Include="process_zte\process_zte_mro_00_1.sh" />
+    <Content Include="process_zte\process_zte_mro_00_0.sh">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="process_zte\process_zte_mro_15.sh">
+    <Content Include="process_zte\process_zte_mro_15_3.sh" />
+    <Content Include="process_zte\process_zte_mro_15_2.sh" />
+    <Content Include="process_zte\process_zte_mro_15_1.sh" />
+    <Content Include="process_zte\process_zte_mro_15_0.sh">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="process_zte\process_zte_mro_30.sh">
+    <Content Include="process_zte\process_zte_mro_30_3.sh" />
+    <Content Include="process_zte\process_zte_mro_30_2.sh" />
+    <Content Include="process_zte\process_zte_mro_30_1.sh" />
+    <Content Include="process_zte\process_zte_mro_30_0.sh">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="process_zte\process_zte_mro_45.sh">
+    <Content Include="process_zte\process_zte_mro_45_3.sh" />
+    <Content Include="process_zte\process_zte_mro_45_2.sh" />
+    <Content Include="process_zte\process_zte_mro_45_1.sh" />
+    <Content Include="process_zte\process_zte_mro_45_0.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="process_zte\process_zte_mrs.sh">

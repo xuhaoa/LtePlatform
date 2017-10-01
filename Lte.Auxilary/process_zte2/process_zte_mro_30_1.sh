@@ -1,0 +1,1 @@
+/home/wireless/env/py3env/bin/python /home/wireless/Public/process_zte_mro.py 0130 0530 0930 1330 1730 2130

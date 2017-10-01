@@ -11,7 +11,7 @@ from pymongo import MongoClient
 import sys
 
 os.chdir('/home/wireless/huawei_mro')
-date_dir=generate_date_hours_shift(shift=-9)
+date_dir=generate_date_hours_shift(shift=-4)
 afilter = ['CDMA']
 db = MongoClient('mongodb://root:Abcdef9*@132.110.71.122')['ouyh']
 begin=datetime.datetime.now()
@@ -22,7 +22,8 @@ DFList = [item.get('dfName') for item in _DFlist]
 for root, dirs_no, files in os.walk('/home/wireless/zte_mro/'+date_dir):
     currrent_dir=os.path.join(root, '')
     for name in files:
-        if not name.endswith(sys.argv[1] + '00.zip'):
+        if not (name.endswith(sys.argv[1] + '00.zip') or name.endswith(sys.argv[2] + '00.zip') or name.endswith(sys.argv[3] + '00.zip')
+                or name.endswith(sys.argv[4] + '00.zip') or name.endswith(sys.argv[5] + '00.zip') or name.endswith(sys.argv[6] + '00.zip')):
             continue
         reader=MroReader(afilter)
         print(name)
