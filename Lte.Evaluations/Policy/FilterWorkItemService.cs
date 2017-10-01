@@ -63,7 +63,7 @@ namespace Lte.Evaluations.Policy
         public static List<ENodeb> QueryENodebs(this ITownRepository townRepository, IENodebRepository eNodebRepository,
             string city, string district)
         {
-            var towns = townRepository.GetAllList(city, district);
+            var towns = townRepository.GetAllList(x => x.CityName == city && x.DistrictName == district);
             if (!towns.Any())
             {
                 return new List<ENodeb>();

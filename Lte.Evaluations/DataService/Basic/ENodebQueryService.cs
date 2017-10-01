@@ -77,7 +77,7 @@ namespace Lte.Evaluations.DataService.Basic
 
         public IEnumerable<ENodeb> GetENodebsByDistrict(string city, string district)
         {
-            var towns = _townRepository.GetAllList(city, district);
+            var towns = _townRepository.GetAllList().Where(x => x.CityName == city && x.DistrictName == district);
             return from town in towns
                 join eNodeb in _eNodebRepository.GetAllList() on town.Id equals eNodeb.TownId
                 select eNodeb;
@@ -344,7 +344,7 @@ namespace Lte.Evaluations.DataService.Basic
 
         public IEnumerable<PlanningSiteView> GetENodebsByDistrict(string city, string district, bool? isOpened = null)
         {
-            var towns = _townRepository.GetAllList(city, district);
+            var towns = _townRepository.GetAllList(x => x.CityName == city && x.DistrictName == district);
             var views = new List<PlanningSiteView>();
             foreach (
                 var stats in

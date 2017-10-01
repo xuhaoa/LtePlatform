@@ -164,9 +164,7 @@ namespace Lte.MySqlFramework.Abstract
         Town QueryTown(string district, string town);
 
         List<Town> GetAll(string city);
-
-        List<Town> GetAllList(string city, string district);
-
+        
         IEnumerable<string> GetFoshanDistricts();
     }
 
