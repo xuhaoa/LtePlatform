@@ -281,7 +281,7 @@ namespace Lte.Evaluations.DataService.Basic
             });
             var allCells = _cellRepository.GetAllInUseList();
             return (from district in GetDistricts(city)
-                    let townList = _repository.GetAllList(x => x.CityName == city && x.DistrictName == district)
+                    let townList = _repository.GetAllList().Where(x => x.CityName == city && x.DistrictName == district)
                     let cells = (from t in townList
                                  join e in eNodebTownIds on t.Id equals e.TownId
                                  join c in allCells on e.ENodebId equals c.ENodebId
@@ -303,20 +303,20 @@ namespace Lte.Evaluations.DataService.Basic
             });
             var allCells = _cellRepository.GetAllInUseList();
             return (from district in GetDistricts(city)
-                    let townList = _repository.GetAllList(x => x.CityName == city && x.DistrictName == district)
-                    let cells = (from t in townList
-                                 join e in eNodebTownIds on t.Id equals e.TownId
-                                 join c in allCells on e.ENodebId equals c.ENodebId
-                                 select c)
-                    select new DistrictBandClassStat
-                    {
-                        District = district,
-                        Band1Cells = cells.Count(x => x.BandClass == 1),
-                        Band3Cells = cells.Count(x => x.BandClass == 3),
-                        Band5Cells = cells.Count(x => x.BandClass == 5 && x.Frequency != 2506),
-                        NbIotCells = cells.Count(x => x.BandClass == 5 && x.Frequency == 2506),
-                        Band41Cells = cells.Count(x => x.BandClass == 41)
-                    }).ToList();
+                let townList = _repository.GetAllList().Where(x => x.CityName == city && x.DistrictName == district)
+                let cells = (from t in townList
+                    join e in eNodebTownIds on t.Id equals e.TownId
+                    join c in allCells on e.ENodebId equals c.ENodebId
+                    select c)
+                select new DistrictBandClassStat
+                {
+                    District = district,
+                    Band1Cells = cells.Count(x => x.BandClass == 1),
+                    Band3Cells = cells.Count(x => x.BandClass == 3),
+                    Band5Cells = cells.Count(x => x.BandClass == 5 && x.Frequency != 2506),
+                    NbIotCells = cells.Count(x => x.BandClass == 5 && x.Frequency == 2506),
+                    Band41Cells = cells.Count(x => x.BandClass == 41)
+                }).ToList();
         }
 
         public List<DistrictStat> QueryDistrictStats(string city)
@@ -334,7 +334,7 @@ namespace Lte.Evaluations.DataService.Basic
             var cellENodebs = _cellRepository.GetAllInUseList();
             var cdmaCellBtsIds = _cdmaCellRepository.GetAllInUseList().Select(x => x.BtsId);
             return (from district in GetDistricts(city)
-                let townList = _repository.GetAllList(x => x.CityName == city && x.DistrictName == district)
+                let townList = _repository.GetAllList().Where(x => x.CityName == city && x.DistrictName == district)
                 let eNodebs = (from t in townList join e in eNodebTownIds on t.Id equals e.TownId select e)
                 let btss = (from t in townList join b in btsTownIds on t.Id equals b.TownId select b)
                 let cells = (from t in townList
