@@ -10,6 +10,8 @@
 /// <reference path="../mock/highcharts.mock.js"/>
 /// <reference path="../../mycharts/comboChart.js"/>
 /// <reference path="../../service/url/calculation.js"/>
+/// <reference path="../../service/url/chart.js"/>
+/// <reference path="../../service/url/kpi.chart.js"/>
 
 describe('app.core service tests', function () {
     beforeEach(module('app.core'));
@@ -347,7 +349,8 @@ describe('app.calculation service tests', function () {
         });
     });
 
-    describe('test calculate chart service test', function() {
+    describe('test calculate chart service test', function () {
+        beforeEach(module('app.chart'));
         var chartCalculateService;
         var appFormatService;
 
@@ -867,6 +870,7 @@ describe('app.calculation service tests', function () {
     });
 
     describe('calculate service', function () {
+        beforeEach(module('app.chart'));
         var appFormatService;
         var chartCalculateService;
         var calculateService;

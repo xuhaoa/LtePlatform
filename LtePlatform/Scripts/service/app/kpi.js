@@ -694,32 +694,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                         },
                         appFormatService.generateDistrictPieNameValueFuncs());
                 },
-                getDownlinkFlowOptions: function(districtStats, townStats, frequency) {
-                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
-                        .generateDrillDownData(districtStats,
-                            townStats,
-                            function(stat) {
-                                return stat.pdcpDownlinkFlow / 1024 / 1024 / 8;
-                            }),
-                        {
-                            title: "分镇区下行流量分布图（TB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域"
-                        },
-                        appFormatService.generateDistrictPieNameValueFuncs());
-                },
-                getUplinkFlowOptions: function(districtStats, townStats, frequency) {
-                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
-                        .generateDrillDownData(districtStats,
-                            townStats,
-                            function(stat) {
-                                return stat.pdcpUplinkFlow / 1024 / 1024 / 8;
-                            }),
-                        {
-                            title: "分镇区上行流量分布图（TB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域"
-                        },
-                        appFormatService.generateDistrictPieNameValueFuncs());
-                },
                 getDownlinkRateOptions: function(districtStats, townStats, frequency) {
                     return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
                         .generateDrillDownData(districtStats,
@@ -867,32 +841,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                             yTitle: "调度次数"
                         });
                 },
-                getDownlinkFlowDistrictOptions: function(stats, inputDistricts, frequency) {
-                    var districts = inputDistricts.concat("全网");
-                    return preciseChartService.generateDistrictTrendOptions(stats,
-                        districts,
-                        function(stat) {
-                            return stat.pdcpDownlinkFlow;
-                        },
-                        {
-                            title: "下行流量变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            xTitle: '日期',
-                            yTitle: "下行流量(TB)"
-                        });
-                },
-                getUplinkFlowDistrictOptions: function(stats, inputDistricts, frequency) {
-                    var districts = inputDistricts.concat("全网");
-                    return preciseChartService.generateDistrictTrendOptions(stats,
-                        districts,
-                        function(stat) {
-                            return stat.pdcpUplinkFlow;
-                        },
-                        {
-                            title: "上行流量变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            xTitle: '日期',
-                            yTitle: "上行流量(TB)"
-                        });
-                },
                 getMaxUsersDistrictOptions: function(stats, inputDistricts, frequency) {
                     var districts = inputDistricts.concat("全网");
                     return preciseChartService.generateDistrictTrendOptions(stats,
@@ -1034,41 +982,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                             title: "CQI优良比变化趋势图",
                             xTitle: '日期',
                             yTitle: "CQI优良比"
-                        });
-                },
-                generateFlowDistrictStats: function(districts, stats) {
-                    return chartCalculateService.generateDistrictStats(districts,
-                        stats,
-                        {
-                            districtViewFunc: function(stat) {
-                                return stat.districtViews;
-                            },
-                            initializeFunc: function(generalStat) {
-                                generalStat.pdcpDownlinkFlow = 0;
-                                generalStat.pdcpUplinkFlow = 0;
-                            },
-                            calculateFunc: function(view) {
-                                return {
-                                    pdcpDownlinkFlow: view.pdcpDownlinkFlow / 1024 / 1024 / 8,
-                                    pdcpUplinkFlow: view.pdcpUplinkFlow / 1024 / 1024 / 8
-                                };
-                            },
-                            accumulateFunc: function(generalStat, view) {
-                                generalStat.pdcpDownlinkFlow += view.pdcpDownlinkFlow / 1024 / 1024 / 8;
-                                generalStat.pdcpUplinkFlow += view.pdcpUplinkFlow / 1024 / 1024 / 8;
-                            },
-                            zeroFunc: function() {
-                                return {
-                                    pdcpDownlinkFlow: 0,
-                                    pdcpUplinkFlow: 0
-                                };
-                            },
-                            totalFunc: function(generalStat) {
-                                return {
-                                    pdcpDownlinkFlow: generalStat.pdcpDownlinkFlow,
-                                    pdcpUplinkFlow: generalStat.pdcpUplinkFlow
-                                }
-                            }
                         });
                 },
                 generateUsersDistrictStats: function(districts, stats) {
@@ -1414,21 +1327,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                             }
                         });
                 },
-                generateFlowTrendStatsForPie: function(trendStat, result) {
-                    chartCalculateService.generateStatsForPie(trendStat,
-                        result,
-                        {
-                            districtViewsFunc: function(stat) {
-                                return stat.districtViews;
-                            },
-                            townViewsFunc: function(stat) {
-                                return stat.townViews;
-                            },
-                            accumulateFunc: function(source, accumulate) {
-                                calculateService.accumulateFlowStat(source, accumulate);
-                            }
-                        });
-                },
                 getPreciseObject: function(district) {
                     var objectTable = {
                         "禅城": 89.8,
@@ -1502,250 +1400,8 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                         function(data) {
                             return data.item2;
                         });
-                },
-                generateDownlinkFlowOptions: function(stats, topic) {
-                    return generalChartService.getPieOptions(stats,
-                        {
-                            title: topic + '下行PDCP层流量（MB）',
-                            seriesTitle: '下行PDCP层流量（MB）'
-                        },
-                        function(stat) {
-                            return stat.cellName;
-                        },
-                        function(stat) {
-                            return stat.pdcpDownlinkFlow;
-                        });
-                },
-                generateUplinkFlowOptions: function(stats, topic) {
-                    return generalChartService.getPieOptions(stats,
-                        {
-                            title: topic + '上行PDCP层流量（MB）',
-                            seriesTitle: '上行PDCP层流量（MB）'
-                        },
-                        function(stat) {
-                            return stat.cellName;
-                        },
-                        function(stat) {
-                            return stat.pdcpUplinkFlow;
-                        });
-                },
-                generateMaxUsersOptions: function(stats, topic) {
-                    return generalChartService.getPieOptions(stats,
-                        {
-                            title: topic + '最大连接用户数',
-                            seriesTitle: '最大连接用户数'
-                        },
-                        function(stat) {
-                            return stat.cellName;
-                        },
-                        function(stat) {
-                            return stat.maxUsers;
-                        });
-                },
-                generateSchedulingTimeOptions: function(stats, topic) {
-                    return generalChartService.getPieOptions(stats,
-                        {
-                            title: topic + '调度次数',
-                            seriesTitle: '调度次数'
-                        },
-                        function(stat) {
-                            return stat.cellName;
-                        },
-                        function(stat) {
-                            return stat.schedulingTimes;
-                        });
-                },
-                generateDownSwitchTimeOptions: function(stats, topic) {
-                    return generalChartService.getPieOptions(stats,
-                        {
-                            title: topic + '下切3G次数',
-                            seriesTitle: '4G下切3G次数'
-                        },
-                        function(stat) {
-                            return stat.cellName;
-                        },
-                        function(stat) {
-                            return stat.redirectCdma2000;
-                        });
-                },
-                generateAverageUsersOptions: function(stats, topic) {
-                    return generalChartService.getPieOptions(stats,
-                        {
-                            title: topic + '平均连接用户数',
-                            seriesTitle: '平均连接用户数'
-                        },
-                        function(stat) {
-                            return stat.cellName;
-                        },
-                        function(stat) {
-                            return stat.averageUsers;
-                        });
-                },
-                generateMaxActiveUsersOptions: function(stats, topic) {
-                    return generalChartService.getPieOptions(stats,
-                        {
-                            title: topic + '最大激活用户数',
-                            seriesTitle: '最大激活用户数'
-                        },
-                        function(stat) {
-                            return stat.cellName;
-                        },
-                        function(stat) {
-                            return stat.maxActiveUsers;
-                        });
-                },
-                generateAverageActiveUsersOptions: function(stats, topic) {
-                    return generalChartService.getPieOptions(stats,
-                        {
-                            title: topic + '平均激活用户数',
-                            seriesTitle: '平均激活用户数'
-                        },
-                        function(stat) {
-                            return stat.cellName;
-                        },
-                        function(stat) {
-                            return stat.averageActiveUsers;
-                        });
-                },
-                generateMergeFlowOptions: function(stats, topic) {
-                    var flowData = generalChartService.generateColumnDataByKeys(stats,
-                        'statTime',
-                        [
-                            'pdcpDownlinkFlow',
-                            'pdcpUplinkFlow'
-                        ]);
-                    return generalChartService.queryMultipleColumnOptions({
-                            xtitle: '日期',
-                            ytitle: '流量（MB）',
-                            title: topic + '流量统计'
-                        },
-                        flowData.categories,
-                        flowData.dataList,
-                        ['下行流量', '上行流量']);
-                },
-                generateMergeFeelingOptions: function(stats, topic) {
-                    var flowData = generalChartService.generateColumnDataByKeys(stats,
-                        'statTime',
-                        [
-                            'pdcpDownlinkFlow',
-                            'pdcpUplinkFlow',
-                            'downlinkFeelingRate',
-                            'uplinkFeelingRate'
-                        ]);
-                    return generalChartService.queryMultipleComboOptionsWithDoubleAxes({
-                            xtitle: '日期',
-                            ytitles: ['流量（MB）', '感知速率（Mbit/s）'],
-                            title: topic + '流量/感知速率'
-                        },
-                        flowData.categories,
-                        flowData.dataList,
-                        ['下行流量', '上行流量', '下行感知速率', '上行感知速率'],
-                        ['column', 'column', 'line', 'line'],
-                        [0, 0, 1, 1]);
-                },
-                generateMergeUsersOptions: function(stats, topic) {
-                    var usersData = generalChartService.generateColumnDataByKeys(stats,
-                        'statTime',
-                        [
-                            'averageActiveUsers',
-                            'averageUsers',
-                            'maxActiveUsers',
-                            'maxUsers'
-                        ]);
-                    return generalChartService.queryMultipleColumnOptions({
-                            xtitle: '日期',
-                            ytitle: '用户数',
-                            title: topic + '用户数'
-                        },
-                        usersData.categories,
-                        usersData.dataList,
-                        ['平均激活用户数', '平均连接用户数', '最大激活用户数', '最大连接用户数']);
-                },
-                generateMergeDownSwitchOptions: function(stats, topic) {
-                    angular.forEach(stats,
-                        function(stat) {
-                            stat.schedulingTimes /= 10000;
-                        });
-                    var usersData = generalChartService.generateColumnDataByKeys(stats,
-                        'statTime',
-                        [
-                            'redirectCdma2000',
-                            'schedulingTimes',
-                            'rank2Rate'
-                        ]);
-                    return generalChartService.queryMultipleComboOptionsWithDoubleAxes({
-                            xtitle: '日期',
-                            ytitles: ['下切次数', '双流比（%）'],
-                            title: topic + '下切次数/调度次数/双流比'
-                        },
-                        usersData.categories,
-                        usersData.dataList,
-                        ['4G下切3G次数', '调度次数（万次）', '双流比（%）'],
-                        ['column', 'column', 'line'],
-                        [0, 0, 1]);
                 }
             }
-        })
-    .factory('kpiChartService',
-        function(appKpiService) {
-            return {
-                showFlowCharts: function(flowStats, topic, mergeStats) {
-                    angular.forEach(flowStats,
-                        function(stat) {
-                            stat.pdcpDownlinkFlow /= 8;
-                            stat.pdcpUplinkFlow /= 8;
-                        });
-                    angular.forEach(mergeStats,
-                        function(stat) {
-                            stat.pdcpUplinkFlow /= 8;
-                            stat.pdcpDownlinkFlow /= 8;
-                        });
-                    angular.forEach(flowStats,
-                        function(stat) {
-                            stat.pdcpDownlinkFlow /= 8;
-                            stat.pdcpUplinkFlow /= 8;
-                        });
-                    angular.forEach(mergeStats,
-                        function(stat) {
-                            stat.pdcpUplinkFlow /= 8;
-                            stat.pdcpDownlinkFlow /= 8;
-                        });
-                    $("#downlinkFlowChart").highcharts(appKpiService.generateDownlinkFlowOptions(flowStats, topic));
-                    $("#uplinkFlowChart").highcharts(appKpiService.generateUplinkFlowOptions(flowStats, topic));
-                    $("#maxUsersChart").highcharts(appKpiService.generateMaxUsersOptions(flowStats, topic));
-                    $("#averageUsersChart").highcharts(appKpiService.generateAverageUsersOptions(flowStats, topic));
-                    $("#maxActiveUsersChart").highcharts(appKpiService.generateMaxActiveUsersOptions(flowStats, topic));
-                    $("#averageActiveUsersChart")
-                        .highcharts(appKpiService.generateAverageActiveUsersOptions(flowStats, topic));
-
-                    $("#flowDate").highcharts(appKpiService.generateMergeFlowOptions(mergeStats, topic));
-
-                    $("#usersDate").highcharts(appKpiService.generateMergeUsersOptions(mergeStats, topic));
-                },
-                showFeelingCharts: function(flowStats, topic, mergeStats) {
-                    angular.forEach(flowStats,
-                        function(stat) {
-                            stat.pdcpDownlinkFlow /= 8;
-                            stat.pdcpUplinkFlow /= 8;
-                        });
-                    angular.forEach(mergeStats,
-                        function(stat) {
-                            stat.pdcpDownlinkFlow /= 8;
-                            stat.pdcpUplinkFlow /= 8;
-                            stat.downlinkFeelingRate = stat.downlinkFeelingThroughput / stat.downlinkFeelingDuration;
-                            stat.uplinkFeelingRate = stat.uplinkFeelingThroughput / stat.uplinkFeelingDuration;
-                            stat.rank2Rate = stat.schedulingRank2 * 100 / stat.schedulingTimes;
-                        });
-                    $("#downlinkFlowChart").highcharts(appKpiService.generateDownlinkFlowOptions(flowStats, topic));
-                    $("#uplinkFlowChart").highcharts(appKpiService.generateUplinkFlowOptions(flowStats, topic));
-                    $("#maxUsersChart").highcharts(appKpiService.generateSchedulingTimeOptions(flowStats, topic));
-                    $("#averageUsersChart").highcharts(appKpiService.generateDownSwitchTimeOptions(flowStats, topic));
-
-                    $("#flowDate").highcharts(appKpiService.generateMergeFeelingOptions(mergeStats, topic));
-
-                    $("#usersDate").highcharts(appKpiService.generateMergeDownSwitchOptions(mergeStats, topic));
-                }
-            };
         });
 angular.module('kpi.college.infrastructure', ['myApp.url', 'myApp.region', "ui.bootstrap", 'topic.basic'])
     .run(function($rootScope) {
@@ -3656,7 +3312,7 @@ angular.module('kpi.coverage.flow', ['myApp.url', 'myApp.region', "ui.bootstrap"
             $uibModalInstance,
             kpiPreciseService,
             appFormatService,
-            appKpiService,
+            kpiChartService,
             appRegionService) {
             $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") +
                 '-' +
@@ -3665,19 +3321,8 @@ angular.module('kpi.coverage.flow', ['myApp.url', 'myApp.region', "ui.bootstrap"
             kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value, frequency)
                 .then(function(result) {
                     appRegionService.queryDistricts(city).then(function(districts) {
-                        var stats = appKpiService.generateFlowDistrictStats(districts, result);
-                        var trendStat = {};
-                        appKpiService.generateFlowTrendStatsForPie(trendStat, result);
-                        $("#leftChart").highcharts(appKpiService
-                            .getDownlinkFlowDistrictOptions(stats, districts, frequency));
-                        $("#rightChart").highcharts(appKpiService
-                            .getUplinkFlowDistrictOptions(stats, districts, frequency));
-                        $("#thirdChart").highcharts(appKpiService
-                            .getDownlinkFlowOptions(trendStat.districtStats, trendStat.townStats, frequency));
-                        $("#fourthChart").highcharts(appKpiService
-                            .getUplinkFlowOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                        kpiChartService.generateDistrictFrequencyFlowTrendCharts(districts, frequency, result);
                     });
-
                 });
             $scope.ok = function() {
                 $uibModalInstance.close($scope.city);

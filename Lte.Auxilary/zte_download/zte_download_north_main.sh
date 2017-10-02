@@ -1,4 +1,3 @@
-/home/wireless/env/py3env/bin/python /home/wireless/North/north_zte.py 132.122.151.115
 /home/wireless/env/py3env/bin/python /home/wireless/North/north_zte.py 132.122.151.181
 /home/wireless/env/py3env/bin/python /home/wireless/North/north_zte.py 132.122.151.183
 /home/wireless/env/py3env/bin/python /home/wireless/North/north_zte.py 132.122.151.228

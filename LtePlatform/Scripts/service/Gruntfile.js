@@ -5,7 +5,8 @@
             "foo": {
                 "files": {
                     'app/url.js': [
-                        'url/core.js', 'url/menu.js', 'url/format.js', 'url/chart.js', 'url/geometry.js', 'url/calculation.js',
+                        'url/core.js', 'url/menu.js', 'url/format.js', 'url/chart.js', 'url/kpi.chart.js',
+                        'url/geometry.js', 'url/calculation.js',
                         'url/app.url.js'
                     ],
                     'app/region.js': [

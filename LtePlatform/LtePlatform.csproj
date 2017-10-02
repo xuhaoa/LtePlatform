@@ -1041,6 +1041,7 @@
     <Content Include="Scripts\service\url\core.js" />
     <Content Include="Scripts\service\url\format.js" />
     <Content Include="Scripts\service\url\geometry.js" />
+    <Content Include="Scripts\service\url\kpi.chart.js" />
     <Content Include="Scripts\service\url\menu.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\spin.min.js" />
