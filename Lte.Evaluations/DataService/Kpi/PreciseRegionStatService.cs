@@ -33,7 +33,7 @@ namespace Lte.Evaluations.DataService.Kpi
             {
                 var query =
                     _statRepository.GetAllList(x => x.StatTime >= beginDate & x.StatTime < endDate);
-                return query.FilterTownList(_townRepository.GetAll(city));
+                return query.FilterTownList(_townRepository.GetAllList().Where(x => x.CityName == city).ToList());
             });
             var townViews = stats.ConstructViews<TownPreciseCoverage4GStat, TownPreciseView>(_townRepository);
             return townViews.QueryRegionDateView<PreciseRegionDateView, DistrictPreciseView, TownPreciseView>(initialDate,
@@ -68,7 +68,7 @@ namespace Lte.Evaluations.DataService.Kpi
             {
                 var query =
                     _statRepository.GetAllList(x => x.StatTime >= beginDate & x.StatTime < endDate);
-                return query.FilterTownList(_townRepository.GetAll(city));
+                return query.FilterTownList(_townRepository.GetAllList().Where(x => x.CityName == city).ToList());
             });
             var townViews = stats.ConstructViews<TownRrcStat, TownRrcView>(_townRepository);
             return townViews.QueryRegionDateView<RrcRegionDateView, DistrictRrcView, TownRrcView>(initialDate,
@@ -103,7 +103,7 @@ namespace Lte.Evaluations.DataService.Kpi
             {
                 var query =
                     _statRepository.GetAllList(x => x.StatTime >= beginDate & x.StatTime < endDate);
-                return query.FilterTownList(_townRepository.GetAll(city));
+                return query.FilterTownList(_townRepository.GetAllList().Where(x => x.CityName == city).ToList());
             });
             var townViews = stats.ConstructViews<TownQciStat, TownQciView>(_townRepository);
             return townViews.QueryRegionDateView<QciRegionDateView, DistrictQciView, TownQciView>(initialDate,

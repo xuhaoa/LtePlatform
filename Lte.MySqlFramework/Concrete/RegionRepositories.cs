@@ -149,11 +149,6 @@ namespace Lte.MySqlFramework.Concrete
         {
             return FirstOrDefault(x => x.DistrictName == district && x.TownName == town);
         }
-
-        public List<Town> GetAll(string city)
-        {
-            return GetAllList(x => x.CityName == city);
-        }
         
         public IEnumerable<string> GetFoshanDistricts()
         {

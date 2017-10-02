@@ -93,6 +93,22 @@
                 },
                 generateDistrictStats: function(districts, stats, funcs) {
                     var outputStats = [];
+                    var initFuncs =
+                    {
+                        districtViewFunc: function(stat) { return 0; },
+                        initializeFunc: function(stat) { return 0; },
+                        calculateFunc: function (stat) { return 0; },
+                        accumulateFunc: function (stat, view) { return 0; },
+                        zeroFunc: function () { return 0; },
+                        totalFunc: function (stat) { return 0; }
+                    };
+                    funcs = funcs || initFuncs;
+                    funcs.districtViewFunc = funcs.districtViewFunc || initFuncs.districtViewFunc;
+                    funcs.initializeFunc = funcs.initializeFunc || initFuncs.initializeFunc;
+                    funcs.calculateFunc = funcs.calculateFunc || initFuncs.calculateFunc;
+                    funcs.accumulateFunc = funcs.accumulateFunc || initFuncs.accumulateFunc;
+                    funcs.zeroFunc = funcs.zeroFunc || initFuncs.zeroFunc;
+                    funcs.totalFunc = funcs.totalFunc || initFuncs.totalFunc;
                     angular.forEach(stats,
                         function(stat) {
                             var districtViews = funcs.districtViewFunc(stat);
@@ -146,7 +162,7 @@
                     trendStat.districtStats = funcs.districtViewsFunc(result[0]);
                     trendStat.townStats = funcs.townViewsFunc(result[0]);
                     for (var i = 1; i < result.length; i++) {
-                        angular.forEach(funcs.districtViewsFunc(result[0]),
+                        angular.forEach(funcs.districtViewsFunc(result[i]),
                             function(currentDistrictStat) {
                                 var found = false;
                                 for (var k = 0; k < trendStat.districtStats.length; k++) {
@@ -161,7 +177,7 @@
                                     trendStat.districtStats.push(currentDistrictStat);
                                 }
                             });
-                        angular.forEach(result[i].townPreciseView,
+                        angular.forEach(funcs.townViewsFunc(result[i]),
                             function(currentTownStat) {
                                 var found = false;
                                 for (var k = 0; k < trendStat.townStats.length; k++) {

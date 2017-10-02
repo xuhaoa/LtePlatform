@@ -160,8 +160,6 @@ namespace Lte.MySqlFramework.Abstract
         IEnumerable<Town> QueryTowns(string city, string district, string town);
         
         Town QueryTown(string district, string town);
-
-        List<Town> GetAll(string city);
         
         IEnumerable<string> GetFoshanDistricts();
     }
@@ -206,8 +204,8 @@ namespace Lte.MySqlFramework.Abstract
             where TTownStat : ITownId
         {
             return (from q in query
-                    join t in townRepository.GetAll(city) on q.TownId equals t.Id
-                    select q).ToList();
+                join t in townRepository.GetAllList().Where(x => x.CityName == city) on q.TownId equals t.Id
+                select q).ToList();
         }
     }
 
