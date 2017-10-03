@@ -32,5 +32,17 @@ class ObjectElementUnitTest(unittest.TestCase):
         self.assertEqual(user_num, '58879377')
         self.assertEqual(sector_id, '1')
 
+    def test_read_huawei_format(self):
+        item_element=etree.XML('''<object MmeCode="1" MmeGroupId="17409" MmeUeS1apId="29364681" PLMNID="64F011" TimeStamp="2017-09-13T08:15:01.120" id="49">
+        <v>35 15 22 11 1825 202 100 228 9 11 NIL 34 NIL 4 NIL NIL 0 NIL NIL NIL NIL NIL NIL NIL NIL</v>
+        <v>35 12 22 4 1825 202 100 175 9 11 NIL 34 NIL 4 NIL NIL 0 NIL NIL NIL NIL NIL NIL NIL NIL</v>
+        <v>35 11 22 2 1825 202 100 176 9 11 NIL 34 NIL 4 NIL NIL 0 NIL NIL NIL NIL NIL NIL NIL NIL</v>
+      </object>''')
+        object_element=ObjectElement(item_element)
+        user_num=object_element.get_user_num()
+        sector_id=object_element.get_huawei_sector_id()
+        self.assertEqual(user_num, '29364681')
+        self.assertEqual(sector_id, '49')
+
 if __name__=="__main__":
     unittest.main()

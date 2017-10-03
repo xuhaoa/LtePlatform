@@ -43,7 +43,7 @@ class ObjectElement:
             return self.item_element.attrib['MmeUeS1apId']
         else:
             return self.item_element.attrib['MR.MmeUeS1apId']
-    def get_sector_id(self, item_id):
+    def get_sector_id(self, item_id: str):
         '''
         读取小区的扇区编号（即502120-48中的48）。
         在新版中兴的MR格式中并不记录扇区编号，只有CGI，因此需要从CGI中反推出扇区编号，因此有基站编号的输入参数。
@@ -53,6 +53,9 @@ class ObjectElement:
             return self.item_element.attrib['MR.objectId']
         else:
             return str(to_dec(self.item_element.attrib['id'])-to_dec(item_id)*256)
+    def get_huawei_sector_id(self):
+        '''读取华为文件中的小区编号'''
+        return self.item_element.attrib['id']
 
 class MroReader:
     def __init__(self, afilter, **kwargs):
@@ -80,8 +83,10 @@ class MroReader:
                 item_dict = {}
                 item_position={}
                 neighbor_list=[]
-                neighbor_stat=NeighborStat(item_id+'-'+item_element.attrib['id'], 0)
-                user_num=item_element.attrib['MmeUeS1apId']
+                object_element = ObjectElement(item_element)
+                user_num = object_element.get_user_num()
+                sector_id = object_element.get_huawei_sector_id()
+                neighbor_stat=NeighborStat(item_id+'-'+sector_id, 0)
                 for item_v in item_element:
                     item_value = item_v.text.replace('NIL', '-1').replace('N','').replace('E','').replace('HRPD', '-2').replace('BC0', '-2').replace('|', '1').split(' ')
                     _item_sub_dict = dict(zip(item_key, map(to_dec, item_value)))
