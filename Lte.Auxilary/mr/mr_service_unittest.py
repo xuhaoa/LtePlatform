@@ -1,5 +1,6 @@
 from mr_service import *
 from lxml import etree
+import unittest
 
 class ObjectElementUnitTest(unittest.TestCase):
     def test_read_old_zte_format(self):
@@ -11,7 +12,7 @@ class ObjectElementUnitTest(unittest.TestCase):
 </object>''')
         object_element=ObjectElement(item_element)
         user_num=object_element.get_user_num()
-        sector_id=object_element.get_sector_id(502453)
+        sector_id=object_element.get_sector_id('502453')
         self.assertEqual(user_num, '247468164')
         self.assertEqual(sector_id, '0')
         
@@ -27,9 +28,9 @@ class ObjectElementUnitTest(unittest.TestCase):
 </object>''')
         object_element=ObjectElement(item_element)
         user_num=object_element.get_user_num()
-        sector_id=object_element.get_sector_id(501251)
+        sector_id=object_element.get_sector_id('501251')
         self.assertEqual(user_num, '58879377')
-        self.assertEqual(sector_id, '0')
+        self.assertEqual(sector_id, '1')
 
 if __name__=="__main__":
     unittest.main()

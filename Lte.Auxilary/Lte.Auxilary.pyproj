@@ -7,7 +7,7 @@
     <ProjectHome />
     <StartupFile>
     </StartupFile>
-    <SearchPath />
+    <SearchPath>mr</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
@@ -83,6 +83,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ftp_modules\ftp_huawei_mrs.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mr\mr_service_unittest.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="mr\test\gzip_test.py">

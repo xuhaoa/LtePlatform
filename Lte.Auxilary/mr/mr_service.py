@@ -7,7 +7,11 @@ import json
 import pymongo
 from pymongo import MongoClient
 
-def to_dec(value):
+def to_dec(value: str):
+    '''
+    扩展的字符串转数值函数
+    value: 待转换的字符串
+    '''
     if '.' in value:
         return float(value)
     elif '_' not in value:
@@ -25,6 +29,30 @@ class NeighborStat:
             self.stat['Neighbors']+=1
             if item_sub_dict['LteScEarfcn']==item_sub_dict['LteNcEarfcn']:
                 self.stat['IntraNeighbors']+=1
+
+class ObjectElement:
+    '''
+    读取测量记录基本信息的对象
+    '''
+    def __init__(self, item_element):
+        super().__init__()
+        self.item_element=item_element
+    def get_user_num(self):
+        '''读取用户MMEUeS1ApId'''
+        if 'MmeUeS1apId' in self.item_element.attrib.keys():
+            return self.item_element.attrib['MmeUeS1apId']
+        else:
+            return self.item_element.attrib['MR.MmeUeS1apId']
+    def get_sector_id(self, item_id):
+        '''
+        读取小区的扇区编号（即502120-48中的48）。
+        在新版中兴的MR格式中并不记录扇区编号，只有CGI，因此需要从CGI中反推出扇区编号，因此有基站编号的输入参数。
+        item_id:输入的基站编号
+        '''
+        if 'MR.objectId' in self.item_element.attrib.keys():
+            return self.item_element.attrib['MR.objectId']
+        else:
+            return str(to_dec(self.item_element.attrib['id'])-to_dec(item_id)*256)
 
 class MroReader:
     def __init__(self, afilter, **kwargs):
@@ -144,14 +172,9 @@ class MroReader:
                 item_dict = {}
                 item_position={}
                 neighbor_list=[]
-                if 'MmeUeS1apId' in item_element.attrib.keys():
-                    user_num=item_element.attrib['MmeUeS1apId']
-                else:
-                    user_num=item_element.attrib['MR.MmeUeS1apId']
-                if 'MR.objectId' in item_element.attrib.keys():
-                    sector_id=item_element.attrib['MR.objectId']
-                else:
-                    sector_id=str(to_dec(item_element.attrib['id'])-to_dec(item_id)*256)
+                object_element=ObjectElement(item_element)
+                user_num=object_element.get_user_num()
+                sector_id=object_element.get_sector_id(item_id)
                 neighbor_stat=NeighborStat(item_id+'-'+sector_id, 0)
                 for item_v in item_element:
                     item_value = item_v.text.replace('NIL', '-1').split(' ')
