@@ -168,9 +168,9 @@
                 kpiPreciseService.getRecentPreciseRegionKpi(city, $scope.statDate.value)
                     .then(function(result) {
                         $scope.statDate.value = appFormatService.getDate(result.statDate);
-                        $scope.cityStat = appKpiService.getCityStat(result.districtPreciseViews, city);
+                        $scope.cityStat = appKpiService.getCityStat(result.districtViews, city);
                         $scope.rate = appKpiService.calculatePreciseRating($scope.cityStat.preciseRate);
-                        var options = kpiDisplayService.generatePreciseBarOptions(result.districtPreciseViews,
+                        var options = kpiDisplayService.generatePreciseBarOptions(result.districtViews,
                             $scope.cityStat);
                         $("#preciseConfig").highcharts(options);
                     });

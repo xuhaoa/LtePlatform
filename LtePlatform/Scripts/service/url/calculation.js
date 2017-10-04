@@ -1,4 +1,25 @@
 ﻿angular.module('app.calculation', [])
+    .factory('basicCalculationService', function() {
+        return {
+            calculateArraySum: function(data, keys) {
+                var origin = {};
+                angular.forEach(keys,
+                    function(key) {
+                        origin[key] = 0;
+                    });
+                return _.reduce(data,
+                    function(memo, num) {
+                        var result = {};
+                        angular.forEach(keys,
+                            function(key) {
+                                result[key] = memo[key] + num[key] || 0;
+                            });
+                        return result;
+                    },
+                    origin);
+            }
+        };
+    })
     .factory('preciseWorkItemGenerator', function() {
         return {
             generatePreciseInterferenceNeighborDtos: function(sources) {

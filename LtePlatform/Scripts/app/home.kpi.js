@@ -149,7 +149,7 @@
             };
 
             $scope.showTodayKpi = function () {
-                workItemDialog.showTodayKpi($scope.city.selected);
+                workItemDialog.showTodayOverallKpi($scope.city.selected);
             }
 
             $scope.showPreciseStats = function() {

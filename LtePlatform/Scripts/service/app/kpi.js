@@ -5973,9 +5973,9 @@ angular.module('kpi.work.chart', ['myApp.url', 'myApp.region', "ui.bootstrap", "
                 kpiPreciseService.getRecentPreciseRegionKpi(city, $scope.statDate.value)
                     .then(function(result) {
                         $scope.statDate.value = appFormatService.getDate(result.statDate);
-                        $scope.cityStat = appKpiService.getCityStat(result.districtPreciseViews, city);
+                        $scope.cityStat = appKpiService.getCityStat(result.districtViews, city);
                         $scope.rate = appKpiService.calculatePreciseRating($scope.cityStat.preciseRate);
-                        var options = kpiDisplayService.generatePreciseBarOptions(result.districtPreciseViews,
+                        var options = kpiDisplayService.generatePreciseBarOptions(result.districtViews,
                             $scope.cityStat);
                         $("#preciseConfig").highcharts(options);
                     });
@@ -6787,7 +6787,7 @@ angular.module('kpi.work', ['app.menu', 'myApp.region'])
 					}
 				});
 			},
-			showTodayKpi: function(city) {
+			showTodayOverallKpi: function(city) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Rutrace/Index.html',
 					controller: 'rutrace.index',

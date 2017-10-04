@@ -329,7 +329,7 @@
 					}
 				});
 			},
-			showTodayKpi: function(city) {
+			showTodayOverallKpi: function(city) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Rutrace/Index.html',
 					controller: 'rutrace.index',
