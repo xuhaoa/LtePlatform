@@ -165,20 +165,6 @@
                 },
                 url: "/kpi"
             })
-            .state('quality',
-            {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.kpi"
-                    },
-                    "contents": {
-                        templateUrl: "/appViews/BasicKpi/Quality.html",
-                        controller: "kpi.quality"
-                    }
-                },
-                url: "/quality"
-            })
             .state('plan',
             {
                 views: {

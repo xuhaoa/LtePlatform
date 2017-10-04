@@ -9,10 +9,6 @@
                         url: "/#/kpi",
                         tooltip: "4G总体指标"
                     }, {
-                        displayName: "质量分析",
-                        url: '/#/quality',
-                        tooltip: "4G网络质量分析与日常优化"
-                    }, {
                         displayName: "专题优化",
                         url: '/#/topic'
                     }, {
@@ -35,7 +31,8 @@
             networkElementService,
             baiduQueryService,
             neighborDialogService,
-            mapDialogService) {
+            mapDialogService,
+            workItemDialog) {
             baiduMapService.initializeMap("map", 11);
             baiduMapService.addCityBoundary("佛山");
             $scope.currentView = "精确覆盖率";
@@ -151,6 +148,10 @@
                     });
             };
 
+            $scope.showTodayKpi = function () {
+                workItemDialog.showTodayKpi($scope.city.selected);
+            }
+
             $scope.showPreciseStats = function() {
                 mapDialogService.showPreciseTrend($scope.city, $scope.beginDate, $scope.endDate);
             };
@@ -170,15 +171,6 @@
                 function(district, $index) {
                     $scope.showPreciseRate($scope.city.selected || "佛山", district, $scope.colors[$index]);
                 });
-        })
-    .controller('kpi.quality',
-        function($scope, baiduMapService, workItemDialog) {
-            baiduMapService.initializeMap("map", 11);
-            baiduMapService.addCityBoundary("佛山");
-
-            $scope.showTodayKpi = function() {
-                workItemDialog.showTodayKpi($scope.city.selected);
-            }
         })
     .controller("query.topic",
         function($scope, baiduMapService, customerDialogService, basicImportService, mapDialogService) {

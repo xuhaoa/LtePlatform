@@ -405,7 +405,6 @@
     <Content Include="appViews\Home\DT.html" />
     <Content Include="appViews\BasicKpi\GridApp.html" />
     <Content Include="appViews\BasicKpi\GridClusterDialog.html" />
-    <Content Include="appViews\BasicKpi\Quality.html" />
     <Content Include="appViews\BasicKpi\Resource.html" />
     <Content Include="appViews\BasicKpi\TopConnection3GTrend.html" />
     <Content Include="appViews\BasicKpi\TopDrop2GTrend.html" />
