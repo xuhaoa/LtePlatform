@@ -12,8 +12,8 @@ import sys
 
 os.chdir('/home/wireless/huawei_mrs')
 date_dir=generate_date_hours_shift(shift=-5)
-mrNames=['RSRP','Tadv','PowerHeadRoom','SinrUL','TadvRsrp']
-db = MongoClient('mongodb://root:Abcdef9*@10.17.165.106')['ouyh']
+mrNames=['RSRP','Tadv','PowerHeadRoom','SinrUL','TadvRsrp', 'ReceivedIPower']
+db = MongoClient('mongodb://root:Abcdef9*@132.110.71.123')['ouyh']
 for mrName in mrNames:
     try:
         if db['mrs_'+mrName+'_'+date_dir].index_information().get('CellId_1')==None:

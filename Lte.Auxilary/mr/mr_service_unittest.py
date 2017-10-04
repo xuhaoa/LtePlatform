@@ -2,6 +2,21 @@ from mr_service import *
 from lxml import etree
 import unittest
 
+class BasicProcessUnitTest(unittest.TestCase):
+    def test_get_mro_item_key(self):
+        item_element=etree.XML('''<smr>MR.LteScRSRP MR.LteNcRSRP MR.LteScRSRQ MR.LteNcRSRQ MR.LteScEarfcn MR.LteScPci MR.LteNcEarfcn MR.LteNcPci MR.LteScTadv MR.LteScPHR MR.LteScAOA MR.LteScSinrUL MR.LteScRI MR.CQI MR.LteScPUSCHPRBNum MR.LteScPDSCHPRBNum MR.LteScBSR MR.CDMAtype MR.CDMANcBand MR.CDMANcArfcn MR.CDMAPNphase MR.LteCDMAorHRPDNcPilotStrength MR.CDMANcPci MR.Longitude MR.Latitude</smr>''')
+        item_key=get_mro_item_key(item_element)
+        self.assertTrue('LteScRSRP' in item_key)
+        self.assertTrue('LteScPci' in item_key)
+
+    def test_get_mro_item_key_zte(self):
+        item_element=etree.XML('''<smr>MR.LteScEarfcn MR.LteScPci MR.LteSccgi MR.LteScRSRP MR.LteScRSRQ MR.LteScTadv MR.LteScPHR MR.LteScAOA MR.LteScSinrUL MR.LteScUeRxTxTD MR.LteSceEuRxTxTD MR.LteNcEarfcn MR.LteNcPci MR.LteNcRSRP MR.LteNcRSRQ MR.LteFddNcEarfcn MR.LteFddNcPci MR.LteFddNcRSRP MR.LteFddNcRSRQ MR.LteTddNcEarfcn MR.LteTddNcPci MR.LteTddNcRSRP MR.LteTddNcRSRQ </smr>''')
+        item_key=get_mro_item_key(item_element)
+        self.assertTrue('LteScRSRP' in item_key)
+        self.assertTrue('LteScPci' in item_key)
+        self.assertTrue('LteNcEarfcn' in item_key)
+        self.assertTrue('LteFddNcPci' in item_key)
+
 class ObjectElementUnitTest(unittest.TestCase):
     def test_read_old_zte_format(self):
         item_element=etree.XML('''<object MR.MmeCode="2" MR.MmeGroupId="17409" MR.MmeUeS1apId="247468164" MR.TimeStamp="2017-09-30T23:15:01.760" MR.objectId="0">

@@ -158,7 +158,7 @@ class MrDownloader:
             self.host.chdir(root)                
             for name in files:
                 print(name)
-                if name.endswith(affix) and is_mro_filename(name) and is_foshan_filename(name): 
+                if name.endswith(affix) and filename_func(name) and is_foshan_filename(name): 
                     if name in self.DFList:
                         pass
                     else:

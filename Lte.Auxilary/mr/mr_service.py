@@ -19,6 +19,10 @@ def to_dec(value: str):
     else:
         return value
 
+def get_mro_item_key(item_element):
+    '''读取MRO字段名称'''
+    return item_element.text.replace('MR.', '').split(' ')
+
 class NeighborStat:
     def __init__(self, cellId, pci, **kwargs):
         super().__init__(**kwargs)
@@ -70,11 +74,12 @@ class MroReader:
             print(item_dict)
 
     def read(self, item_measurement, item_id):
+        '''华为MRO数据读取过程'''
         lon_dict={}
         lat_dict={}
         for item_element in item_measurement:
             if item_element.tag == 'smr':
-                item_key = item_element.text.replace('MR.', '').split(' ')
+                item_key = get_mro_item_key(item_element)
                 if 'LteScEarfcn' not in item_key:
                     return
             else:
@@ -164,11 +169,12 @@ class MroReader:
                 self.neighbor_stats.append(neighbor_stat.stat)
 
     def read_zte(self, item_measurement, item_id):
+        '''中兴MRO数据读取过程'''
         lon_dict={}
         lat_dict={}
         for item_element in item_measurement:
             if item_element.tag == 'smr':
-                item_key = item_element.text.replace('MR.', '').split(' ')
+                item_key = get_mro_item_key(item_element)
                 if 'LteScEarfcn' not in item_key:
                     return
             else:
@@ -407,6 +413,7 @@ class MroReader:
         df = DataFrame(stat_list)
         stat=df.groupby(['CellId','Pci','NeighborPci', 'Earfcn', 'NeighborEarfcn']).sum().reset_index()
         return json.loads(stat.T.to_json()).values()
+
 class MrsReader:
     def __init__(self, mrNames, startTime, date_dir, db, eNodebId, **kwargs):
         self.mrNames=mrNames
@@ -432,7 +439,6 @@ class MrsReader:
                     item_dicts.append(item_dict)
             if len(item_dicts)>0:
                 self.db['mrs_'+mrName+'_'+self.date_dir].insert_many(item_dicts)
-            #print(item_dicts)
 
     def read_zte(self, item_measurement, eNodebId):
         mrName=item_measurement.attrib['mrName'].replace('MR.','')
