@@ -1584,48 +1584,40 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                 $uibModalInstance.dismiss('cancel');
             };
         });
-angular.module('topic.parameters', ['app.menu', 'topic.basic'])
+angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
     .factory('parametersDialogService',
-        function(menuItemService, baiduMapService) {
+    function (menuItemService, baiduMapService, stationFormatService) {
             return {
                 showENodebInfo: function(eNodeb, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Parameters/Map/ENodebMapInfoBox.html',
                         controller: 'map.eNodeb.dialog',
-                        resolve: {
-                            dialogTitle: function() {
-                                return eNodeb.name + "-" + "基站基本信息";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return eNodeb.name + "-" + "基站基本信息";
+                                },
+                                eNodeb: function() {
+                                    return eNodeb;
+                                }
                             },
-                            eNodeb: function() {
-                                return eNodeb;
-                            },
-                            beginDate: function() {
-                                return beginDate;
-                            },
-                            endDate: function() {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showCellInfo: function(cell, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Map/NeighborMapInfoBox.html',
                         controller: 'map.neighbor.dialog',
-                        resolve: {
-                            dialogTitle: function() {
-                                return cell.cellName + "小区信息";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return cell.cellName + "小区信息";
+                                },
+                                neighbor: function() {
+                                    return cell;
+                                }
                             },
-                            neighbor: function() {
-                                return cell;
-                            },
-                            beginDate: function() {
-                                return beginDate;
-                            },
-                            endDate: function() {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showBtsInfo: function(bts) {
@@ -1769,20 +1761,16 @@ angular.module('topic.parameters', ['app.menu', 'topic.basic'])
                     menuItemService.showGeneralDialogWithAction({
                             templateUrl: '/appViews/College/Coverage/CollegeMap.html',
                             controller: 'college.coverage.name',
-                            resolve: {
-                                name: function() {
-                                    return name;
+                            resolve: stationFormatService.dateSpanDateResolve({
+                                    name: function() {
+                                        return name;
+                                    },
+                                    coverageOverlays: function() {
+                                        return coverageOverlays;
+                                    }
                                 },
-                                beginDate: function() {
-                                    return beginDate;
-                                },
-                                endDate: function() {
-                                    return endDate;
-                                },
-                                coverageOverlays: function() {
-                                    return coverageOverlays;
-                                }
-                            }
+                                beginDate,
+                                endDate)
                         },
                         callback);
                 },
@@ -1790,37 +1778,29 @@ angular.module('topic.parameters', ['app.menu', 'topic.basic'])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/BasicKpi/CsvDtDialog.html',
                         controller: 'csv.dt.dialog',
-                        resolve: {
-                            dialogTitle: function() {
-                                return "全网路测数据信息管理";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return "全网路测数据信息管理";
+                                }
                             },
-                            beginDate: function() {
-                                return beginDate;
-                            },
-                            endDate: function() {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showHighwayDtInfos: function (beginDate, endDate, name) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/BasicKpi/HotspotDtDialog.html',
                         controller: 'highway.dt.dialog',
-                        resolve: {
-                            dialogTitle: function () {
-                                return name + "路测数据信息查询";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return name + "路测数据信息查询";
+                                },
+                                name: function() {
+                                    return name;
+                                }
                             },
-                            beginDate: function () {
-                                return beginDate;
-                            },
-                            endDate: function () {
-                                return endDate;
-                            },
-                            name: function() {
-                                return name;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 }
             }

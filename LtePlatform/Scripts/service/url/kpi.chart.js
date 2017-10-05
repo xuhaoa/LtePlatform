@@ -192,6 +192,41 @@
                             }
                         });
                 },
+                generateUsersDistrictStats: function (districts, stats) {
+                    return chartCalculateService.generateDistrictStats(districts,
+                        stats,
+                        {
+                            districtViewFunc: function (stat) {
+                                return stat.districtViews;
+                            },
+                            initializeFunc: function (generalStat) {
+                                generalStat.maxUsers = 0;
+                                generalStat.maxActiveUsers = 0;
+                            },
+                            calculateFunc: function (view) {
+                                return {
+                                    maxUsers: view.maxUsers,
+                                    maxActiveUsers: view.maxActiveUsers
+                                };
+                            },
+                            accumulateFunc: function (generalStat, view) {
+                                generalStat.maxUsers += view.maxUsers;
+                                generalStat.maxActiveUsers += view.maxActiveUsers;
+                            },
+                            zeroFunc: function () {
+                                return {
+                                    maxUsers: 0,
+                                    maxActiveUsers: 0
+                                };
+                            },
+                            totalFunc: function (generalStat) {
+                                return {
+                                    maxUsers: generalStat.maxUsers,
+                                    maxActiveUsers: generalStat.maxActiveUsers
+                                }
+                            }
+                        });
+                },
                 getDownlinkFlowDistrictOptions: function(stats, inputDistricts, frequency) {
                     var districts = inputDistricts.concat("全网");
                     return preciseChartService.generateDistrictTrendOptions(stats,
@@ -218,6 +253,32 @@
                             yTitle: "上行流量(TB)"
                         });
                 },
+                getMaxUsersDistrictOptions: function (stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function (stat) {
+                            return stat.maxUsers;
+                        },
+                        {
+                            title: "最大用户数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "最大用户数"
+                        });
+                },
+                getMaxActiveUsersDistrictOptions: function (stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function (stat) {
+                            return stat.maxActiveUsers;
+                        },
+                        {
+                            title: "最大激活用户数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "最大激活用户数"
+                        });
+                },
                 getDownlinkFlowOptions: function(districtStats, townStats, frequency) {
                     return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
                         .generateDrillDownData(districtStats,
@@ -240,6 +301,32 @@
                             }),
                         {
                             title: "分镇区上行流量分布图（TB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域"
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                getMaxUsersOptions: function (districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                        townStats,
+                        function (stat) {
+                            return stat.maxUsers;
+                        }),
+                        {
+                            title: "分镇区最大用户数-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域"
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                getMaxActiveUsersOptions: function (districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                        townStats,
+                        function (stat) {
+                            return stat.maxActiveUsers;
+                        }),
+                        {
+                            title: "分镇区最大激活用户数-" + (frequency === 'all' ? frequency : frequency + 'M'),
                             seriesName: "区域"
                         },
                         appFormatService.generateDistrictPieNameValueFuncs());
@@ -507,6 +594,19 @@
                         .getDownlinkFlowOptions(trendStat.districtStats, trendStat.townStats, frequency));
                     $("#fourthChart").highcharts(kpiChartCalculateService
                         .getUplinkFlowOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                },
+                generateDistrictFrequencyUsersTrendCharts: function(districts, frequency, result) {
+                    var stats = kpiChartCalculateService.generateUsersDistrictStats(districts, result);
+                    var trendStat = {};
+                    kpiChartCalculateService.generateFlowTrendStatsForPie(trendStat, result);
+                    $("#leftChart").highcharts(kpiChartCalculateService
+                        .getMaxUsersDistrictOptions(stats, districts, frequency));
+                    $("#rightChart").highcharts(kpiChartCalculateService
+                        .getMaxActiveUsersDistrictOptions(stats, districts, frequency));
+                    $("#thirdChart").highcharts(kpiChartCalculateService
+                        .getMaxUsersOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                    $("#fourthChart").highcharts(kpiChartCalculateService
+                        .getMaxActiveUsersOptions(trendStat.districtStats, trendStat.townStats, frequency));
                 }
             };
         });

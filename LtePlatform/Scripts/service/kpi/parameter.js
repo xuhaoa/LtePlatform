@@ -1,12 +1,12 @@
 ﻿angular.module('kpi.parameter', ['app.menu', 'app.core', 'region.network'])
     .factory('neighborDialogService',
-    function (menuItemService, networkElementService, stationFactory, baiduMapService) {
+    function (menuItemService, networkElementService, stationFormatService, baiduMapService) {
             return {
                 dumpMongo: function(cell, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Interference/DumpCellMongoDialog.html',
                         controller: 'dump.cell.mongo',
-                        resolve: stationFactory.dateSpanResolve({
+                        resolve: stationFormatService.dateSpanResolve({
                                 dialogTitle: function() {
                                     return cell.name + "-" + cell.sectorId + "干扰数据导入";
                                 },
@@ -22,7 +22,7 @@
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Interference/Index.html',
                         controller: 'rutrace.interference.analysis',
-                        resolve: stationFactory.dateSpanResolve({
+                        resolve: stationFormatService.dateSpanResolve({
                                 dialogTitle: function() {
                                     return cell.name + "-" + cell.sectorId + "干扰指标分析";
                                 },
@@ -38,7 +38,7 @@
                     menuItemService.showGeneralDialogWithAction({
                             templateUrl: '/appViews/Rutrace/Map/Index.html',
                             controller: 'rutrace.map.analysis',
-                            resolve: stationFactory.dateSpanDateResolve({
+                            resolve: stationFormatService.dateSpanDateResolve({
                                     dialogTitle: function() {
                                         return "小区地理化分析" + ": " + cell.name + "-" + cell.sectorId;
                                     },
@@ -57,7 +57,7 @@
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Coverage/Index.html',
                         controller: 'rutrace.coverage.analysis',
-                        resolve: stationFactory.dateSpanResolve({
+                        resolve: stationFormatService.dateSpanResolve({
                                 dialogTitle: function() {
                                     return cell.name + "-" + cell.sectorId + "覆盖指标分析";
                                 },
@@ -101,7 +101,7 @@
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Parameters/QueryMap.html',
                         controller: 'query.setting.dialog',
-                        resolve: stationFactory.dateSpanDateResolve({
+                        resolve: stationFormatService.dateSpanDateResolve({
                                 dialogTitle: function() {
                                     return "小区信息查询条件设置";
                                 },
@@ -145,7 +145,7 @@
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Parameters/Region/FlowKpiInfo.html',
                         controller: 'flow.kpi.dialog',
-                        resolve: stationFactory.dateSpanResolve({
+                        resolve: stationFormatService.dateSpanResolve({
                                 dialogTitle: function() {
                                     return cell.item.eNodebName + "-" + cell.item.sectorId + "小区流量相关指标信息";
                                 },
@@ -161,7 +161,7 @@
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Parameters/Region/RrcKpiInfo.html',
                         controller: 'rrc.kpi.dialog',
-                        resolve: stationFactory.dateSpanResolve({
+                        resolve: stationFormatService.dateSpanResolve({
                                 dialogTitle: function() {
                                     return cell.item.eNodebName + "-" + cell.item.sectorId + "小区RRC连接指标信息";
                                 },

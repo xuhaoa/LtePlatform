@@ -60,7 +60,7 @@
             $uibModalInstance,
             kpiPreciseService,
             appFormatService,
-            appKpiService,
+            kpiChartService,
             appRegionService) {
             $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") +
                 '-' +
@@ -69,17 +69,7 @@
             kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value, frequency)
                 .then(function(result) {
                     appRegionService.queryDistricts(city).then(function(districts) {
-                        var stats = appKpiService.generateUsersDistrictStats(districts, result);
-                        var trendStat = {};
-                        appKpiService.generateFlowTrendStatsForPie(trendStat, result);
-                        $("#leftChart").highcharts(appKpiService
-                            .getMaxUsersDistrictOptions(stats, districts, frequency));
-                        $("#rightChart").highcharts(appKpiService
-                            .getMaxActiveUsersDistrictOptions(stats, districts, frequency));
-                        $("#thirdChart").highcharts(appKpiService
-                            .getMaxUsersOptions(trendStat.districtStats, trendStat.townStats, frequency));
-                        $("#fourthChart").highcharts(appKpiService
-                            .getMaxActiveUsersOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                        kpiChartService.generateDistrictFrequencyUsersTrendCharts(districts, frequency, result);
                     });
 
                 });

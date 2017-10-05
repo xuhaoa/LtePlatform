@@ -1,6 +1,6 @@
-﻿angular.module('kpi.coverage', ['app.menu'])
+﻿angular.module('kpi.coverage', ['app.menu', 'app.core'])
 
-    .factory('coverageDialogService', function (menuItemService) {
+    .factory('coverageDialogService', function (menuItemService, stationFormatService) {
         return {
             showDetails: function (cellName, cellId, sectorId) {
                 menuItemService.showGeneralDialog({
@@ -21,31 +21,28 @@
             },
             showSource: function (currentView, serialNumber, beginDate, endDate, callback) {
                 menuItemService.showGeneralDialogWithAction({
-                    templateUrl: '/appViews/Rutrace/Interference/SourceDialog.html',
-                    controller: 'interference.source.dialog',
-                    resolve: {
-                        dialogTitle: function () {
-                            return currentView.eNodebName + "-" + currentView.sectorId + "干扰源分析";
-                        },
-                        eNodebId: function () {
-                            return currentView.eNodebId;
-                        },
-                        sectorId: function () {
-                            return currentView.sectorId;
-                        },
-                        serialNumber: function () {
-                            return serialNumber;
-                        },
-                        beginDate: function() {
-                            return beginDate;
-                        },
-                        endDate: function() {
-                            return endDate;
-                        }
-                    }
-                }, function (info) {
-                    callback(info);
-                });
+                        templateUrl: '/appViews/Rutrace/Interference/SourceDialog.html',
+                        controller: 'interference.source.dialog',
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return currentView.eNodebName + "-" + currentView.sectorId + "干扰源分析";
+                                },
+                                eNodebId: function() {
+                                    return currentView.eNodebId;
+                                },
+                                sectorId: function() {
+                                    return currentView.sectorId;
+                                },
+                                serialNumber: function() {
+                                    return serialNumber;
+                                }
+                            },
+                            beginDate,
+                            endDate)
+                    },
+                    function(info) {
+                        callback(info);
+                    });
             },
             showSourceDbChart: function (currentView) {
                 menuItemService.showGeneralDialog({
@@ -256,115 +253,95 @@
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Home/FourChartDialog.html',
                     controller: 'flow.trend',
-                    resolve: {
-                        dialogTitle: function () {
-                            return city + "流量变化趋势";
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            dialogTitle: function() {
+                                return city + "流量变化趋势";
+                            },
+                            city: function() {
+                                return city;
+                            },
+                            frequency: function() {
+                                return frequency;
+                            }
                         },
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        },
-                        city: function () {
-                            return city;
-                        },
-                        frequency: function () {
-                            return frequency;
-                        }
-                    }
+                        beginDate,
+                        endDate)
                 });
             },
             showUsersTrend: function (city, beginDate, endDate, frequency) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Home/FourChartDialog.html',
                     controller: 'users.trend',
-                    resolve: {
-                        dialogTitle: function () {
-                            return city + "用户数变化趋势";
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            dialogTitle: function() {
+                                return city + "用户数变化趋势";
+                            },
+                            city: function() {
+                                return city;
+                            },
+                            frequency: function() {
+                                return frequency;
+                            }
                         },
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        },
-                        city: function () {
-                            return city;
-                        },
-                        frequency: function () {
-                            return frequency;
-                        }
-                    }
+                        beginDate,
+                        endDate)
                 });
             },
             showFeelingRateTrend: function (city, beginDate, endDate, frequency) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Home/FourChartDialog.html',
                     controller: 'feelingRate.trend',
-                    resolve: {
-                        dialogTitle: function () {
-                            return city + "感知速率变化趋势";
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            dialogTitle: function() {
+                                return city + "感知速率变化趋势";
+                            },
+                            city: function() {
+                                return city;
+                            },
+                            frequency: function() {
+                                return frequency;
+                            }
                         },
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        },
-                        city: function () {
-                            return city;
-                        },
-                        frequency: function () {
-                            return frequency;
-                        }
-                    }
+                        beginDate,
+                        endDate)
                 });
             },
             showDownSwitchTrend: function (city, beginDate, endDate, frequency) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Home/FourChartDialog.html',
                     controller: 'downSwitch.trend',
-                    resolve: {
-                        dialogTitle: function () {
-                            return city + "4G下切3G变化趋势";
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            dialogTitle: function() {
+                                return city + "4G下切3G变化趋势";
+                            },
+                            city: function() {
+                                return city;
+                            },
+                            frequency: function() {
+                                return frequency;
+                            }
                         },
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        },
-                        city: function () {
-                            return city;
-                        },
-                        frequency: function () {
-                            return frequency;
-                        }
-                    }
+                        beginDate,
+                        endDate)
                 });
             },
             showRank2RateTrend: function (city, beginDate, endDate, frequency) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Home/FourChartDialog.html',
                     controller: 'rank2Rate.trend',
-                    resolve: {
-                        dialogTitle: function () {
-                            return city + "4G双流比变化趋势";
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            dialogTitle: function() {
+                                return city + "4G双流比变化趋势";
+                            },
+                            city: function() {
+                                return city;
+                            },
+                            frequency: function() {
+                                return frequency;
+                            }
                         },
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        },
-                        city: function () {
-                            return city;
-                        },
-                        frequency: function () {
-                            return frequency;
-                        }
-                    }
+                        beginDate,
+                        endDate)
                 });
             },
             showUserRoles: function (userName) {

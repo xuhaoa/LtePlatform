@@ -45,8 +45,10 @@ describe('app.core service tests', function () {
     describe('stationFactory tests',
         function() {
             var stationFactory;
-            beforeEach(inject(function(_stationFactory_) {
+            var stationFormatService;
+            beforeEach(inject(function (_stationFactory_, _stationFormatService_) {
                 stationFactory = _stationFactory_;
+                stationFormatService = _stationFormatService_;
             }));
 
             it('test stationGradeOptions',
@@ -62,7 +64,7 @@ describe('app.core service tests', function () {
 
             it('test dateSpanResolve',
                 function() {
-                    var funcDefs = stationFactory.dateSpanResolve({
+                    var funcDefs = stationFormatService.dateSpanResolve({
                             firstFunc: function() {
                                 return 1;
                             },
