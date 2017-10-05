@@ -1,6 +1,6 @@
-﻿angular.module('app.chart', ['app.format'])
+﻿angular.module('app.chart', ['app.format', 'app.calculation'])
     .factory('chartCalculateService',
-        function(appFormatService) {
+        function (appFormatService, basicCalculationService) {
             return {
                 generateDrillDownData: function(districtStats, townStats, queryFunction) {
                     var results = [];
@@ -79,15 +79,7 @@
                     return chart.options;
                 },
                 calculateMemberSum: function(array, memberList, categoryFunc) {
-                    var result = _.reduce(array,
-                        function(memo, num) {
-                            var temp = {};
-                            angular.forEach(memberList,
-                                function(member) {
-                                    temp[member] = memo[member] + num[member];
-                                });
-                            return temp;
-                        });
+                    var result = basicCalculationService.calculateArraySum(array, memberList);
                     categoryFunc(result);
                     return result;
                 },

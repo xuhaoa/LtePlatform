@@ -1,5 +1,12 @@
 ﻿angular.module('app.calculation', [])
     .factory('basicCalculationService', function() {
+        var isLongtituteValid = function(longtitute) {
+            return (!isNaN(longtitute)) && longtitute > 112 && longtitute < 114;
+        };
+
+        var isLattituteValid = function(lattitute) {
+            return (!isNaN(lattitute)) && lattitute > 22 && lattitute < 24;
+        };
         return {
             calculateArraySum: function(data, keys) {
                 return _.reduce(data,
@@ -11,6 +18,13 @@
                             });
                         return result;
                     });
+            },
+            isLonLatValid: function(item) {
+                return isLongtituteValid(item.longtitute) && isLattituteValid(item.lattitute);
+            },
+            mapLonLat: function(source, destination) {
+                source.longtitute = destination.longtitute;
+                source.lattitute = destination.lattitute;
             }
         };
     })
@@ -86,91 +100,35 @@
             }
         };
     })
-    .factory('neGeometryService', function() {
-        var isLongtituteValid = function(longtitute) {
-            return (!isNaN(longtitute)) && longtitute > 112 && longtitute < 114;
-        };
-
-        var isLattituteValid = function(lattitute) {
-            return (!isNaN(lattitute)) && lattitute > 22 && lattitute < 24;
-        };
-
-        var isLonLatValid = function(item) {
-            return isLongtituteValid(item.longtitute) && isLattituteValid(item.lattitute);
-        };
-
-        var mapLonLat = function(source, destination) {
-            source.longtitute = destination.longtitute;
-            source.lattitute = destination.lattitute;
-        };
-
+    .factory('neGeometryService', function (basicCalculationService) {
         return {
             queryENodebLonLatEdits: function(eNodebs) {
                 var result = [];
-                for (var index = 0; index < eNodebs.length; index++) {
-                    if (!isLonLatValid(eNodebs[index])) {
-                        result.push({
-                            index: index,
-                            eNodebId: eNodebs[index].eNodebId,
-                            name: eNodebs[index].name,
-                            district: eNodebs[index].districtName,
-                            town: eNodebs[index].townName,
-                            longtitute: eNodebs[index].longtitute,
-                            lattitute: eNodebs[index].lattitute
-                        });
-                    }
-                }
+                angular.forEach(eNodebs,
+                    function(eNodeb, $index) {
+                        if (!basicCalculationService.isLonLatValid(eNodeb)) {
+                            var item = {
+                                index: $index
+                            };
+                            angular.extend(item, eNodeb);
+                            item.town = eNodeb.townName;
+                            result.push(item);
+                        }
+                    });
                 return result;
             },
-            queryBtsLonLatEdits: function(btss) {
+            queryGeneralLonLatEdits: function(stats) {
                 var result = [];
-                for (var index = 0; index < btss.length; index++) {
-                    if (!isLonLatValid(btss[index])) {
-                        result.push({
-                            index: index,
-                            bscId: btss[index].bscId,
-                            btsId: btss[index].btsId,
-                            name: btss[index].name,
-                            districtName: btss[index].districtName,
-                            longtitute: eNodebs[index].longtitute,
-                            lattitute: eNodebs[index].lattitute
-                        });
-                    }
-                }
-                return result;
-            },
-            queryCellLonLatEdits: function(cells) {
-                var result = [];
-                for (var index = 0; index < cells.length; index++) {
-                    if (!isLonLatValid(cells[index])) {
-                        result.push({
-                            index: index,
-                            eNodebId: cells[index].eNodebId,
-                            sectorId: cells[index].sectorId,
-                            frequency: cells[index].frequency,
-                            isIndoor: cells[index].isIndoor,
-                            longtitute: cells[index].longtitute,
-                            lattitute: cells[index].lattitute
-                        });
-                    }
-                }
-                return result;
-            },
-            queryCdmaCellLonLatEdits: function(cells) {
-                var result = [];
-                for (var index = 0; index < cells.length; index++) {
-                    if (!isLonLatValid(cells[index])) {
-                        result.push({
-                            index: index,
-                            btsId: cells[index].btsId,
-                            sectorId: cells[index].sectorId,
-                            frequency: cells[index].frequency,
-                            isIndoor: cells[index].isIndoor,
-                            longtitute: cells[index].longtitute,
-                            lattitute: cells[index].lattitute
-                        });
-                    }
-                }
+                angular.forEach(stats,
+                    function(stat, $index) {
+                        if (!basicCalculationService.isLonLatValid(stat)) {
+                            var item = {
+                                index: $index
+                            };
+                            angular.extend(item, stat);
+                            result.push(item);
+                        }
+                    });
                 return result;
             },
             mapLonLatEdits: function(sourceFunc, destList) {
@@ -178,9 +136,8 @@
                 for (var i = 0; i < destList.length; i++) {
                     destList[i].longtitute = parseFloat(destList[i].longtitute);
                     destList[i].lattitute = parseFloat(destList[i].lattitute);
-                    if (isLonLatValid(destList[i])) {
-                        console.log(destList[i]);
-                        mapLonLat(sourceList[destList[i].index], destList[i]);
+                    if (basicCalculationService.isLonLatValid(destList[i])) {
+                        basicCalculationService.mapLonLat(sourceList[destList[i].index], destList[i]);
                     }
                 }
                 sourceFunc(sourceList);

@@ -299,6 +299,39 @@ describe('app.calculation service tests',
                 );
             });
 
+        describe('test neGeometryService',
+            function () {
+                var basicCalculationService;
+                var neGeometryService;
+
+                beforeEach(inject(function(_basicCalculationService_, _neGeometryService_) {
+                    basicCalculationService = _basicCalculationService_;
+                    neGeometryService = _neGeometryService_;
+                }));
+
+                describe('test queryENodebLonLatEdits function',
+                    function() {
+                        it('test the empty set',
+                            function() {
+                                var result = neGeometryService.queryENodebLonLatEdits([]);
+                                expect(result).toEqual([]);
+                            });
+                        it('test a single-element set with townName definition',
+                            function () {
+                                var result = neGeometryService.queryENodebLonLatEdits([
+                                    {
+                                        townName: 'abc'
+                                    }
+                                ]);
+                                expect(result).toEqual([{
+                                    index: 0,
+                                    townName: 'abc',
+                                    town: 'abc'
+                                }]);
+                            });
+                    });
+            });
+
         describe('test general chart service',
             function() {
                 var generalChartService;
@@ -507,17 +540,56 @@ describe('app.calculation service tests',
 describe('app.chart service tests',
     function() {
         beforeEach(module('app.format'));
+        beforeEach(module('app.calculation'));
         beforeEach(module('app.chart'));
 
-        describe('test calculate chart service test',
+        describe('test chartCalculateService',
             function() {
                 var chartCalculateService;
+                var basicCalculationService;
                 var appFormatService;
 
-                beforeEach(inject(function(_chartCalculateService_, _appFormatService_) {
+                beforeEach(inject(function(_chartCalculateService_, _appFormatService_, _basicCalculationService_) {
                     chartCalculateService = _chartCalculateService_;
                     appFormatService = _appFormatService_;
+                    basicCalculationService = _basicCalculationService_;
                 }));
+
+                describe('calculateMemberSum',
+                    function() {
+                        it('test the empty sets',
+                            function() {
+                                var sum = chartCalculateService.calculateMemberSum([],
+                                    ['member1'],
+                                    function(stat) { });
+                                expect(sum).toBeUndefined();
+                            });
+                        it('test the single-member set',
+                            function() {
+                                var sum = chartCalculateService.calculateMemberSum([{ member1: 12 }],
+                                    ['member1'],
+                                    function(stat) {});
+                                expect(sum).toEqual({ member1: 12 });
+                            });
+                        it('test the single-member set with operation',
+                            function () {
+                                var sum = chartCalculateService.calculateMemberSum([{ member1: 12 }],
+                                    ['member1'],
+                                    function(stat) {
+                                        stat.member2 = 23;
+                                    });
+                                expect(sum).toEqual({ member1: 12, member2: 23 });
+                            });
+                        it('test the double-member set with operation',
+                            function() {
+                                var sum = chartCalculateService.calculateMemberSum([{ member1: 12 }, { member1: 21 }],
+                                    ['member1'],
+                                    function(stat) {
+                                        stat.member2 = 23;
+                                    });
+                                expect(sum).toEqual({ member1: 33, member2: 23 });
+                            });
+                    });
 
                 describe('generateMrsRsrpStats',
                     function() {
