@@ -1,4 +1,6 @@
-﻿angular.module('home.college', ['app.common'])
+﻿/// <reference path="./common.js" />
+
+angular.module('home.college', ['app.common'])
     .controller('menu.college',
         function($scope) {
             $scope.menuItem = {
