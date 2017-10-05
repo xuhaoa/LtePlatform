@@ -27,6 +27,8 @@
     ...
 ```
 #### 采用北向接口直接下载（中兴）
+从2017年9月开始，中兴的MR文件（包括MRO和MRS文件）直接从北向接口FTP服务器下载。
+详细过程参见[MR数据文件下载流程](https://github.com/ouyh18/LtePlatform/blob/master/MrDownload.md)
 
 #### 主要说明
 下载遵循以下原则：    
@@ -58,23 +60,7 @@
             print('The root directory:', root)
             self.host.chdir(root)                
             for name in files:
-                print(name)
-                if name.endswith(affix) and is_mro_filename(name) and is_foshan_filename(name): 
-                    if name in self.DFList:
-                        pass
-                    else:
-                        times=0
-                        while times<3:
-                            try:
-                                self.host.download(name, name)
-                                times=3
-                                self.DFList.append(name)
-                                self.db['DFlist_'+datestr].insert({'dfName': name})
-                                print('Download finished: ', self.host_ip, '/', os.path.join(root, name))
-                            except:
-                                times+=1
-                                print('Times: '+ times)
-                                continue
+                ...
 ```
 ## 数据解压
 ### 华为数据

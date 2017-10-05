@@ -260,9 +260,45 @@ describe('app.format service tests', function () {
 describe('app.calculation service tests',
     function() {
         beforeEach(module('app.format'));
+        beforeEach(module('app.calculation'));
+
+        describe('test basicCalculationService',
+            function() {
+                var basicCalculationService;
+
+                beforeEach(inject(function(_basicCalculationService_) {
+                    basicCalculationService = _basicCalculationService_;
+                }));
+
+                describe('test calculateArraySum',
+                    function() {
+                        it('array with single element',
+                            function() {
+                                var result = basicCalculationService.calculateArraySum([{ key1: 1 }], ['key1']);
+                                expect(result).toEqual({ key1: 1 });
+                            });
+                        it('array with two elements with only one valid key',
+                            function() {
+                                var result = basicCalculationService.calculateArraySum([
+                                        { key1: 1 }, { key2: 2 }
+                                    ],
+                                    ['key1']);
+                                expect(result).toEqual({ key1: 1 });
+                            });
+                        it('array with two elements with same valid key',
+                            function () {
+                                var result = basicCalculationService.calculateArraySum([
+                                    { key1: 1 }, { key1: 2 }
+                                ],
+                                    ['key1']);
+                                expect(result).toEqual({ key1: 3 });
+                            });
+                    }
+                );
+            });
+
         describe('test general chart service',
             function() {
-                beforeEach(module('app.calculation'));
                 var generalChartService;
 
                 beforeEach(inject(function(_generalChartService_) {
@@ -1292,13 +1328,7 @@ describe('app.kpi.chart service tests',
                                         }
                                     ]);
                                 expect(trendStat).toEqual({
-                                    districtStats: [
-                                        {
-                                            district: 'district1'
-                                        }, {
-                                            district: 'district2'
-                                        }
-                                    ],
+                                    districtStats: [],
                                     townStats: undefined
                                 });
                             });

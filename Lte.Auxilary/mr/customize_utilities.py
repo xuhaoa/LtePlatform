@@ -89,6 +89,7 @@ def generate_zte_north_host(ip, username, password):
     return ftputil.FTPHost(ip, username, password, session_factory=my_session)
 
 class NorthDownloader:
+    '''北向接口下载对象'''
     def __init__(self, host, DFList, db):
         self.host=host
         self.DFList=DFList
