@@ -84,8 +84,8 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog']
                                 建单\
                             </button>\
                             <button class="btn btn-default" ng-show="row.entity.hasWorkItems === true"\
-                                ng-href="{{rootPath}}workItems/{{cell.cellId}}/{{cell.sectorId}}/{{cell.eNodebName}}">\
-                                <i class="glyphicon glyphicon-dashboard" title="工单查看"></i>\
+                                ng-click="grid.appScope.processWorkItems(row.entity)">\
+                                <i class="glyphicon glyphicon-dashboard" title="工单处理"></i>\
                                 处理\
                             </button>\
                         </div>'
@@ -145,6 +145,9 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog']
         };
         $scope.showCellTrend = function(cell) {
             workItemDialog.showPreciseCellTrend(cell.eNodebName + "-" + cell.sectorId, cell.cellId, cell.sectorId);
+        };
+        $scope.processWorkItems = function(cell) {
+            workItemDialog.processPreciseWorkItem(cell, $scope.beginDate, $scope.endDate);
         };
     })
     .directive('topCell', function ($compile, calculateService) {

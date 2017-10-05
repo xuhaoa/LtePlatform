@@ -5222,7 +5222,7 @@ angular.module('kpi.work.dialog', ['myApp.url', 'myApp.region', "ui.bootstrap", 
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
 
-            downSwitchService.getIndoorById(station.id).then(function (response) {
+            downSwitchService.getIndoorById(station.id).then(function(response) {
                 response.result[0].longtitute = station.longtitute;
                 response.result[0].lattitute = station.lattitute;
                 $scope.itemGroups = appFormatService.generateIndoorGroups(response.result[0]);
@@ -5281,6 +5281,27 @@ angular.module('kpi.work.dialog', ['myApp.url', 'myApp.region', "ui.bootstrap", 
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
+        })
+    .controller("rutrace.workitems.process",
+        function($scope, $uibModalInstance, cell, beginDate, endDate, workitemService, networkElementService) {
+            $scope.dialogTitle = cell.eNodebName + "-" + cell.sectorId + ":TOP小区工单历史";
+            $scope.queryWorkItems = function() {
+                workitemService.queryByCellId(cell.cellId, cell.sectorId).then(function(result) {
+                    $scope.viewItems = result;
+                });
+                networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function(result) {
+                    $scope.lteCellDetails = result;
+                });
+            };
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.distributionGroups);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+            $scope.queryWorkItems();
         });
 angular.module('kpi.work.flow', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.core"])
     .controller("eNodeb.flow",
@@ -6347,7 +6368,20 @@ angular.module('kpi.work', ['app.menu', 'app.core', 'myApp.region'])
 						}
 					}
 				});
-			}
+            },
+            processPreciseWorkItem: function(cell, beginDate, endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Rutrace/WorkItem/ForCell.html',
+                    controller: "rutrace.workitems.process",
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            cell: function() {
+                                return cell;
+                            }
+                        },
+                        beginDate,
+                        endDate)
+                });
+            }
 		};
 	});
 

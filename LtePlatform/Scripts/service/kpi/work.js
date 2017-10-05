@@ -319,6 +319,19 @@
 						}
 					}
 				});
-			}
+            },
+            processPreciseWorkItem: function(cell, beginDate, endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Rutrace/WorkItem/ForCell.html',
+                    controller: "rutrace.workitems.process",
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            cell: function() {
+                                return cell;
+                            }
+                        },
+                        beginDate,
+                        endDate)
+                });
+            }
 		};
 	});
