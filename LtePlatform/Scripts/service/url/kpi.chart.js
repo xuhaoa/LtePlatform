@@ -227,6 +227,41 @@
                             }
                         });
                 },
+                generateRank2DistrictStats: function (districts, stats) {
+                    return chartCalculateService.generateDistrictStats(districts,
+                        stats,
+                        {
+                            districtViewFunc: function (stat) {
+                                return stat.districtViews;
+                            },
+                            initializeFunc: function (generalStat) {
+                                generalStat.totalRank2Times = 0;
+                                generalStat.totalSchedulingTimes = 0;
+                            },
+                            calculateFunc: function (view) {
+                                return {
+                                    schedulingTimes: view.schedulingTimes,
+                                    rank2Rate: view.rank2Rate
+                                };
+                            },
+                            accumulateFunc: function (generalStat, view) {
+                                generalStat.totalRank2Times += view.schedulingRank2;
+                                generalStat.totalSchedulingTimes += view.schedulingTimes;
+                            },
+                            zeroFunc: function () {
+                                return {
+                                    totalRank2Times: 0,
+                                    totalSchedulingTimes: 0
+                                };
+                            },
+                            totalFunc: function (generalStat) {
+                                return {
+                                    schedulingTimes: generalStat.totalSchedulingTimes,
+                                    rank2Rate: 100 * generalStat.totalRank2Times / generalStat.totalSchedulingTimes
+                                };
+                            }
+                        });
+                },
                 generateFeelingRateDistrictStats: function (districts, stats) {
                     return chartCalculateService.generateDistrictStats(districts,
                         stats,
@@ -266,6 +301,47 @@
                                     generalStat.totalUplinkDuration,
                                     downlinkFeelingRate: generalStat.totalDownlinkThroughput /
                                     generalStat.totalDownlinkDuration
+                                };
+                            }
+                        });
+                },
+                generateDownSwitchDistrictStats: function (districts, stats) {
+                    return chartCalculateService.generateDistrictStats(districts,
+                        stats,
+                        {
+                            districtViewFunc: function (stat) {
+                                return stat.districtViews;
+                            },
+                            initializeFunc: function (generalStat) {
+                                generalStat.totalDownSwitchTimes = 0;
+                                generalStat.totalUplinkThroughput = 0;
+                                generalStat.totalDownlinkThroughput = 0;
+                            },
+                            calculateFunc: function (view) {
+                                return {
+                                    downSwitchTimes: view.redirectCdma2000,
+                                    downSwitchRate: view.downSwitchRate
+                                };
+                            },
+                            accumulateFunc: function (generalStat, view) {
+                                generalStat.totalDownSwitchTimes += view.redirectCdma2000;
+                                generalStat.totalUplinkThroughput += view.pdcpUplinkFlow;
+                                generalStat.totalDownlinkThroughput += view.pdcpDownlinkFlow;
+                            },
+                            zeroFunc: function () {
+                                return {
+                                    totalDownSwitchTimes: 0,
+                                    totalUplinkThroughput: 0,
+                                    totalDownlinkThroughput: 0
+                                };
+                            },
+                            totalFunc: function (generalStat) {
+                                return {
+                                    downSwitchTimes: generalStat.totalDownSwitchTimes,
+                                    downSwitchRate: 1024 *
+                                    8 *
+                                    generalStat.totalDownSwitchTimes /
+                                    (generalStat.totalUplinkThroughput + generalStat.totalDownlinkThroughput)
                                 };
                             }
                         });
@@ -320,6 +396,58 @@
                             title: "最大激活用户数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
                             xTitle: '日期',
                             yTitle: "最大激活用户数"
+                        });
+                },
+                getDownSwitchTimesDistrictOptions: function (stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function (stat) {
+                            return stat.downSwitchTimes;
+                        },
+                        {
+                            title: "下切次数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "下切次数"
+                        });
+                },
+                getSchedulingTimesDistrictOptions: function (stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function (stat) {
+                            return stat.schedulingTimes;
+                        },
+                        {
+                            title: "调度次数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "调度次数"
+                        });
+                },
+                getDownSwitchRateDistrictOptions: function (stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function (stat) {
+                            return stat.downSwitchRate;
+                        },
+                        {
+                            title: "下切比例变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "下切比例（次/GB）"
+                        });
+                },
+                getRank2RateDistrictOptions: function (stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function (stat) {
+                            return stat.rank2Rate;
+                        },
+                        {
+                            title: "双流比变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "双流比（%）"
                         });
                 },
                 getDownlinkFlowOptions: function(districtStats, townStats, frequency) {
@@ -429,6 +557,58 @@
                             xTitle: '日期',
                             yTitle: "上行感知速率（Mbit/s）"
                         });
+                },
+                getDownSwitchTimesOptions: function (districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                        townStats,
+                        function (stat) {
+                            return stat.redirectCdma2000;
+                        }),
+                        {
+                            title: "分镇区4G下切3G次数-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域"
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                getSchedulingTimesOptions: function (districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                        townStats,
+                        function (stat) {
+                            return stat.schedulingTimes;
+                        }),
+                        {
+                            title: "分镇区调度次数-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域"
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                getDownSwitchRateOptions: function (districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                        townStats,
+                        function (stat) {
+                            return stat.downSwitchRate;
+                        }),
+                        {
+                            title: "分镇区4G下切3G比例（次/GB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域"
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                getRank2RateOptions: function (districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                        townStats,
+                        function (stat) {
+                            return stat.rank2Rate;
+                        }),
+                        {
+                            title: "分镇区双流比（%）-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域"
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
                 },
                 generateDownlinkFlowOptions: function(stats, topic) {
                     return generalChartService.getPieOptions(stats,
@@ -719,6 +899,32 @@
                         .getDownlinkRateOptions(trendStat.districtStats, trendStat.townStats, frequency));
                     $("#fourthChart").highcharts(kpiChartCalculateService
                         .getUplinkRateOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                },
+                generateDistrictFrequencyDownSwitchTrendCharts: function(districts, frequency, result) {
+                    var stats = kpiChartCalculateService.generateDownSwitchDistrictStats(districts, result);
+                    var trendStat = {};
+                    kpiChartCalculateService.generateFlowTrendStatsForPie(trendStat, result);
+                    $("#leftChart").highcharts(kpiChartCalculateService
+                        .getDownSwitchTimesDistrictOptions(stats, districts, frequency));
+                    $("#rightChart").highcharts(kpiChartCalculateService
+                        .getDownSwitchRateDistrictOptions(stats, districts, frequency));
+                    $("#thirdChart").highcharts(kpiChartCalculateService
+                        .getDownSwitchTimesOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                    $("#fourthChart").highcharts(kpiChartCalculateService
+                        .getDownSwitchRateOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                },
+                generateDistrictFrequencyRand2TrendCharts: function(districts, frequency, result) {
+                    var stats = kpiChartCalculateService.generateRank2DistrictStats(districts, result);
+                    var trendStat = {};
+                    kpiChartCalculateService.generateFlowTrendStatsForPie(trendStat, result);
+                    $("#leftChart").highcharts(kpiChartCalculateService
+                        .getSchedulingTimesDistrictOptions(stats, districts, frequency));
+                    $("#rightChart").highcharts(kpiChartCalculateService
+                        .getRank2RateDistrictOptions(stats, districts, frequency));
+                    $("#thirdChart").highcharts(kpiChartCalculateService
+                        .getSchedulingTimesOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                    $("#fourthChart").highcharts(kpiChartCalculateService
+                        .getRank2RateOptions(trendStat.districtStats, trendStat.townStats, frequency));
                 }
             };
         });

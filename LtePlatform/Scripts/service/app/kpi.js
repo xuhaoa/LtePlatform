@@ -694,58 +694,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                         },
                         appFormatService.generateDistrictPieNameValueFuncs());
                 },
-                getDownSwitchTimesOptions: function(districtStats, townStats, frequency) {
-                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
-                        .generateDrillDownData(districtStats,
-                            townStats,
-                            function(stat) {
-                                return stat.redirectCdma2000;
-                            }),
-                        {
-                            title: "分镇区4G下切3G次数-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域"
-                        },
-                        appFormatService.generateDistrictPieNameValueFuncs());
-                },
-                getSchedulingTimesOptions: function(districtStats, townStats, frequency) {
-                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
-                        .generateDrillDownData(districtStats,
-                            townStats,
-                            function(stat) {
-                                return stat.schedulingTimes;
-                            }),
-                        {
-                            title: "分镇区调度次数-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域"
-                        },
-                        appFormatService.generateDistrictPieNameValueFuncs());
-                },
-                getDownSwitchRateOptions: function(districtStats, townStats, frequency) {
-                    return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
-                        .generateDrillDownData(districtStats,
-                            townStats,
-                            function(stat) {
-                                return stat.downSwitchRate;
-                            }),
-                        {
-                            title: "分镇区4G下切3G比例（次/GB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域"
-                        },
-                        appFormatService.generateDistrictPieNameValueFuncs());
-                },
-                getRank2RateOptions: function(districtStats, townStats, frequency) {
-                    return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
-                        .generateDrillDownData(districtStats,
-                            townStats,
-                            function(stat) {
-                                return stat.rank2Rate;
-                            }),
-                        {
-                            title: "分镇区双流比（%）-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域"
-                        },
-                        appFormatService.generateDistrictPieNameValueFuncs());
-                },
                 getMrsDistrictOptions: function(stats, inputDistricts) {
                     var districts = inputDistricts.concat("全网");
                     return preciseChartService.generateDistrictTrendOptions(stats,
@@ -785,58 +733,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                             yTitle: "调度次数"
                         });
                 },
-                getDownSwitchTimesDistrictOptions: function(stats, inputDistricts, frequency) {
-                    var districts = inputDistricts.concat("全网");
-                    return preciseChartService.generateDistrictTrendOptions(stats,
-                        districts,
-                        function(stat) {
-                            return stat.downSwitchTimes;
-                        },
-                        {
-                            title: "下切次数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            xTitle: '日期',
-                            yTitle: "下切次数"
-                        });
-                },
-                getSchedulingTimesDistrictOptions: function(stats, inputDistricts, frequency) {
-                    var districts = inputDistricts.concat("全网");
-                    return preciseChartService.generateDistrictTrendOptions(stats,
-                        districts,
-                        function(stat) {
-                            return stat.schedulingTimes;
-                        },
-                        {
-                            title: "调度次数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            xTitle: '日期',
-                            yTitle: "调度次数"
-                        });
-                },
-                getDownSwitchRateDistrictOptions: function(stats, inputDistricts, frequency) {
-                    var districts = inputDistricts.concat("全网");
-                    return preciseChartService.generateDistrictTrendOptions(stats,
-                        districts,
-                        function(stat) {
-                            return stat.downSwitchRate;
-                        },
-                        {
-                            title: "下切比例变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            xTitle: '日期',
-                            yTitle: "下切比例（次/GB）"
-                        });
-                },
-                getRank2RateDistrictOptions: function(stats, inputDistricts, frequency) {
-                    var districts = inputDistricts.concat("全网");
-                    return preciseChartService.generateDistrictTrendOptions(stats,
-                        districts,
-                        function(stat) {
-                            return stat.rank2Rate;
-                        },
-                        {
-                            title: "双流比变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            xTitle: '日期',
-                            yTitle: "双流比（%）"
-                        });
-                },
                 getPreciseDistrictOptions: function(stats, inputDistricts) {
                     var districts = inputDistricts.concat("全网");
                     return preciseChartService.generateDistrictTrendOptions(stats,
@@ -874,82 +770,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                             title: "CQI优良比变化趋势图",
                             xTitle: '日期',
                             yTitle: "CQI优良比"
-                        });
-                },
-                generateDownSwitchDistrictStats: function(districts, stats) {
-                    return chartCalculateService.generateDistrictStats(districts,
-                        stats,
-                        {
-                            districtViewFunc: function(stat) {
-                                return stat.districtViews;
-                            },
-                            initializeFunc: function(generalStat) {
-                                generalStat.totalDownSwitchTimes = 0;
-                                generalStat.totalUplinkThroughput = 0;
-                                generalStat.totalDownlinkThroughput = 0;
-                            },
-                            calculateFunc: function(view) {
-                                return {
-                                    downSwitchTimes: view.redirectCdma2000,
-                                    downSwitchRate: view.downSwitchRate
-                                };
-                            },
-                            accumulateFunc: function(generalStat, view) {
-                                generalStat.totalDownSwitchTimes += view.redirectCdma2000;
-                                generalStat.totalUplinkThroughput += view.pdcpUplinkFlow;
-                                generalStat.totalDownlinkThroughput += view.pdcpDownlinkFlow;
-                            },
-                            zeroFunc: function() {
-                                return {
-                                    totalDownSwitchTimes: 0,
-                                    totalUplinkThroughput: 0,
-                                    totalDownlinkThroughput: 0
-                                };
-                            },
-                            totalFunc: function(generalStat) {
-                                return {
-                                    downSwitchTimes: generalStat.totalDownSwitchTimes,
-                                    downSwitchRate: 1024 *
-                                        8 *
-                                        generalStat.totalDownSwitchTimes /
-                                        (generalStat.totalUplinkThroughput + generalStat.totalDownlinkThroughput)
-                                };
-                            }
-                        });
-                },
-                generateRank2DistrictStats: function(districts, stats) {
-                    return chartCalculateService.generateDistrictStats(districts,
-                        stats,
-                        {
-                            districtViewFunc: function(stat) {
-                                return stat.districtViews;
-                            },
-                            initializeFunc: function(generalStat) {
-                                generalStat.totalRank2Times = 0;
-                                generalStat.totalSchedulingTimes = 0;
-                            },
-                            calculateFunc: function(view) {
-                                return {
-                                    schedulingTimes: view.schedulingTimes,
-                                    rank2Rate: view.rank2Rate
-                                };
-                            },
-                            accumulateFunc: function(generalStat, view) {
-                                generalStat.totalRank2Times += view.schedulingRank2;
-                                generalStat.totalSchedulingTimes += view.schedulingTimes;
-                            },
-                            zeroFunc: function() {
-                                return {
-                                    totalRank2Times: 0,
-                                    totalSchedulingTimes: 0
-                                };
-                            },
-                            totalFunc: function(generalStat) {
-                                return {
-                                    schedulingTimes: generalStat.totalSchedulingTimes,
-                                    rank2Rate: 100 * generalStat.totalRank2Times / generalStat.totalSchedulingTimes
-                                };
-                            }
                         });
                 },
                 generateDistrictStats: function(districts, stats) {
@@ -3218,7 +3038,7 @@ angular.module('kpi.coverage.flow', ['myApp.url', 'myApp.region', "ui.bootstrap"
             $uibModalInstance,
             kpiPreciseService,
             appFormatService,
-            appKpiService,
+            kpiChartService,
             appRegionService) {
             $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") +
                 '-' +
@@ -3227,19 +3047,8 @@ angular.module('kpi.coverage.flow', ['myApp.url', 'myApp.region', "ui.bootstrap"
             kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value, frequency)
                 .then(function(result) {
                     appRegionService.queryDistricts(city).then(function(districts) {
-                        var stats = appKpiService.generateDownSwitchDistrictStats(districts, result);
-                        var trendStat = {};
-                        appKpiService.generateFlowTrendStatsForPie(trendStat, result);
-                        $("#leftChart").highcharts(appKpiService
-                            .getDownSwitchTimesDistrictOptions(stats, districts, frequency));
-                        $("#rightChart").highcharts(appKpiService
-                            .getDownSwitchRateDistrictOptions(stats, districts, frequency));
-                        $("#thirdChart").highcharts(appKpiService
-                            .getDownSwitchTimesOptions(trendStat.districtStats, trendStat.townStats, frequency));
-                        $("#fourthChart").highcharts(appKpiService
-                            .getDownSwitchRateOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                        kpiChartService.generateDistrictFrequencyDownSwitchTrendCharts(districts, frequency, result);
                     });
-
                 });
             $scope.ok = function() {
                 $uibModalInstance.close($scope.city);
@@ -3259,7 +3068,7 @@ angular.module('kpi.coverage.flow', ['myApp.url', 'myApp.region', "ui.bootstrap"
             $uibModalInstance,
             kpiPreciseService,
             appFormatService,
-            appKpiService,
+            kpiChartService,
             appRegionService) {
             $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") +
                 '-' +
@@ -3268,17 +3077,7 @@ angular.module('kpi.coverage.flow', ['myApp.url', 'myApp.region', "ui.bootstrap"
             kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value, frequency)
                 .then(function(result) {
                     appRegionService.queryDistricts(city).then(function(districts) {
-                        var stats = appKpiService.generateRank2DistrictStats(districts, result);
-                        var trendStat = {};
-                        appKpiService.generateFlowTrendStatsForPie(trendStat, result);
-                        $("#leftChart").highcharts(appKpiService
-                            .getSchedulingTimesDistrictOptions(stats, districts, frequency));
-                        $("#rightChart").highcharts(appKpiService
-                            .getRank2RateDistrictOptions(stats, districts, frequency));
-                        $("#thirdChart").highcharts(appKpiService
-                            .getSchedulingTimesOptions(trendStat.districtStats, trendStat.townStats, frequency));
-                        $("#fourthChart").highcharts(appKpiService
-                            .getRank2RateOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                        kpiChartService.generateDistrictFrequencyRand2TrendCharts(districts, frequency, result);
                     });
 
                 });
