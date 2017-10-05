@@ -227,6 +227,49 @@
                             }
                         });
                 },
+                generateFeelingRateDistrictStats: function (districts, stats) {
+                    return chartCalculateService.generateDistrictStats(districts,
+                        stats,
+                        {
+                            districtViewFunc: function (stat) {
+                                return stat.districtViews;
+                            },
+                            initializeFunc: function (generalStat) {
+                                generalStat.totalUplinkDuration = 0;
+                                generalStat.totalUplinkThroughput = 0;
+                                generalStat.totalDownlinkDuration = 0;
+                                generalStat.totalDownlinkThroughput = 0;
+                            },
+                            calculateFunc: function (view) {
+                                return {
+                                    uplinkFeelingRate: view.uplinkFeelingRate,
+                                    downlinkFeelingRate: view.downlinkFeelingRate
+                                };
+                            },
+                            accumulateFunc: function (generalStat, view) {
+                                generalStat.totalUplinkDuration += view.uplinkFeelingDuration;
+                                generalStat.totalUplinkThroughput += view.uplinkFeelingThroughput;
+                                generalStat.totalDownlinkDuration += view.downlinkFeelingDuration;
+                                generalStat.totalDownlinkThroughput += view.downlinkFeelingThroughput;
+                            },
+                            zeroFunc: function () {
+                                return {
+                                    totalUplinkDuration: 0,
+                                    totalUplinkThroughput: 0,
+                                    totalDownlinkDuration: 0,
+                                    totalDownlinkThroughput: 0
+                                };
+                            },
+                            totalFunc: function (generalStat) {
+                                return {
+                                    uplinkFeelingRate: generalStat.totalUplinkThroughput /
+                                    generalStat.totalUplinkDuration,
+                                    downlinkFeelingRate: generalStat.totalDownlinkThroughput /
+                                    generalStat.totalDownlinkDuration
+                                };
+                            }
+                        });
+                },
                 getDownlinkFlowDistrictOptions: function(stats, inputDistricts, frequency) {
                     var districts = inputDistricts.concat("全网");
                     return preciseChartService.generateDistrictTrendOptions(stats,
@@ -330,6 +373,62 @@
                             seriesName: "区域"
                         },
                         appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                getDownlinkRateOptions: function (districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                        townStats,
+                        function (stat) {
+                            return stat.downlinkFeelingRate;
+                        }),
+                        {
+                            title: "分镇区下行感知速率分布图（Mbit/s）-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域",
+                            yMin: 5,
+                            yMax: 40
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                getUplinkRateOptions: function (districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                        townStats,
+                        function (stat) {
+                            return stat.uplinkFeelingRate;
+                        }),
+                        {
+                            title: "分镇区上行感知速率分布图（Mbit/s）-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域",
+                            yMin: 0,
+                            yMax: 15
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                getDownlinkRateDistrictOptions: function (stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function (stat) {
+                            return stat.downlinkFeelingRate;
+                        },
+                        {
+                            title: "下行感知速率变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "下行感知速率（Mbit/s）"
+                        });
+                },
+                getUplinkRateDistrictOptions: function (stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function (stat) {
+                            return stat.uplinkFeelingRate;
+                        },
+                        {
+                            title: "上行感知速率变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "上行感知速率（Mbit/s）"
+                        });
                 },
                 generateDownlinkFlowOptions: function(stats, topic) {
                     return generalChartService.getPieOptions(stats,
@@ -607,6 +706,19 @@
                         .getMaxUsersOptions(trendStat.districtStats, trendStat.townStats, frequency));
                     $("#fourthChart").highcharts(kpiChartCalculateService
                         .getMaxActiveUsersOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                },
+                generateDistrictFrequencyFeelingTrendCharts: function(districts, frequency, result) {
+                    var stats = kpiChartCalculateService.generateFeelingRateDistrictStats(districts, result);
+                    var trendStat = {};
+                    kpiChartCalculateService.generateFlowTrendStatsForPie(trendStat, result);
+                    $("#leftChart").highcharts(kpiChartCalculateService
+                        .getDownlinkRateDistrictOptions(stats, districts, frequency));
+                    $("#rightChart").highcharts(kpiChartCalculateService
+                        .getUplinkRateDistrictOptions(stats, districts, frequency));
+                    $("#thirdChart").highcharts(kpiChartCalculateService
+                        .getDownlinkRateOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                    $("#fourthChart").highcharts(kpiChartCalculateService
+                        .getUplinkRateOptions(trendStat.districtStats, trendStat.townStats, frequency));
                 }
             };
         });
