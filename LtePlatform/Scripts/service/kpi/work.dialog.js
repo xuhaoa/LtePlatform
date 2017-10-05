@@ -133,21 +133,28 @@
             };
         })
     .controller("rutrace.workitems.process",
-        function($scope, $uibModalInstance, cell, beginDate, endDate, workitemService, networkElementService) {
+        function($scope,
+            $uibModalInstance,
+            cell,
+            beginDate,
+            endDate,
+            workitemService,
+            networkElementService,
+            appFormatService) {
             $scope.dialogTitle = cell.eNodebName + "-" + cell.sectorId + ":TOP小区工单历史";
             $scope.queryWorkItems = function() {
                 workitemService.queryByCellId(cell.cellId, cell.sectorId).then(function(result) {
                     $scope.viewItems = result;
                 });
                 networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function(result) {
-                    $scope.lteCellDetails = result;
+                    $scope.lteCellGroups = appFormatService.generateCellGroups(result);
                 });
             };
-            $scope.ok = function () {
+            $scope.ok = function() {
                 $uibModalInstance.close($scope.distributionGroups);
             };
 
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
 

@@ -138,7 +138,7 @@ angular.module('app.core', [])
                         store.add(value);
                     }
 
-                }
+                };
             },
             refreshIndexedDb: function(db, storeName, keyName, items) {
                 var transaction = db.transaction(storeName, 'readwrite');
@@ -192,7 +192,7 @@ angular.module('app.core', [])
                     });
                 return basicFields;
             }
-        }
+        };
     })
     .factory('stationFactory', function() {
         return {
@@ -254,7 +254,7 @@ angular.module('app.core', [])
                 { value: 'SS', name: '三水' },
                 { value: 'GM', name: '高明' }
             ]
-        }
+        };
     })
     .controller('header.menu', function($scope, appUrlService) {
         $scope.emergencyUrl = appUrlService.getCustomerHost() + 'IndexOfEmerCom.aspx';

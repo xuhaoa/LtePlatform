@@ -838,7 +838,6 @@
     <Content Include="Content\Images\TimeControl\time-progress.png" />
     <Content Include="Content\_todolist.scss" />
     <Content Include="Content\themes\baidu\box.scss" />
-    <None Include=".bin\compass.bat" />
     <Content Include="Content\themes\_colors.scss" />
     <Content Include="Content\ui-grid.woff" />
     <Content Include="Content\ui-grid.ttf" />

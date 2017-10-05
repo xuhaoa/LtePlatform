@@ -136,7 +136,7 @@ angular.module('workitem.module.details', [])
             transclude: true
         };
     })
-    .directive('workItemDetailsTable', function (workitemRoot, workitemService, workItemDialog) {
+    .directive('workItemDetailsTable', function (workitemRoot, workitemService, preciseWorkItemGenerator) {
         return {
             restrict: 'EA',
             replace: true,
@@ -155,7 +155,7 @@ angular.module('workitem.module.details', [])
                     workitemService.signIn(scope.currentView.serialNumber).then(function (result) {
                         if (result) {
                             scope.currentView = result;
-                            scope.feedbackInfos = workItemDialog.calculatePlatformInfo(scope.currentView.feedbackContents);
+                            scope.feedbackInfos = preciseWorkItemGenerator.calculatePlatformInfo(scope.currentView.feedbackContents);
                         }
                     });
                 };
