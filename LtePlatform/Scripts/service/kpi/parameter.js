@@ -2,7 +2,7 @@
     .factory('neighborDialogService',
     function (menuItemService, networkElementService, stationFormatService, baiduMapService) {
             return {
-                dumpMongo: function(cell, beginDate, endDate) {
+                dumpCellMongo: function(cell, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Interference/DumpCellMongoDialog.html',
                         controller: 'dump.cell.mongo',

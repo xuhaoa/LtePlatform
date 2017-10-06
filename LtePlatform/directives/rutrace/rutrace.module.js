@@ -6,43 +6,23 @@
     ])
     .constant('htmlRoot', '/directives/rutrace/');
 
-angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog'])
-    .controller('topCellController', function($scope,
+angular.module('rutrace.top.cell', ['app.format', 'myApp.kpi', 'myApp.region', 'topic.dialog'])
+    .controller('topCellController', function ($scope,
+        appFormatService,
         workitemService,
         networkElementService,
         neighborDialogService,
         workItemDialog) {
         $scope.gridOptions = {
             columnDefs: [
-                {
-                    cellTemplate: '<span class="text-primary">{{row.entity.eNodebName}}-{{row.entity.sectorId}}</span>',
-                    name: '小区名称'
-                },
+                appFormatService.generateLteCellNameDef(),
                 {
                     field: 'totalMrs',
                     name: 'MRO总数'
                 },
-                {
-                    cellTemplate: '<span class="text-primary">{{100 - row.entity.firstRate | number:2}}</span>',
-                    name: '第一邻区精确覆盖率',
-                    cellTooltip: function (row) {
-                        return '第一邻区与主服务小区RSRP的差值小于6dB的比例是: ' + row.entity.firstRate;
-                    }
-                },
-                {
-                    cellTemplate: '<span class="text-primary">{{100 - row.entity.secondRate | number:2}}</span>',
-                    name: '第二邻区精确覆盖率',
-                    cellTooltip: function (row) {
-                        return '第二邻区与主服务小区RSRP的差值小于6dB的比例是: ' + row.entity.secondRate;
-                    }
-                },
-                {
-                    cellTemplate: '<span class="text-primary">{{100 - row.entity.thirdRate | number:2}}</span>',
-                    name: '第三邻区精确覆盖率',
-                    cellTooltip: function (row) {
-                        return '第三邻区与主服务小区RSRP的差值小于6dB的比例是: ' + row.entity.thirdRate;
-                    }
-                },
+                appFormatService.generatePreciseRateDef(0),
+                appFormatService.generatePreciseRateDef(1),
+                appFormatService.generatePreciseRateDef(2),
                 { field: 'topDates', name: 'TOP天数' },
                 {
                     name: '分析',
@@ -163,6 +143,45 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog']
             },
             $compile);
     })
+    .controller('topDownSwitchController', function ($scope, appFormatService) {
+            $scope.gridOptions = {
+                columnDefs: [
+                    appFormatService.generateLteCellNameDef(),
+                    {
+                        field: 'redirectCdma2000',
+                        name: '下切总次数'
+                    },
+                    {
+                        field: 'downSwitchRate',
+                        name: '下切比例（次/GB）',
+                        cellFilter: 'number: 2'
+                    },
+                    {
+                        field: 'pdcpDownlinkFlow',
+                        name: '下行流量（MByte）',
+                        cellFilter: 'bitToByte'
+                    },
+                    {
+                        field: 'pdcpUplinkFlow',
+                        name: '上行流量（MByte）',
+                        cellFilter: 'bitToByte'
+                    }
+                ]
+            };
+    })
+    .directive('topDownSwitch', function ($compile, calculateService) {
+            return calculateService.generateGridDirective({
+                    controllerName: 'topDownSwitchController',
+                    scope: {
+                        topCells: '=',
+                        beginDate: '=',
+                        endDate: '=',
+                        updateMessages: '='
+                    },
+                    argumentName: 'topCells'
+                },
+                $compile);
+        })
 
     .controller('DistrictStatController', function ($scope, mapDialogService, calculateService) {
         $scope.cityFlag = '全网';
@@ -229,61 +248,7 @@ angular.module('rutrace.top.cell', ['myApp.kpi', 'myApp.region', 'topic.dialog']
             }
         };
     })
-
-    .directive('dumpForwardNeighbors', function(htmlRoot, neighborDialogService) {
-        return {
-            restrict: 'ECMA',
-            replace: true,
-            scope: {
-                neighborCells: '=',
-                beginDate: '=',
-                endDate: '='
-            },
-            templateUrl: htmlRoot + 'import/ForwardNeighbors.html',
-            link: function(scope, element, attrs) {
-                scope.dumpMongo = function(cell) {
-                    neighborDialogService.dumpMongo({
-                        eNodebId: cell.nearestCellId,
-                        sectorId: cell.nearestSectorId,
-                        pci: cell.pci,
-                        name: cell.nearestENodebName
-                    }, scope.beginDate.value, scope.endDate.value);
-                };
-            }
-        };
-    })
-    .directive('dumpBackwardNeighbors', function(htmlRoot, networkElementService, dumpPreciseService) {
-        var dumpSingleCell = function(cell, begin, end) {
-            dumpPreciseService.dumpDateSpanSingleNeighborRecords(cell, begin, end);
-        };
-        return {
-            restrict: 'ECMA',
-            replace: true,
-            scope: {
-                neighborCells: '=',
-                beginDate: '=',
-                endDate: '='
-            },
-            templateUrl: htmlRoot + 'import/BackwardNeighbors.html',
-            link: function (scope, element, attrs) {
-                scope.dumpAll = function() {
-                    angular.forEach(scope.neighborCells, function(cell) {
-                        dumpSingleCell(cell, new Date(scope.beginDate.value), new Date(scope.endDate.value));
-                    });
-                };
-            }
-        };
-    })
-    .directive('mongoNeighborList', function(htmlRoot) {
-        return {
-            restrict: 'ECMA',
-            replace: true,
-            scope: {
-                mongoNeighbors: '='
-            },
-            templateUrl: htmlRoot + 'interference/MongoNeighbors.html'
-        };
-    });
+;
 
 angular.module('rutrace.interference', ['myApp.region'])
     .directive('interferenceSourceDialogList', function(htmlRoot) {
@@ -437,7 +402,7 @@ angular.module('rutrace.interference', ['myApp.region'])
         };
     });
 
-angular.module('rutrace.trend', [])
+angular.module('rutrace.trend', ['kpi.parameter', 'region.network'])
     .directive('trendPreciseTable', function(htmlRoot) {
         return {
             restrict: 'ECMA',
@@ -449,6 +414,60 @@ angular.module('rutrace.trend', [])
                 dotBit: '='
             },
             templateUrl: htmlRoot + 'trend/PreciseTable.html'
+        };
+    })
+    .directive('dumpForwardNeighbors', function(htmlRoot, neighborDialogService) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                neighborCells: '=',
+                beginDate: '=',
+                endDate: '='
+            },
+            templateUrl: htmlRoot + 'import/ForwardNeighbors.html',
+            link: function(scope, element, attrs) {
+                scope.dumpMongo = function(cell) {
+                    neighborDialogService.dumpCellMongo({
+                        eNodebId: cell.nearestCellId,
+                        sectorId: cell.nearestSectorId,
+                        pci: cell.pci,
+                        name: cell.nearestENodebName
+                    }, scope.beginDate.value, scope.endDate.value);
+                };
+            }
+        };
+    })
+    .directive('dumpBackwardNeighbors', function(htmlRoot, dumpPreciseService) {
+        var dumpSingleCell = function(cell, begin, end) {
+            dumpPreciseService.dumpDateSpanSingleNeighborRecords(cell, begin, end);
+        };
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                neighborCells: '=',
+                beginDate: '=',
+                endDate: '='
+            },
+            templateUrl: htmlRoot + 'import/BackwardNeighbors.html',
+            link: function (scope, element, attrs) {
+                scope.dumpAll = function() {
+                    angular.forEach(scope.neighborCells, function(cell) {
+                        dumpSingleCell(cell, new Date(scope.beginDate.value), new Date(scope.endDate.value));
+                    });
+                };
+            }
+        };
+    })
+    .directive('mongoNeighborList', function(htmlRoot) {
+        return {
+            restrict: 'ECMA',
+            replace: true,
+            scope: {
+                mongoNeighbors: '='
+            },
+            templateUrl: htmlRoot + 'interference/MongoNeighbors.html'
         };
     });
 

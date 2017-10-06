@@ -2026,6 +2026,28 @@ angular.module('app.format', [])
                         { field: 'town', name: '镇区' }
                     ].concat(kpiFields);
                 },
+                generateLteCellNameDef: function() {
+                    return {
+                        cellTemplate: '<span class="text-primary">{{row.entity.eNodebName}}-{{row.entity.sectorId}}</span>',
+                        name: '小区名称'
+                    }
+                },
+                generatePreciseRateDef: function(index) {
+                    var englishDicts = ['first', 'second', 'third'];
+                    var chineseDicts = ['一', '二', '三'];
+                    return {
+                        cellTemplate: '<span class="text-primary">{{100 - row.entity.' +
+                            englishDicts[index] +
+                            'Rate | number:2}}</span>',
+                        name: '第' + chineseDicts[index] + '邻区精确覆盖率',
+                        cellTooltip: function(row) {
+                            return '第' +
+                                chineseDicts[index] +
+                                '邻区与主服务小区RSRP的差值小于6dB的比例是: ' +
+                                row.entity[englishDicts[index] + 'Rate'];
+                        }
+                    }
+                },
                 generateDistrictPieNameValueFuncs: function() {
                     return {
                         nameFunc: function(stat) {

@@ -22,6 +22,11 @@ angular.module('basic.filters', [])
         return function(input) {
             return input ? '是' : '否';
         };
+    })
+    .filter('bitToByte', function() {
+        return function(input) {
+            return angular.isNumber(input) ? input / 8 : parseFloat(input) / 8;
+        }
     });
 angular.module('cell.filters', [])
     .filter("dbStep32", function() {
