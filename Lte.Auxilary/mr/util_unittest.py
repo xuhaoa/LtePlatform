@@ -27,6 +27,15 @@ class UtilUnitTest(unittest.TestCase):
         dir=generate_date_hours_shift(datetime(2017,9,9,3), -5)
         self.assertEqual(dir, '20170908')
 
+    def test_is_mro_filename(self):
+        self.assertTrue(is_mro_filename('FDD-LTE_MRO_HUAWEI_501035_20161122113000.xml.gz'))
+    def test_is_mro_filename_zte(self):
+        self.assertTrue(is_mro_filename_zte('FDD-LTE_MRO_ZTE_OMC1_501251_20170705194500.zip'))
+    def test_is_mrs_filename(self):
+        self.assertTrue(is_mrs_filename('FDD-LTE_MRS_HUAWEI_501195_20161122113000.xml.gz'))
+    def test_is_mrs_filename_zte(self):
+        self.assertTrue(is_mrs_filename_zte('FDD-LTE_MRS_ZTE_OMC1_502599_20161128044500.zip'))
+
 def test_func1(name):
     return name+'_1'
 
