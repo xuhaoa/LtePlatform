@@ -15,16 +15,16 @@ namespace Lte.Evaluations.DataService.Kpi
 {
     public class FlowQueryService : DateSpanQuery<FlowView, IFlowHuaweiRepository, IFlowZteRepository>
     {
-        public IEnumerable<FlowView> QueryTopDownSwitchViews(string city, string district, DateTime begin, DateTime end, int topCount)
+        public List<FlowView> QueryTopDownSwitchViews(string city, string district, DateTime begin, DateTime end, int topCount)
         {
             var results = HuaweiCellRepository.QueryDistrictFlowViews<FlowView, FlowZte, FlowHuawei>(city, district,
                 ZteRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.RedirectA2 + x.RedirectB2 > 2000),
                 HuaweiRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.RedirectCdma2000 > 2000),
                 TownRepository, ENodebRepository);
-            return results.OrderByDescending(x => x.RedirectCdma2000).Take(topCount);
+            return results.OrderByDescending(x => x.RedirectCdma2000).Take(topCount).ToList();
         }
 
-        public IEnumerable<FlowView> QueryTopDownSwitchViews(DateTime begin, DateTime end, int topCount, OrderDownSwitchPolicy policy)
+        public List<FlowView> QueryTopDownSwitchViews(DateTime begin, DateTime end, int topCount, OrderDownSwitchPolicy policy)
         {
             var zteViews =
                 ZteRepository.GetAllList(
@@ -37,9 +37,9 @@ namespace Lte.Evaluations.DataService.Kpi
             switch (policy)
             {
                 case OrderDownSwitchPolicy.OrderByDownSwitchCountsDescendings:
-                    return joinViews.OrderByDescending(x => x.RedirectCdma2000).Take(topCount);
+                    return joinViews.OrderByDescending(x => x.RedirectCdma2000).Take(topCount).ToList();
                 case OrderDownSwitchPolicy.OrderByDownSwitchRateDescending:
-                    return joinViews.OrderByDescending(x => x.DownSwitchRate).Take(topCount);
+                    return joinViews.OrderByDescending(x => x.DownSwitchRate).Take(topCount).ToList();
             }
             return new List<FlowView>();
         }

@@ -269,6 +269,7 @@
             $scope.updateMessages = [];
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
+            $scope.kpiType = 'precise';
 
             $scope.query = function() {
                 $scope.topCells = [];
@@ -323,6 +324,7 @@
             $scope.updateMessages = [];
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
+            $scope.kpiType = 'downSwitch';
 
             $scope.query = function () {
                 $scope.topCells = [];

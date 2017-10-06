@@ -3983,7 +3983,7 @@ angular.module('home.kpi', ['app.common'])
             }
 
             $scope.showPreciseStats = function() {
-                mapDialogService.showPreciseTrend($scope.city, $scope.beginDate, $scope.endDate);
+                mapDialogService.showPreciseTrendDialog($scope.city, $scope.beginDate, $scope.endDate);
             };
             $scope.showRrcStats = function() {
                 mapDialogService.showRrcTrend($scope.city, $scope.beginDate, $scope.endDate);
@@ -4047,6 +4047,8 @@ angular.module('home.kpi', ['app.common'])
             };
             $scope.updateMap();
         });
+/// <reference path="./common.js" />
+
 angular.module('home.college', ['app.common'])
     .controller('menu.college',
         function($scope) {
