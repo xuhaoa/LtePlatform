@@ -28,7 +28,8 @@
 ```
 #### 采用北向接口直接下载（中兴）
 从2017年9月开始，中兴的MR文件（包括MRO和MRS文件）直接从北向接口FTP服务器下载。
-详细过程参见[MR数据文件下载流程](https://github.com/ouyh18/LtePlatform/blob/master/MrDownload.md)
+详细过程参见
+[MR数据文件下载流程](https://github.com/WirelessFoshan/LtePlatform/blob/master/MrDownload.md)
 
 #### 主要说明
 下载遵循以下原则：    
@@ -108,7 +109,8 @@
   </eNB>
 </bulkPmMrDataFile>
 ```
-    各节具体内容及解析过程详见[MRO数据文件格式及处理](https://github.com/ouyh18/LtePlatform/blob/master/MroProcess.md)    
+    各节具体内容及解析过程详见
+[MRO数据文件格式及处理](https://github.com/WirelessFoshan/LtePlatform/blob/master/MroProcess.md)    
 #### 中兴数据文件格式（2016年）
     中兴的MRO文件格式基本与华为相同，只是eNB节属性有所简化。
 ```xml
@@ -122,7 +124,8 @@
   </eNB>
 </bulkPmMrDataFile>
 ```
-各节具体内容及解析过程详见[MRO数据文件格式及处理](https://github.com/ouyh18/LtePlatform/blob/master/MroProcess.md)
+各节具体内容及解析过程详见
+[MRO数据文件格式及处理](https://github.com/WirelessFoshan/LtePlatform/blob/master/MroProcess.md)
 ## MRS数据解析
 ### 华为数据文件格式
 ```xml
@@ -151,5 +154,6 @@
 </bulkPmMrDataFile>
 ```
 ### 重要测量数据节解析
-    各节具体内容及解析过程详见[MRS数据文件格式及处理](https://github.com/ouyh18/LtePlatform/blob/master/MrsProcess.md)
+各节具体内容及解析过程详见
+[MRS数据文件格式及处理](https://github.com/WirelessFoshan/LtePlatform/blob/master/MrsProcess.md)
 ## MRE数据解析
