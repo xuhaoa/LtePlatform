@@ -3992,7 +3992,7 @@ angular.module('home.kpi', ['app.common'])
                 mapDialogService.showCqiTrend($scope.city, $scope.beginDate, $scope.endDate);
             };
             $scope.showDownSwitchStats = function() {
-                mapDialogService.showDownSwitchTrend($scope.city, $scope.beginDate, $scope.endDate);
+                mapDialogService.showDownSwitchTrendDialog($scope.city, $scope.beginDate, $scope.endDate);
             };
 
             $scope.districts = [];

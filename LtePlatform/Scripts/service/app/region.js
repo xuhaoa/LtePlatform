@@ -1153,6 +1153,17 @@ angular.module('region.kpi', ['app.core'])
                         district: district
                     });
                 },
+                queryTopDownSwitchByPolicyInDistrict: function (begin, end, topCount, policy, city, district) {
+                    return generalHttpService.getApiData('TopDownSwitch',
+                        {
+                            begin: begin,
+                            end: end,
+                            topCount: topCount,
+                            orderSelection: policy,
+                            city: city,
+                            district: district
+                        });
+                },
                 queryTopDownSwitchByPolicy: function (begin, end, topCount, policy) {
                     return generalHttpService.getApiData('TopDownSwitch',
                         {

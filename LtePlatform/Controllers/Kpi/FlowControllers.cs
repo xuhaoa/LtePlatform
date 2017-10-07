@@ -135,6 +135,26 @@ namespace LtePlatform.Controllers.Kpi
             return results;
         }
 
+        [HttpGet]
+        [ApiDoc("指定日期范围、TOP个数和排序标准，获得指定区域TOP下切小区列表")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
+        [ApiParameterDoc("topCount", "TOP个数")]
+        [ApiParameterDoc("orderSelection", "排序标准")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiParameterDoc("district", "区域")]
+        [ApiResponse("指定区域TOP下切小区列表")]
+        public IEnumerable<FlowView> Get(DateTime begin, DateTime end, int topCount, string orderSelection, string city, string district)
+        {
+            var results = _service.QueryTopDownSwitchViews(city, district, begin, end, topCount,
+                orderSelection.GetEnumType<OrderDownSwitchPolicy>());
+            results.ForEach(x =>
+            {
+                x.ENodebName = _eNodebQueryService.GetByENodebId(x.ENodebId)?.Name;
+            });
+            return results;
+        }
+
     }
 
     [ApiControl("TOP双流比查询控制器")]

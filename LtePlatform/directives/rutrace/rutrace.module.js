@@ -237,8 +237,15 @@ angular.module('rutrace.top.cell', ['app.format', 'myApp.kpi', 'myApp.region', '
         $scope.showWorkItemDistrict = function (district) {
             mapDialogService.showPreciseWorkItemDistrict(district, $scope.endDate);
         };
-        $scope.showTopDistrict = function(district) {
-            mapDialogService.showPreciseTopDistrict($scope.beginDate, $scope.endDate, district);
+        $scope.showTopDistrict = function (district) {
+            switch ($scope.kpiType) {
+            case 'precise':
+                mapDialogService.showPreciseTopDistrict($scope.beginDate, $scope.endDate, district);
+                break;
+            case 'downSwitch':
+                mapDialogService.showDownSwitchTopDistrict($scope.beginDate, $scope.endDate, district);
+                break;
+            }
         };
     })
     .directive('districtStatTable', function ($compile, calculateService) {

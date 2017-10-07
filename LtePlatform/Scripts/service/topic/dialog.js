@@ -370,7 +370,7 @@
                         }
                     });
                 },
-                showDownSwitchTrend: function (city, beginDate, endDate) {
+                showDownSwitchTrendDialog: function (city, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Trend.html',
                         controller: 'down.switch.trend',
@@ -449,6 +449,19 @@
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Top.html',
                         controller: 'rutrace.top.district',
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                district: function() {
+                                    return district;
+                                }
+                            },
+                            beginDate,
+                            endDate)
+                    });
+                },
+                showDownSwitchTopDistrict: function (beginDate, endDate, district) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Rutrace/Top.html',
+                        controller: 'down.switch.top.district',
                         resolve: stationFormatService.dateSpanDateResolve({
                                 district: function() {
                                     return district;
