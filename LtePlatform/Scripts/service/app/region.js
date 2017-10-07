@@ -689,7 +689,7 @@ angular.module('region.basic', ['app.core'])
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/single',
                         {
-                            "id": id
+                            "sysStationId": id
                         });
                 },
                 updateStation: function(station) {

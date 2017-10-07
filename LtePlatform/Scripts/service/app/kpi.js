@@ -5279,13 +5279,13 @@ angular.module('kpi.work.dialog', ['myApp.url', 'myApp.region', "ui.bootstrap", 
             $scope.endDate = endDate;
             $scope.itemGroups = appFormatService.generateStationGroups(station);
             $scope.cellList = [];
-            networkElementService.queryENodebStationInfo(station.StationId).then(function(eNodeb) {
+            networkElementService.queryENodebStationInfo(station.SysStationId).then(function(eNodeb) {
                 if (eNodeb) {
                     $scope.eNodebGroups = appFormatService.generateENodebGroups(eNodeb);
                 }
 
             });
-            networkElementService.queryCellStationInfo(station.StationId).then(function(cellList) {
+            networkElementService.queryCellStationInfo(station.SysStationId).then(function(cellList) {
                 $scope.cellList = cellList;
             });
             $scope.dialogTitle = dialogTitle;
@@ -6417,7 +6417,7 @@ angular.module('kpi.work', ['app.menu', 'app.core', 'myApp.region'])
 			            endDate)
 			    });
 			},
-			showStationInfo: function(station, beginDate, endDate) {
+			showStationInfoDialog: function(station, beginDate, endDate) {
 			    menuItemService.showGeneralDialog({
 			        templateUrl: '/appViews/Home/StationDetails.html',
 			        controller: 'map.station.dialog',

@@ -209,6 +209,9 @@
     <Folder Include="huawei_download\" />
     <Folder Include="mr\backup\" />
     <Folder Include="mr\test\" />
+    <Folder Include="phpApi\" />
+    <Folder Include="php\Api\" />
+    <Folder Include="php\Action\" />
     <Folder Include="process_zte2\" />
     <Folder Include="zte_download\" />
     <Folder Include="process_zte\" />
@@ -216,7 +219,7 @@
     <Folder Include="para\" />
     <Folder Include="oop\" />
     <Folder Include="Practise\" />
-    <Folder Include="phpApi\" />
+    <Folder Include="php\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Db\mro_combined.sh">
@@ -376,6 +379,25 @@
     <Content Include="huawei_download\huawei_download_mrs_delay3.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="php\Action\AlarmAction.class.php" />
+    <Content Include="php\Action\AlarmhistoryAction.class.php" />
+    <Content Include="php\Action\AssessmentAction.class.php" />
+    <Content Include="php\Action\CheckingAction.class.php" />
+    <Content Include="php\Action\FaultAction.class.php" />
+    <Content Include="php\Action\FixingAction.class.php" />
+    <Content Include="php\Action\fun.php" />
+    <Content Include="php\Action\IndoorAction.class.php" />
+    <Content Include="php\Action\ResourceAction.class.php" />
+    <Content Include="php\Action\SpecialAction.class.php" />
+    <Content Include="php\Action\SpecialIndoorAction.class.php" />
+    <Content Include="php\Action\StationAction.class.php" />
+    <Content Include="php\Action\StationOldAction.class.php" />
+    <Content Include="php\Action\StationCommonAction.class.php" />
+    <Content Include="php\Action\ZeroFlowAction.class.php" />
+    <Content Include="php\Action\ZeroVoiceAction.class.php" />
+    <Content Include="php\Api\test.php" />
+    <Content Include="php\Api\wandonglouyu.php" />
+    <Content Include="php\Api\zonghexinxiConnection.php" />
     <Content Include="process_huawei\process_huawei_mro.sh">
       <SubType>Code</SubType>
     </Content>
@@ -468,6 +490,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_north_main.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="php\Api\encode_json.php">
       <SubType>Code</SubType>
     </Content>
   </ItemGroup>

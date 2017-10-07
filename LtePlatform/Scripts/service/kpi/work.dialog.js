@@ -42,13 +42,13 @@
             $scope.endDate = endDate;
             $scope.itemGroups = appFormatService.generateStationGroups(station);
             $scope.cellList = [];
-            networkElementService.queryENodebStationInfo(station.StationId).then(function(eNodeb) {
+            networkElementService.queryENodebStationInfo(station.SysStationId).then(function(eNodeb) {
                 if (eNodeb) {
                     $scope.eNodebGroups = appFormatService.generateENodebGroups(eNodeb);
                 }
 
             });
-            networkElementService.queryCellStationInfo(station.StationId).then(function(cellList) {
+            networkElementService.queryCellStationInfo(station.SysStationId).then(function(cellList) {
                 $scope.cellList = cellList;
             });
             $scope.dialogTitle = dialogTitle;

@@ -755,7 +755,7 @@ angular.module('topic.college',
                     });
                 },
                 showMaintainStations: function(stations, color) {
-                    generalMapService.showGeneralPointCollection(stations, color, workItemDialog.showStationInfo);
+                    generalMapService.showGeneralPointCollection(stations, color, workItemDialog.showStationInfoDialog);
                 },
                 showIndoorStations: function(stations, color) {
                     generalMapService.showGeneralPointCollection(stations, color, workItemDialog.showIndoorInfo);

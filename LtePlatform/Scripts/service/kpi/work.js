@@ -239,7 +239,7 @@
 			            endDate)
 			    });
 			},
-			showStationInfo: function(station, beginDate, endDate) {
+			showStationInfoDialog: function(station, beginDate, endDate) {
 			    menuItemService.showGeneralDialog({
 			        templateUrl: '/appViews/Home/StationDetails.html',
 			        controller: 'map.station.dialog',
