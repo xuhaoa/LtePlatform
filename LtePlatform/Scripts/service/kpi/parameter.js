@@ -69,6 +69,22 @@
                             endDate)
                     });
                 },
+                showGeneralCoverage: function (cell, beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Rutrace/Coverage/General.html',
+                        controller: 'general.coverage.analysis',
+                        resolve: stationFormatService.dateSpanResolve({
+                                dialogTitle: function() {
+                                    return cell.name + "-" + cell.sectorId + "覆盖指标分析";
+                                },
+                                cell: function() {
+                                    return cell;
+                                }
+                            },
+                            beginDate,
+                            endDate)
+                    });
+                },
                 showPrecise: function(precise) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Map/PreciseSectorMapInfoBox.html',

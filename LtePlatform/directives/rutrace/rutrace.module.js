@@ -205,7 +205,7 @@ angular.module('rutrace.top.cell', ['app.format', 'myApp.kpi', 'myApp.region', '
                 workItemDialog.showDownSwitchCellTrend(cell.eNodebName + "-" + cell.sectorId, cell.eNodebId, cell.sectorId);
             };
             $scope.showCoverage = function(cell) {
-                neighborDialogService.showRutraceCoverage({
+                neighborDialogService.showGeneralCoverage({
                         cellId: cell.eNodebId,
                         sectorId: cell.sectorId,
                         name: cell.eNodebName
