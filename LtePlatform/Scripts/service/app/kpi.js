@@ -5459,9 +5459,9 @@ angular.module('kpi.work.chart', ['myApp.url', 'myApp.region', "ui.bootstrap", "
                     $scope.showCharts();
                 },
                 500);
-    })
+        })
     .controller("cqi.chart",
-        function ($scope,
+        function($scope,
             $uibModalInstance,
             $timeout,
             dateString,
@@ -5469,27 +5469,27 @@ angular.module('kpi.work.chart', ['myApp.url', 'myApp.region', "ui.bootstrap", "
             townStats,
             appKpiService) {
             $scope.dialogTitle = dateString + "CQI优良比指标";
-            $scope.showCharts = function () {
+            $scope.showCharts = function() {
                 $("#leftChart").highcharts(appKpiService
                     .getCqiCountsOptions(districtStats.slice(0, districtStats.length - 1), townStats));
                 $("#rightChart").highcharts(appKpiService.getCqiRateOptions(districtStats, townStats));
             };
 
-            $scope.ok = function () {
+            $scope.ok = function() {
                 $uibModalInstance.close($scope.cellList);
             };
 
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
 
-            $timeout(function () {
-                $scope.showCharts();
-            },
+            $timeout(function() {
+                    $scope.showCharts();
+                },
                 500);
-    })
+        })
     .controller("down.switch.chart",
-        function ($scope,
+        function($scope,
             $uibModalInstance,
             $timeout,
             dateString,
@@ -5497,23 +5497,23 @@ angular.module('kpi.work.chart', ['myApp.url', 'myApp.region', "ui.bootstrap", "
             townStats,
             appKpiService) {
             $scope.dialogTitle = dateString + "4G下切3G指标";
-            $scope.showCharts = function () {
+            $scope.showCharts = function() {
                 $("#leftChart").highcharts(appKpiService
                     .getDownSwitchCountsOptions(districtStats.slice(0, districtStats.length - 1), townStats));
                 $("#rightChart").highcharts(appKpiService.getDownSwitchRateOptions(districtStats, townStats, 'all'));
             };
 
-            $scope.ok = function () {
+            $scope.ok = function() {
                 $uibModalInstance.close($scope.cellList);
             };
 
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
 
-            $timeout(function () {
-                $scope.showCharts();
-            },
+            $timeout(function() {
+                    $scope.showCharts();
+                },
                 500);
         })
     .controller("rutrace.index",
@@ -5662,11 +5662,46 @@ angular.module('kpi.work.chart', ['myApp.url', 'myApp.region', "ui.bootstrap", "
                 cellPreciseService.queryDataSpanKpi($scope.beginDate.value,
                     $scope.endDate.value,
                     cellId,
-                    sectorId).then(function (result) {
+                    sectorId).then(function(result) {
                     $("#mrsConfig").highcharts(kpiDisplayService.getMrsOptions(result,
-                            $scope.beginDateString + "-" + $scope.endDateString + "MR数变化趋势"));
+                        $scope.beginDateString + "-" + $scope.endDateString + "MR数变化趋势"));
                     $("#preciseConfig").highcharts(kpiDisplayService.getPreciseOptions(result,
                         $scope.beginDateString + "-" + $scope.endDateString + "精确覆盖率变化趋势"));
+                });
+            };
+            $scope.showTrend();
+
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.distributionGroups);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
+    .controller("down.switch.cell.trend",
+        function($scope,
+            $uibModalInstance,
+            name,
+            cellId,
+            sectorId,
+            flowService,
+            parametersChartService,
+            appFormatService) {
+            $scope.dialogTitle = "小区指标变化趋势分析" + "-" + name;
+            $scope.showTrend = function() {
+                $scope.beginDateString = appFormatService.getDateString($scope.beginDate.value, "yyyy年MM月dd日");
+                $scope.endDateString = appFormatService.getDateString($scope.endDate.value, "yyyy年MM月dd日");
+                flowService.queryCellFlowByDateSpan(cellId,
+                    sectorId,
+                    $scope.beginDate.value,
+                    $scope.endDate.value).then(function (result) {
+                        var dates = _.map(result,
+                            function (stat) {
+                                return stat.statTime;
+                            });
+                        $("#mrsConfig").highcharts(parametersChartService.getCellFeelingRateOptions(dates, result));
+                        $("#preciseConfig").highcharts(parametersChartService.getCellDownSwitchOptions(dates, result));
                 });
             };
             $scope.showTrend();
@@ -6375,6 +6410,23 @@ angular.module('kpi.work', ['app.menu', 'app.core', 'myApp.region'])
 						}
 					}
 				});
+            },
+            showDownSwitchCellTrend: function (name, cellId, sectorId) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Rutrace/WorkItem/CellTrend.html',
+                    controller: 'down.switch.cell.trend',
+                    resolve: {
+                        name: function () {
+                            return name;
+                        },
+                        cellId: function () {
+                            return cellId;
+                        },
+                        sectorId: function () {
+                            return sectorId;
+                        }
+                    }
+                });
             },
             processPreciseWorkItem: function(cell, beginDate, endDate) {
                 menuItemService.showGeneralDialog({

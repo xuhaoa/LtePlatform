@@ -320,6 +320,23 @@
 					}
 				});
             },
+            showDownSwitchCellTrend: function (name, cellId, sectorId) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Rutrace/WorkItem/CellTrend.html',
+                    controller: 'down.switch.cell.trend',
+                    resolve: {
+                        name: function () {
+                            return name;
+                        },
+                        cellId: function () {
+                            return cellId;
+                        },
+                        sectorId: function () {
+                            return sectorId;
+                        }
+                    }
+                });
+            },
             processPreciseWorkItem: function(cell, beginDate, endDate) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Rutrace/WorkItem/ForCell.html',

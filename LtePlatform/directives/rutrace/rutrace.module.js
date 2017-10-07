@@ -143,7 +143,7 @@ angular.module('rutrace.top.cell', ['app.format', 'myApp.kpi', 'myApp.region', '
             },
             $compile);
     })
-    .controller('topDownSwitchController', function ($scope, appFormatService) {
+    .controller('topDownSwitchController', function ($scope, appFormatService, workItemDialog, neighborDialogService) {
             $scope.gridOptions = {
                 columnDefs: [
                     appFormatService.generateLteCellNameDef(),
@@ -165,10 +165,55 @@ angular.module('rutrace.top.cell', ['app.format', 'myApp.kpi', 'myApp.region', '
                         field: 'pdcpUplinkFlow',
                         name: '上行流量（MByte）',
                         cellFilter: 'bitToByte'
+                    },
+                    {
+                        field: 'maxUsers',
+                        name: '最大用户数'
+                    },
+                    {
+                        field: 'downlinkFeelingRate',
+                        name: '下行感知速率（Mbit/s）',
+                        cellFilter: 'number: 2'
+                    },
+                    {
+                        field: 'uplinkFeelingRate',
+                        name: '上行感知速率（Mbit/s）',
+                        cellFilter: 'number: 2'
+                    },
+                    {
+                        field: 'rank2Rate',
+                        name: '双流比（%）',
+                        cellFilter: 'number: 2'
+                    },
+                    {
+                        name: '分析',
+                        width: 150,
+                        cellTemplate: '<div class="btn-group-xs">\
+                            <button class="btn btn-default btn-xs" ng-click="grid.appScope.showCellTrend(row.entity)">\
+                                <i class="glyphicon glyphicon-stats" title="单小区按日期的变化趋势"></i>\
+                                趋势\
+                            </button>\
+                            <button class="btn btn-success btn-xs" ng-click="grid.appScope.showCoverage(row.entity)">\
+                                <i class="glyphicon glyphicon-tree-conifer" title="覆盖信息"></i>\
+                                覆盖\
+                            </button>\
+                        </div>'
                     }
                 ]
             };
-    })
+            $scope.showCellTrend = function(cell) {
+                workItemDialog.showDownSwitchCellTrend(cell.eNodebName + "-" + cell.sectorId, cell.eNodebId, cell.sectorId);
+            };
+            $scope.showCoverage = function(cell) {
+                neighborDialogService.showRutraceCoverage({
+                        cellId: cell.eNodebId,
+                        sectorId: cell.sectorId,
+                        name: cell.eNodebName
+                    },
+                    $scope.beginDate.value,
+                    $scope.endDate.value);
+            };
+        })
     .directive('topDownSwitch', function ($compile, calculateService) {
             return calculateService.generateGridDirective({
                     controllerName: 'topDownSwitchController',
