@@ -245,7 +245,7 @@
 			        controller: 'map.station.dialog',
 			        resolve: stationFormatService.dateSpanDateResolve({
 			                dialogTitle: function() {
-			                    return "站点信息:" + station.StationName;
+			                    return "站点信息:" + station.name;
 			                },
 			                station: function() {
 			                    return station;

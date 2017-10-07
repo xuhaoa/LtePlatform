@@ -37,20 +37,24 @@
             beginDate,
             endDate,
             appFormatService,
-            networkElementService) {
+            networkElementService,
+            downSwitchService) {
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
-            $scope.itemGroups = appFormatService.generateStationGroups(station);
             $scope.cellList = [];
-            networkElementService.queryENodebStationInfo(station.SysStationId).then(function(eNodeb) {
-                if (eNodeb) {
-                    $scope.eNodebGroups = appFormatService.generateENodebGroups(eNodeb);
-                }
-
+            downSwitchService.getStationByStationId(station.id).then(function (stationDetails) {
+                var item = stationDetails.result[0];
+                $scope.itemGroups = appFormatService.generateStationGroups(item);
+                networkElementService.queryENodebStationInfo(item.SysStationId).then(function(eNodeb) {
+                    if (eNodeb) {
+                        $scope.eNodebGroups = appFormatService.generateENodebGroups(eNodeb);
+                    }
+                });
+                networkElementService.queryCellStationInfo(item.SysStationId).then(function(cellList) {
+                    $scope.cellList = cellList;
+                });
             });
-            networkElementService.queryCellStationInfo(station.SysStationId).then(function(cellList) {
-                $scope.cellList = cellList;
-            });
+            
             $scope.dialogTitle = dialogTitle;
             $scope.ok = function() {
                 $uibModalInstance.close($scope.site);

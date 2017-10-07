@@ -162,8 +162,8 @@ class StationAction extends Action
 		{
 			$wherequery .= " and netType = '".$netType."'";	
 		}
-		#$Station = M("stationcommon");
-		$Station = M("station");
+		$Station = M("stationcommon");
+		#$Station = M("station");
 
 		$total = $Station->table('tb_stationcommon tbsc,tb_station tbs')->where($wherequery)->count(); // 查询数据
 
