@@ -3947,6 +3947,9 @@ angular.module('home.kpi', ['app.common'])
             $scope.showBasicKpi = function() {
                 mapDialogService.showBasicKpiDialog($scope.city, $scope.beginDate, $scope.endDate);
             };
+            $scope.showTopDrop2G = function() {
+                mapDialogService.showTopDrop2GDialog($scope.city, $scope.beginDate, $scope.endDate);
+            };
         });
 /// <reference path="./common.js" />
 

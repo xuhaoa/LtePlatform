@@ -97,35 +97,6 @@
         };
         
     })
-    .controller('kpi.topDrop2G', function ($scope, appRegionService, appFormatService, drop2GService, connection3GService, workItemDialog) {
-        $scope.page.title = $scope.menuItems[2].subItems[1].displayName;
-        $scope.topData = {
-            drop2G: [],
-            connection3G: []
-        };
-        $scope.showKpi = function () {
-            drop2GService.queryDayStats($scope.city.selected, $scope.statDate.value).then(function (result) {
-                $scope.statDate.value = appFormatService.getDate(result.statDate);
-                $scope.topData.drop2G = result.statViews;
-            });
-            connection3GService.queryDayStats($scope.city.selected, $scope.statDate.value).then(function (result) {
-                $scope.statDate.value = appFormatService.getDate(result.statDate);
-                $scope.topData.connection3G = result.statViews;
-            });
-        };
-        $scope.showDropTrend = function() {
-            workItemDialog.showTopDropTrend($scope.city.selected, $scope.beginDate, $scope.endDate, $scope.topCount);
-        };
-        $scope.showConnectionTrend = function () {
-            workItemDialog.showTopConnectionTrend($scope.city.selected, $scope.beginDate, $scope.endDate, $scope.topCount);
-        };
-        $scope.$watch('city.selected', function (city) {
-            if (city) {
-                $scope.showKpi();
-            }
-            
-        });
-    })
     .controller('interference.mongo', function ($scope, neighborMongoService, neighborDialogService,
         dumpProgress, networkElementService, dumpPreciseService) {
         $scope.progressInfo = {

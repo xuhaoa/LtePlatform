@@ -321,13 +321,29 @@
                         templateUrl: '/appViews/BasicKpi/Index.html',
                         controller: 'kpi.basic',
                         resolve: stationFormatService.dateSpanDateResolve({
-                            dialogTitle: function () {
-                                return city.selected + "CDMA整体分析";
+                                dialogTitle: function() {
+                                    return city.selected + "CDMA整体分析";
+                                },
+                                city: function() {
+                                    return city;
+                                }
                             },
-                            city: function () {
-                                return city;
-                            }
-                        },
+                            beginDate,
+                            endDate)
+                    });
+                },
+                showTopDrop2GDialog: function(city, beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/BasicKpi/TopDrop2G.html',
+                        controller: 'kpi.topDrop2G',
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return city.selected + "TOP掉话分析";
+                                },
+                                city: function() {
+                                    return city;
+                                }
+                            },
                             beginDate,
                             endDate)
                     });

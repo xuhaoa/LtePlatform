@@ -196,4 +196,54 @@
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
+        })
+    .controller('kpi.topDrop2G',
+        function($scope,
+            $uibModalInstance,
+            city,
+            dialogTitle,
+            appFormatService,
+            drop2GService,
+            connection3GService,
+            workItemDialog) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.topData = {
+                drop2G: [],
+                connection3G: []
+            };
+            $scope.showKpi = function() {
+                drop2GService.queryDayStats($scope.city.selected, $scope.statDate.value).then(function(result) {
+                    $scope.statDate.value = appFormatService.getDate(result.statDate);
+                    $scope.topData.drop2G = result.statViews;
+                });
+                connection3GService.queryDayStats($scope.city.selected, $scope.statDate.value).then(function(result) {
+                    $scope.statDate.value = appFormatService.getDate(result.statDate);
+                    $scope.topData.connection3G = result.statViews;
+                });
+            };
+            $scope.showDropTrend = function() {
+                workItemDialog.showTopDropTrend(city.selected,
+                    $scope.beginDate,
+                    $scope.endDate,
+                    $scope.topCount);
+            };
+            $scope.showConnectionTrend = function() {
+                workItemDialog.showTopConnectionTrend(city.selected,
+                    $scope.beginDate,
+                    $scope.endDate,
+                    $scope.topCount);
+            };
+            $scope.$watch('city.selected',
+                function(item) {
+                    if (item) {
+                        $scope.showKpi();
+                    }
+                });
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.building);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
         });
