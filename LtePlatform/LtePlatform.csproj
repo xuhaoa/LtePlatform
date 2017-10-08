@@ -479,7 +479,6 @@
     <Content Include="appViews\Home\Flow.html" />
     <Content Include="appViews\Home\FourChartDialog.html" />
     <Content Include="appViews\Home\GeneralTableDetails.html" />
-    <Content Include="appViews\Home\IndoorDetails.html" />
     <Content Include="appViews\Home\IndoorFilter.html" />
     <Content Include="appViews\Home\Kpi.html" />
     <Content Include="appViews\Home\Kpi2G.html" />
@@ -495,7 +494,7 @@
     <Content Include="appViews\Home\SingleChartDialog.html" />
     <Content Include="appViews\Home\Station.html" />
     <Content Include="appViews\Home\StationAdd.html" />
-    <Content Include="appViews\Home\StationDetails.html" />
+    <Content Include="appViews\Home\Details\StationDetails.html" />
     <Content Include="appViews\Home\StationEdit.html" />
     <Content Include="appViews\Home\StationFilter.html" />
     <Content Include="appViews\Home\StationListDialog.html" />
@@ -883,6 +882,7 @@
     <Content Include="Scripts\app\home.station.js" />
     <Content Include="Scripts\app\network.theme.js" />
     <Content Include="Scripts\app\station.checking.js" />
+    <Content Include="Scripts\app\station.common.js" />
     <Content Include="Scripts\app\station.fixing.js" />
     <Content Include="Scripts\baidu\plugins\ComplexCustomOverlay.js" />
     <Content Include="Scripts\bootstrap.js" />

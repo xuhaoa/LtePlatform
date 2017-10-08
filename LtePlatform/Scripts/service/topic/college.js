@@ -226,7 +226,7 @@
                     generalMapService.showGeneralPointCollection(stations, color, workItemDialog.showStationInfoDialog);
                 },
                 showIndoorStations: function(stations, color) {
-                    generalMapService.showGeneralPointCollection(stations, color, workItemDialog.showIndoorInfo);
+                    generalMapService.showGeneralPointCollection(stations, color, workItemDialog.showIndoorInfoDialog);
                 },
                 showCheckingStations: function(stations, color, status) {
                     generalMapService

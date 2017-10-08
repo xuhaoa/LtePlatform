@@ -5309,14 +5309,23 @@ angular.module('kpi.work.dialog', ['myApp.url', 'myApp.region', "ui.bootstrap", 
             beginDate,
             endDate,
             appFormatService,
-            downSwitchService) {
+            downSwitchService,
+            networkElementService) {
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
-
-            downSwitchService.getIndoorById(station.id).then(function(response) {
-                response.result[0].longtitute = station.longtitute;
-                response.result[0].lattitute = station.lattitute;
-                $scope.itemGroups = appFormatService.generateIndoorGroups(response.result[0]);
+            downSwitchService.getIndoorById(station.id).then(function (stationDetails) {
+                var item = stationDetails.result[''];
+                angular.extend(item, station);
+                $scope.itemGroups = appFormatService.generateIndoorGroups(item);
+                console.log($scope.itemGroups);
+                networkElementService.queryENodebsByGeneralName(item.name).then(function (eNodebs) {
+                    if (eNodebs.length) {
+                        $scope.eNodebGroups = appFormatService.generateENodebGroups(eNodebs[0]);
+                    }
+                });
+                networkElementService.queryCellStationInfo(item.SysStationId).then(function (cellList) {
+                    $scope.cellList = cellList;
+                });
             });
             $scope.dialogTitle = dialogTitle;
             $scope.ok = function() {
@@ -6423,7 +6432,7 @@ angular.module('kpi.work', ['app.menu', 'app.core', 'myApp.region'])
 			},
 			showStationInfoDialog: function(station, beginDate, endDate) {
 			    menuItemService.showGeneralDialog({
-			        templateUrl: '/appViews/Home/StationDetails.html',
+			        templateUrl: '/appViews/Home/Details/StationDetails.html',
 			        controller: 'map.station.dialog',
 			        resolve: stationFormatService.dateSpanDateResolve({
 			                dialogTitle: function() {
@@ -6437,9 +6446,9 @@ angular.module('kpi.work', ['app.menu', 'app.core', 'myApp.region'])
 			            endDate)
 			    });
 			},
-			showIndoorInfo: function (station, beginDate, endDate) {
+			showIndoorInfoDialog: function (station, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/Home/IndoorDetails.html',
+                    templateUrl: '/appViews/Home/Details/StationDetails.html',
 					controller: 'map.indoor.dialog',
 					resolve: {
 						dialogTitle: function () {

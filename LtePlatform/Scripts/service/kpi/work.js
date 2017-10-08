@@ -241,7 +241,7 @@
 			},
 			showStationInfoDialog: function(station, beginDate, endDate) {
 			    menuItemService.showGeneralDialog({
-			        templateUrl: '/appViews/Home/StationDetails.html',
+			        templateUrl: '/appViews/Home/Details/StationDetails.html',
 			        controller: 'map.station.dialog',
 			        resolve: stationFormatService.dateSpanDateResolve({
 			                dialogTitle: function() {
@@ -255,9 +255,9 @@
 			            endDate)
 			    });
 			},
-			showIndoorInfo: function (station, beginDate, endDate) {
+			showIndoorInfoDialog: function (station, beginDate, endDate) {
 				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/Home/IndoorDetails.html',
+                    templateUrl: '/appViews/Home/Details/StationDetails.html',
 					controller: 'map.indoor.dialog',
 					resolve: {
 						dialogTitle: function () {

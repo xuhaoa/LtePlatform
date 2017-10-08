@@ -72,14 +72,23 @@
             beginDate,
             endDate,
             appFormatService,
-            downSwitchService) {
+            downSwitchService,
+            networkElementService) {
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
-
-            downSwitchService.getIndoorById(station.id).then(function(response) {
-                response.result[0].longtitute = station.longtitute;
-                response.result[0].lattitute = station.lattitute;
-                $scope.itemGroups = appFormatService.generateIndoorGroups(response.result[0]);
+            downSwitchService.getIndoorById(station.id).then(function (stationDetails) {
+                var item = stationDetails.result[''];
+                angular.extend(item, station);
+                $scope.itemGroups = appFormatService.generateIndoorGroups(item);
+                console.log($scope.itemGroups);
+                networkElementService.queryENodebsByGeneralName(item.name).then(function (eNodebs) {
+                    if (eNodebs.length) {
+                        $scope.eNodebGroups = appFormatService.generateENodebGroups(eNodebs[0]);
+                    }
+                });
+                networkElementService.queryCellStationInfo(item.SysStationId).then(function (cellList) {
+                    $scope.cellList = cellList;
+                });
             });
             $scope.dialogTitle = dialogTitle;
             $scope.ok = function() {
