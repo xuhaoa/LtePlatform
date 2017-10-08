@@ -2971,6 +2971,45 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                 $uibModalInstance.dismiss('cancel');
             };
         })
+    .controller("kpi.basic",
+        function($scope,
+            $uibModalInstance,
+            city,
+            dialogTitle,
+            appRegionService,
+            appFormatService,
+            kpi2GService,
+            workItemDialog) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.views = {
+                options: ['主要', '2G', '3G'],
+                selected: '主要'
+            };
+            $scope.showKpi = function() {
+                kpi2GService.queryDayStats(city.selected, $scope.statDate.value).then(function(result) {
+                    $scope.statDate.value = appFormatService.getDate(result.statDate);
+                    $scope.statList = result.statViews;
+                });
+            };
+            $scope.showTrend = function() {
+                workItemDialog.showBasicTrend(city.selected, $scope.beginDate, $scope.endDate);
+            };
+            $scope.$watch('city.selected',
+                function(item) {
+                    if (item) {
+                        $scope.showKpi();
+                    }
+                });
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.building);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        });
+angular.module('topic.dialog.top',
+        ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', 'topic.dialog.kpi', "ui.bootstrap"])
     .controller("rutrace.top",
         function($scope,
             $uibModalInstance,
@@ -3147,7 +3186,7 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                     $scope.topCount.selected,
                     $scope.orderPolicy.selected,
                     $scope.city.selected,
-                    district).then(function (result) {
+                    district).then(function(result) {
                     $scope.topCells = result;
                 });
             };
@@ -3177,38 +3216,6 @@ angular.module('topic.dialog.station', ['myApp.url', 'myApp.region', 'myApp.kpi'
             appFormatService) {
 
             $scope.itemGroups = appFormatService.generateSpecialStationGroups(station);
-
-            $scope.dialogTitle = dialogTitle;
-
-
-            $scope.cancel = function() {
-                $uibModalInstance.dismiss('cancel');
-            };
-        })
-    .controller('map.zero-voice.dialog',
-        function($scope,
-            $uibModalInstance,
-            station,
-            dialogTitle,
-            appFormatService) {
-
-            $scope.itemGroups = appFormatService.generateZeroVoiceGroups(station);
-
-            $scope.dialogTitle = dialogTitle;
-
-
-            $scope.cancel = function() {
-                $uibModalInstance.dismiss('cancel');
-            };
-        })
-    .controller('map.zero-flow.dialog',
-        function($scope,
-            $uibModalInstance,
-            station,
-            dialogTitle,
-            appFormatService) {
-
-            $scope.itemGroups = appFormatService.generateZeroFlowGroups(station);
 
             $scope.dialogTitle = dialogTitle;
 
@@ -3363,6 +3370,39 @@ angular.module('topic.dialog.station', ['myApp.url', 'myApp.region', 'myApp.kpi'
                         $scope.records = response.dresult.records;
                     });
             }
+        });
+angular.module('topic.dialog.alarm', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', "ui.bootstrap"])
+    .controller('map.zero-voice.dialog',
+        function($scope,
+            $uibModalInstance,
+            station,
+            dialogTitle,
+            appFormatService) {
+
+            $scope.itemGroups = appFormatService.generateZeroVoiceGroups(station);
+
+            $scope.dialogTitle = dialogTitle;
+
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
+    .controller('map.zero-flow.dialog',
+        function($scope,
+            $uibModalInstance,
+            station,
+            dialogTitle,
+            appFormatService) {
+
+            $scope.itemGroups = appFormatService.generateZeroFlowGroups(station);
+
+            $scope.dialogTitle = dialogTitle;
+
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
         })
     .controller('map.alarmStation.dialog',
         function($scope,
@@ -3818,6 +3858,22 @@ angular.module('topic.dialog',[ 'app.menu', 'app.core' ])
                         }
                     });
                 },
+                showBasicKpiDialog: function (city, beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/BasicKpi/Index.html',
+                        controller: 'kpi.basic',
+                        resolve: stationFormatService.dateSpanDateResolve({
+                            dialogTitle: function () {
+                                return city.selected + "CDMA整体分析";
+                            },
+                            city: function () {
+                                return city;
+                            }
+                        },
+                            beginDate,
+                            endDate)
+                    });
+                },
                 showPreciseTrendDialog: function(city, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Trend.html',
@@ -4079,6 +4135,6 @@ angular.module('baidu.map',
 [
     'topic.basic', 'topic.college',
     'topic.parameters.basic', 'topic.parameters.coverage', 'topic.parameters.station', "topic.parameters",
-    'topic.dialog', 'topic.dialog.college', 'topic.dialog.kpi', 'topic.dialog.customer', 'topic.dialog.parameters',
-    'topic.dialog.station'
+    'topic.dialog', 'topic.dialog.college', 'topic.dialog.kpi', 'topic.dialog.top',
+    'topic.dialog.customer', 'topic.dialog.parameters', 'topic.dialog.station', 'topic.dialog.alarm'
 ]);

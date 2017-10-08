@@ -316,6 +316,22 @@
                         }
                     });
                 },
+                showBasicKpiDialog: function (city, beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/BasicKpi/Index.html',
+                        controller: 'kpi.basic',
+                        resolve: stationFormatService.dateSpanDateResolve({
+                            dialogTitle: function () {
+                                return city.selected + "CDMA整体分析";
+                            },
+                            city: function () {
+                                return city;
+                            }
+                        },
+                            beginDate,
+                            endDate)
+                    });
+                },
                 showPreciseTrendDialog: function(city, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Trend.html',

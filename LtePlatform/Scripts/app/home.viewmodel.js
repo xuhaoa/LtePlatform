@@ -3940,9 +3940,13 @@ angular.module('home.kpi', ['app.common'])
             baiduMapService.addCityBoundary("佛山");
         })
     .controller("home.cdma",
-        function($scope, baiduMapService) {
+        function($scope, baiduMapService, mapDialogService) {
             baiduMapService.initializeMap("map", 11);
             baiduMapService.addCityBoundary("佛山");
+
+            $scope.showBasicKpi = function() {
+                mapDialogService.showBasicKpiDialog($scope.city, $scope.beginDate, $scope.endDate);
+            };
         });
 /// <reference path="./common.js" />
 
