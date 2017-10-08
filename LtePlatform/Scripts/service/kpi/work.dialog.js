@@ -86,7 +86,7 @@
                         $scope.eNodebGroups = appFormatService.generateENodebGroups(eNodebs[0]);
                     }
                 });
-                networkElementService.queryCellStationInfo(item.SysStationId).then(function (cellList) {
+                networkElementService.queryCellStationInfoByRruName(item.name).then(function (cellList) {
                     $scope.cellList = cellList;
                 });
             });

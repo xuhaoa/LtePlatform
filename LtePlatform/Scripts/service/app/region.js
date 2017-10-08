@@ -2355,6 +2355,11 @@ angular.module('region.network', ['app.core'])
                     stationNum: stationNum
                 });
             },
+            queryCellStationInfoByRruName: function (rruName) {
+                return generalHttpService.getApiData('CellStation', {
+                    rruName: rruName
+                });
+            },
             queryCellSectorIds: function (name) {
                 return generalHttpService.getApiData('Cell', {
                     eNodebName: name

@@ -37,6 +37,11 @@
                     stationNum: stationNum
                 });
             },
+            queryCellStationInfoByRruName: function (rruName) {
+                return generalHttpService.getApiData('CellStation', {
+                    rruName: rruName
+                });
+            },
             queryCellSectorIds: function (name) {
                 return generalHttpService.getApiData('Cell', {
                     eNodebName: name

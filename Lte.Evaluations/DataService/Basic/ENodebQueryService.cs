@@ -99,23 +99,22 @@ namespace Lte.Evaluations.DataService.Basic
         public IEnumerable<ENodebView> GetByGeneralName(string name)
         {
             var items =
-                _eNodebRepository.GetAllList().Where(x => x.Name.IndexOf(name.Trim(), StringComparison.Ordinal) >= 0).ToArray();
-            if (items.Any())
-                return Mapper.Map<IEnumerable<ENodeb>, IEnumerable<ENodebView>>(items);
+                _eNodebRepository.GetAllList().Where(x => x.Name.Contains(name.Trim())).ToArray();
+            if (items.Any()) return items.MapTo<IEnumerable<ENodebView>>();
             var eNodebId = name.Trim().ConvertToInt(0);
             if (eNodebId > 0)
             {
-                items = _eNodebRepository.GetAll().Where(x => x.ENodebId == eNodebId).ToArray();
+                items = _eNodebRepository.GetAllList(x => x.ENodebId == eNodebId).ToArray();
                 if (items.Any()) return items.MapTo<IEnumerable<ENodebView>>();
             }
             items =
                 _eNodebRepository.GetAllList()
                     .Where(
                         x =>
-                            x.Address.IndexOf(name.Trim(), StringComparison.Ordinal) >= 0 ||
-                            x.PlanNum.IndexOf(name.Trim(), StringComparison.Ordinal) >= 0)
+                            (!string.IsNullOrEmpty(x.Address) && x.Address.Contains(name.Trim()))  
+                            || (!string.IsNullOrEmpty(x.PlanNum) && x.PlanNum.Contains(name.Trim())))
                     .ToArray();
-            return items.Any() ? items.MapTo<IEnumerable<ENodebView>>() : null;
+            return items.Any() ? items.MapTo<IEnumerable<ENodebView>>() : new List<ENodebView>();
         }
 
         public IEnumerable<ENodebView> GetByGeneralNameInUse(string name)

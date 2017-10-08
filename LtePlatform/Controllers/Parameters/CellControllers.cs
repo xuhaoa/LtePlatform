@@ -155,6 +155,15 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
+        [ApiDoc("根据RRU名称查询小区RRU")]
+        [ApiParameterDoc("rruName", "RRU名称")]
+        [ApiResponse("小区RRU信息列表")]
+        public IEnumerable<CellRruView> GetByName(string rruName)
+        {
+            return _service.GetByRruName(rruName);
+        }
+
+        [HttpGet]
         [ApiDoc("根据规划编号查询小区RRU信息")]
         [ApiParameterDoc("planNum", "规划编号")]
         [ApiResponse("小区RRU信息列表")]
