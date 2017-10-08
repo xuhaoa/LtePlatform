@@ -256,24 +256,20 @@
 			    });
 			},
 			showIndoorInfoDialog: function (station, beginDate, endDate) {
-				menuItemService.showGeneralDialog({
-                    templateUrl: '/appViews/Home/Details/StationDetails.html',
-					controller: 'map.indoor.dialog',
-					resolve: {
-						dialogTitle: function () {
-							return "站点信息:" + station.name;
-						},
-						station: function () {
-							return station;
-						},
-						beginDate: function () {
-							return beginDate;
-						},
-						endDate: function () {
-							return endDate;
-						}
-					}
-				});
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/Details/StationDetails.html',
+			        controller: 'map.indoor.dialog',
+			        resolve: stationFormatService.dateSpanDateResolve({
+			                dialogTitle: function() {
+			                    return "站点信息:" + station.name;
+			                },
+			                station: function() {
+			                    return station;
+			                }
+			            },
+			            beginDate,
+			            endDate)
+			    });
 			},
 			showDistributionInfo: function(distribution) {
 				menuItemService.showGeneralDialog({

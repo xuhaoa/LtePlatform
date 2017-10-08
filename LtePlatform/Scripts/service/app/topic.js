@@ -754,11 +754,16 @@ angular.module('topic.college',
                             });
                     });
                 },
-                showMaintainStations: function(stations, color) {
-                    generalMapService.showGeneralPointCollection(stations, color, workItemDialog.showStationInfoDialog);
+                showMaintainStations: function(stations, color, beginDate, endDate) {
+                    generalMapService.showGeneralPointCollection(stations, color, function(station) {
+                        workItemDialog.showStationInfoDialog(station, beginDate, endDate);
+                    });
                 },
-                showIndoorStations: function(stations, color) {
-                    generalMapService.showGeneralPointCollection(stations, color, workItemDialog.showIndoorInfoDialog);
+                showIndoorStations: function(stations, color, beginDate, endDate) {
+                    generalMapService.showGeneralPointCollection(stations, color,
+                        function(station) {
+                            workItemDialog.showIndoorInfoDialog(station, beginDate, endDate);
+                        });
                 },
                 showCheckingStations: function(stations, color, status) {
                     generalMapService

@@ -868,7 +868,7 @@ angular.module('home.station', ['app.common'])
                             threshold: areaName,
                             color: color
                         });
-                        collegeMapService.showMaintainStations(stations, color);
+                        collegeMapService.showMaintainStations(stations, color, $scope.beginDate, $scope.endDate);
                     }
 
                 });
@@ -958,7 +958,7 @@ angular.module('home.station', ['app.common'])
                         color: color
                     });
                     if (stations.length) {
-                        collegeMapService.showIndoorStations(stations, color);
+                        collegeMapService.showIndoorStations(stations, color, $scope.beginDate, $scope.endDate);
                     }
                 });
             };

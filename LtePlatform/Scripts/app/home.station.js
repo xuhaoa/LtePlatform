@@ -149,7 +149,7 @@
                             threshold: areaName,
                             color: color
                         });
-                        collegeMapService.showMaintainStations(stations, color);
+                        collegeMapService.showMaintainStations(stations, color, $scope.beginDate, $scope.endDate);
                     }
 
                 });
@@ -239,7 +239,7 @@
                         color: color
                     });
                     if (stations.length) {
-                        collegeMapService.showIndoorStations(stations, color);
+                        collegeMapService.showIndoorStations(stations, color, $scope.beginDate, $scope.endDate);
                     }
                 });
             };
