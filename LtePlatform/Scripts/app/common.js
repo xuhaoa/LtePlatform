@@ -11,6 +11,7 @@
         'myApp.region',
         'myApp.url',
         'ngAnimate',
+        'ngAvatar',
         'ngRoute',
         'ngTouch',
         'parameters.module',

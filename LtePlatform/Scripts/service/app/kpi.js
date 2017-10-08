@@ -5317,7 +5317,6 @@ angular.module('kpi.work.dialog', ['myApp.url', 'myApp.region', "ui.bootstrap", 
                 var item = stationDetails.result[''];
                 angular.extend(item, station);
                 $scope.itemGroups = appFormatService.generateIndoorGroups(item);
-                console.log($scope.itemGroups);
                 networkElementService.queryENodebsByGeneralName(item.name).then(function (eNodebs) {
                     if (eNodebs.length) {
                         $scope.eNodebGroups = appFormatService.generateENodebGroups(eNodebs[0]);
