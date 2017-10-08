@@ -12,7 +12,7 @@ import sys
 
 os.chdir('/home/wireless/zte_mrs')
 date_dir=generate_date_hours_shift(shift=-3)
-mrNames=['RSRP','Tadv','PowerHeadRoom','SinrUL','TadvRsrp']
+mrNames=['RSRP','Tadv','PowerHeadRoom','SinrUL','TadvRsrp', 'ReceivedIPower']
 db = MongoClient('mongodb://root:Abcdef9*@132.110.71.123')['ouyh']
 for mrName in mrNames:
     try:

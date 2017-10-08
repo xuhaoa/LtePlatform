@@ -7,13 +7,21 @@ import json
 import pymongo
 from pymongo import MongoClient
 
-def to_dec(value):
+def to_dec(value: str):
+    '''
+    扩展的字符串转数值函数
+    value: 待转换的字符串
+    '''
     if '.' in value:
         return float(value)
-    elif '_' in value:
-        return value
-    else:
+    elif '_' not in value:
         return int(value)
+    else:
+        return value
+
+def get_mro_item_key(item_element):
+    '''读取MRO字段名称'''
+    return item_element.text.replace('MR.', '').split(' ')
 
 class NeighborStat:
     def __init__(self, cellId, pci, **kwargs):
@@ -25,6 +33,33 @@ class NeighborStat:
             self.stat['Neighbors']+=1
             if item_sub_dict['LteScEarfcn']==item_sub_dict['LteNcEarfcn']:
                 self.stat['IntraNeighbors']+=1
+
+class ObjectElement:
+    '''
+    读取测量记录基本信息的对象
+    '''
+    def __init__(self, item_element):
+        super().__init__()
+        self.item_element=item_element
+    def get_user_num(self):
+        '''读取用户MMEUeS1ApId'''
+        if 'MmeUeS1apId' in self.item_element.attrib.keys():
+            return self.item_element.attrib['MmeUeS1apId']
+        else:
+            return self.item_element.attrib['MR.MmeUeS1apId']
+    def get_sector_id(self, item_id: str):
+        '''
+        读取小区的扇区编号（即502120-48中的48）。
+        在新版中兴的MR格式中并不记录扇区编号，只有CGI，因此需要从CGI中反推出扇区编号，因此有基站编号的输入参数。
+        item_id:输入的基站编号
+        '''
+        if 'MR.objectId' in self.item_element.attrib.keys():
+            return self.item_element.attrib['MR.objectId']
+        else:
+            return str(to_dec(self.item_element.attrib['id'])-to_dec(item_id)*256)
+    def get_huawei_sector_id(self):
+        '''读取华为文件中的小区编号'''
+        return self.item_element.attrib['id']
 
 class MroReader:
     def __init__(self, afilter, **kwargs):
@@ -39,11 +74,12 @@ class MroReader:
             print(item_dict)
 
     def read(self, item_measurement, item_id):
+        '''华为MRO数据读取过程'''
         lon_dict={}
         lat_dict={}
         for item_element in item_measurement:
             if item_element.tag == 'smr':
-                item_key = item_element.text.replace('MR.', '').split(' ')
+                item_key = get_mro_item_key(item_element)
                 if 'LteScEarfcn' not in item_key:
                     return
             else:
@@ -52,8 +88,10 @@ class MroReader:
                 item_dict = {}
                 item_position={}
                 neighbor_list=[]
-                neighbor_stat=NeighborStat(item_id+'-'+item_element.attrib['id'], 0)
-                user_num=item_element.attrib['MmeUeS1apId']
+                object_element = ObjectElement(item_element)
+                user_num = object_element.get_user_num()
+                sector_id = object_element.get_huawei_sector_id()
+                neighbor_stat=NeighborStat(item_id+'-'+sector_id, 0)
                 for item_v in item_element:
                     item_value = item_v.text.replace('NIL', '-1').replace('N','').replace('E','').replace('HRPD', '-2').replace('BC0', '-2').replace('|', '1').split(' ')
                     _item_sub_dict = dict(zip(item_key, map(to_dec, item_value)))
@@ -131,11 +169,12 @@ class MroReader:
                 self.neighbor_stats.append(neighbor_stat.stat)
 
     def read_zte(self, item_measurement, item_id):
+        '''中兴MRO数据读取过程'''
         lon_dict={}
         lat_dict={}
         for item_element in item_measurement:
             if item_element.tag == 'smr':
-                item_key = item_element.text.replace('MR.', '').split(' ')
+                item_key = get_mro_item_key(item_element)
                 if 'LteScEarfcn' not in item_key:
                     return
             else:
@@ -144,19 +183,18 @@ class MroReader:
                 item_dict = {}
                 item_position={}
                 neighbor_list=[]
-                if 'MmeUeS1apId' in item_element.attrib.keys():
-                    user_num=item_element.attrib['MmeUeS1apId']
-                else:
-                    user_num=item_element.attrib['MR.MmeUeS1apId']
-                if 'MR.objectId' in item_element.attrib.keys():
-                    sector_id=item_element.attrib['MR.objectId']
-                else:
-                    sector_id=str(to_dec(item_element.attrib['id'])-to_dec(item_id)*256)
+                object_element=ObjectElement(item_element)
+                user_num=object_element.get_user_num()
+                sector_id=object_element.get_sector_id(item_id)
                 neighbor_stat=NeighborStat(item_id+'-'+sector_id, 0)
                 for item_v in item_element:
                     item_value = item_v.text.replace('NIL', '-1').split(' ')
                     _item_sub_dict = dict(zip(item_key, map(to_dec, item_value)))
                     _item_sub_dict = {k: v for k, v in _item_sub_dict.items() if not any(ext in k for ext in self.afilter)}
+                    if 'LteFddNcPci' in _item_sub_dict.keys() and _item_sub_dict['LteFddNcPci']>=0 and _item_sub_dict['LteNcPci']<0:
+                        _item_sub_dict['LteNcPci']=_item_sub_dict['LteFddNcPci']
+                        _item_sub_dict['LteNcRSRP']=_item_sub_dict['LteFddNcRSRP']
+                        _item_sub_dict['LteNcEarfcn']=_item_sub_dict['LteFddNcEarfcn']
                     max_telecom_rsrp=0
                     telecom_earfcn=0
                     max_mobile_rsrp=0
@@ -375,6 +413,7 @@ class MroReader:
         df = DataFrame(stat_list)
         stat=df.groupby(['CellId','Pci','NeighborPci', 'Earfcn', 'NeighborEarfcn']).sum().reset_index()
         return json.loads(stat.T.to_json()).values()
+
 class MrsReader:
     def __init__(self, mrNames, startTime, date_dir, db, eNodebId, **kwargs):
         self.mrNames=mrNames
@@ -400,7 +439,6 @@ class MrsReader:
                     item_dicts.append(item_dict)
             if len(item_dicts)>0:
                 self.db['mrs_'+mrName+'_'+self.date_dir].insert_many(item_dicts)
-            #print(item_dicts)
 
     def read_zte(self, item_measurement, eNodebId):
         mrName=item_measurement.attrib['mrName'].replace('MR.','')

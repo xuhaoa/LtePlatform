@@ -20,7 +20,7 @@
                 $rootScope.orderPolicy.selected = result[1];
             });
         };
-        
+
         $rootScope.closeAlert = function(messages, index) {
             messages.splice(index, 1);
         };
@@ -146,9 +146,9 @@
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
-    })
+        })
     .controller('cqi.trend',
-        function ($scope,
+        function($scope,
             $uibModalInstance,
             kpiPreciseService,
             appFormatService,
@@ -165,12 +165,12 @@
 
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
-            $scope.showKpi = function () {
+            $scope.showKpi = function() {
                 kpiPreciseService.getRecentCqiRegionKpi(city.selected, $scope.statDate.value)
-                    .then(function (result) {
+                    .then(function(result) {
                         $scope.statDate.value = appFormatService.getDate(result.statDate);
                         angular.forEach(result.districtViews,
-                            function (view) {
+                            function(view) {
                                 view.objectRate = appKpiService.getCqiObject(view.district);
                                 view.goodCounts = view.cqiCounts.item2;
                                 view.totalCounts = view.cqiCounts.item1 + view.cqiCounts.item2;
@@ -184,23 +184,23 @@
                             .getDateString($scope.statDate.value, "yyyy年MM月dd日");
                     });
             };
-            $scope.showChart = function () {
+            $scope.showChart = function() {
                 workItemDialog.showCqiChart($scope.overallStat);
             };
-            $scope.showTrend = function () {
+            $scope.showTrend = function() {
                 workItemDialog.showCqiTrend(city, $scope.beginDate, $scope.endDate);
             };
             $scope.showKpi();
-            $scope.ok = function () {
+            $scope.ok = function() {
                 $uibModalInstance.close($scope.building);
             };
 
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
-    })
+        })
     .controller('down.switch.trend',
-        function ($scope,
+        function($scope,
             $uibModalInstance,
             kpiPreciseService,
             appFormatService,
@@ -218,12 +218,12 @@
 
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
-            $scope.showKpi = function () {
+            $scope.showKpi = function() {
                 kpiPreciseService.getRecentFlowRegionKpi(city.selected, $scope.statDate.value)
-                    .then(function (result) {
+                    .then(function(result) {
                         $scope.statDate.value = appFormatService.getDate(result.statDate);
                         angular.forEach(result.districtViews,
-                            function (view) {
+                            function(view) {
                                 view.objectRate = appKpiService.getDownSwitchObject(view.district);
                                 view.totalFlowMByte = (view.pdcpDownlinkFlow + view.pdcpUplinkFlow) / 8;
                             });
@@ -236,71 +236,17 @@
                             .getDateString($scope.statDate.value, "yyyy年MM月dd日");
                     });
             };
-            $scope.showChart = function () {
+            $scope.showChart = function() {
                 workItemDialog.showDownSwitchChart($scope.overallStat);
             };
-            $scope.showTrend = function () {
+            $scope.showTrend = function() {
                 workItemDialog.showDownSwitchTrend(city, $scope.beginDate, $scope.endDate);
             };
-            $scope.showTopKpi = function () {
+            $scope.showTopKpi = function() {
                 mapDialogService.showDownSwitchTop($scope.beginDate, $scope.endDate);
             };
 
             $scope.showKpi();
-            $scope.ok = function () {
-                $uibModalInstance.close($scope.building);
-            };
-
-            $scope.cancel = function () {
-                $uibModalInstance.dismiss('cancel');
-            };
-        })
-    .controller("rutrace.top",
-        function($scope,
-            $uibModalInstance,
-            dialogTitle,
-            preciseInterferenceService,
-            kpiPreciseService,
-            workitemService,
-            beginDate,
-            endDate) {
-            $scope.dialogTitle = dialogTitle;
-            $scope.topCells = [];
-            $scope.updateMessages = [];
-            $scope.beginDate = beginDate;
-            $scope.endDate = endDate;
-
-            $scope.query = function() {
-                $scope.topCells = [];
-                kpiPreciseService.queryTopKpis(beginDate.value,
-                    endDate.value,
-                    $scope.topCount.selected,
-                    $scope.orderPolicy.selected).then(function(result) {
-                    $scope.topCells = result;
-                    angular.forEach(result,
-                        function(cell) {
-                            workitemService.queryByCellId(cell.cellId, cell.sectorId).then(function(items) {
-                                if (items.length > 0) {
-                                    for (var j = 0; j < $scope.topCells.length; j++) {
-                                        if (items[0].eNodebId === $scope.topCells[j].cellId &&
-                                            items[0].sectorId === $scope.topCells[j].sectorId) {
-                                            $scope.topCells[j].hasWorkItems = true;
-                                            break;
-                                        }
-                                    }
-                                }
-                            });
-                        });
-                });
-            };
-            $scope.initializeOrderPolicy();
-            $scope.$watch('orderPolicy.selected',
-                function (selection) {
-                    if (selection) {
-                        $scope.query();
-                    }
-                });
-
             $scope.ok = function() {
                 $uibModalInstance.close($scope.building);
             };
@@ -308,96 +254,36 @@
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
-    })
-    .controller("down.switch.top",
-        function ($scope,
-            $uibModalInstance,
-            dialogTitle,
-            preciseInterferenceService,
-            kpiPreciseService,
-            workitemService,
-            beginDate,
-            endDate) {
-            $scope.dialogTitle = dialogTitle;
-            $scope.topCells = [];
-            $scope.updateMessages = [];
-            $scope.beginDate = beginDate;
-            $scope.endDate = endDate;
-
-            $scope.query = function () {
-                $scope.topCells = [];
-                kpiPreciseService.queryTopDownSwitchByPolicy(beginDate.value,
-                    endDate.value,
-                    $scope.topCount.selected,
-                    $scope.orderPolicy.selected).then(function (result) {
-                        $scope.topCells = result;
-                    });
-            };
-            $scope.initializeDownSwitchOrderPolicy();
-            $scope.$watch('orderPolicy.selected',
-                function (selection) {
-                    if (selection) {
-                        $scope.query();
-                    }
-                });
-            
-
-            $scope.ok = function () {
-                $uibModalInstance.close($scope.building);
-            };
-
-            $scope.cancel = function () {
-                $uibModalInstance.dismiss('cancel');
-            };
         })
-    .controller("rutrace.top.district",
+    .controller("kpi.basic",
         function($scope,
             $uibModalInstance,
-            district,
-            preciseInterferenceService,
-            kpiPreciseService,
-            workitemService,
-            beginDate,
-            endDate) {
-            $scope.dialogTitle = "TOP指标分析-" + district;
-            $scope.topCells = [];
-            $scope.updateMessages = [];
-            $scope.beginDate = beginDate;
-            $scope.endDate = endDate;
-
-            $scope.query = function() {
-                $scope.topCells = [];
-                kpiPreciseService.queryTopKpisInDistrict($scope.beginDate.value,
-                    $scope.endDate.value,
-                    $scope.topCount.selected,
-                    $scope.orderPolicy.selected,
-                    $scope.city.selected,
-                    district).then(function(result) {
-                    $scope.topCells = result;
-                    angular.forEach(result,
-                        function(cell) {
-                            workitemService.queryByCellId(cell.cellId, cell.sectorId).then(function(items) {
-                                if (items.length > 0) {
-                                    for (var j = 0; j < $scope.topCells.length; j++) {
-                                        if (items[0].eNodebId === $scope.topCells[j].cellId &&
-                                            items[0].sectorId === $scope.topCells[j].sectorId) {
-                                            $scope.topCells[j].hasWorkItems = true;
-                                            break;
-                                        }
-                                    }
-                                }
-                            });
-                        });
+            city,
+            dialogTitle,
+            appRegionService,
+            appFormatService,
+            kpi2GService,
+            workItemDialog) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.views = {
+                options: ['主要', '2G', '3G'],
+                selected: '主要'
+            };
+            $scope.showKpi = function() {
+                kpi2GService.queryDayStats(city.selected, $scope.statDate.value).then(function(result) {
+                    $scope.statDate.value = appFormatService.getDate(result.statDate);
+                    $scope.statList = result.statViews;
                 });
             };
-            $scope.initializeOrderPolicy();
-            $scope.$watch('orderPolicy.selected',
-                function (selection) {
-                    if (selection) {
-                        $scope.query();
+            $scope.showTrend = function() {
+                workItemDialog.showBasicTrend(city.selected, $scope.beginDate, $scope.endDate);
+            };
+            $scope.$watch('city.selected',
+                function(item) {
+                    if (item) {
+                        $scope.showKpi();
                     }
                 });
-
             $scope.ok = function() {
                 $uibModalInstance.close($scope.building);
             };

@@ -33,7 +33,6 @@ namespace Lte.Evaluations.DataService.Kpi
             var module = new AbpAutoMapperModule(_typeFinder);
             module.PostInitialize();
             _townRepository.MockGetId<ITownRepository, Town>();
-            _townRepository.MockOpertion();
         }
 
         [SetUp]

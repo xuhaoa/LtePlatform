@@ -135,8 +135,6 @@ namespace Lte.MySqlFramework.Abstract
 
     public interface IENodebRepository : IRepository<ENodeb>
     {
-        ENodeb GetByENodebId(int eNodebId);
-
         ENodeb GetByName(string name);
 
         List<ENodeb> GetAllInUseList();

@@ -1,6 +1,6 @@
-﻿angular.module('topic.dialog',[ 'app.menu' ])
+﻿angular.module('topic.dialog',[ 'app.menu', 'app.core' ])
     .factory('mapDialogService',
-        function(menuItemService) {
+        function (menuItemService, stationFormatService) {
             return {
                 showTownENodebInfo: function(item, city, district) {
                     menuItemService.showGeneralDialog({
@@ -136,20 +136,16 @@
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Evaluation/AlarmStationDetails.html',
                         controller: 'map.alarmStation.dialog',
-                        resolve: {
-                            dialogTitle: function() {
-                                return "告警信息:" + station.StationName;
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return "告警信息:" + station.StationName;
+                                },
+                                station: function() {
+                                    return station;
+                                }
                             },
-                            station: function() {
-                                return station;
-                            },
-                            beginDate: function() {
-                                return beginDate;
-                            },
-                            endDate: function() {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showAlarmHistoryList: function(alarmStation) {
@@ -320,44 +316,70 @@
                         }
                     });
                 },
-                showPreciseTrend: function(city, beginDate, endDate) {
+                showBasicKpiDialog: function (city, beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/BasicKpi/Index.html',
+                        controller: 'kpi.basic',
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return city.selected + "CDMA整体分析";
+                                },
+                                city: function() {
+                                    return city;
+                                }
+                            },
+                            beginDate,
+                            endDate)
+                    });
+                },
+                showTopDrop2GDialog: function(city, beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/BasicKpi/TopDrop2G.html',
+                        controller: 'kpi.topDrop2G',
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return city.selected + "TOP掉话分析";
+                                },
+                                city: function() {
+                                    return city;
+                                }
+                            },
+                            beginDate,
+                            endDate)
+                    });
+                },
+                showPreciseTrendDialog: function(city, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Trend.html',
                         controller: 'rutrace.trend',
-                        resolve: {
-                            dialogTitle: function() {
-                                return "精确覆盖率变化趋势";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return "精确覆盖率变化趋势";
+                                },
+                                city: function() {
+                                    return city;
+                                }
                             },
-                            city: function() {
-                                return city;
-                            },
-                            beginDate: function() {
-                                return beginDate;
-                            },
-                            endDate: function() {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showRrcTrend: function(city, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
-                        templateUrl: '/appViews/Rutrace/Trend.html',
-                        controller: 'rrc.trend',
-                        resolve: {
-                            dialogTitle: function() {
-                                return "RRC连接成功率变化趋势";
-                            },
-                            city: function() {
-                                return city;
-                            },
-                            beginDate: function() {
-                                return beginDate;
-                            },
-                            endDate: function() {
-                                return endDate;
-                            }
-                        }
+                            templateUrl: '/appViews/Rutrace/Trend.html',
+                            controller: 'rrc.trend',
+                            resolve: stationFormatService.dateSpanDateResolve({
+                                    dialogTitle: {
+                                        function() {
+                                            return "RRC连接成功率变化趋势";
+                                        },
+                                        city: function() {
+                                            return city;
+                                        }
+                                    }
+                                },
+                                beginDate,
+                                endDate)
                     });
                 },
                 showCqiTrend: function (city, beginDate, endDate) {
@@ -380,7 +402,7 @@
                         }
                     });
                 },
-                showDownSwitchTrend: function (city, beginDate, endDate) {
+                showDownSwitchTrendDialog: function (city, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Trend.html',
                         controller: 'down.switch.trend',
@@ -429,17 +451,13 @@
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Top.html',
                         controller: 'rutrace.top',
-                        resolve: {
-                            dialogTitle: function() {
-                                return "全市精确覆盖率TOP统计";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return "全市精确覆盖率TOP统计";
+                                }
                             },
-                            beginDate: function() {
-                                return beginDate;
-                            },
-                            endDate: function() {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showDownSwitchTop: function (beginDate, endDate) {
@@ -463,17 +481,26 @@
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Top.html',
                         controller: 'rutrace.top.district',
-                        resolve: {
-                            beginDate: function() {
-                                return beginDate;
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                district: function() {
+                                    return district;
+                                }
                             },
-                            endDate: function() {
-                                return endDate;
+                            beginDate,
+                            endDate)
+                    });
+                },
+                showDownSwitchTopDistrict: function (beginDate, endDate, district) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Rutrace/Top.html',
+                        controller: 'down.switch.top.district',
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                district: function() {
+                                    return district;
+                                }
                             },
-                            district: function() {
-                                return district;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showMonthComplainItems: function() {
@@ -509,31 +536,20 @@
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/College/Coverage/All.html',
                         controller: 'college.coverage.all',
-                        resolve: {
-                            beginDate: function() {
-                                return beginDate;
-                            },
-                            endDate: function() {
-                                return endDate;
-                            }
-                        }
+                        resolve: stationFormatService.dateSpanDateResolve({}, beginDate, endDate)
                     });
                 },
                 showCollegeFlowTrend: function(beginDate, endDate, name) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/College/Test/CollegeFlow.html',
                         controller: 'college.flow.name',
-                        resolve: {
-                            beginDate: function() {
-                                return beginDate;
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                name: function() {
+                                    return name;
+                                }
                             },
-                            endDate: function() {
-                                return endDate;
-                            },
-                            name: function() {
-                                return name;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showHotSpotFlowTrend: function (beginDate, endDate, name) {

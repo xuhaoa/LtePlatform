@@ -71,9 +71,6 @@
             getDtUrlHost: function () {
                 return (window.location.hostname === publicNetworkIp) ? '/' : 'http://132.110.71.121:2889/';
             },
-            getDistributionHost: function () {
-                return (window.location.hostname === publicNetworkIp) ? 'http://119.145.142.74:8109/' : 'http://132.110.71.122:8086/';
-            },
             getParameterUrlHost: function () {
                 return (window.location.hostname === publicNetworkIp) ? 'http://119.145.142.74:8110/' : 'http://132.110.71.122:8001/';
             },
@@ -138,7 +135,7 @@
                         store.add(value);
                     }
 
-                }
+                };
             },
             refreshIndexedDb: function(db, storeName, keyName, items) {
                 var transaction = db.transaction(storeName, 'readwrite');
@@ -163,6 +160,34 @@
                         callback(data);
                     }
                 };
+            }
+        };
+    })
+    .factory('stationFormatService', function() {
+        return {
+            dateSpanResolve: function (basicFields, beginDate, endDate) {
+                angular.extend(basicFields,
+                    {
+                        begin: function () {
+                            return beginDate;
+                        },
+                        end: function () {
+                            return endDate;
+                        }
+                    });
+                return basicFields;
+            },
+            dateSpanDateResolve: function (basicFields, beginDate, endDate) {
+                angular.extend(basicFields,
+                    {
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        }
+                    });
+                return basicFields;
             }
         };
     })
@@ -225,32 +250,8 @@
                 { value: 'CC', name: '禅城' },
                 { value: 'SS', name: '三水' },
                 { value: 'GM', name: '高明' }
-            ],
-            dateSpanResolve: function(basicFields, beginDate, endDate) {
-                angular.extend(basicFields,
-                {
-                    begin: function() {
-                        return beginDate;
-                    },
-                    end: function() {
-                        return endDate;
-                    }
-                });
-                return basicFields;
-            },
-            dateSpanDateResolve: function (basicFields, beginDate, endDate) {
-                angular.extend(basicFields,
-                    {
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        }
-                    });
-                return basicFields;
-            }
-        }
+            ]
+        };
     })
     .controller('header.menu', function($scope, appUrlService) {
         $scope.emergencyUrl = appUrlService.getCustomerHost() + 'IndexOfEmerCom.aspx';

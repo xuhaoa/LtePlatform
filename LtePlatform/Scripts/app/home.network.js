@@ -712,11 +712,6 @@
                 });
 
         })
-    .controller("home.interference",
-        function($scope, baiduMapService) {
-            baiduMapService.initializeMap("map", 11);
-            baiduMapService.addCityBoundary("佛山");
-        })
     .controller("bts.construction",
         function($scope,
             baiduMapService,

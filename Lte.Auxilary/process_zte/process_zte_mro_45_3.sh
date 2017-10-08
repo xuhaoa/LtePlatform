@@ -1,0 +1,1 @@
+/home/wireless/anaconda3/bin/python /home/wireless/Public/process_zte_mro.py 0345 0745 1145 1545 1945 2345

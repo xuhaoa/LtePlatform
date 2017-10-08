@@ -28,8 +28,8 @@
             </div>
         </div>
     </div>
-    <div top-cell top-cells="topCells" begin-date="beginDate" end-date="endDate" update-messages="updateMessages"></div>
-
+    <div ng-if="kpiType === 'precise'" top-cell top-cells="topCells" begin-date="beginDate" end-date="endDate" update-messages="updateMessages"></div>
+    <div ng-if="kpiType === 'downSwitch'" top-down-switch top-cells="topCells" begin-date="beginDate" end-date="endDate" update-messages="updateMessages"></div>
 </div>
 
 <div class="modal-footer">

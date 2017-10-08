@@ -2,25 +2,18 @@
     .controller('menu.kpi',
         function($scope, appUrlService) {
             $scope.menuItem = {
-                displayName: "指标优化",
+                displayName: "4G优化",
                 subItems: [
                     {
                         displayName: "指标总览",
                         url: "/#/kpi",
                         tooltip: "4G总体指标"
                     }, {
-                        displayName: "质量分析",
-                        url: '/#/quality',
-                        tooltip: "4G网络质量分析与日常优化"
-                    }, {
                         displayName: "专题优化",
                         url: '/#/topic'
                     }, {
                         displayName: "容量优化",
                         url: appUrlService.getPlanUrlHost() + 'erab'
-                    }, {
-                        displayName: "室分专项",
-                        url: appUrlService.getDistributionHost()
                     }
                 ]
             };
@@ -35,7 +28,8 @@
             networkElementService,
             baiduQueryService,
             neighborDialogService,
-            mapDialogService) {
+            mapDialogService,
+            workItemDialog) {
             baiduMapService.initializeMap("map", 11);
             baiduMapService.addCityBoundary("佛山");
             $scope.currentView = "精确覆盖率";
@@ -107,7 +101,7 @@
                     district).then(function(result) {
                     angular.forEach(result,
                         function(item) {
-                            networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function (cell) {
+                            networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function(cell) {
                                 if (cell) {
                                     collegeMapService.showFlowCellSector(cell, item, $scope.beginDate, $scope.endDate);
                                 }
@@ -151,17 +145,21 @@
                     });
             };
 
+            $scope.showTodayKpi = function() {
+                workItemDialog.showTodayOverallKpi($scope.city.selected);
+            }
+
             $scope.showPreciseStats = function() {
-                mapDialogService.showPreciseTrend($scope.city, $scope.beginDate, $scope.endDate);
+                mapDialogService.showPreciseTrendDialog($scope.city, $scope.beginDate, $scope.endDate);
             };
             $scope.showRrcStats = function() {
                 mapDialogService.showRrcTrend($scope.city, $scope.beginDate, $scope.endDate);
             };
-            $scope.showCqiStats = function () {
+            $scope.showCqiStats = function() {
                 mapDialogService.showCqiTrend($scope.city, $scope.beginDate, $scope.endDate);
             };
             $scope.showDownSwitchStats = function() {
-                mapDialogService.showDownSwitchTrend($scope.city, $scope.beginDate, $scope.endDate);
+                mapDialogService.showDownSwitchTrendDialog($scope.city, $scope.beginDate, $scope.endDate);
             };
 
             $scope.districts = [];
@@ -170,15 +168,6 @@
                 function(district, $index) {
                     $scope.showPreciseRate($scope.city.selected || "佛山", district, $scope.colors[$index]);
                 });
-        })
-    .controller('kpi.quality',
-        function($scope, baiduMapService, workItemDialog) {
-            baiduMapService.initializeMap("map", 11);
-            baiduMapService.addCityBoundary("佛山");
-
-            $scope.showTodayKpi = function() {
-                workItemDialog.showTodayKpi($scope.city.selected);
-            }
         })
     .controller("query.topic",
         function($scope, baiduMapService, customerDialogService, basicImportService, mapDialogService) {
@@ -224,4 +213,21 @@
                     baiduMapService.switchMainMap);
             };
             $scope.updateMap();
+        })
+    .controller("home.interference",
+        function($scope, baiduMapService) {
+            baiduMapService.initializeMap("map", 11);
+            baiduMapService.addCityBoundary("佛山");
+        })
+    .controller("home.cdma",
+        function($scope, baiduMapService, mapDialogService) {
+            baiduMapService.initializeMap("map", 11);
+            baiduMapService.addCityBoundary("佛山");
+
+            $scope.showBasicKpi = function() {
+                mapDialogService.showBasicKpiDialog($scope.city, $scope.beginDate, $scope.endDate);
+            };
+            $scope.showTopDrop2G = function() {
+                mapDialogService.showTopDrop2GDialog($scope.city, $scope.beginDate, $scope.endDate);
+            };
         });

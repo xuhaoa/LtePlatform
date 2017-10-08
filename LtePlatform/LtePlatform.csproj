@@ -82,6 +82,9 @@
     <Reference Include="Castle.Windsor, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Windsor.4.0.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="dotMemory.Unit, Version=109.0.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.dotMemoryUnit.2.4.20170830.172630\lib\dotMemory.Unit.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -402,7 +405,6 @@
     <Content Include="appViews\Home\DT.html" />
     <Content Include="appViews\BasicKpi\GridApp.html" />
     <Content Include="appViews\BasicKpi\GridClusterDialog.html" />
-    <Content Include="appViews\BasicKpi\Quality.html" />
     <Content Include="appViews\BasicKpi\Resource.html" />
     <Content Include="appViews\BasicKpi\TopConnection3GTrend.html" />
     <Content Include="appViews\BasicKpi\TopDrop2GTrend.html" />
@@ -477,23 +479,23 @@
     <Content Include="appViews\Home\Flow.html" />
     <Content Include="appViews\Home\FourChartDialog.html" />
     <Content Include="appViews\Home\GeneralTableDetails.html" />
-    <Content Include="appViews\Home\IndoorDetails.html" />
     <Content Include="appViews\Home\IndoorFilter.html" />
     <Content Include="appViews\Home\Kpi.html" />
     <Content Include="appViews\Home\Kpi2G.html" />
     <Content Include="appViews\Home\Kpi4G.html" />
     <Content Include="appViews\Home\KpiDownSwitch.html" />
+    <Content Include="appViews\Home\Menu\Cdma.html" />
     <Content Include="appViews\Home\Micro.html" />
     <Content Include="appViews\Home\Mr.html" />
     <Content Include="appViews\Home\MrGrid.html" />
     <Content Include="appViews\Home\Network.html" />
-    <Content Include="appViews\Home\Plan.html" />
+    <Content Include="appViews\Home\Menu\Plan.html" />
     <Content Include="appViews\Home\PlanningDetails.html" />
     <Content Include="appViews\Home\Query.html" />
     <Content Include="appViews\Home\SingleChartDialog.html" />
     <Content Include="appViews\Home\Station.html" />
     <Content Include="appViews\Home\StationAdd.html" />
-    <Content Include="appViews\Home\StationDetails.html" />
+    <Content Include="appViews\Home\Details\StationDetails.html" />
     <Content Include="appViews\Home\StationEdit.html" />
     <Content Include="appViews\Home\StationFilter.html" />
     <Content Include="appViews\Home\StationListDialog.html" />
@@ -522,6 +524,7 @@
     <Content Include="appViews\Parameters\Region\TownENodebInfo.html" />
     <Content Include="appViews\Parameters\Topic.html" />
     <Content Include="appViews\Rutrace\Coverage\DetailsChartDialog.html" />
+    <Content Include="appViews\Rutrace\Coverage\General.html" />
     <Content Include="appViews\Rutrace\Coverage\Trend.html" />
     <Content Include="appViews\Rutrace\Map\SourceMapInfoBox.html" />
     <Content Include="appViews\Rutrace\Interference\VictimDialog.html" />
@@ -836,7 +839,6 @@
     <Content Include="Content\Images\TimeControl\time-progress.png" />
     <Content Include="Content\_todolist.scss" />
     <Content Include="Content\themes\baidu\box.scss" />
-    <None Include=".bin\compass.bat" />
     <Content Include="Content\themes\_colors.scss" />
     <Content Include="Content\ui-grid.woff" />
     <Content Include="Content\ui-grid.ttf" />
@@ -868,6 +870,7 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\Gruntfile.js" />
+    <Content Include="Scripts\app\home.alarm.menu.js" />
     <Content Include="Scripts\app\home.college.js" />
     <Content Include="Scripts\app\home.combined.js" />
     <Content Include="Scripts\app\home.complain.js" />
@@ -880,6 +883,7 @@
     <Content Include="Scripts\app\home.station.js" />
     <Content Include="Scripts\app\network.theme.js" />
     <Content Include="Scripts\app\station.checking.js" />
+    <Content Include="Scripts\app\station.common.js" />
     <Content Include="Scripts\app\station.fixing.js" />
     <Content Include="Scripts\baidu\plugins\ComplexCustomOverlay.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1021,11 +1025,13 @@
     <Content Include="Scripts\service\region\precise.js" />
     <Content Include="Scripts\service\topic\basic.js" />
     <Content Include="Scripts\service\topic\college.js" />
+    <Content Include="Scripts\service\topic\dialog.alarm.js" />
     <Content Include="Scripts\service\topic\dialog.college.js" />
     <Content Include="Scripts\service\topic\dialog.customer.js" />
     <Content Include="Scripts\service\topic\dialog.js" />
     <Content Include="Scripts\service\topic\dialog.kpi.js" />
     <Content Include="Scripts\service\topic\dialog.parameters.js" />
+    <Content Include="Scripts\service\topic\dialog.top.js" />
     <Content Include="Scripts\service\topic\parameters.basic.js" />
     <Content Include="Scripts\service\topic\parameters.coverage.js" />
     <Content Include="Scripts\service\topic\parameters.js" />
@@ -1041,6 +1047,7 @@
     <Content Include="Scripts\service\url\core.js" />
     <Content Include="Scripts\service\url\format.js" />
     <Content Include="Scripts\service\url\geometry.js" />
+    <Content Include="Scripts\service\url\kpi.chart.js" />
     <Content Include="Scripts\service\url\menu.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\spin.min.js" />

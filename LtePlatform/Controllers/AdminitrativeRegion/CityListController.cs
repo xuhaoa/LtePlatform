@@ -31,10 +31,9 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
         [ApiDoc("获得指定城市下属的区域列表")]
         [ApiParameterDoc("city", "指定城市")]
         [ApiResponse("区域列表")]
-        public IHttpActionResult Get(string city)
+        public List<string> Get(string city)
         {
-            var query = _service.GetDistricts(city);
-            return query.Count == 0 ? (IHttpActionResult)BadRequest("Empty District List!") : Ok(query);
+            return _service.GetDistricts(city);
         }
 
         [HttpGet]
@@ -42,10 +41,9 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
         [ApiParameterDoc("city", "指定城市")]
         [ApiParameterDoc("district", "区域")]
         [ApiResponse("镇区列表")]
-        public IHttpActionResult Get(string city, string district)
+        public List<string> Get(string city, string district)
         {
-            var query = _service.GetTowns(city, district);
-            return query.Count == 0 ? (IHttpActionResult)BadRequest("Empty Town List!") : Ok(query);
+            return _service.GetTowns(city, district);
         }
     }
 
@@ -72,6 +70,7 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
         [ApiParameterDoc("city", "城市")]
         [ApiParameterDoc("district", "区")]
         [ApiParameterDoc("town", "镇")]
+        [ApiResponse("指定镇区信息")]
         public Town Get(string city, string district, string town)
         {
             return _service.GetTown(city, district, town);
@@ -89,12 +88,24 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
         }
 
         [HttpGet]
+        [ApiDoc("查询指定镇区的边界坐标信息")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiParameterDoc("district", "区")]
+        [ApiParameterDoc("town", "镇")]
+        [ApiResponse("镇区的边界坐标信息")]
         public IEnumerable<TownBoundaryView> Get(string city, string district, string town)
         {
             return _service.GetTownBoundaryViews(city, district, town);
         }
 
         [HttpGet]
+        [ApiDoc("判断指定的经纬度是否在某个镇区内")]
+        [ApiParameterDoc("longtitute", "经度")]
+        [ApiParameterDoc("lattitute", "纬度")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiParameterDoc("district", "区")]
+        [ApiParameterDoc("town", "镇")]
+        [ApiResponse("指定的经纬度是否在某个镇区内")]
         public bool Get(double longtitute, double lattitute, string city, string district, string town)
         {
             return _service.IsInTownBoundaries(longtitute, lattitute, city, district, town);

@@ -83,13 +83,24 @@
                     }, {
                         displayName: "智能规划",
                         url: appUrlService.getPlanUrlHost() + 'guihua'
-                    }, {
-                        displayName: "干扰管理",
-                        url: '/#/interference'
                     }
                 ]
             };
         })
+    .controller('menu.cdma', function($scope) {
+        $scope.menuItem = {
+            displayName: "2G优化",
+            subItems: [
+                {
+                    displayName: "指标优化",
+                    url: '/#/cdma'
+                }, {
+                    displayName: "干扰管理",
+                    url: '/#/interference'
+                }
+            ]
+        };
+    })
     .controller('menu.mr',
         function($scope) {
             var rootUrl = "/#";

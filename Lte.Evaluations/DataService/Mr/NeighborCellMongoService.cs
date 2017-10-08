@@ -35,7 +35,7 @@ namespace Lte.Evaluations.DataService.Mr
 
         private IMongoQuery<List<NeighborCellMongo>> ConstructNeighborQuery(int eNodebId, byte sectorId)
         {
-            var eNodeb = _eNodebRepository.GetByENodebId(eNodebId);
+            var eNodeb = _eNodebRepository.FirstOrDefault(x => x.ENodebId == eNodebId);
             if (eNodeb == null) return null;
             return eNodeb.Factory == "华为"
                 ? (IMongoQuery<List<NeighborCellMongo>>)
@@ -47,7 +47,7 @@ namespace Lte.Evaluations.DataService.Mr
 
         private IMongoQuery<List<NeighborCellMongo>> ConstructReverseNeighborQuery(int destENodebId, byte destSectorId)
         {
-            var eNodeb = _eNodebRepository.GetByENodebId(destENodebId);
+            var eNodeb = _eNodebRepository.FirstOrDefault(x => x.ENodebId == destENodebId);
             if (eNodeb == null) return null;
             return eNodeb.Factory == "华为"
                 ? (IMongoQuery<List<NeighborCellMongo>>)
@@ -112,7 +112,7 @@ namespace Lte.Evaluations.DataService.Mr
                 x.SectorId = _sectorId;
                 var neighborCell = _cellRepository.GetBySectorId(x.NeighborCellId, x.NeighborSectorId);
                 if (neighborCell != null) x.NeighborPci = neighborCell.Pci;
-                var neighborENodeb = _eNodebRepository.GetByENodebId(x.NeighborCellId);
+                var neighborENodeb = _eNodebRepository.FirstOrDefault(e => e.ENodebId == x.NeighborCellId);
                 if (neighborENodeb != null) x.NeighborCellName = neighborENodeb.Name + "-" + x.NeighborSectorId;
             });
             return results;
@@ -147,7 +147,7 @@ namespace Lte.Evaluations.DataService.Mr
         {
             var neighborCell = _cellRepository.GetBySectorId(_destENodebId, _destSectorId);
             var neighborPci = neighborCell?.Pci;
-            var neighborENodeb = _eNodebRepository.GetByENodebId(_destENodebId);
+            var neighborENodeb = _eNodebRepository.FirstOrDefault(x => x.ENodebId == _destENodebId);
             var neighborCellName = neighborENodeb?.Name ?? "未知基站" + "-" + _destSectorId;
             var huaweiNeighbors = _huaweiNeighborRepository.GetAllReverseList(_destENodebId, _destSectorId);
             var interNeighbors = _interNeighborRepository.GetAllReverseList(_destENodebId, _destSectorId);

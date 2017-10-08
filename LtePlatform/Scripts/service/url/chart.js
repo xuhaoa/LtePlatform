@@ -1,6 +1,6 @@
-﻿angular.module('app.chart', ['app.format'])
+﻿angular.module('app.chart', ['app.format', 'app.calculation'])
     .factory('chartCalculateService',
-        function(appFormatService) {
+        function (appFormatService, basicCalculationService) {
             return {
                 generateDrillDownData: function(districtStats, townStats, queryFunction) {
                     var results = [];
@@ -79,20 +79,28 @@
                     return chart.options;
                 },
                 calculateMemberSum: function(array, memberList, categoryFunc) {
-                    var result = _.reduce(array,
-                        function(memo, num) {
-                            var temp = {};
-                            angular.forEach(memberList,
-                                function(member) {
-                                    temp[member] = memo[member] + num[member];
-                                });
-                            return temp;
-                        });
+                    var result = basicCalculationService.calculateArraySum(array, memberList);
                     categoryFunc(result);
                     return result;
                 },
                 generateDistrictStats: function(districts, stats, funcs) {
                     var outputStats = [];
+                    var initFuncs =
+                    {
+                        districtViewFunc: function(stat) { return 0; },
+                        initializeFunc: function(stat) { return 0; },
+                        calculateFunc: function (stat) { return 0; },
+                        accumulateFunc: function (stat, view) { return 0; },
+                        zeroFunc: function () { return 0; },
+                        totalFunc: function (stat) { return 0; }
+                    };
+                    funcs = funcs || initFuncs;
+                    funcs.districtViewFunc = funcs.districtViewFunc || initFuncs.districtViewFunc;
+                    funcs.initializeFunc = funcs.initializeFunc || initFuncs.initializeFunc;
+                    funcs.calculateFunc = funcs.calculateFunc || initFuncs.calculateFunc;
+                    funcs.accumulateFunc = funcs.accumulateFunc || initFuncs.accumulateFunc;
+                    funcs.zeroFunc = funcs.zeroFunc || initFuncs.zeroFunc;
+                    funcs.totalFunc = funcs.totalFunc || initFuncs.totalFunc;
                     angular.forEach(stats,
                         function(stat) {
                             var districtViews = funcs.districtViewFunc(stat);
@@ -146,7 +154,7 @@
                     trendStat.districtStats = funcs.districtViewsFunc(result[0]);
                     trendStat.townStats = funcs.townViewsFunc(result[0]);
                     for (var i = 1; i < result.length; i++) {
-                        angular.forEach(funcs.districtViewsFunc(result[0]),
+                        angular.forEach(funcs.districtViewsFunc(result[i]),
                             function(currentDistrictStat) {
                                 var found = false;
                                 for (var k = 0; k < trendStat.districtStats.length; k++) {
@@ -161,7 +169,7 @@
                                     trendStat.districtStats.push(currentDistrictStat);
                                 }
                             });
-                        angular.forEach(result[i].townPreciseView,
+                        angular.forEach(funcs.townViewsFunc(result[i]),
                             function(currentTownStat) {
                                 var found = false;
                                 for (var k = 0; k < trendStat.townStats.length; k++) {
@@ -1205,144 +1213,4 @@
                     };
                 }
             };
-        })
-    .factory('preciseChartService',
-        function(generalChartService, chartCalculateService) {
-            return {
-                getTypeOption: function(views) {
-                    return chartCalculateService.generateDrillDownPieOptions(generalChartService
-                        .generateCompoundStats(views),
-                        {
-                            title: "工单类型分布图",
-                            seriesName: "工单类型"
-                        });
-                },
-                getStateOption: function(views) {
-                    return chartCalculateService.generateDrillDownPieOptions(generalChartService
-                        .generateCompoundStats(views),
-                        {
-                            title: "工单状态分布图",
-                            seriesName: "工单状态"
-                        });
-                },
-                getDistrictOption: function(views) {
-                    return chartCalculateService.generateDrillDownPieOptions(generalChartService
-                        .generateCompoundStats(views),
-                        {
-                            title: "工单镇区分布图",
-                            seriesName: "镇区"
-                        });
-                },
-                getTownFlowOption: function(views, frequency) {
-                    return chartCalculateService.generateDrillDownPieOptions(generalChartService
-                        .generateCompoundStats(views,
-                            function(view) {
-                                return view.district;
-                            },
-                            function(view) {
-                                return view.town;
-                            },
-                            function(view) {
-                                return (view.pdcpDownlinkFlow + view.pdcpUplinkFlow) / 1024 / 1024 / 8;
-                            }),
-                        {
-                            title: "流量镇区分布图(TB)-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域"
-                        });
-                },
-                getTownUsersOption: function(views, frequency) {
-                    return chartCalculateService.generateDrillDownPieOptions(generalChartService
-                        .generateCompoundStats(views,
-                            function(view) {
-                                return view.district;
-                            },
-                            function(view) {
-                                return view.town;
-                            },
-                            function(view) {
-                                return view.maxUsers;
-                            }),
-                        {
-                            title: "最大在线用户数镇区分布图(TB)-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域"
-                        });
-                },
-                getCoverageOptions: function(stats) {
-                    var chart = new ComboChart();
-                    chart.initialize({
-                        title: '覆盖情况统计',
-                        xTitle: 'RSRP(dBm)',
-                        yTitle: 'MR次数'
-                    });
-                    angular.forEach(stats,
-                        function(stat, index) {
-                            var data = chartCalculateService.generateMrsRsrpStats(stat);
-                            if (index === 0) {
-                                chart.xAxis[0].categories = data.categories;
-                            }
-                            chart.series.push({
-                                type: 'spline',
-                                name: stat.statDate,
-                                data: data.values
-                            });
-                        });
-
-                    return chart.options;
-                },
-                getTaOptions: function(stats) {
-                    var chart = new ComboChart();
-                    chart.initialize({
-                        title: '接入距离分布统计',
-                        xTitle: '接入距离(米)',
-                        yTitle: 'MR次数'
-                    });
-                    angular.forEach(stats,
-                        function(stat, index) {
-                            var data = chartCalculateService.generateMrsTaStats(stat);
-                            if (index === 0) {
-                                chart.xAxis[0].categories = data.categories;
-                            }
-                            chart.series.push({
-                                type: 'spline',
-                                name: stat.statDate,
-                                data: data.values
-                            });
-                        });
-
-                    return chart.options;
-                },
-                getRsrpTaOptions: function(stats, rsrpIndex) {
-                    var chart = new ComboChart();
-                    chart.initialize({
-                        title: '接入距离分布统计',
-                        xTitle: '接入距离(米)',
-                        yTitle: 'MR次数'
-                    });
-                    chart.legend.align = 'right';
-                    angular.forEach(stats,
-                        function(stat, index) {
-                            var data = chartCalculateService.generateRsrpTaStats(stat, rsrpIndex);
-                            if (index === 0) {
-                                chart.xAxis[0].categories = data.categories;
-                                chart.title.text += '(' + data.seriesName + ')';
-                            }
-                            chart.series.push({
-                                type: 'line',
-                                name: stat.statDate,
-                                data: data.values
-                            });
-                        });
-
-                    return chart.options;
-                },
-
-                generateDistrictTrendOptions: function(stats, districts, kpiFunc, titleSettings) {
-                    return chartCalculateService.generateSplineChartOptions(chartCalculateService
-                        .generateDateDistrictStats(stats,
-                            districts.length,
-                            kpiFunc),
-                        districts,
-                        titleSettings);
-                }
-            }
         });

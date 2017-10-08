@@ -49,35 +49,37 @@ def is_foshan_filename(name):
         return False
     return enodebid in range(550912, 552960) or enodebid in range(499712, 503808) or enodebid in range(868352,870400)
 
-def is_mro_filename(name):
-    '''判断是否为华为MRO文件名，例如FDD-LTE_MRO_HUAWEI_501035_20161122113000.xml.gz'''
-    type=name.split('_')[-4]
-    return type=='MRO'
+def is_filename_huawei(name: str, file_type: str):
+    my_type = name.split('_')[-4]
+    return my_type == file_type and name.endswith('.xml.gz')
 
-def is_mro_filename_zte(name):
+def is_filename_zte(name: str, file_type: str):
+    my_type = name.split('_')[-5]
+    return my_type == file_type and name.endswith('.zip')
+
+def is_mro_filename(name: str):
+    '''判断是否为华为MRO文件名，例如FDD-LTE_MRO_HUAWEI_501035_20161122113000.xml.gz'''
+    return is_filename_huawei(name, 'MRO')
+
+def is_mro_filename_zte(name: str):
     '''判断是否为中兴MRO文件名，例如FDD-LTE_MRO_ZTE_OMC1_501251_20170705194500.zip'''
-    type=name.split('_')[-5]
-    return type=='MRO'
+    return is_filename_zte(name, 'MRO')
 
 def is_mre_filename(name):
     '''判断是否为华为MRE文件名，例如FDD-LTE_MRE_HUAWEI_500328_20161122113000.xml.gz'''
-    type=name.split('_')[-4]
-    return type=='MRE'
+    return is_filename_huawei(name, 'MRE')
 
 def is_mre_filename_zte(name):
     '''判断是否为中兴MRE文件名，例如FDD-LTE_MRE_ZTE_OMC1_501819_20161218101500.zip'''
-    type=name.split('_')[-5]
-    return type=='MRE'
+    return is_filename_zte(name, 'MRE')
 
 def is_mrs_filename(name):
     '''判断是否为华为MRS文件名，例如FDD-LTE_MRS_HUAWEI_501195_20161122113000.xml.gz'''
-    type=name.split('_')[-4]
-    return type=='MRS'
+    return is_filename_huawei(name, 'MRS')
 
 def is_mrs_filename_zte(name):
     '''判断是否为中兴MRS文件名，例如FDD-LTE_MRS_ZTE_OMC1_502599_20161128044500.zip'''
-    type=name.split('_')[-5]
-    return type=='MRS'
+    return is_filename_zte(name, 'MRS')
 
 class FTP_IgnoreHost(ftplib.FTP):
     def makepasv(self):
@@ -89,6 +91,7 @@ def generate_zte_north_host(ip, username, password):
     return ftputil.FTPHost(ip, username, password, session_factory=my_session)
 
 class NorthDownloader:
+    '''北向接口下载对象'''
     def __init__(self, host, DFList, db):
         self.host=host
         self.DFList=DFList
@@ -158,7 +161,7 @@ class MrDownloader:
             self.host.chdir(root)                
             for name in files:
                 print(name)
-                if name.endswith(affix) and is_mro_filename(name) and is_foshan_filename(name): 
+                if name.endswith(affix) and filename_func(name) and is_foshan_filename(name): 
                     if name in self.DFList:
                         pass
                     else:

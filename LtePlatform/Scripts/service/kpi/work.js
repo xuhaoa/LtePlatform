@@ -1,5 +1,5 @@
-﻿angular.module('kpi.work', ['app.menu', 'myApp.region'])
-	.factory('workItemDialog', function(menuItemService, workitemService) {
+﻿angular.module('kpi.work', ['app.menu', 'app.core', 'myApp.region'])
+    .factory('workItemDialog', function (menuItemService, workitemService, stationFormatService) {
 		return {
 			feedback: function(view, callbackFunc) {
 				menuItemService.showGeneralDialogWithAction({
@@ -35,38 +35,30 @@
 				}, callbackFunc);
 			},
 			showENodebFlow: function(eNodeb, beginDate, endDate) {
-				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/Parameters/Region/ENodebFlow.html',
-					controller: 'eNodeb.flow',
-					resolve: {
-						eNodeb: function() {
-							return eNodeb;
-						},
-						beginDate: function() {
-							return beginDate;
-						},
-						endDate: function() {
-							return endDate;
-						}
-					}
-				});
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Parameters/Region/ENodebFlow.html',
+			        controller: 'eNodeb.flow',
+			        resolve: stationFormatService.dateSpanDateResolve({
+			                eNodeb: function() {
+			                    return eNodeb;
+			                }
+			            },
+			            beginDate,
+			            endDate)
+			    });
 			},
 			showHotSpotCellFlow: function(hotSpot, beginDate, endDate) {
-				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/Parameters/Region/ENodebFlow.html',
-					controller: 'hotSpot.cell.flow',
-					resolve: {
-						hotSpot: function() {
-							return hotSpot;
-						},
-						beginDate: function() {
-							return beginDate;
-						},
-						endDate: function() {
-							return endDate;
-						}
-					}
-				});
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Parameters/Region/ENodebFlow.html',
+			        controller: 'hotSpot.cell.flow',
+			        resolve: stationFormatService.dateSpanDateResolve({
+			                hotSpot: function() {
+			                    return hotSpot;
+			                }
+			            },
+			            beginDate,
+			            endDate)
+			    });
 			},
 			showHotSpotCells: function(name) {
 				menuItemService.showGeneralDialog({
@@ -151,169 +143,133 @@
                 });
             },
 			showPreciseTrend: function(city, beginDate, endDate) {
-				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/Rutrace/Coverage/Trend.html',
-					controller: 'rutrace.trend.dialog',
-					resolve: {
-						city: function() {
-							return city;
-						},
-						beginDate: function() {
-							return beginDate;
-						},
-						endDate: function() {
-							return endDate;
-						}
-					}
-				});
-            },
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Rutrace/Coverage/Trend.html',
+			        controller: 'rutrace.trend.dialog',
+			        resolve: stationFormatService.dateSpanDateResolve({
+			                city: function() {
+			                    return city;
+			                }
+			            },
+			            beginDate,
+			            endDate)
+			    });
+			},
             showRrcTrend: function (city, beginDate, endDate) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/WorkItem/RrcTrend.html',
                     controller: 'rrc.trend.dialog',
-                    resolve: {
-                        city: function () {
-                            return city;
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            city: function() {
+                                return city;
+                            }
                         },
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        }
-                    }
+                        beginDate,
+                        endDate)
                 });
             },
             showCqiTrend: function (city, beginDate, endDate) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/WorkItem/RrcTrend.html',
                     controller: 'cqi.trend.dialog',
-                    resolve: {
-                        city: function () {
-                            return city;
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            city: function() {
+                                return city;
+                            }
                         },
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        }
-                    }
+                        beginDate,
+                        endDate)
                 });
             },
             showDownSwitchTrend: function (city, beginDate, endDate) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/WorkItem/RrcTrend.html',
                     controller: 'down.switch.trend.dialog',
-                    resolve: {
-                        city: function () {
-                            return city;
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            city: function() {
+                                return city;
+                            }
                         },
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        }
-                    }
+                        beginDate,
+                        endDate)
                 });
             },
 			showBasicTrend: function(city, beginDate, endDate) {
-				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/BasicKpi/Trend.html',
-					controller: 'basic.kpi.trend',
-					resolve: {
-						city: function() {
-							return city;
-						},
-						beginDate: function() {
-							return beginDate;
-						},
-						endDate: function() {
-							return endDate;
-						}
-					}
-				});
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/BasicKpi/Trend.html',
+			        controller: 'basic.kpi.trend',
+			        resolve: stationFormatService.dateSpanDateResolve({
+			                city: function() {
+			                    return city;
+			                }
+			            },
+			            beginDate,
+			            endDate)
+			    });
 			},
 			showTopDropTrend: function(city, beginDate, endDate, topCount) {
-				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/BasicKpi/TopDrop2GTrend.html',
-					controller: 'kpi.topDrop2G.trend',
-					resolve: {
-						city: function() {
-							return city;
-						},
-						beginDate: function() {
-							return beginDate;
-						},
-						endDate: function() {
-							return endDate;
-						},
-						topCount: function() {
-							return topCount;
-						}
-					}
-				});
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/BasicKpi/TopDrop2GTrend.html',
+			        controller: 'kpi.topDrop2G.trend',
+			        resolve: stationFormatService.dateSpanDateResolve({
+			                city: function() {
+			                    return city;
+			                },
+			                topCount: function() {
+			                    return topCount;
+			                }
+			            },
+			            beginDate,
+			            endDate)
+			    });
 			},
 			showTopConnectionTrend: function(city, beginDate, endDate, topCount) {
-				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/BasicKpi/TopConnection3GTrend.html',
-					controller: 'kpi.topConnection3G.trend',
-					resolve: {
-						city: function() {
-							return city;
-						},
-						beginDate: function() {
-							return beginDate;
-						},
-						endDate: function() {
-							return endDate;
-						},
-						topCount: function() {
-							return topCount;
-						}
-					}
-				});
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/BasicKpi/TopConnection3GTrend.html',
+			        controller: 'kpi.topConnection3G.trend',
+			        resolve: stationFormatService.dateSpanDateResolve({
+			                city: function() {
+			                    return city;
+			                },
+			                topCount: function() {
+			                    return topCount;
+			                }
+			            },
+			            beginDate,
+			            endDate)
+			    });
 			},
-			showStationInfo: function(station, beginDate, endDate) {
-				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/Home/StationDetails.html',
-					controller: 'map.station.dialog',
-					resolve: {
-						dialogTitle: function() {
-							return "站点信息:" + station.StationName;
-						},
-						station: function() {
-							return station;
-						},
-						beginDate: function() {
-							return beginDate;
-						},
-						endDate: function() {
-							return endDate;
-						}
-					}
-				});
+			showStationInfoDialog: function(station, beginDate, endDate) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/Details/StationDetails.html',
+			        controller: 'map.station.dialog',
+			        resolve: stationFormatService.dateSpanDateResolve({
+			                dialogTitle: function() {
+			                    return "站点信息:" + station.name;
+			                },
+			                station: function() {
+			                    return station;
+			                }
+			            },
+			            beginDate,
+			            endDate)
+			    });
 			},
-			showIndoorInfo: function (station, beginDate, endDate) {
-				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/Home/IndoorDetails.html',
-					controller: 'map.indoor.dialog',
-					resolve: {
-						dialogTitle: function () {
-							return "站点信息:" + station.name;
-						},
-						station: function () {
-							return station;
-						},
-						beginDate: function () {
-							return beginDate;
-						},
-						endDate: function () {
-							return endDate;
-						}
-					}
-				});
+			showIndoorInfoDialog: function (station, beginDate, endDate) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/Details/StationDetails.html',
+			        controller: 'map.indoor.dialog',
+			        resolve: stationFormatService.dateSpanDateResolve({
+			                dialogTitle: function() {
+			                    return "站点信息:" + station.name;
+			                },
+			                station: function() {
+			                    return station;
+			                }
+			            },
+			            beginDate,
+			            endDate)
+			    });
 			},
 			showDistributionInfo: function(distribution) {
 				menuItemService.showGeneralDialog({
@@ -329,7 +285,7 @@
 					}
 				});
 			},
-			showTodayKpi: function(city) {
+			showTodayOverallKpi: function(city) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Rutrace/Index.html',
 					controller: 'rutrace.index',
@@ -359,6 +315,36 @@
 						}
 					}
 				});
-			}
+            },
+            showDownSwitchCellTrend: function (name, cellId, sectorId) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Rutrace/WorkItem/CellTrend.html',
+                    controller: 'down.switch.cell.trend',
+                    resolve: {
+                        name: function () {
+                            return name;
+                        },
+                        cellId: function () {
+                            return cellId;
+                        },
+                        sectorId: function () {
+                            return sectorId;
+                        }
+                    }
+                });
+            },
+            processPreciseWorkItem: function(cell, beginDate, endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Rutrace/WorkItem/ForCell.html',
+                    controller: "rutrace.workitems.process",
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            cell: function() {
+                                return cell;
+                            }
+                        },
+                        beginDate,
+                        endDate)
+                });
+            }
 		};
 	});

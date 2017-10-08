@@ -63,7 +63,7 @@ namespace Lte.Evaluations.Policy
         public static List<ENodeb> QueryENodebs(this ITownRepository townRepository, IENodebRepository eNodebRepository,
             string city, string district)
         {
-            var towns = townRepository.GetAllList(city, district);
+            var towns = townRepository.GetAllList(x => x.CityName == city && x.DistrictName == district);
             if (!towns.Any())
             {
                 return new List<ENodeb>();
@@ -75,7 +75,8 @@ namespace Lte.Evaluations.Policy
 
         public static ENodeb ConstructENodeb(this ENodebExcel info, ITownRepository repository)
         {
-            var town = repository.QueryTown(info.CityName, info.DistrictName, info.TownName);
+            var town = repository.GetAllList()
+                    .FirstOrDefault(x => x.CityName == info.CityName && x.DistrictName == info.DistrictName && x.TownName == info.TownName);
             var eNodeb = Mapper.Map<ENodebExcel, ENodeb>(info);
             eNodeb.TownId = town?.Id ?? -1;
             return eNodeb;

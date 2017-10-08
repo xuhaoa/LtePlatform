@@ -166,6 +166,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
     [AutoMapFrom(typeof(CollegeKpi))]
+    [TypeDoc("校园KPI指标视图")]
     public class CollegeKpiView
     {
         public DateTime TestTime { get; set; }
@@ -451,11 +452,14 @@ namespace Lte.MySqlFramework.Entities
 
         public abstract List<AreaTestInfo> QueryRoadTestInfos(List<int> townIds, string csvFileName, int fileId);
     }
-
+    
+    [TypeDoc("镇区边界视图")]
     public class TownBoundaryView
     {
+        [MemberDoc("镇的名称")]
         public string Town { get; set; }
 
+        [MemberDoc("边界经纬度序列")]
         public List<GeoPoint> BoundaryGeoPoints { get; set; }
     }
 

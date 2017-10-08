@@ -1,0 +1,1 @@
+/home/wireless/anaconda3/bin/python /home/wireless/Public/process_zte_mro.py 0015 0415 0815 1215 1615 2015

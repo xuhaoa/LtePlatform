@@ -15,10 +15,6 @@
                     templateUrl: '/appViews/BasicKpi/TopDrop2G.html',
                     controller: 'kpi.topDrop2G'
                 })
-                .when('/baidumap/:cellId/:sectorId/:name', {
-                    templateUrl: viewDir + "Map/Index.html",
-                    controller: "rutrace.map"
-                })
                 .when('/details/:number', {
                     templateUrl: viewDir + "WorkItem/AnalyticDetails.html",
                     controller: "workitem.details"
@@ -101,95 +97,6 @@
         };
         
     })
-    .controller("rutrace.root", function($scope, appRegionService, menuItemService) {
-        $scope.page = { title: $scope.menuItems[0].subItems[0].displayName };
-        
-        
-        $scope.topStat = {
-            current: {},
-            cells: {},
-            interference: {},
-            victims: {},
-            coverages: {},
-            updateInteferenceProgress: {},
-            updateVictimProgress: {},
-            mongoNeighbors: {},
-            pieOptions: {},
-            columnOptions: {}
-        };
-        $scope.updateTopCells = function(cell) {
-            var cellName = cell.eNodebName + "-" + cell.sectorId;
-            if ($scope.topStat.cells[cellName] === undefined) {
-                $scope.topStat.cells[cellName] = cell;
-            }
-        };
-        $scope.city = {
-            selected: "",
-            options: []
-        };
-        
-
-        appRegionService.initializeCities().then(function(result) {
-            $scope.city.options = result;
-            $scope.city.selected = result[0];
-            appRegionService.queryDistricts(result[0]).then(function(districts) {
-                angular.forEach(districts, function(district) {
-                    menuItemService.updateMenuItem($scope.menuItems, 2,
-                        "TOP指标分析-" + district, $scope.rootPath + "topDistrict/" + district);
-                });
-            });
-        });
-    })
-    .controller("kpi.basic", function ($scope, appRegionService, appFormatService, kpi2GService, workItemDialog) {
-        $scope.page.title = $scope.menuItems[0].subItems[2].displayName;
-        $scope.views = {
-            options: ['主要', '2G', '3G'],
-            selected: '主要'
-        };
-        $scope.showKpi = function () {
-            kpi2GService.queryDayStats($scope.city.selected, $scope.statDate.value).then(function (result) {
-                $scope.statDate.value = appFormatService.getDate(result.statDate);
-                $scope.statList = result.statViews;
-            });
-        };
-        $scope.showTrend = function() {
-            workItemDialog.showBasicTrend($scope.city.selected, $scope.beginDate, $scope.endDate);
-        };
-        $scope.$watch('city.selected', function (city) {
-            if (city) {
-                $scope.showKpi();
-            }
-        });
-    })
-    .controller('kpi.topDrop2G', function ($scope, appRegionService, appFormatService, drop2GService, connection3GService, workItemDialog) {
-        $scope.page.title = $scope.menuItems[2].subItems[1].displayName;
-        $scope.topData = {
-            drop2G: [],
-            connection3G: []
-        };
-        $scope.showKpi = function () {
-            drop2GService.queryDayStats($scope.city.selected, $scope.statDate.value).then(function (result) {
-                $scope.statDate.value = appFormatService.getDate(result.statDate);
-                $scope.topData.drop2G = result.statViews;
-            });
-            connection3GService.queryDayStats($scope.city.selected, $scope.statDate.value).then(function (result) {
-                $scope.statDate.value = appFormatService.getDate(result.statDate);
-                $scope.topData.connection3G = result.statViews;
-            });
-        };
-        $scope.showDropTrend = function() {
-            workItemDialog.showTopDropTrend($scope.city.selected, $scope.beginDate, $scope.endDate, $scope.topCount);
-        };
-        $scope.showConnectionTrend = function () {
-            workItemDialog.showTopConnectionTrend($scope.city.selected, $scope.beginDate, $scope.endDate, $scope.topCount);
-        };
-        $scope.$watch('city.selected', function (city) {
-            if (city) {
-                $scope.showKpi();
-            }
-            
-        });
-    })
     .controller('interference.mongo', function ($scope, neighborMongoService, neighborDialogService,
         dumpProgress, networkElementService, dumpPreciseService) {
         $scope.progressInfo = {
@@ -255,19 +162,6 @@
         };
 
         $scope.reset();
-    })
-    .controller("rutrace.workitems", function ($scope, $routeParams, workitemService, networkElementService) {
-        $scope.page.title = $routeParams.name + "-" + $routeParams.sectorId + ":TOP小区工单历史";
-        $scope.queryWorkItems = function () {
-            workitemService.queryByCellId($routeParams.cellId, $routeParams.sectorId).then(function (result) {
-                $scope.viewItems = result;
-                $scope.viewData.workItems = result;
-            });
-            networkElementService.queryCellInfo($routeParams.cellId, $routeParams.sectorId).then(function (result) {
-                $scope.lteCellDetails = result;
-            });
-        };
-        $scope.queryWorkItems();
     })
     .controller("workitem.details", function ($scope, $routeParams, $uibModal, $log,
         workitemService, appFormatService, cellPreciseService, kpiDisplayService, preciseWorkItemService, networkElementService) {

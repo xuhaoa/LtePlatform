@@ -387,7 +387,7 @@ namespace Lte.MySqlFramework.Entities
 
     [TypeDoc("定义CDMA基站的数据库对应的ORM对象")]
     [AutoMapFrom(typeof(BtsExcel))]
-    public class CdmaBts : Entity
+    public class CdmaBts : Entity, IGeoPoint<double>, ITownId
     {
         public int ENodebId { get; set; } = -1;
 

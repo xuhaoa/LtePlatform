@@ -7,7 +7,7 @@
     <ProjectHome />
     <StartupFile>
     </StartupFile>
-    <SearchPath />
+    <SearchPath>mr</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
@@ -38,6 +38,7 @@
     <Compile Include="Db\mro_combined_test.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Db\mrs_combined2.py" />
     <Compile Include="Db\mrs_combined.py">
       <SubType>Code</SubType>
     </Compile>
@@ -85,6 +86,9 @@
     <Compile Include="ftp_modules\ftp_huawei_mrs.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mr\mr_service_unittest.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mr\test\gzip_test.py">
       <SubType>Code</SubType>
     </Compile>
@@ -101,6 +105,7 @@
     <Compile Include="mr\test\mro_reader_test.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mr\test\mro_reader_zte_test2.py" />
     <Compile Include="mr\test\mro_reader_zte_test.py">
       <SubType>Code</SubType>
     </Compile>
@@ -204,6 +209,9 @@
     <Folder Include="huawei_download\" />
     <Folder Include="mr\backup\" />
     <Folder Include="mr\test\" />
+    <Folder Include="phpApi\" />
+    <Folder Include="php\Api\" />
+    <Folder Include="php\Action\" />
     <Folder Include="process_zte2\" />
     <Folder Include="zte_download\" />
     <Folder Include="process_zte\" />
@@ -211,7 +219,7 @@
     <Folder Include="para\" />
     <Folder Include="oop\" />
     <Folder Include="Practise\" />
-    <Folder Include="phpApi\" />
+    <Folder Include="php\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Db\mro_combined.sh">
@@ -229,6 +237,7 @@
     <Content Include="Db\mro_combined5.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Db\mrs_combined2.sh" />
     <Content Include="Db\mrs_combined.sh">
       <SubType>Code</SubType>
     </Content>
@@ -370,6 +379,25 @@
     <Content Include="huawei_download\huawei_download_mrs_delay3.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="php\Action\AlarmAction.class.php" />
+    <Content Include="php\Action\AlarmhistoryAction.class.php" />
+    <Content Include="php\Action\AssessmentAction.class.php" />
+    <Content Include="php\Action\CheckingAction.class.php" />
+    <Content Include="php\Action\FaultAction.class.php" />
+    <Content Include="php\Action\FixingAction.class.php" />
+    <Content Include="php\Action\fun.php" />
+    <Content Include="php\Action\IndoorAction.class.php" />
+    <Content Include="php\Action\ResourceAction.class.php" />
+    <Content Include="php\Action\SpecialAction.class.php" />
+    <Content Include="php\Action\SpecialIndoorAction.class.php" />
+    <Content Include="php\Action\StationAction.class.php" />
+    <Content Include="php\Action\StationOldAction.class.php" />
+    <Content Include="php\Action\StationCommonAction.class.php" />
+    <Content Include="php\Action\ZeroFlowAction.class.php" />
+    <Content Include="php\Action\ZeroVoiceAction.class.php" />
+    <Content Include="php\Api\test.php" />
+    <Content Include="php\Api\wandonglouyu.php" />
+    <Content Include="php\Api\zonghexinxiConnection.php" />
     <Content Include="process_huawei\process_huawei_mro.sh">
       <SubType>Code</SubType>
     </Content>
@@ -395,19 +423,47 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="process_zte2\process_zte_mro.sh" />
+    <Content Include="process_zte2\process_zte_mro_00_0.sh" />
+    <Content Include="process_zte2\process_zte_mro_00_1.sh" />
+    <Content Include="process_zte2\process_zte_mro_00_2.sh" />
+    <Content Include="process_zte2\process_zte_mro_00_3.sh" />
     <Content Include="process_zte2\process_zte_mro_15.sh" />
+    <Content Include="process_zte2\process_zte_mro_15_0.sh" />
+    <Content Include="process_zte2\process_zte_mro_15_1.sh" />
+    <Content Include="process_zte2\process_zte_mro_15_2.sh" />
+    <Content Include="process_zte2\process_zte_mro_15_3.sh" />
     <Content Include="process_zte2\process_zte_mro_30.sh" />
+    <Content Include="process_zte2\process_zte_mro_30_0.sh" />
+    <Content Include="process_zte2\process_zte_mro_30_1.sh" />
+    <Content Include="process_zte2\process_zte_mro_30_2.sh" />
+    <Content Include="process_zte2\process_zte_mro_30_3.sh" />
     <Content Include="process_zte2\process_zte_mro_45.sh" />
-    <Content Include="process_zte\process_zte_mro.sh">
+    <Content Include="process_zte2\process_zte_mro_45_0.sh" />
+    <Content Include="process_zte2\process_zte_mro_45_1.sh" />
+    <Content Include="process_zte2\process_zte_mro_45_2.sh" />
+    <Content Include="process_zte2\process_zte_mro_45_3.sh" />
+    <Content Include="process_zte\process_zte_mro_00_3.sh" />
+    <Content Include="process_zte\process_zte_mro_00_2.sh" />
+    <Content Include="process_zte\process_zte_mro_00_1.sh" />
+    <Content Include="process_zte\process_zte_mro_00_0.sh">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="process_zte\process_zte_mro_15.sh">
+    <Content Include="process_zte\process_zte_mro_15_3.sh" />
+    <Content Include="process_zte\process_zte_mro_15_2.sh" />
+    <Content Include="process_zte\process_zte_mro_15_1.sh" />
+    <Content Include="process_zte\process_zte_mro_15_0.sh">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="process_zte\process_zte_mro_30.sh">
+    <Content Include="process_zte\process_zte_mro_30_3.sh" />
+    <Content Include="process_zte\process_zte_mro_30_2.sh" />
+    <Content Include="process_zte\process_zte_mro_30_1.sh" />
+    <Content Include="process_zte\process_zte_mro_30_0.sh">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="process_zte\process_zte_mro_45.sh">
+    <Content Include="process_zte\process_zte_mro_45_3.sh" />
+    <Content Include="process_zte\process_zte_mro_45_2.sh" />
+    <Content Include="process_zte\process_zte_mro_45_1.sh" />
+    <Content Include="process_zte\process_zte_mro_45_0.sh">
       <SubType>Code</SubType>
     </Content>
     <Content Include="process_zte\process_zte_mrs.sh">
@@ -434,6 +490,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="zte_download\zte_download_north_main.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="php\Api\encode_json.php">
       <SubType>Code</SubType>
     </Content>
   </ItemGroup>

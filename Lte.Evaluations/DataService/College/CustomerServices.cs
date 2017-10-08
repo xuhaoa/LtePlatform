@@ -448,7 +448,8 @@ namespace Lte.Evaluations.DataService.College
         {
             var item = _repository.Get(dto.SerialNumber);
             if (item == null) return 0;
-            var town = _townRepository.QueryTown(dto.City, dto.District, dto.Town);
+            var town = _townRepository.GetAllList()
+                .FirstOrDefault(x => x.CityName == dto.City && x.DistrictName == dto.District && x.TownName == dto.Town);
             if (town == null) return 0;
             item.TownId = town.Id;
             await _repository.UpdateAsync(item);

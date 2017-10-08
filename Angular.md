@@ -39,7 +39,7 @@ module.exports = function (grunt) {
 ```javascript
 angular.module('myApp.url', ['app.core', ...]);
 ```
-基础路由层的说明详见[这里](https://github.com/ouyh18/LtePlatform/blob/master/AngularUrlFactory.md)
+基础路由层的说明详见[这里](https://github.com/WirelessFoshan/LtePlatform/blob/master/AngularUrlFactory.md)
 ### 数据服务层
 主要包含region目录下的各个脚本文件。
 合并脚本app.region.js内容如下；

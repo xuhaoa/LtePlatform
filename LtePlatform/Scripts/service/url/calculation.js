@@ -1,24 +1,46 @@
 ﻿angular.module('app.calculation', [])
-    .factory('preciseWorkItemGenerator', function() {
+    .factory('basicCalculationService', function() {
+        var isLongtituteValid = function(longtitute) {
+            return (!isNaN(longtitute)) && longtitute > 112 && longtitute < 114;
+        };
+
+        var isLattituteValid = function(lattitute) {
+            return (!isNaN(lattitute)) && lattitute > 22 && lattitute < 24;
+        };
+        return {
+            calculateArraySum: function(data, keys) {
+                return _.reduce(data,
+                    function(memo, num) {
+                        var result = {};
+                        angular.forEach(keys,
+                            function(key) {
+                                result[key] = memo[key] + (num[key] || 0);
+                            });
+                        return result;
+                    });
+            },
+            isLonLatValid: function(item) {
+                return isLongtituteValid(item.longtitute) && isLattituteValid(item.lattitute);
+            },
+            mapLonLat: function(source, destination) {
+                source.longtitute = destination.longtitute;
+                source.lattitute = destination.lattitute;
+            }
+        };
+    })
+    .factory('preciseWorkItemGenerator', function (basicCalculationService) {
         return {
             generatePreciseInterferenceNeighborDtos: function(sources) {
-                var sumDb6Share = 0;
-                var sumDb10Share = 0;
-                var sumMod3Share = 0;
-                var sumMod6Share = 0;
                 var dtos = [];
-                angular.forEach(sources, function(source) {
-                    sumDb6Share += source.overInterferences6Db;
-                    sumDb10Share += source.overInterferences10Db;
-                    sumMod3Share += source.mod3Interferences;
-                    sumMod6Share += source.mod6Interferences;
-                });
+                var sum = basicCalculationService
+                    .calculateArraySum(sources,
+                        ['overInterferences6Db', 'overInterferences10Db', 'mod3Interferences', 'mod6Interferences']);
                 angular.forEach(sources, function(source) {
                     if (source.destENodebId > 0 && source.destSectorId > 0) {
-                        var db6Share = source.overInterferences6Db * 100 / sumDb6Share;
-                        var db10Share = source.overInterferences10Db * 100 / sumDb10Share;
-                        var mod3Share = source.mod3Interferences * 100 / sumMod3Share;
-                        var mod6Share = source.mod6Interferences * 100 / sumMod6Share;
+                        var db6Share = source.overInterferences6Db * 100 / sum.overInterferences6Db;
+                        var db10Share = source.overInterferences10Db * 100 / sum.overInterferences10Db;
+                        var mod3Share = source.mod3Interferences * 100 / sum.mod3Interferences;
+                        var mod6Share = source.mod6Interferences * 100 / sum.mod6Interferences;
                         if (db6Share > 10 || db10Share > 10 || mod3Share > 10 || mod6Share > 10) {
                             dtos.push({
                                 eNodebId: source.destENodebId,
@@ -34,23 +56,16 @@
                 return dtos;
             },
             generatePreciseInterferenceVictimDtos: function(sources) {
-                var sumBackwardDb6Share = 0;
-                var sumBackwardDb10Share = 0;
-                var sumBackwardMod3Share = 0;
-                var sumBackwardMod6Share = 0;
                 var dtos = [];
-                angular.forEach(sources, function(source) {
-                    sumBackwardDb6Share += source.overInterferences6Db;
-                    sumBackwardDb10Share += source.overInterferences10Db;
-                    sumBackwardMod3Share += source.mod3Interferences;
-                    sumBackwardMod6Share += source.mod6Interferences;
-                });
+                var sum = basicCalculationService
+                    .calculateArraySum(sources,
+                        ['overInterferences6Db', 'overInterferences10Db', 'mod3Interferences', 'mod6Interferences']);
                 angular.forEach(sources, function(source) {
                     if (source.victimENodebId > 0 && source.victimSectorId > 0) {
-                        var db6Share = source.overInterferences6Db * 100 / sumBackwardDb6Share;
-                        var db10Share = source.overInterferences10Db * 100 / sumBackwardDb10Share;
-                        var mod3Share = source.mod3Interferences * 100 / sumBackwardMod3Share;
-                        var mod6Share = source.mod6Interferences * 100 / sumBackwardMod6Share;
+                        var db6Share = source.overInterferences6Db * 100 / sum.overInterferences6Db;
+                        var db10Share = source.overInterferences10Db * 100 / sum.overInterferences10Db;
+                        var mod3Share = source.mod3Interferences * 100 / sum.mod3Interferences;
+                        var mod6Share = source.mod6Interferences * 100 / sum.mod6Interferences;
                         if (db6Share > 10 || db10Share > 10 || mod3Share > 10 || mod6Share > 10) {
                             dtos.push({
                                 eNodebId: source.victimENodebId,
@@ -85,91 +100,35 @@
             }
         };
     })
-    .factory('neGeometryService', function() {
-        var isLongtituteValid = function(longtitute) {
-            return (!isNaN(longtitute)) && longtitute > 112 && longtitute < 114;
-        };
-
-        var isLattituteValid = function(lattitute) {
-            return (!isNaN(lattitute)) && lattitute > 22 && lattitute < 24;
-        };
-
-        var isLonLatValid = function(item) {
-            return isLongtituteValid(item.longtitute) && isLattituteValid(item.lattitute);
-        };
-
-        var mapLonLat = function(source, destination) {
-            source.longtitute = destination.longtitute;
-            source.lattitute = destination.lattitute;
-        };
-
+    .factory('neGeometryService', function (basicCalculationService) {
         return {
             queryENodebLonLatEdits: function(eNodebs) {
                 var result = [];
-                for (var index = 0; index < eNodebs.length; index++) {
-                    if (!isLonLatValid(eNodebs[index])) {
-                        result.push({
-                            index: index,
-                            eNodebId: eNodebs[index].eNodebId,
-                            name: eNodebs[index].name,
-                            district: eNodebs[index].districtName,
-                            town: eNodebs[index].townName,
-                            longtitute: eNodebs[index].longtitute,
-                            lattitute: eNodebs[index].lattitute
-                        });
-                    }
-                }
+                angular.forEach(eNodebs,
+                    function(eNodeb, $index) {
+                        if (!basicCalculationService.isLonLatValid(eNodeb)) {
+                            var item = {
+                                index: $index
+                            };
+                            angular.extend(item, eNodeb);
+                            item.town = eNodeb.townName;
+                            result.push(item);
+                        }
+                    });
                 return result;
             },
-            queryBtsLonLatEdits: function(btss) {
+            queryGeneralLonLatEdits: function(stats) {
                 var result = [];
-                for (var index = 0; index < btss.length; index++) {
-                    if (!isLonLatValid(btss[index])) {
-                        result.push({
-                            index: index,
-                            bscId: btss[index].bscId,
-                            btsId: btss[index].btsId,
-                            name: btss[index].name,
-                            districtName: btss[index].districtName,
-                            longtitute: eNodebs[index].longtitute,
-                            lattitute: eNodebs[index].lattitute
-                        });
-                    }
-                }
-                return result;
-            },
-            queryCellLonLatEdits: function(cells) {
-                var result = [];
-                for (var index = 0; index < cells.length; index++) {
-                    if (!isLonLatValid(cells[index])) {
-                        result.push({
-                            index: index,
-                            eNodebId: cells[index].eNodebId,
-                            sectorId: cells[index].sectorId,
-                            frequency: cells[index].frequency,
-                            isIndoor: cells[index].isIndoor,
-                            longtitute: cells[index].longtitute,
-                            lattitute: cells[index].lattitute
-                        });
-                    }
-                }
-                return result;
-            },
-            queryCdmaCellLonLatEdits: function(cells) {
-                var result = [];
-                for (var index = 0; index < cells.length; index++) {
-                    if (!isLonLatValid(cells[index])) {
-                        result.push({
-                            index: index,
-                            btsId: cells[index].btsId,
-                            sectorId: cells[index].sectorId,
-                            frequency: cells[index].frequency,
-                            isIndoor: cells[index].isIndoor,
-                            longtitute: cells[index].longtitute,
-                            lattitute: cells[index].lattitute
-                        });
-                    }
-                }
+                angular.forEach(stats,
+                    function(stat, $index) {
+                        if (!basicCalculationService.isLonLatValid(stat)) {
+                            var item = {
+                                index: $index
+                            };
+                            angular.extend(item, stat);
+                            result.push(item);
+                        }
+                    });
                 return result;
             },
             mapLonLatEdits: function(sourceFunc, destList) {
@@ -177,9 +136,8 @@
                 for (var i = 0; i < destList.length; i++) {
                     destList[i].longtitute = parseFloat(destList[i].longtitute);
                     destList[i].lattitute = parseFloat(destList[i].lattitute);
-                    if (isLonLatValid(destList[i])) {
-                        console.log(destList[i]);
-                        mapLonLat(sourceList[destList[i].index], destList[i]);
+                    if (basicCalculationService.isLonLatValid(destList[i])) {
+                        basicCalculationService.mapLonLat(sourceList[destList[i].index], destList[i]);
                     }
                 }
                 sourceFunc(sourceList);

@@ -754,15 +754,30 @@ angular.module('topic.college',
                             });
                     });
                 },
-                showMaintainStations: function(stations, color) {
-                    generalMapService.showGeneralPointCollection(stations, color, workItemDialog.showStationInfo);
+                showMaintainStations: function(stations, color, beginDate, endDate) {
+                    generalMapService.showGeneralPointCollection(stations, color, function(station) {
+                        workItemDialog.showStationInfoDialog(station, beginDate, endDate);
+                    });
                 },
-                showIndoorStations: function(stations, color) {
-                    generalMapService.showGeneralPointCollection(stations, color, workItemDialog.showIndoorInfo);
+                showIndoorStations: function(stations, color, beginDate, endDate) {
+                    generalMapService.showGeneralPointCollection(stations, color,
+                        function(station) {
+                            workItemDialog.showIndoorInfoDialog(station, beginDate, endDate);
+                        });
                 },
-                showCheckingStations: function(stations, color) {
+                showCheckingStations: function(stations, color, status) {
                     generalMapService
-                        .showGeneralPointCollection(stations, color, mapDialogService.showCheckingStationInfo);
+                        .showGeneralPointCollection(stations, color, function(data) {
+                            if (status === '已巡检') {
+                                parametersDialogService.showCheckingStationInfo(data);
+                            } else {
+                                parametersDialogService.showCommonStationInfo(data);
+                            }
+                        });
+                },
+                showFixingStations: function(stations, color) {
+                    generalMapService
+                        .showGeneralPointCollection(stations, color, mapDialogService.showFixingStationInfo);
                 },
                 showConstructionSites: function(stations, status, callback) {
                     baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute)
@@ -1584,48 +1599,40 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                 $uibModalInstance.dismiss('cancel');
             };
         });
-angular.module('topic.parameters', ['app.menu', 'topic.basic'])
+angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
     .factory('parametersDialogService',
-        function(menuItemService, baiduMapService) {
+    function (menuItemService, baiduMapService, stationFormatService) {
             return {
                 showENodebInfo: function(eNodeb, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Parameters/Map/ENodebMapInfoBox.html',
                         controller: 'map.eNodeb.dialog',
-                        resolve: {
-                            dialogTitle: function() {
-                                return eNodeb.name + "-" + "基站基本信息";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return eNodeb.name + "-" + "基站基本信息";
+                                },
+                                eNodeb: function() {
+                                    return eNodeb;
+                                }
                             },
-                            eNodeb: function() {
-                                return eNodeb;
-                            },
-                            beginDate: function() {
-                                return beginDate;
-                            },
-                            endDate: function() {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showCellInfo: function(cell, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Map/NeighborMapInfoBox.html',
                         controller: 'map.neighbor.dialog',
-                        resolve: {
-                            dialogTitle: function() {
-                                return cell.cellName + "小区信息";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return cell.cellName + "小区信息";
+                                },
+                                neighbor: function() {
+                                    return cell;
+                                }
                             },
-                            neighbor: function() {
-                                return cell;
-                            },
-                            beginDate: function() {
-                                return beginDate;
-                            },
-                            endDate: function() {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showBtsInfo: function(bts) {
@@ -1769,20 +1776,16 @@ angular.module('topic.parameters', ['app.menu', 'topic.basic'])
                     menuItemService.showGeneralDialogWithAction({
                             templateUrl: '/appViews/College/Coverage/CollegeMap.html',
                             controller: 'college.coverage.name',
-                            resolve: {
-                                name: function() {
-                                    return name;
+                            resolve: stationFormatService.dateSpanDateResolve({
+                                    name: function() {
+                                        return name;
+                                    },
+                                    coverageOverlays: function() {
+                                        return coverageOverlays;
+                                    }
                                 },
-                                beginDate: function() {
-                                    return beginDate;
-                                },
-                                endDate: function() {
-                                    return endDate;
-                                },
-                                coverageOverlays: function() {
-                                    return coverageOverlays;
-                                }
-                            }
+                                beginDate,
+                                endDate)
                         },
                         callback);
                 },
@@ -1790,37 +1793,29 @@ angular.module('topic.parameters', ['app.menu', 'topic.basic'])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/BasicKpi/CsvDtDialog.html',
                         controller: 'csv.dt.dialog',
-                        resolve: {
-                            dialogTitle: function() {
-                                return "全网路测数据信息管理";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return "全网路测数据信息管理";
+                                }
                             },
-                            beginDate: function() {
-                                return beginDate;
-                            },
-                            endDate: function() {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showHighwayDtInfos: function (beginDate, endDate, name) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/BasicKpi/HotspotDtDialog.html',
                         controller: 'highway.dt.dialog',
-                        resolve: {
-                            dialogTitle: function () {
-                                return name + "路测数据信息查询";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return name + "路测数据信息查询";
+                                },
+                                name: function() {
+                                    return name;
+                                }
                             },
-                            beginDate: function () {
-                                return beginDate;
-                            },
-                            endDate: function () {
-                                return endDate;
-                            },
-                            name: function() {
-                                return name;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 }
             }
@@ -2388,12 +2383,25 @@ angular.module('topic.dialog.parameters', ['myApp.url', 'myApp.region', 'myApp.k
             town,
             networkElementService) {
             $scope.dialogTitle = dialogTitle;
-            networkElementService.queryENodebsInOneTown(city, district, town).then(function (eNodebs) {
-                $scope.currentENodebList = eNodebs;
-            });
-            networkElementService.queryENodebsByTownArea(city, district, town).then(function (eNodebs) {
-                $scope.candidateENodebList = eNodebs;
-            });
+
+            $scope.query = function() {
+                networkElementService.queryENodebsInOneTown(city, district, town).then(function(eNodebs) {
+                    $scope.currentENodebList = eNodebs;
+                });
+                networkElementService.queryENodebsByTownArea(city, district, town).then(function(eNodebs) {
+                    $scope.candidateENodebList = eNodebs;
+                });
+            };
+
+            $scope.arrangeLte = function(index) {
+                networkElementService.updateENodebTownInfo($scope.candidateENodebList[index]).then(function(result) {
+                    if (index < $scope.candidateENodebList.length - 1) {
+                        $scope.arrangeLte(index + 1);
+                    } else {
+                        $scope.query();
+                    }
+                });
+            };
 
             $scope.ok = function () {
                 $uibModalInstance.close($scope.eNodeb);
@@ -2402,6 +2410,47 @@ angular.module('topic.dialog.parameters', ['myApp.url', 'myApp.region', 'myApp.k
             $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
+
+            $scope.query();
+        })
+    .controller('arrange.bts.dialog',
+        function ($scope,
+            $uibModalInstance,
+            dialogTitle,
+            city,
+            district,
+            town,
+            networkElementService) {
+            $scope.dialogTitle = dialogTitle;
+
+            $scope.query = function() {
+                networkElementService.queryBtssInOneTown(city, district, town).then(function(btss) {
+                    $scope.currentBtsList = btss;
+                });
+                networkElementService.queryBtssByTownArea(city, district, town).then(function(btss) {
+                    $scope.candidateBtsList = btss;
+                });
+            };
+
+            $scope.arrangeCdma = function (index) {
+                networkElementService.updateBtsTownInfo($scope.candidateBtsList[index]).then(function (result) {
+                    if (index < $scope.candidateBtsList.length - 1) {
+                        $scope.arrangeCdma(index + 1);
+                    } else {
+                        $scope.query();
+                    }
+                });
+            };
+
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.eNodeb);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+            $scope.query();
         })
     .controller('hot.spot.info.dialog',
         function($scope, $uibModalInstance, dialogTitle, hotSpotList) {
@@ -2687,7 +2736,7 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                 $rootScope.orderPolicy.selected = result[1];
             });
         };
-        
+
         $rootScope.closeAlert = function(messages, index) {
             messages.splice(index, 1);
         };
@@ -2813,9 +2862,9 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
-    })
+        })
     .controller('cqi.trend',
-        function ($scope,
+        function($scope,
             $uibModalInstance,
             kpiPreciseService,
             appFormatService,
@@ -2832,12 +2881,12 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
-            $scope.showKpi = function () {
+            $scope.showKpi = function() {
                 kpiPreciseService.getRecentCqiRegionKpi(city.selected, $scope.statDate.value)
-                    .then(function (result) {
+                    .then(function(result) {
                         $scope.statDate.value = appFormatService.getDate(result.statDate);
                         angular.forEach(result.districtViews,
-                            function (view) {
+                            function(view) {
                                 view.objectRate = appKpiService.getCqiObject(view.district);
                                 view.goodCounts = view.cqiCounts.item2;
                                 view.totalCounts = view.cqiCounts.item1 + view.cqiCounts.item2;
@@ -2851,23 +2900,23 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                             .getDateString($scope.statDate.value, "yyyy年MM月dd日");
                     });
             };
-            $scope.showChart = function () {
+            $scope.showChart = function() {
                 workItemDialog.showCqiChart($scope.overallStat);
             };
-            $scope.showTrend = function () {
+            $scope.showTrend = function() {
                 workItemDialog.showCqiTrend(city, $scope.beginDate, $scope.endDate);
             };
             $scope.showKpi();
-            $scope.ok = function () {
+            $scope.ok = function() {
                 $uibModalInstance.close($scope.building);
             };
 
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
-    })
+        })
     .controller('down.switch.trend',
-        function ($scope,
+        function($scope,
             $uibModalInstance,
             kpiPreciseService,
             appFormatService,
@@ -2885,12 +2934,12 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
 
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
-            $scope.showKpi = function () {
+            $scope.showKpi = function() {
                 kpiPreciseService.getRecentFlowRegionKpi(city.selected, $scope.statDate.value)
-                    .then(function (result) {
+                    .then(function(result) {
                         $scope.statDate.value = appFormatService.getDate(result.statDate);
                         angular.forEach(result.districtViews,
-                            function (view) {
+                            function(view) {
                                 view.objectRate = appKpiService.getDownSwitchObject(view.district);
                                 view.totalFlowMByte = (view.pdcpDownlinkFlow + view.pdcpUplinkFlow) / 8;
                             });
@@ -2903,25 +2952,64 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                             .getDateString($scope.statDate.value, "yyyy年MM月dd日");
                     });
             };
-            $scope.showChart = function () {
+            $scope.showChart = function() {
                 workItemDialog.showDownSwitchChart($scope.overallStat);
             };
-            $scope.showTrend = function () {
+            $scope.showTrend = function() {
                 workItemDialog.showDownSwitchTrend(city, $scope.beginDate, $scope.endDate);
             };
-            $scope.showTopKpi = function () {
+            $scope.showTopKpi = function() {
                 mapDialogService.showDownSwitchTop($scope.beginDate, $scope.endDate);
             };
 
             $scope.showKpi();
-            $scope.ok = function () {
+            $scope.ok = function() {
                 $uibModalInstance.close($scope.building);
             };
 
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
         })
+    .controller("kpi.basic",
+        function($scope,
+            $uibModalInstance,
+            city,
+            dialogTitle,
+            appRegionService,
+            appFormatService,
+            kpi2GService,
+            workItemDialog) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.views = {
+                options: ['主要', '2G', '3G'],
+                selected: '主要'
+            };
+            $scope.showKpi = function() {
+                kpi2GService.queryDayStats(city.selected, $scope.statDate.value).then(function(result) {
+                    $scope.statDate.value = appFormatService.getDate(result.statDate);
+                    $scope.statList = result.statViews;
+                });
+            };
+            $scope.showTrend = function() {
+                workItemDialog.showBasicTrend(city.selected, $scope.beginDate, $scope.endDate);
+            };
+            $scope.$watch('city.selected',
+                function(item) {
+                    if (item) {
+                        $scope.showKpi();
+                    }
+                });
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.building);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        });
+angular.module('topic.dialog.top',
+        ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', 'topic.dialog.kpi', "ui.bootstrap"])
     .controller("rutrace.top",
         function($scope,
             $uibModalInstance,
@@ -2936,6 +3024,7 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             $scope.updateMessages = [];
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
+            $scope.kpiType = 'precise';
 
             $scope.query = function() {
                 $scope.topCells = [];
@@ -2962,7 +3051,7 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             };
             $scope.initializeOrderPolicy();
             $scope.$watch('orderPolicy.selected',
-                function (selection) {
+                function(selection) {
                     if (selection) {
                         $scope.query();
                     }
@@ -2975,9 +3064,9 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
-    })
+        })
     .controller("down.switch.top",
-        function ($scope,
+        function($scope,
             $uibModalInstance,
             dialogTitle,
             preciseInterferenceService,
@@ -2990,30 +3079,31 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             $scope.updateMessages = [];
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
+            $scope.kpiType = 'downSwitch';
 
-            $scope.query = function () {
+            $scope.query = function() {
                 $scope.topCells = [];
                 kpiPreciseService.queryTopDownSwitchByPolicy(beginDate.value,
                     endDate.value,
                     $scope.topCount.selected,
-                    $scope.orderPolicy.selected).then(function (result) {
-                        $scope.topCells = result;
-                    });
+                    $scope.orderPolicy.selected).then(function(result) {
+                    $scope.topCells = result;
+                });
             };
             $scope.initializeDownSwitchOrderPolicy();
             $scope.$watch('orderPolicy.selected',
-                function (selection) {
+                function(selection) {
                     if (selection) {
                         $scope.query();
                     }
                 });
-            
 
-            $scope.ok = function () {
+
+            $scope.ok = function() {
                 $uibModalInstance.close($scope.building);
             };
 
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
         })
@@ -3059,12 +3149,106 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             };
             $scope.initializeOrderPolicy();
             $scope.$watch('orderPolicy.selected',
-                function (selection) {
+                function(selection) {
                     if (selection) {
                         $scope.query();
                     }
                 });
 
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.building);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
+    .controller("down.switch.top.district",
+        function($scope,
+            $uibModalInstance,
+            district,
+            preciseInterferenceService,
+            kpiPreciseService,
+            workitemService,
+            beginDate,
+            endDate) {
+            $scope.dialogTitle = "TOP指标分析-" + district;
+            $scope.topCells = [];
+            $scope.updateMessages = [];
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.kpiType = 'downSwitch';
+
+            $scope.query = function() {
+                $scope.topCells = [];
+                kpiPreciseService.queryTopDownSwitchByPolicyInDistrict(beginDate.value,
+                    endDate.value,
+                    $scope.topCount.selected,
+                    $scope.orderPolicy.selected,
+                    $scope.city.selected,
+                    district).then(function(result) {
+                    $scope.topCells = result;
+                });
+            };
+            $scope.initializeDownSwitchOrderPolicy();
+            $scope.$watch('orderPolicy.selected',
+                function(selection) {
+                    if (selection) {
+                        $scope.query();
+                    }
+                });
+
+
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.building);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
+    .controller('kpi.topDrop2G',
+        function($scope,
+            $uibModalInstance,
+            city,
+            dialogTitle,
+            appFormatService,
+            drop2GService,
+            connection3GService,
+            workItemDialog) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.topData = {
+                drop2G: [],
+                connection3G: []
+            };
+            $scope.showKpi = function() {
+                drop2GService.queryDayStats($scope.city.selected, $scope.statDate.value).then(function(result) {
+                    $scope.statDate.value = appFormatService.getDate(result.statDate);
+                    $scope.topData.drop2G = result.statViews;
+                });
+                connection3GService.queryDayStats($scope.city.selected, $scope.statDate.value).then(function(result) {
+                    $scope.statDate.value = appFormatService.getDate(result.statDate);
+                    $scope.topData.connection3G = result.statViews;
+                });
+            };
+            $scope.showDropTrend = function() {
+                workItemDialog.showTopDropTrend(city.selected,
+                    $scope.beginDate,
+                    $scope.endDate,
+                    $scope.topCount);
+            };
+            $scope.showConnectionTrend = function() {
+                workItemDialog.showTopConnectionTrend(city.selected,
+                    $scope.beginDate,
+                    $scope.endDate,
+                    $scope.topCount);
+            };
+            $scope.$watch('city.selected',
+                function(item) {
+                    if (item) {
+                        $scope.showKpi();
+                    }
+                });
             $scope.ok = function() {
                 $uibModalInstance.close($scope.building);
             };
@@ -3082,38 +3266,6 @@ angular.module('topic.dialog.station', ['myApp.url', 'myApp.region', 'myApp.kpi'
             appFormatService) {
 
             $scope.itemGroups = appFormatService.generateSpecialStationGroups(station);
-
-            $scope.dialogTitle = dialogTitle;
-
-
-            $scope.cancel = function() {
-                $uibModalInstance.dismiss('cancel');
-            };
-        })
-    .controller('map.zero-voice.dialog',
-        function($scope,
-            $uibModalInstance,
-            station,
-            dialogTitle,
-            appFormatService) {
-
-            $scope.itemGroups = appFormatService.generateZeroVoiceGroups(station);
-
-            $scope.dialogTitle = dialogTitle;
-
-
-            $scope.cancel = function() {
-                $uibModalInstance.dismiss('cancel');
-            };
-        })
-    .controller('map.zero-flow.dialog',
-        function($scope,
-            $uibModalInstance,
-            station,
-            dialogTitle,
-            appFormatService) {
-
-            $scope.itemGroups = appFormatService.generateZeroFlowGroups(station);
 
             $scope.dialogTitle = dialogTitle;
 
@@ -3268,6 +3420,39 @@ angular.module('topic.dialog.station', ['myApp.url', 'myApp.region', 'myApp.kpi'
                         $scope.records = response.dresult.records;
                     });
             }
+        });
+angular.module('topic.dialog.alarm', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', "ui.bootstrap"])
+    .controller('map.zero-voice.dialog',
+        function($scope,
+            $uibModalInstance,
+            station,
+            dialogTitle,
+            appFormatService) {
+
+            $scope.itemGroups = appFormatService.generateZeroVoiceGroups(station);
+
+            $scope.dialogTitle = dialogTitle;
+
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
+    .controller('map.zero-flow.dialog',
+        function($scope,
+            $uibModalInstance,
+            station,
+            dialogTitle,
+            appFormatService) {
+
+            $scope.itemGroups = appFormatService.generateZeroFlowGroups(station);
+
+            $scope.dialogTitle = dialogTitle;
+
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
         })
     .controller('map.alarmStation.dialog',
         function($scope,
@@ -3405,9 +3590,9 @@ angular.module('topic.dialog.station', ['myApp.url', 'myApp.region', 'myApp.kpi'
             }
             $scope.selectTab(0);
         });
-angular.module('topic.dialog',[ 'app.menu' ])
+angular.module('topic.dialog',[ 'app.menu', 'app.core' ])
     .factory('mapDialogService',
-        function(menuItemService) {
+        function (menuItemService, stationFormatService) {
             return {
                 showTownENodebInfo: function(item, city, district) {
                     menuItemService.showGeneralDialog({
@@ -3543,20 +3728,16 @@ angular.module('topic.dialog',[ 'app.menu' ])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Evaluation/AlarmStationDetails.html',
                         controller: 'map.alarmStation.dialog',
-                        resolve: {
-                            dialogTitle: function() {
-                                return "告警信息:" + station.StationName;
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return "告警信息:" + station.StationName;
+                                },
+                                station: function() {
+                                    return station;
+                                }
                             },
-                            station: function() {
-                                return station;
-                            },
-                            beginDate: function() {
-                                return beginDate;
-                            },
-                            endDate: function() {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showAlarmHistoryList: function(alarmStation) {
@@ -3727,44 +3908,70 @@ angular.module('topic.dialog',[ 'app.menu' ])
                         }
                     });
                 },
-                showPreciseTrend: function(city, beginDate, endDate) {
+                showBasicKpiDialog: function (city, beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/BasicKpi/Index.html',
+                        controller: 'kpi.basic',
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return city.selected + "CDMA整体分析";
+                                },
+                                city: function() {
+                                    return city;
+                                }
+                            },
+                            beginDate,
+                            endDate)
+                    });
+                },
+                showTopDrop2GDialog: function(city, beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/BasicKpi/TopDrop2G.html',
+                        controller: 'kpi.topDrop2G',
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return city.selected + "TOP掉话分析";
+                                },
+                                city: function() {
+                                    return city;
+                                }
+                            },
+                            beginDate,
+                            endDate)
+                    });
+                },
+                showPreciseTrendDialog: function(city, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Trend.html',
                         controller: 'rutrace.trend',
-                        resolve: {
-                            dialogTitle: function() {
-                                return "精确覆盖率变化趋势";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return "精确覆盖率变化趋势";
+                                },
+                                city: function() {
+                                    return city;
+                                }
                             },
-                            city: function() {
-                                return city;
-                            },
-                            beginDate: function() {
-                                return beginDate;
-                            },
-                            endDate: function() {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showRrcTrend: function(city, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
-                        templateUrl: '/appViews/Rutrace/Trend.html',
-                        controller: 'rrc.trend',
-                        resolve: {
-                            dialogTitle: function() {
-                                return "RRC连接成功率变化趋势";
-                            },
-                            city: function() {
-                                return city;
-                            },
-                            beginDate: function() {
-                                return beginDate;
-                            },
-                            endDate: function() {
-                                return endDate;
-                            }
-                        }
+                            templateUrl: '/appViews/Rutrace/Trend.html',
+                            controller: 'rrc.trend',
+                            resolve: stationFormatService.dateSpanDateResolve({
+                                    dialogTitle: {
+                                        function() {
+                                            return "RRC连接成功率变化趋势";
+                                        },
+                                        city: function() {
+                                            return city;
+                                        }
+                                    }
+                                },
+                                beginDate,
+                                endDate)
                     });
                 },
                 showCqiTrend: function (city, beginDate, endDate) {
@@ -3787,7 +3994,7 @@ angular.module('topic.dialog',[ 'app.menu' ])
                         }
                     });
                 },
-                showDownSwitchTrend: function (city, beginDate, endDate) {
+                showDownSwitchTrendDialog: function (city, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Trend.html',
                         controller: 'down.switch.trend',
@@ -3836,17 +4043,13 @@ angular.module('topic.dialog',[ 'app.menu' ])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Top.html',
                         controller: 'rutrace.top',
-                        resolve: {
-                            dialogTitle: function() {
-                                return "全市精确覆盖率TOP统计";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return "全市精确覆盖率TOP统计";
+                                }
                             },
-                            beginDate: function() {
-                                return beginDate;
-                            },
-                            endDate: function() {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showDownSwitchTop: function (beginDate, endDate) {
@@ -3870,17 +4073,26 @@ angular.module('topic.dialog',[ 'app.menu' ])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Top.html',
                         controller: 'rutrace.top.district',
-                        resolve: {
-                            beginDate: function() {
-                                return beginDate;
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                district: function() {
+                                    return district;
+                                }
                             },
-                            endDate: function() {
-                                return endDate;
+                            beginDate,
+                            endDate)
+                    });
+                },
+                showDownSwitchTopDistrict: function (beginDate, endDate, district) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Rutrace/Top.html',
+                        controller: 'down.switch.top.district',
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                district: function() {
+                                    return district;
+                                }
                             },
-                            district: function() {
-                                return district;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showMonthComplainItems: function() {
@@ -3916,31 +4128,20 @@ angular.module('topic.dialog',[ 'app.menu' ])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/College/Coverage/All.html',
                         controller: 'college.coverage.all',
-                        resolve: {
-                            beginDate: function() {
-                                return beginDate;
-                            },
-                            endDate: function() {
-                                return endDate;
-                            }
-                        }
+                        resolve: stationFormatService.dateSpanDateResolve({}, beginDate, endDate)
                     });
                 },
                 showCollegeFlowTrend: function(beginDate, endDate, name) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/College/Test/CollegeFlow.html',
                         controller: 'college.flow.name',
-                        resolve: {
-                            beginDate: function() {
-                                return beginDate;
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                name: function() {
+                                    return name;
+                                }
                             },
-                            endDate: function() {
-                                return endDate;
-                            },
-                            name: function() {
-                                return name;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showHotSpotFlowTrend: function (beginDate, endDate, name) {
@@ -4000,6 +4201,6 @@ angular.module('baidu.map',
 [
     'topic.basic', 'topic.college',
     'topic.parameters.basic', 'topic.parameters.coverage', 'topic.parameters.station', "topic.parameters",
-    'topic.dialog', 'topic.dialog.college', 'topic.dialog.kpi', 'topic.dialog.customer', 'topic.dialog.parameters',
-    'topic.dialog.station'
+    'topic.dialog', 'topic.dialog.college', 'topic.dialog.kpi', 'topic.dialog.top',
+    'topic.dialog.customer', 'topic.dialog.parameters', 'topic.dialog.station', 'topic.dialog.alarm'
 ]);

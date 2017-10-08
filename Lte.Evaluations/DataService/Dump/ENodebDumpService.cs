@@ -41,7 +41,7 @@ namespace Lte.Evaluations.DataService.Dump
             var count = 0;
             foreach (var eNodeb in items.Select(x => x.ENodeb).ToList())
             {
-                var item = _eNodebRepository.GetByENodebId(eNodeb.ENodebId);
+                var item = _eNodebRepository.FirstOrDefault(x => x.ENodebId == eNodeb.ENodebId);
                 if (item == null)
                 {
                     var result = _eNodebRepository.Insert(eNodeb);
@@ -59,7 +59,7 @@ namespace Lte.Evaluations.DataService.Dump
 
         public bool DumpSingleENodebExcel(ENodebExcel info)
         {
-            var eNodeb = _eNodebRepository.GetByENodebId(info.ENodebId);
+            var eNodeb = _eNodebRepository.FirstOrDefault(x => x.ENodebId == info.ENodebId);
             if (eNodeb == null)
             {
                 eNodeb = info.ConstructENodeb(_townRepository);
@@ -83,8 +83,8 @@ namespace Lte.Evaluations.DataService.Dump
         {
             foreach (
                 var eNodeb in
-                    container.ENodebIds.Select(eNodebId => _eNodebRepository.GetByENodebId(eNodebId))
-                        .Where(eNodeb => eNodeb != null))
+                container.ENodebIds.Select(eNodebId => _eNodebRepository.FirstOrDefault(x => x.ENodebId == eNodebId))
+                    .Where(eNodeb => eNodeb != null))
             {
                 eNodeb.IsInUse = false;
                 _eNodebRepository.Update(eNodeb);

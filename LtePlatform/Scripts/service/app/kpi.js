@@ -694,140 +694,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                         },
                         appFormatService.generateDistrictPieNameValueFuncs());
                 },
-                getDownlinkFlowOptions: function(districtStats, townStats, frequency) {
-                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
-                        .generateDrillDownData(districtStats,
-                            townStats,
-                            function(stat) {
-                                return stat.pdcpDownlinkFlow / 1024 / 1024 / 8;
-                            }),
-                        {
-                            title: "分镇区下行流量分布图（TB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域"
-                        },
-                        appFormatService.generateDistrictPieNameValueFuncs());
-                },
-                getUplinkFlowOptions: function(districtStats, townStats, frequency) {
-                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
-                        .generateDrillDownData(districtStats,
-                            townStats,
-                            function(stat) {
-                                return stat.pdcpUplinkFlow / 1024 / 1024 / 8;
-                            }),
-                        {
-                            title: "分镇区上行流量分布图（TB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域"
-                        },
-                        appFormatService.generateDistrictPieNameValueFuncs());
-                },
-                getDownlinkRateOptions: function(districtStats, townStats, frequency) {
-                    return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
-                        .generateDrillDownData(districtStats,
-                            townStats,
-                            function(stat) {
-                                return stat.downlinkFeelingRate;
-                            }),
-                        {
-                            title: "分镇区下行感知速率分布图（Mbit/s）-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域",
-                            yMin: 5,
-                            yMax: 40
-                        },
-                        appFormatService.generateDistrictPieNameValueFuncs());
-                },
-                getUplinkRateOptions: function(districtStats, townStats, frequency) {
-                    return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
-                        .generateDrillDownData(districtStats,
-                            townStats,
-                            function(stat) {
-                                return stat.uplinkFeelingRate;
-                            }),
-                        {
-                            title: "分镇区上行感知速率分布图（Mbit/s）-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域",
-                            yMin: 0,
-                            yMax: 15
-                        },
-                        appFormatService.generateDistrictPieNameValueFuncs());
-                },
-                getDownSwitchTimesOptions: function(districtStats, townStats, frequency) {
-                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
-                        .generateDrillDownData(districtStats,
-                            townStats,
-                            function(stat) {
-                                return stat.redirectCdma2000;
-                            }),
-                        {
-                            title: "分镇区4G下切3G次数-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域"
-                        },
-                        appFormatService.generateDistrictPieNameValueFuncs());
-                },
-                getSchedulingTimesOptions: function(districtStats, townStats, frequency) {
-                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
-                        .generateDrillDownData(districtStats,
-                            townStats,
-                            function(stat) {
-                                return stat.schedulingTimes;
-                            }),
-                        {
-                            title: "分镇区调度次数-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域"
-                        },
-                        appFormatService.generateDistrictPieNameValueFuncs());
-                },
-                getDownSwitchRateOptions: function(districtStats, townStats, frequency) {
-                    return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
-                        .generateDrillDownData(districtStats,
-                            townStats,
-                            function(stat) {
-                                return stat.downSwitchRate;
-                            }),
-                        {
-                            title: "分镇区4G下切3G比例（次/GB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域"
-                        },
-                        appFormatService.generateDistrictPieNameValueFuncs());
-                },
-                getRank2RateOptions: function(districtStats, townStats, frequency) {
-                    return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
-                        .generateDrillDownData(districtStats,
-                            townStats,
-                            function(stat) {
-                                return stat.rank2Rate;
-                            }),
-                        {
-                            title: "分镇区双流比（%）-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域"
-                        },
-                        appFormatService.generateDistrictPieNameValueFuncs());
-                },
-                getMaxUsersOptions: function(districtStats, townStats, frequency) {
-                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
-                        .generateDrillDownData(districtStats,
-                            townStats,
-                            function(stat) {
-                                return stat.maxUsers;
-                            }),
-                        {
-                            title: "分镇区最大用户数-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域"
-                        },
-                        appFormatService.generateDistrictPieNameValueFuncs());
-                },
-                getMaxActiveUsersOptions: function(districtStats, townStats, frequency) {
-                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
-                        .generateDrillDownData(districtStats,
-                            townStats,
-                            function(stat) {
-                                return stat.maxActiveUsers;
-                            }),
-                        {
-                            title: "分镇区最大激活用户数-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            seriesName: "区域"
-                        },
-                        appFormatService.generateDistrictPieNameValueFuncs());
-                },
                 getMrsDistrictOptions: function(stats, inputDistricts) {
                     var districts = inputDistricts.concat("全网");
                     return preciseChartService.generateDistrictTrendOptions(stats,
@@ -867,136 +733,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                             yTitle: "调度次数"
                         });
                 },
-                getDownlinkFlowDistrictOptions: function(stats, inputDistricts, frequency) {
-                    var districts = inputDistricts.concat("全网");
-                    return preciseChartService.generateDistrictTrendOptions(stats,
-                        districts,
-                        function(stat) {
-                            return stat.pdcpDownlinkFlow;
-                        },
-                        {
-                            title: "下行流量变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            xTitle: '日期',
-                            yTitle: "下行流量(TB)"
-                        });
-                },
-                getUplinkFlowDistrictOptions: function(stats, inputDistricts, frequency) {
-                    var districts = inputDistricts.concat("全网");
-                    return preciseChartService.generateDistrictTrendOptions(stats,
-                        districts,
-                        function(stat) {
-                            return stat.pdcpUplinkFlow;
-                        },
-                        {
-                            title: "上行流量变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            xTitle: '日期',
-                            yTitle: "上行流量(TB)"
-                        });
-                },
-                getMaxUsersDistrictOptions: function(stats, inputDistricts, frequency) {
-                    var districts = inputDistricts.concat("全网");
-                    return preciseChartService.generateDistrictTrendOptions(stats,
-                        districts,
-                        function(stat) {
-                            return stat.maxUsers;
-                        },
-                        {
-                            title: "最大用户数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            xTitle: '日期',
-                            yTitle: "最大用户数"
-                        });
-                },
-                getMaxActiveUsersDistrictOptions: function(stats, inputDistricts, frequency) {
-                    var districts = inputDistricts.concat("全网");
-                    return preciseChartService.generateDistrictTrendOptions(stats,
-                        districts,
-                        function(stat) {
-                            return stat.maxActiveUsers;
-                        },
-                        {
-                            title: "最大激活用户数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            xTitle: '日期',
-                            yTitle: "最大激活用户数"
-                        });
-                },
-                getDownlinkRateDistrictOptions: function(stats, inputDistricts, frequency) {
-                    var districts = inputDistricts.concat("全网");
-                    return preciseChartService.generateDistrictTrendOptions(stats,
-                        districts,
-                        function(stat) {
-                            return stat.downlinkFeelingRate;
-                        },
-                        {
-                            title: "下行感知速率变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            xTitle: '日期',
-                            yTitle: "下行感知速率（Mbit/s）"
-                        });
-                },
-                getUplinkRateDistrictOptions: function(stats, inputDistricts, frequency) {
-                    var districts = inputDistricts.concat("全网");
-                    return preciseChartService.generateDistrictTrendOptions(stats,
-                        districts,
-                        function(stat) {
-                            return stat.uplinkFeelingRate;
-                        },
-                        {
-                            title: "上行感知速率变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            xTitle: '日期',
-                            yTitle: "上行感知速率（Mbit/s）"
-                        });
-                },
-                getDownSwitchTimesDistrictOptions: function(stats, inputDistricts, frequency) {
-                    var districts = inputDistricts.concat("全网");
-                    return preciseChartService.generateDistrictTrendOptions(stats,
-                        districts,
-                        function(stat) {
-                            return stat.downSwitchTimes;
-                        },
-                        {
-                            title: "下切次数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            xTitle: '日期',
-                            yTitle: "下切次数"
-                        });
-                },
-                getSchedulingTimesDistrictOptions: function(stats, inputDistricts, frequency) {
-                    var districts = inputDistricts.concat("全网");
-                    return preciseChartService.generateDistrictTrendOptions(stats,
-                        districts,
-                        function(stat) {
-                            return stat.schedulingTimes;
-                        },
-                        {
-                            title: "调度次数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            xTitle: '日期',
-                            yTitle: "调度次数"
-                        });
-                },
-                getDownSwitchRateDistrictOptions: function(stats, inputDistricts, frequency) {
-                    var districts = inputDistricts.concat("全网");
-                    return preciseChartService.generateDistrictTrendOptions(stats,
-                        districts,
-                        function(stat) {
-                            return stat.downSwitchRate;
-                        },
-                        {
-                            title: "下切比例变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            xTitle: '日期',
-                            yTitle: "下切比例（次/GB）"
-                        });
-                },
-                getRank2RateDistrictOptions: function(stats, inputDistricts, frequency) {
-                    var districts = inputDistricts.concat("全网");
-                    return preciseChartService.generateDistrictTrendOptions(stats,
-                        districts,
-                        function(stat) {
-                            return stat.rank2Rate;
-                        },
-                        {
-                            title: "双流比变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
-                            xTitle: '日期',
-                            yTitle: "双流比（%）"
-                        });
-                },
                 getPreciseDistrictOptions: function(stats, inputDistricts) {
                     var districts = inputDistricts.concat("全网");
                     return preciseChartService.generateDistrictTrendOptions(stats,
@@ -1034,195 +770,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                             title: "CQI优良比变化趋势图",
                             xTitle: '日期',
                             yTitle: "CQI优良比"
-                        });
-                },
-                generateFlowDistrictStats: function(districts, stats) {
-                    return chartCalculateService.generateDistrictStats(districts,
-                        stats,
-                        {
-                            districtViewFunc: function(stat) {
-                                return stat.districtViews;
-                            },
-                            initializeFunc: function(generalStat) {
-                                generalStat.pdcpDownlinkFlow = 0;
-                                generalStat.pdcpUplinkFlow = 0;
-                            },
-                            calculateFunc: function(view) {
-                                return {
-                                    pdcpDownlinkFlow: view.pdcpDownlinkFlow / 1024 / 1024 / 8,
-                                    pdcpUplinkFlow: view.pdcpUplinkFlow / 1024 / 1024 / 8
-                                };
-                            },
-                            accumulateFunc: function(generalStat, view) {
-                                generalStat.pdcpDownlinkFlow += view.pdcpDownlinkFlow / 1024 / 1024 / 8;
-                                generalStat.pdcpUplinkFlow += view.pdcpUplinkFlow / 1024 / 1024 / 8;
-                            },
-                            zeroFunc: function() {
-                                return {
-                                    pdcpDownlinkFlow: 0,
-                                    pdcpUplinkFlow: 0
-                                };
-                            },
-                            totalFunc: function(generalStat) {
-                                return {
-                                    pdcpDownlinkFlow: generalStat.pdcpDownlinkFlow,
-                                    pdcpUplinkFlow: generalStat.pdcpUplinkFlow
-                                }
-                            }
-                        });
-                },
-                generateUsersDistrictStats: function(districts, stats) {
-                    return chartCalculateService.generateDistrictStats(districts,
-                        stats,
-                        {
-                            districtViewFunc: function(stat) {
-                                return stat.districtViews;
-                            },
-                            initializeFunc: function(generalStat) {
-                                generalStat.maxUsers = 0;
-                                generalStat.maxActiveUsers = 0;
-                            },
-                            calculateFunc: function(view) {
-                                return {
-                                    maxUsers: view.maxUsers,
-                                    maxActiveUsers: view.maxActiveUsers
-                                };
-                            },
-                            accumulateFunc: function(generalStat, view) {
-                                generalStat.maxUsers += view.maxUsers;
-                                generalStat.maxActiveUsers += view.maxActiveUsers;
-                            },
-                            zeroFunc: function() {
-                                return {
-                                    maxUsers: 0,
-                                    maxActiveUsers: 0
-                                };
-                            },
-                            totalFunc: function(generalStat) {
-                                return {
-                                    maxUsers: generalStat.maxUsers,
-                                    maxActiveUsers: generalStat.maxActiveUsers
-                                }
-                            }
-                        });
-                },
-                generateFeelingRateDistrictStats: function(districts, stats) {
-                    return chartCalculateService.generateDistrictStats(districts,
-                        stats,
-                        {
-                            districtViewFunc: function(stat) {
-                                return stat.districtViews;
-                            },
-                            initializeFunc: function(generalStat) {
-                                generalStat.totalUplinkDuration = 0;
-                                generalStat.totalUplinkThroughput = 0;
-                                generalStat.totalDownlinkDuration = 0;
-                                generalStat.totalDownlinkThroughput = 0;
-                            },
-                            calculateFunc: function(view) {
-                                return {
-                                    uplinkFeelingRate: view.uplinkFeelingRate,
-                                    downlinkFeelingRate: view.downlinkFeelingRate
-                                };
-                            },
-                            accumulateFunc: function(generalStat, view) {
-                                generalStat.totalUplinkDuration += view.uplinkFeelingDuration;
-                                generalStat.totalUplinkThroughput += view.uplinkFeelingThroughput;
-                                generalStat.totalDownlinkDuration += view.downlinkFeelingDuration;
-                                generalStat.totalDownlinkThroughput += view.downlinkFeelingThroughput;
-                            },
-                            zeroFunc: function() {
-                                return {
-                                    totalUplinkDuration: 0,
-                                    totalUplinkThroughput: 0,
-                                    totalDownlinkDuration: 0,
-                                    totalDownlinkThroughput: 0
-                                };
-                            },
-                            totalFunc: function(generalStat) {
-                                return {
-                                    uplinkFeelingRate: generalStat.totalUplinkThroughput /
-                                        generalStat.totalUplinkDuration,
-                                    downlinkFeelingRate: generalStat.totalDownlinkThroughput /
-                                        generalStat.totalDownlinkDuration
-                                };
-                            }
-                        });
-                },
-                generateDownSwitchDistrictStats: function(districts, stats) {
-                    return chartCalculateService.generateDistrictStats(districts,
-                        stats,
-                        {
-                            districtViewFunc: function(stat) {
-                                return stat.districtViews;
-                            },
-                            initializeFunc: function(generalStat) {
-                                generalStat.totalDownSwitchTimes = 0;
-                                generalStat.totalUplinkThroughput = 0;
-                                generalStat.totalDownlinkThroughput = 0;
-                            },
-                            calculateFunc: function(view) {
-                                return {
-                                    downSwitchTimes: view.redirectCdma2000,
-                                    downSwitchRate: view.downSwitchRate
-                                };
-                            },
-                            accumulateFunc: function(generalStat, view) {
-                                generalStat.totalDownSwitchTimes += view.redirectCdma2000;
-                                generalStat.totalUplinkThroughput += view.pdcpUplinkFlow;
-                                generalStat.totalDownlinkThroughput += view.pdcpDownlinkFlow;
-                            },
-                            zeroFunc: function() {
-                                return {
-                                    totalDownSwitchTimes: 0,
-                                    totalUplinkThroughput: 0,
-                                    totalDownlinkThroughput: 0
-                                };
-                            },
-                            totalFunc: function(generalStat) {
-                                return {
-                                    downSwitchTimes: generalStat.totalDownSwitchTimes,
-                                    downSwitchRate: 1024 *
-                                        8 *
-                                        generalStat.totalDownSwitchTimes /
-                                        (generalStat.totalUplinkThroughput + generalStat.totalDownlinkThroughput)
-                                };
-                            }
-                        });
-                },
-                generateRank2DistrictStats: function(districts, stats) {
-                    return chartCalculateService.generateDistrictStats(districts,
-                        stats,
-                        {
-                            districtViewFunc: function(stat) {
-                                return stat.districtViews;
-                            },
-                            initializeFunc: function(generalStat) {
-                                generalStat.totalRank2Times = 0;
-                                generalStat.totalSchedulingTimes = 0;
-                            },
-                            calculateFunc: function(view) {
-                                return {
-                                    schedulingTimes: view.schedulingTimes,
-                                    rank2Rate: view.rank2Rate
-                                };
-                            },
-                            accumulateFunc: function(generalStat, view) {
-                                generalStat.totalRank2Times += view.schedulingRank2;
-                                generalStat.totalSchedulingTimes += view.schedulingTimes;
-                            },
-                            zeroFunc: function() {
-                                return {
-                                    totalRank2Times: 0,
-                                    totalSchedulingTimes: 0
-                                };
-                            },
-                            totalFunc: function(generalStat) {
-                                return {
-                                    schedulingTimes: generalStat.totalSchedulingTimes,
-                                    rank2Rate: 100 * generalStat.totalRank2Times / generalStat.totalSchedulingTimes
-                                };
-                            }
                         });
                 },
                 generateDistrictStats: function(districts, stats) {
@@ -1414,21 +961,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                             }
                         });
                 },
-                generateFlowTrendStatsForPie: function(trendStat, result) {
-                    chartCalculateService.generateStatsForPie(trendStat,
-                        result,
-                        {
-                            districtViewsFunc: function(stat) {
-                                return stat.districtViews;
-                            },
-                            townViewsFunc: function(stat) {
-                                return stat.townViews;
-                            },
-                            accumulateFunc: function(source, accumulate) {
-                                calculateService.accumulateFlowStat(source, accumulate);
-                            }
-                        });
-                },
                 getPreciseObject: function(district) {
                     var objectTable = {
                         "禅城": 89.8,
@@ -1502,250 +1034,8 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                         function(data) {
                             return data.item2;
                         });
-                },
-                generateDownlinkFlowOptions: function(stats, topic) {
-                    return generalChartService.getPieOptions(stats,
-                        {
-                            title: topic + '下行PDCP层流量（MB）',
-                            seriesTitle: '下行PDCP层流量（MB）'
-                        },
-                        function(stat) {
-                            return stat.cellName;
-                        },
-                        function(stat) {
-                            return stat.pdcpDownlinkFlow;
-                        });
-                },
-                generateUplinkFlowOptions: function(stats, topic) {
-                    return generalChartService.getPieOptions(stats,
-                        {
-                            title: topic + '上行PDCP层流量（MB）',
-                            seriesTitle: '上行PDCP层流量（MB）'
-                        },
-                        function(stat) {
-                            return stat.cellName;
-                        },
-                        function(stat) {
-                            return stat.pdcpUplinkFlow;
-                        });
-                },
-                generateMaxUsersOptions: function(stats, topic) {
-                    return generalChartService.getPieOptions(stats,
-                        {
-                            title: topic + '最大连接用户数',
-                            seriesTitle: '最大连接用户数'
-                        },
-                        function(stat) {
-                            return stat.cellName;
-                        },
-                        function(stat) {
-                            return stat.maxUsers;
-                        });
-                },
-                generateSchedulingTimeOptions: function(stats, topic) {
-                    return generalChartService.getPieOptions(stats,
-                        {
-                            title: topic + '调度次数',
-                            seriesTitle: '调度次数'
-                        },
-                        function(stat) {
-                            return stat.cellName;
-                        },
-                        function(stat) {
-                            return stat.schedulingTimes;
-                        });
-                },
-                generateDownSwitchTimeOptions: function(stats, topic) {
-                    return generalChartService.getPieOptions(stats,
-                        {
-                            title: topic + '下切3G次数',
-                            seriesTitle: '4G下切3G次数'
-                        },
-                        function(stat) {
-                            return stat.cellName;
-                        },
-                        function(stat) {
-                            return stat.redirectCdma2000;
-                        });
-                },
-                generateAverageUsersOptions: function(stats, topic) {
-                    return generalChartService.getPieOptions(stats,
-                        {
-                            title: topic + '平均连接用户数',
-                            seriesTitle: '平均连接用户数'
-                        },
-                        function(stat) {
-                            return stat.cellName;
-                        },
-                        function(stat) {
-                            return stat.averageUsers;
-                        });
-                },
-                generateMaxActiveUsersOptions: function(stats, topic) {
-                    return generalChartService.getPieOptions(stats,
-                        {
-                            title: topic + '最大激活用户数',
-                            seriesTitle: '最大激活用户数'
-                        },
-                        function(stat) {
-                            return stat.cellName;
-                        },
-                        function(stat) {
-                            return stat.maxActiveUsers;
-                        });
-                },
-                generateAverageActiveUsersOptions: function(stats, topic) {
-                    return generalChartService.getPieOptions(stats,
-                        {
-                            title: topic + '平均激活用户数',
-                            seriesTitle: '平均激活用户数'
-                        },
-                        function(stat) {
-                            return stat.cellName;
-                        },
-                        function(stat) {
-                            return stat.averageActiveUsers;
-                        });
-                },
-                generateMergeFlowOptions: function(stats, topic) {
-                    var flowData = generalChartService.generateColumnDataByKeys(stats,
-                        'statTime',
-                        [
-                            'pdcpDownlinkFlow',
-                            'pdcpUplinkFlow'
-                        ]);
-                    return generalChartService.queryMultipleColumnOptions({
-                            xtitle: '日期',
-                            ytitle: '流量（MB）',
-                            title: topic + '流量统计'
-                        },
-                        flowData.categories,
-                        flowData.dataList,
-                        ['下行流量', '上行流量']);
-                },
-                generateMergeFeelingOptions: function(stats, topic) {
-                    var flowData = generalChartService.generateColumnDataByKeys(stats,
-                        'statTime',
-                        [
-                            'pdcpDownlinkFlow',
-                            'pdcpUplinkFlow',
-                            'downlinkFeelingRate',
-                            'uplinkFeelingRate'
-                        ]);
-                    return generalChartService.queryMultipleComboOptionsWithDoubleAxes({
-                            xtitle: '日期',
-                            ytitles: ['流量（MB）', '感知速率（Mbit/s）'],
-                            title: topic + '流量/感知速率'
-                        },
-                        flowData.categories,
-                        flowData.dataList,
-                        ['下行流量', '上行流量', '下行感知速率', '上行感知速率'],
-                        ['column', 'column', 'line', 'line'],
-                        [0, 0, 1, 1]);
-                },
-                generateMergeUsersOptions: function(stats, topic) {
-                    var usersData = generalChartService.generateColumnDataByKeys(stats,
-                        'statTime',
-                        [
-                            'averageActiveUsers',
-                            'averageUsers',
-                            'maxActiveUsers',
-                            'maxUsers'
-                        ]);
-                    return generalChartService.queryMultipleColumnOptions({
-                            xtitle: '日期',
-                            ytitle: '用户数',
-                            title: topic + '用户数'
-                        },
-                        usersData.categories,
-                        usersData.dataList,
-                        ['平均激活用户数', '平均连接用户数', '最大激活用户数', '最大连接用户数']);
-                },
-                generateMergeDownSwitchOptions: function(stats, topic) {
-                    angular.forEach(stats,
-                        function(stat) {
-                            stat.schedulingTimes /= 10000;
-                        });
-                    var usersData = generalChartService.generateColumnDataByKeys(stats,
-                        'statTime',
-                        [
-                            'redirectCdma2000',
-                            'schedulingTimes',
-                            'rank2Rate'
-                        ]);
-                    return generalChartService.queryMultipleComboOptionsWithDoubleAxes({
-                            xtitle: '日期',
-                            ytitles: ['下切次数', '双流比（%）'],
-                            title: topic + '下切次数/调度次数/双流比'
-                        },
-                        usersData.categories,
-                        usersData.dataList,
-                        ['4G下切3G次数', '调度次数（万次）', '双流比（%）'],
-                        ['column', 'column', 'line'],
-                        [0, 0, 1]);
                 }
             }
-        })
-    .factory('kpiChartService',
-        function(appKpiService) {
-            return {
-                showFlowCharts: function(flowStats, topic, mergeStats) {
-                    angular.forEach(flowStats,
-                        function(stat) {
-                            stat.pdcpDownlinkFlow /= 8;
-                            stat.pdcpUplinkFlow /= 8;
-                        });
-                    angular.forEach(mergeStats,
-                        function(stat) {
-                            stat.pdcpUplinkFlow /= 8;
-                            stat.pdcpDownlinkFlow /= 8;
-                        });
-                    angular.forEach(flowStats,
-                        function(stat) {
-                            stat.pdcpDownlinkFlow /= 8;
-                            stat.pdcpUplinkFlow /= 8;
-                        });
-                    angular.forEach(mergeStats,
-                        function(stat) {
-                            stat.pdcpUplinkFlow /= 8;
-                            stat.pdcpDownlinkFlow /= 8;
-                        });
-                    $("#downlinkFlowChart").highcharts(appKpiService.generateDownlinkFlowOptions(flowStats, topic));
-                    $("#uplinkFlowChart").highcharts(appKpiService.generateUplinkFlowOptions(flowStats, topic));
-                    $("#maxUsersChart").highcharts(appKpiService.generateMaxUsersOptions(flowStats, topic));
-                    $("#averageUsersChart").highcharts(appKpiService.generateAverageUsersOptions(flowStats, topic));
-                    $("#maxActiveUsersChart").highcharts(appKpiService.generateMaxActiveUsersOptions(flowStats, topic));
-                    $("#averageActiveUsersChart")
-                        .highcharts(appKpiService.generateAverageActiveUsersOptions(flowStats, topic));
-
-                    $("#flowDate").highcharts(appKpiService.generateMergeFlowOptions(mergeStats, topic));
-
-                    $("#usersDate").highcharts(appKpiService.generateMergeUsersOptions(mergeStats, topic));
-                },
-                showFeelingCharts: function(flowStats, topic, mergeStats) {
-                    angular.forEach(flowStats,
-                        function(stat) {
-                            stat.pdcpDownlinkFlow /= 8;
-                            stat.pdcpUplinkFlow /= 8;
-                        });
-                    angular.forEach(mergeStats,
-                        function(stat) {
-                            stat.pdcpDownlinkFlow /= 8;
-                            stat.pdcpUplinkFlow /= 8;
-                            stat.downlinkFeelingRate = stat.downlinkFeelingThroughput / stat.downlinkFeelingDuration;
-                            stat.uplinkFeelingRate = stat.uplinkFeelingThroughput / stat.uplinkFeelingDuration;
-                            stat.rank2Rate = stat.schedulingRank2 * 100 / stat.schedulingTimes;
-                        });
-                    $("#downlinkFlowChart").highcharts(appKpiService.generateDownlinkFlowOptions(flowStats, topic));
-                    $("#uplinkFlowChart").highcharts(appKpiService.generateUplinkFlowOptions(flowStats, topic));
-                    $("#maxUsersChart").highcharts(appKpiService.generateSchedulingTimeOptions(flowStats, topic));
-                    $("#averageUsersChart").highcharts(appKpiService.generateDownSwitchTimeOptions(flowStats, topic));
-
-                    $("#flowDate").highcharts(appKpiService.generateMergeFeelingOptions(mergeStats, topic));
-
-                    $("#usersDate").highcharts(appKpiService.generateMergeDownSwitchOptions(mergeStats, topic));
-                }
-            };
         });
 angular.module('kpi.college.infrastructure', ['myApp.url', 'myApp.region', "ui.bootstrap", 'topic.basic'])
     .run(function($rootScope) {
@@ -3656,7 +2946,7 @@ angular.module('kpi.coverage.flow', ['myApp.url', 'myApp.region', "ui.bootstrap"
             $uibModalInstance,
             kpiPreciseService,
             appFormatService,
-            appKpiService,
+            kpiChartService,
             appRegionService) {
             $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") +
                 '-' +
@@ -3665,19 +2955,8 @@ angular.module('kpi.coverage.flow', ['myApp.url', 'myApp.region', "ui.bootstrap"
             kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value, frequency)
                 .then(function(result) {
                     appRegionService.queryDistricts(city).then(function(districts) {
-                        var stats = appKpiService.generateFlowDistrictStats(districts, result);
-                        var trendStat = {};
-                        appKpiService.generateFlowTrendStatsForPie(trendStat, result);
-                        $("#leftChart").highcharts(appKpiService
-                            .getDownlinkFlowDistrictOptions(stats, districts, frequency));
-                        $("#rightChart").highcharts(appKpiService
-                            .getUplinkFlowDistrictOptions(stats, districts, frequency));
-                        $("#thirdChart").highcharts(appKpiService
-                            .getDownlinkFlowOptions(trendStat.districtStats, trendStat.townStats, frequency));
-                        $("#fourthChart").highcharts(appKpiService
-                            .getUplinkFlowOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                        kpiChartService.generateDistrictFrequencyFlowTrendCharts(districts, frequency, result);
                     });
-
                 });
             $scope.ok = function() {
                 $uibModalInstance.close($scope.city);
@@ -3697,7 +2976,7 @@ angular.module('kpi.coverage.flow', ['myApp.url', 'myApp.region', "ui.bootstrap"
             $uibModalInstance,
             kpiPreciseService,
             appFormatService,
-            appKpiService,
+            kpiChartService,
             appRegionService) {
             $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") +
                 '-' +
@@ -3706,17 +2985,7 @@ angular.module('kpi.coverage.flow', ['myApp.url', 'myApp.region', "ui.bootstrap"
             kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value, frequency)
                 .then(function(result) {
                     appRegionService.queryDistricts(city).then(function(districts) {
-                        var stats = appKpiService.generateUsersDistrictStats(districts, result);
-                        var trendStat = {};
-                        appKpiService.generateFlowTrendStatsForPie(trendStat, result);
-                        $("#leftChart").highcharts(appKpiService
-                            .getMaxUsersDistrictOptions(stats, districts, frequency));
-                        $("#rightChart").highcharts(appKpiService
-                            .getMaxActiveUsersDistrictOptions(stats, districts, frequency));
-                        $("#thirdChart").highcharts(appKpiService
-                            .getMaxUsersOptions(trendStat.districtStats, trendStat.townStats, frequency));
-                        $("#fourthChart").highcharts(appKpiService
-                            .getMaxActiveUsersOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                        kpiChartService.generateDistrictFrequencyUsersTrendCharts(districts, frequency, result);
                     });
 
                 });
@@ -3738,7 +3007,7 @@ angular.module('kpi.coverage.flow', ['myApp.url', 'myApp.region', "ui.bootstrap"
             $uibModalInstance,
             kpiPreciseService,
             appFormatService,
-            appKpiService,
+            kpiChartService,
             appRegionService) {
             $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") +
                 '-' +
@@ -3747,17 +3016,7 @@ angular.module('kpi.coverage.flow', ['myApp.url', 'myApp.region', "ui.bootstrap"
             kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value, frequency)
                 .then(function(result) {
                     appRegionService.queryDistricts(city).then(function(districts) {
-                        var stats = appKpiService.generateFeelingRateDistrictStats(districts, result);
-                        var trendStat = {};
-                        appKpiService.generateFlowTrendStatsForPie(trendStat, result);
-                        $("#leftChart").highcharts(appKpiService
-                            .getDownlinkRateDistrictOptions(stats, districts, frequency));
-                        $("#rightChart").highcharts(appKpiService
-                            .getUplinkRateDistrictOptions(stats, districts, frequency));
-                        $("#thirdChart").highcharts(appKpiService
-                            .getDownlinkRateOptions(trendStat.districtStats, trendStat.townStats, frequency));
-                        $("#fourthChart").highcharts(appKpiService
-                            .getUplinkRateOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                        kpiChartService.generateDistrictFrequencyFeelingTrendCharts(districts, frequency, result);
                     });
 
                 });
@@ -3779,7 +3038,7 @@ angular.module('kpi.coverage.flow', ['myApp.url', 'myApp.region', "ui.bootstrap"
             $uibModalInstance,
             kpiPreciseService,
             appFormatService,
-            appKpiService,
+            kpiChartService,
             appRegionService) {
             $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") +
                 '-' +
@@ -3788,19 +3047,8 @@ angular.module('kpi.coverage.flow', ['myApp.url', 'myApp.region', "ui.bootstrap"
             kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value, frequency)
                 .then(function(result) {
                     appRegionService.queryDistricts(city).then(function(districts) {
-                        var stats = appKpiService.generateDownSwitchDistrictStats(districts, result);
-                        var trendStat = {};
-                        appKpiService.generateFlowTrendStatsForPie(trendStat, result);
-                        $("#leftChart").highcharts(appKpiService
-                            .getDownSwitchTimesDistrictOptions(stats, districts, frequency));
-                        $("#rightChart").highcharts(appKpiService
-                            .getDownSwitchRateDistrictOptions(stats, districts, frequency));
-                        $("#thirdChart").highcharts(appKpiService
-                            .getDownSwitchTimesOptions(trendStat.districtStats, trendStat.townStats, frequency));
-                        $("#fourthChart").highcharts(appKpiService
-                            .getDownSwitchRateOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                        kpiChartService.generateDistrictFrequencyDownSwitchTrendCharts(districts, frequency, result);
                     });
-
                 });
             $scope.ok = function() {
                 $uibModalInstance.close($scope.city);
@@ -3820,7 +3068,7 @@ angular.module('kpi.coverage.flow', ['myApp.url', 'myApp.region', "ui.bootstrap"
             $uibModalInstance,
             kpiPreciseService,
             appFormatService,
-            appKpiService,
+            kpiChartService,
             appRegionService) {
             $scope.dialogTitle = appFormatService.getDateString(beginDate.value, "yyyy年MM月dd日") +
                 '-' +
@@ -3829,17 +3077,7 @@ angular.module('kpi.coverage.flow', ['myApp.url', 'myApp.region', "ui.bootstrap"
             kpiPreciseService.getDateSpanFlowRegionKpi(city, beginDate.value, endDate.value, frequency)
                 .then(function(result) {
                     appRegionService.queryDistricts(city).then(function(districts) {
-                        var stats = appKpiService.generateRank2DistrictStats(districts, result);
-                        var trendStat = {};
-                        appKpiService.generateFlowTrendStatsForPie(trendStat, result);
-                        $("#leftChart").highcharts(appKpiService
-                            .getSchedulingTimesDistrictOptions(stats, districts, frequency));
-                        $("#rightChart").highcharts(appKpiService
-                            .getRank2RateDistrictOptions(stats, districts, frequency));
-                        $("#thirdChart").highcharts(appKpiService
-                            .getSchedulingTimesOptions(trendStat.districtStats, trendStat.townStats, frequency));
-                        $("#fourthChart").highcharts(appKpiService
-                            .getRank2RateOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                        kpiChartService.generateDistrictFrequencyRand2TrendCharts(districts, frequency, result);
                     });
 
                 });
@@ -3851,9 +3089,9 @@ angular.module('kpi.coverage.flow', ['myApp.url', 'myApp.region', "ui.bootstrap"
                 $uibModalInstance.dismiss('cancel');
             };
         });
-angular.module('kpi.coverage', ['app.menu'])
+angular.module('kpi.coverage', ['app.menu', 'app.core'])
 
-    .factory('coverageDialogService', function (menuItemService) {
+    .factory('coverageDialogService', function (menuItemService, stationFormatService) {
         return {
             showDetails: function (cellName, cellId, sectorId) {
                 menuItemService.showGeneralDialog({
@@ -3874,31 +3112,28 @@ angular.module('kpi.coverage', ['app.menu'])
             },
             showSource: function (currentView, serialNumber, beginDate, endDate, callback) {
                 menuItemService.showGeneralDialogWithAction({
-                    templateUrl: '/appViews/Rutrace/Interference/SourceDialog.html',
-                    controller: 'interference.source.dialog',
-                    resolve: {
-                        dialogTitle: function () {
-                            return currentView.eNodebName + "-" + currentView.sectorId + "干扰源分析";
-                        },
-                        eNodebId: function () {
-                            return currentView.eNodebId;
-                        },
-                        sectorId: function () {
-                            return currentView.sectorId;
-                        },
-                        serialNumber: function () {
-                            return serialNumber;
-                        },
-                        beginDate: function() {
-                            return beginDate;
-                        },
-                        endDate: function() {
-                            return endDate;
-                        }
-                    }
-                }, function (info) {
-                    callback(info);
-                });
+                        templateUrl: '/appViews/Rutrace/Interference/SourceDialog.html',
+                        controller: 'interference.source.dialog',
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return currentView.eNodebName + "-" + currentView.sectorId + "干扰源分析";
+                                },
+                                eNodebId: function() {
+                                    return currentView.eNodebId;
+                                },
+                                sectorId: function() {
+                                    return currentView.sectorId;
+                                },
+                                serialNumber: function() {
+                                    return serialNumber;
+                                }
+                            },
+                            beginDate,
+                            endDate)
+                    },
+                    function(info) {
+                        callback(info);
+                    });
             },
             showSourceDbChart: function (currentView) {
                 menuItemService.showGeneralDialog({
@@ -4109,115 +3344,95 @@ angular.module('kpi.coverage', ['app.menu'])
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Home/FourChartDialog.html',
                     controller: 'flow.trend',
-                    resolve: {
-                        dialogTitle: function () {
-                            return city + "流量变化趋势";
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            dialogTitle: function() {
+                                return city + "流量变化趋势";
+                            },
+                            city: function() {
+                                return city;
+                            },
+                            frequency: function() {
+                                return frequency;
+                            }
                         },
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        },
-                        city: function () {
-                            return city;
-                        },
-                        frequency: function () {
-                            return frequency;
-                        }
-                    }
+                        beginDate,
+                        endDate)
                 });
             },
             showUsersTrend: function (city, beginDate, endDate, frequency) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Home/FourChartDialog.html',
                     controller: 'users.trend',
-                    resolve: {
-                        dialogTitle: function () {
-                            return city + "用户数变化趋势";
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            dialogTitle: function() {
+                                return city + "用户数变化趋势";
+                            },
+                            city: function() {
+                                return city;
+                            },
+                            frequency: function() {
+                                return frequency;
+                            }
                         },
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        },
-                        city: function () {
-                            return city;
-                        },
-                        frequency: function () {
-                            return frequency;
-                        }
-                    }
+                        beginDate,
+                        endDate)
                 });
             },
             showFeelingRateTrend: function (city, beginDate, endDate, frequency) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Home/FourChartDialog.html',
                     controller: 'feelingRate.trend',
-                    resolve: {
-                        dialogTitle: function () {
-                            return city + "感知速率变化趋势";
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            dialogTitle: function() {
+                                return city + "感知速率变化趋势";
+                            },
+                            city: function() {
+                                return city;
+                            },
+                            frequency: function() {
+                                return frequency;
+                            }
                         },
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        },
-                        city: function () {
-                            return city;
-                        },
-                        frequency: function () {
-                            return frequency;
-                        }
-                    }
+                        beginDate,
+                        endDate)
                 });
             },
             showDownSwitchTrend: function (city, beginDate, endDate, frequency) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Home/FourChartDialog.html',
                     controller: 'downSwitch.trend',
-                    resolve: {
-                        dialogTitle: function () {
-                            return city + "4G下切3G变化趋势";
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            dialogTitle: function() {
+                                return city + "4G下切3G变化趋势";
+                            },
+                            city: function() {
+                                return city;
+                            },
+                            frequency: function() {
+                                return frequency;
+                            }
                         },
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        },
-                        city: function () {
-                            return city;
-                        },
-                        frequency: function () {
-                            return frequency;
-                        }
-                    }
+                        beginDate,
+                        endDate)
                 });
             },
             showRank2RateTrend: function (city, beginDate, endDate, frequency) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/Home/FourChartDialog.html',
                     controller: 'rank2Rate.trend',
-                    resolve: {
-                        dialogTitle: function () {
-                            return city + "4G双流比变化趋势";
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            dialogTitle: function() {
+                                return city + "4G双流比变化趋势";
+                            },
+                            city: function() {
+                                return city;
+                            },
+                            frequency: function() {
+                                return frequency;
+                            }
                         },
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        },
-                        city: function () {
-                            return city;
-                        },
-                        frequency: function () {
-                            return frequency;
-                        }
-                    }
+                        beginDate,
+                        endDate)
                 });
             },
             showUserRoles: function (userName) {
@@ -5143,167 +4358,190 @@ angular.module('kpi.parameter.rutrace', ['myApp.url', 'myApp.region', "ui.bootst
                 $scope.showInterference();
                 $scope.updateNeighborInfos();
             });
-    })
-    .controller("rutrace.map.analysis", function ($scope,
-        $uibModalInstance,
-        cell, dialogTitle, beginDate, endDate,
-        baiduQueryService,
-        baiduMapService, networkElementService,
-        neighborDialogService,
-        parametersDialogService,
-        menuItemService, cellPreciseService,
-        neighborMongoService,
-        preciseInterferenceService) {
-        $scope.dialogTitle = dialogTitle;
-        $scope.beginDate = beginDate;
-        $scope.endDate = endDate;
+        })
+    .controller("rutrace.map.analysis",
+        function($scope,
+            $uibModalInstance,
+            cell,
+            dialogTitle,
+            beginDate,
+            endDate,
+            baiduQueryService,
+            baiduMapService,
+            networkElementService,
+            neighborDialogService,
+            parametersDialogService,
+            menuItemService,
+            cellPreciseService,
+            neighborMongoService,
+            preciseInterferenceService) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
 
-        $scope.neighborLines = [];
-        $scope.displayNeighbors = false;
-        $scope.reverseNeighborLines = [];
-        $scope.displayReverseNeighbors = false;
-        $scope.interferenceLines = [];
-        $scope.interferenceCircles = [];
-        $scope.displayInterference = false;
-        $scope.victimLines = [];
-        $scope.victimCircles = [];
-        $scope.displayVictims = false;
+            $scope.neighborLines = [];
+            $scope.displayNeighbors = false;
+            $scope.reverseNeighborLines = [];
+            $scope.displayReverseNeighbors = false;
+            $scope.interferenceLines = [];
+            $scope.interferenceCircles = [];
+            $scope.displayInterference = false;
+            $scope.victimLines = [];
+            $scope.victimCircles = [];
+            $scope.displayVictims = false;
 
-        $scope.initializeMap = function() {
-            cellPreciseService.queryOneWeekKpi(cell.cellId, cell.sectorId).then(function(cellView) {
-                baiduMapService.switchSubMap();
-                baiduMapService.initializeMap("all-map", 12);
-                networkElementService.queryCellSectors([cellView]).then(function(result) {
-                    baiduQueryService.transformToBaidu(result[0].longtitute, result[0].lattitute).then(function(coors) {
-                        var xOffset = coors.x - result[0].longtitute;
-                        var yOffset = coors.y - result[0].lattitute;
-                        result[0].longtitute = coors.x;
-                        result[0].lattitute = coors.y;
+            $scope.initializeMap = function() {
+                cellPreciseService.queryOneWeekKpi(cell.cellId, cell.sectorId).then(function(cellView) {
+                    baiduMapService.switchSubMap();
+                    baiduMapService.initializeMap("all-map", 12);
+                    networkElementService.queryCellSectors([cellView]).then(function(result) {
+                        baiduQueryService.transformToBaidu(result[0].longtitute, result[0].lattitute)
+                            .then(function(coors) {
+                                var xOffset = coors.x - result[0].longtitute;
+                                var yOffset = coors.y - result[0].lattitute;
+                                result[0].longtitute = coors.x;
+                                result[0].lattitute = coors.y;
 
-                        var sectorTriangle = baiduMapService.generateSector(result[0], "blue", 1.25);
-                        baiduMapService.addOneSectorToScope(sectorTriangle,
-                            neighborDialogService.showPrecise,
-                            result[0]);
+                                var sectorTriangle = baiduMapService.generateSector(result[0], "blue", 1.25);
+                                baiduMapService.addOneSectorToScope(sectorTriangle,
+                                    neighborDialogService.showPrecise,
+                                    result[0]);
 
-                        baiduMapService.setCellFocus(result[0].longtitute, result[0].lattitute, 15);
-                        var range = baiduMapService.getCurrentMapRange(-xOffset, -yOffset);
+                                baiduMapService.setCellFocus(result[0].longtitute, result[0].lattitute, 15);
+                                var range = baiduMapService.getCurrentMapRange(-xOffset, -yOffset);
 
-                        networkElementService.queryRangeSectors(range, []).then(function(sectors) {
-                            angular.forEach(sectors,
-                                function(sector) {
-                                    sector.longtitute += xOffset;
-                                    sector.lattitute += yOffset;
-                                    baiduMapService.addOneSectorToScope(
-                                        baiduMapService.generateSector(sector, "green"),
-                                        function() {
-                                            parametersDialogService
-                                                .showCellInfo(sector, $scope.beginDate, $scope.endDate);
-                                        },
-                                        sector);
+                                networkElementService.queryRangeSectors(range, []).then(function(sectors) {
+                                    angular.forEach(sectors,
+                                        function(sector) {
+                                            sector.longtitute += xOffset;
+                                            sector.lattitute += yOffset;
+                                            baiduMapService.addOneSectorToScope(
+                                                baiduMapService.generateSector(sector, "green"),
+                                                function() {
+                                                    parametersDialogService
+                                                        .showCellInfo(sector, $scope.beginDate, $scope.endDate);
+                                                },
+                                                sector);
+                                        });
                                 });
+                            });
+
+                    });
+                    networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function(item) {
+                        if (item) {
+                            $scope.generateComponents(item);
+                        }
+                    });
+                });
+            };
+
+
+            $scope.generateComponents = function(item) {
+                baiduQueryService.transformToBaidu(item.longtitute, item.lattitute).then(function(coors) {
+                    var xOffset = coors.x - item.longtitute;
+                    var yOffset = coors.y - item.lattitute;
+                    neighborMongoService.queryNeighbors(cell.cellId, cell.sectorId).then(function(neighbors) {
+                        baiduMapService.generateNeighborLines($scope.neighborLines,
+                        {
+                            cell: item,
+                            neighbors: neighbors,
+                            xOffset: xOffset,
+                            yOffset: yOffset
                         });
                     });
-
-                });
-                networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function(item) {
-                    if (item) {
-                        $scope.generateComponents(item);
-                    }
-                });
-            });
-        };
-        
-
-        $scope.generateComponents = function (item) {
-            baiduQueryService.transformToBaidu(item.longtitute, item.lattitute).then(function (coors) {
-                var xOffset = coors.x - item.longtitute;
-                var yOffset = coors.y - item.lattitute;
-                neighborMongoService.queryNeighbors(cell.cellId, cell.sectorId).then(function (neighbors) {
-                    baiduMapService.generateNeighborLines($scope.neighborLines, {
-                        cell: item,
-                        neighbors: neighbors,
-                        xOffset: xOffset,
-                        yOffset: yOffset
+                    neighborMongoService.queryReverseNeighbors(cell.cellId, cell.sectorId).then(function(neighbors) {
+                        baiduMapService.generateReverseNeighborLines($scope.reverseNeighborLines,
+                        {
+                            cell: item,
+                            neighbors: neighbors,
+                            xOffset: xOffset,
+                            yOffset: yOffset
+                        });
                     });
-                });
-                neighborMongoService.queryReverseNeighbors(cell.cellId, cell.sectorId).then(function (neighbors) {
-                    baiduMapService.generateReverseNeighborLines($scope.reverseNeighborLines, {
-                        cell: item,
-                        neighbors: neighbors,
-                        xOffset: xOffset,
-                        yOffset: yOffset
-                    });
-                });
-                preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value, $scope.endDate.value,
-                    cell.cellId, cell.sectorId).then(function (interference) {
+                    preciseInterferenceService.queryInterferenceNeighbor($scope.beginDate.value,
+                        $scope.endDate.value,
+                        cell.cellId,
+                        cell.sectorId).then(function(interference) {
                         baiduMapService.generateInterferenceComponents(
-                            $scope.interferenceLines, $scope.interferenceCircles, item,
-                            interference, xOffset, yOffset, "orange",
+                            $scope.interferenceLines,
+                            $scope.interferenceCircles,
+                            item,
+                            interference,
+                            xOffset,
+                            yOffset,
+                            "orange",
                             neighborDialogService.showInterferenceSource);
                     });
-                preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value, $scope.endDate.value,
-                    cell.cellId, cell.sectorId).then(function (victims) {
-                        baiduMapService.generateVictimComponents($scope.victimLines, $scope.victimCircles, item,
-                            victims, xOffset, yOffset, "green",
+                    preciseInterferenceService.queryInterferenceVictim($scope.beginDate.value,
+                        $scope.endDate.value,
+                        cell.cellId,
+                        cell.sectorId).then(function(victims) {
+                        baiduMapService.generateVictimComponents($scope.victimLines,
+                            $scope.victimCircles,
+                            item,
+                            victims,
+                            xOffset,
+                            yOffset,
+                            "green",
                             neighborDialogService.showInterferenceVictim);
                     });
-            });
-        };
+                });
+            };
 
-        $scope.toggleNeighbors = function () {
-            if ($scope.displayNeighbors) {
-                baiduMapService.removeOverlays($scope.neighborLines);
-                $scope.displayNeighbors = false;
-            } else {
-                baiduMapService.addOverlays($scope.neighborLines);
-                $scope.displayNeighbors = true;
-            }
-        };
+            $scope.toggleNeighbors = function() {
+                if ($scope.displayNeighbors) {
+                    baiduMapService.removeOverlays($scope.neighborLines);
+                    $scope.displayNeighbors = false;
+                } else {
+                    baiduMapService.addOverlays($scope.neighborLines);
+                    $scope.displayNeighbors = true;
+                }
+            };
 
-        $scope.toggleReverseNeighbers = function () {
-            if ($scope.displayReverseNeighbors) {
-                baiduMapService.removeOverlays($scope.reverseNeighborLines);
-                $scope.displayReverseNeighbors = false;
-            } else {
-                baiduMapService.addOverlays($scope.reverseNeighborLines);
-                $scope.displayReverseNeighbors = true;
-            }
-        };
+            $scope.toggleReverseNeighbers = function() {
+                if ($scope.displayReverseNeighbors) {
+                    baiduMapService.removeOverlays($scope.reverseNeighborLines);
+                    $scope.displayReverseNeighbors = false;
+                } else {
+                    baiduMapService.addOverlays($scope.reverseNeighborLines);
+                    $scope.displayReverseNeighbors = true;
+                }
+            };
 
-        $scope.toggleInterference = function () {
-            if ($scope.displayInterference) {
-                baiduMapService.removeOverlays($scope.interferenceLines);
-                baiduMapService.removeOverlays($scope.interferenceCircles);
-                $scope.displayInterference = false;
-            } else {
-                baiduMapService.addOverlays($scope.interferenceLines);
-                baiduMapService.addOverlays($scope.interferenceCircles);
-                $scope.displayInterference = true;
-            }
-        };
+            $scope.toggleInterference = function() {
+                if ($scope.displayInterference) {
+                    baiduMapService.removeOverlays($scope.interferenceLines);
+                    baiduMapService.removeOverlays($scope.interferenceCircles);
+                    $scope.displayInterference = false;
+                } else {
+                    baiduMapService.addOverlays($scope.interferenceLines);
+                    baiduMapService.addOverlays($scope.interferenceCircles);
+                    $scope.displayInterference = true;
+                }
+            };
 
-        $scope.toggleVictims = function () {
-            if ($scope.displayVictims) {
-                baiduMapService.removeOverlays($scope.victimLines);
-                baiduMapService.removeOverlays($scope.victimCircles);
-                $scope.displayVictims = false;
-            } else {
-                baiduMapService.addOverlays($scope.victimLines);
-                baiduMapService.addOverlays($scope.victimCircles);
-                $scope.displayVictims = true;
-            }
-        };
+            $scope.toggleVictims = function() {
+                if ($scope.displayVictims) {
+                    baiduMapService.removeOverlays($scope.victimLines);
+                    baiduMapService.removeOverlays($scope.victimCircles);
+                    $scope.displayVictims = false;
+                } else {
+                    baiduMapService.addOverlays($scope.victimLines);
+                    baiduMapService.addOverlays($scope.victimCircles);
+                    $scope.displayVictims = true;
+                }
+            };
 
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.interferenceCells);
-        };
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.interferenceCells);
+            };
 
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
 
-        $scope.initializeMap();
-    })
+            $scope.initializeMap();
+        })
     .controller("rutrace.coverage.analysis",
         function($scope,
             cell,
@@ -5382,6 +4620,54 @@ angular.module('kpi.parameter.rutrace', ['myApp.url', 'myApp.region', "ui.bootst
                                     });
                             }
                         });
+                });
+            };
+
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.interferenceCells);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+            $scope.showCoverage();
+        })
+    .controller("general.coverage.analysis",
+        function($scope,
+            cell,
+            $uibModalInstance,
+            topPreciseService,
+            preciseInterferenceService,
+            preciseChartService) {
+            $scope.currentCellName = cell.name + "-" + cell.sectorId;
+            $scope.dialogTitle = "小区覆盖分析: " + $scope.currentCellName;
+            $scope.detailsDialogTitle = cell.name + "-" + cell.sectorId + "详细小区统计";
+            $scope.cellId = cell.cellId;
+            $scope.sectorId = cell.sectorId;
+            $scope.showCoverage = function() {
+                topPreciseService.queryRsrpTa($scope.beginDate.value,
+                    $scope.endDate.value,
+                    cell.cellId,
+                    cell.sectorId).then(function(result) {
+                    for (var rsrpIndex = 0; rsrpIndex < 12; rsrpIndex++) {
+                        var options = preciseChartService.getRsrpTaOptions(result, rsrpIndex);
+                        $("#rsrp-ta-" + rsrpIndex).highcharts(options);
+                    }
+                });
+                topPreciseService.queryCoverage($scope.beginDate.value,
+                    $scope.endDate.value,
+                    cell.cellId,
+                    cell.sectorId).then(function(result) {
+                    var options = preciseChartService.getCoverageOptions(result);
+                    $("#coverage-chart").highcharts(options);
+                });
+                topPreciseService.queryTa($scope.beginDate.value,
+                    $scope.endDate.value,
+                    cell.cellId,
+                    cell.sectorId).then(function(result) {
+                    var options = preciseChartService.getTaOptions(result);
+                    $("#ta-chart").highcharts(options);
                 });
             };
 
@@ -5696,13 +4982,13 @@ angular.module('kpi.parameter.query', ['myApp.url', 'myApp.region', "ui.bootstra
         });
 angular.module('kpi.parameter', ['app.menu', 'app.core', 'region.network'])
     .factory('neighborDialogService',
-    function (menuItemService, networkElementService, stationFactory, baiduMapService) {
+        function(menuItemService, networkElementService, stationFormatService, baiduMapService) {
             return {
-                dumpMongo: function(cell, beginDate, endDate) {
+                dumpCellMongo: function(cell, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Interference/DumpCellMongoDialog.html',
                         controller: 'dump.cell.mongo',
-                        resolve: stationFactory.dateSpanResolve({
+                        resolve: stationFormatService.dateSpanResolve({
                                 dialogTitle: function() {
                                     return cell.name + "-" + cell.sectorId + "干扰数据导入";
                                 },
@@ -5718,7 +5004,7 @@ angular.module('kpi.parameter', ['app.menu', 'app.core', 'region.network'])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Interference/Index.html',
                         controller: 'rutrace.interference.analysis',
-                        resolve: stationFactory.dateSpanResolve({
+                        resolve: stationFormatService.dateSpanResolve({
                                 dialogTitle: function() {
                                     return cell.name + "-" + cell.sectorId + "干扰指标分析";
                                 },
@@ -5730,11 +5016,11 @@ angular.module('kpi.parameter', ['app.menu', 'app.core', 'region.network'])
                             endDate)
                     });
                 },
-                showRutraceInterferenceMap: function (cell, beginDate, endDate) {
+                showRutraceInterferenceMap: function(cell, beginDate, endDate) {
                     menuItemService.showGeneralDialogWithAction({
                             templateUrl: '/appViews/Rutrace/Map/Index.html',
                             controller: 'rutrace.map.analysis',
-                            resolve: stationFactory.dateSpanDateResolve({
+                            resolve: stationFormatService.dateSpanDateResolve({
                                     dialogTitle: function() {
                                         return "小区地理化分析" + ": " + cell.name + "-" + cell.sectorId;
                                     },
@@ -5753,7 +5039,23 @@ angular.module('kpi.parameter', ['app.menu', 'app.core', 'region.network'])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Coverage/Index.html',
                         controller: 'rutrace.coverage.analysis',
-                        resolve: stationFactory.dateSpanResolve({
+                        resolve: stationFormatService.dateSpanResolve({
+                                dialogTitle: function() {
+                                    return cell.name + "-" + cell.sectorId + "覆盖指标分析";
+                                },
+                                cell: function() {
+                                    return cell;
+                                }
+                            },
+                            beginDate,
+                            endDate)
+                    });
+                },
+                showGeneralCoverage: function(cell, beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Rutrace/Coverage/General.html',
+                        controller: 'general.coverage.analysis',
+                        resolve: stationFormatService.dateSpanResolve({
                                 dialogTitle: function() {
                                     return cell.name + "-" + cell.sectorId + "覆盖指标分析";
                                 },
@@ -5797,7 +5099,7 @@ angular.module('kpi.parameter', ['app.menu', 'app.core', 'region.network'])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Parameters/QueryMap.html',
                         controller: 'query.setting.dialog',
-                        resolve: stationFactory.dateSpanDateResolve({
+                        resolve: stationFormatService.dateSpanDateResolve({
                                 dialogTitle: function() {
                                     return "小区信息查询条件设置";
                                 },
@@ -5841,7 +5143,7 @@ angular.module('kpi.parameter', ['app.menu', 'app.core', 'region.network'])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Parameters/Region/FlowKpiInfo.html',
                         controller: 'flow.kpi.dialog',
-                        resolve: stationFactory.dateSpanResolve({
+                        resolve: stationFormatService.dateSpanResolve({
                                 dialogTitle: function() {
                                     return cell.item.eNodebName + "-" + cell.item.sectorId + "小区流量相关指标信息";
                                 },
@@ -5857,7 +5159,7 @@ angular.module('kpi.parameter', ['app.menu', 'app.core', 'region.network'])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Parameters/Region/RrcKpiInfo.html',
                         controller: 'rrc.kpi.dialog',
-                        resolve: stationFactory.dateSpanResolve({
+                        resolve: stationFormatService.dateSpanResolve({
                                 dialogTitle: function() {
                                     return cell.item.eNodebName + "-" + cell.item.sectorId + "小区RRC连接指标信息";
                                 },
@@ -5932,7 +5234,6 @@ angular.module('kpi.parameter', ['app.menu', 'app.core', 'region.network'])
                 }
             }
         });
-
 angular.module('kpi.work.dialog', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.core"])
     .controller('workitem.feedback.dialog',
         function($scope, $uibModalInstance, input, dialogTitle) {
@@ -5972,20 +5273,24 @@ angular.module('kpi.work.dialog', ['myApp.url', 'myApp.region', "ui.bootstrap", 
             beginDate,
             endDate,
             appFormatService,
-            networkElementService) {
+            networkElementService,
+            downSwitchService) {
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
-            $scope.itemGroups = appFormatService.generateStationGroups(station);
             $scope.cellList = [];
-            networkElementService.queryENodebStationInfo(station.StationId).then(function(eNodeb) {
-                if (eNodeb) {
-                    $scope.eNodebGroups = appFormatService.generateENodebGroups(eNodeb);
-                }
-
+            downSwitchService.getStationByStationId(station.id).then(function (stationDetails) {
+                var item = stationDetails.result[0];
+                $scope.itemGroups = appFormatService.generateStationGroups(item);
+                networkElementService.queryENodebStationInfo(item.SysStationId).then(function(eNodeb) {
+                    if (eNodeb) {
+                        $scope.eNodebGroups = appFormatService.generateENodebGroups(eNodeb);
+                    }
+                });
+                networkElementService.queryCellStationInfo(item.SysStationId).then(function(cellList) {
+                    $scope.cellList = cellList;
+                });
             });
-            networkElementService.queryCellStationInfo(station.StationId).then(function(cellList) {
-                $scope.cellList = cellList;
-            });
+            
             $scope.dialogTitle = dialogTitle;
             $scope.ok = function() {
                 $uibModalInstance.close($scope.site);
@@ -6003,14 +5308,22 @@ angular.module('kpi.work.dialog', ['myApp.url', 'myApp.region', "ui.bootstrap", 
             beginDate,
             endDate,
             appFormatService,
-            downSwitchService) {
+            downSwitchService,
+            networkElementService) {
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
-
-            downSwitchService.getIndoorById(station.id).then(function (response) {
-                response.result[0].longtitute = station.longtitute;
-                response.result[0].lattitute = station.lattitute;
-                $scope.itemGroups = appFormatService.generateIndoorGroups(response.result[0]);
+            downSwitchService.getIndoorById(station.id).then(function (stationDetails) {
+                var item = stationDetails.result[''];
+                angular.extend(item, station);
+                $scope.itemGroups = appFormatService.generateIndoorGroups(item);
+                networkElementService.queryENodebsByGeneralName(item.name).then(function (eNodebs) {
+                    if (eNodebs.length) {
+                        $scope.eNodebGroups = appFormatService.generateENodebGroups(eNodebs[0]);
+                    }
+                });
+                networkElementService.queryCellStationInfoByRruName(item.name).then(function (cellList) {
+                    $scope.cellList = cellList;
+                });
             });
             $scope.dialogTitle = dialogTitle;
             $scope.ok = function() {
@@ -6066,6 +5379,34 @@ angular.module('kpi.work.dialog', ['myApp.url', 'myApp.region', "ui.bootstrap", 
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
+        })
+    .controller("rutrace.workitems.process",
+        function($scope,
+            $uibModalInstance,
+            cell,
+            beginDate,
+            endDate,
+            workitemService,
+            networkElementService,
+            appFormatService) {
+            $scope.dialogTitle = cell.eNodebName + "-" + cell.sectorId + ":TOP小区工单历史";
+            $scope.queryWorkItems = function() {
+                workitemService.queryByCellId(cell.cellId, cell.sectorId).then(function(result) {
+                    $scope.viewItems = result;
+                });
+                networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function(result) {
+                    $scope.lteCellGroups = appFormatService.generateCellGroups(result);
+                });
+            };
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.distributionGroups);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+            $scope.queryWorkItems();
         });
 angular.module('kpi.work.flow', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.core"])
     .controller("eNodeb.flow",
@@ -6216,9 +5557,9 @@ angular.module('kpi.work.chart', ['myApp.url', 'myApp.region', "ui.bootstrap", "
                     $scope.showCharts();
                 },
                 500);
-    })
+        })
     .controller("cqi.chart",
-        function ($scope,
+        function($scope,
             $uibModalInstance,
             $timeout,
             dateString,
@@ -6226,27 +5567,27 @@ angular.module('kpi.work.chart', ['myApp.url', 'myApp.region', "ui.bootstrap", "
             townStats,
             appKpiService) {
             $scope.dialogTitle = dateString + "CQI优良比指标";
-            $scope.showCharts = function () {
+            $scope.showCharts = function() {
                 $("#leftChart").highcharts(appKpiService
                     .getCqiCountsOptions(districtStats.slice(0, districtStats.length - 1), townStats));
                 $("#rightChart").highcharts(appKpiService.getCqiRateOptions(districtStats, townStats));
             };
 
-            $scope.ok = function () {
+            $scope.ok = function() {
                 $uibModalInstance.close($scope.cellList);
             };
 
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
 
-            $timeout(function () {
-                $scope.showCharts();
-            },
+            $timeout(function() {
+                    $scope.showCharts();
+                },
                 500);
-    })
+        })
     .controller("down.switch.chart",
-        function ($scope,
+        function($scope,
             $uibModalInstance,
             $timeout,
             dateString,
@@ -6254,23 +5595,23 @@ angular.module('kpi.work.chart', ['myApp.url', 'myApp.region', "ui.bootstrap", "
             townStats,
             appKpiService) {
             $scope.dialogTitle = dateString + "4G下切3G指标";
-            $scope.showCharts = function () {
+            $scope.showCharts = function() {
                 $("#leftChart").highcharts(appKpiService
                     .getDownSwitchCountsOptions(districtStats.slice(0, districtStats.length - 1), townStats));
                 $("#rightChart").highcharts(appKpiService.getDownSwitchRateOptions(districtStats, townStats, 'all'));
             };
 
-            $scope.ok = function () {
+            $scope.ok = function() {
                 $uibModalInstance.close($scope.cellList);
             };
 
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
 
-            $timeout(function () {
-                $scope.showCharts();
-            },
+            $timeout(function() {
+                    $scope.showCharts();
+                },
                 500);
         })
     .controller("rutrace.index",
@@ -6328,9 +5669,9 @@ angular.module('kpi.work.chart', ['myApp.url', 'myApp.region', "ui.bootstrap", "
                 kpiPreciseService.getRecentPreciseRegionKpi(city, $scope.statDate.value)
                     .then(function(result) {
                         $scope.statDate.value = appFormatService.getDate(result.statDate);
-                        $scope.cityStat = appKpiService.getCityStat(result.districtPreciseViews, city);
+                        $scope.cityStat = appKpiService.getCityStat(result.districtViews, city);
                         $scope.rate = appKpiService.calculatePreciseRating($scope.cityStat.preciseRate);
-                        var options = kpiDisplayService.generatePreciseBarOptions(result.districtPreciseViews,
+                        var options = kpiDisplayService.generatePreciseBarOptions(result.districtViews,
                             $scope.cityStat);
                         $("#preciseConfig").highcharts(options);
                     });
@@ -6419,11 +5760,46 @@ angular.module('kpi.work.chart', ['myApp.url', 'myApp.region', "ui.bootstrap", "
                 cellPreciseService.queryDataSpanKpi($scope.beginDate.value,
                     $scope.endDate.value,
                     cellId,
-                    sectorId).then(function (result) {
+                    sectorId).then(function(result) {
                     $("#mrsConfig").highcharts(kpiDisplayService.getMrsOptions(result,
-                            $scope.beginDateString + "-" + $scope.endDateString + "MR数变化趋势"));
+                        $scope.beginDateString + "-" + $scope.endDateString + "MR数变化趋势"));
                     $("#preciseConfig").highcharts(kpiDisplayService.getPreciseOptions(result,
                         $scope.beginDateString + "-" + $scope.endDateString + "精确覆盖率变化趋势"));
+                });
+            };
+            $scope.showTrend();
+
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.distributionGroups);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
+    .controller("down.switch.cell.trend",
+        function($scope,
+            $uibModalInstance,
+            name,
+            cellId,
+            sectorId,
+            flowService,
+            parametersChartService,
+            appFormatService) {
+            $scope.dialogTitle = "小区指标变化趋势分析" + "-" + name;
+            $scope.showTrend = function() {
+                $scope.beginDateString = appFormatService.getDateString($scope.beginDate.value, "yyyy年MM月dd日");
+                $scope.endDateString = appFormatService.getDateString($scope.endDate.value, "yyyy年MM月dd日");
+                flowService.queryCellFlowByDateSpan(cellId,
+                    sectorId,
+                    $scope.beginDate.value,
+                    $scope.endDate.value).then(function (result) {
+                        var dates = _.map(result,
+                            function (stat) {
+                                return stat.statTime;
+                            });
+                        $("#mrsConfig").highcharts(parametersChartService.getCellFeelingRateOptions(dates, result));
+                        $("#preciseConfig").highcharts(parametersChartService.getCellDownSwitchOptions(dates, result));
                 });
             };
             $scope.showTrend();
@@ -6811,8 +6187,8 @@ angular.module('kpi.work.trend', ['myApp.url', 'myApp.region', "ui.bootstrap", "
                 $scope.showTrend();
             });
         });
-angular.module('kpi.work', ['app.menu', 'myApp.region'])
-	.factory('workItemDialog', function(menuItemService, workitemService) {
+angular.module('kpi.work', ['app.menu', 'app.core', 'myApp.region'])
+    .factory('workItemDialog', function (menuItemService, workitemService, stationFormatService) {
 		return {
 			feedback: function(view, callbackFunc) {
 				menuItemService.showGeneralDialogWithAction({
@@ -6848,38 +6224,30 @@ angular.module('kpi.work', ['app.menu', 'myApp.region'])
 				}, callbackFunc);
 			},
 			showENodebFlow: function(eNodeb, beginDate, endDate) {
-				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/Parameters/Region/ENodebFlow.html',
-					controller: 'eNodeb.flow',
-					resolve: {
-						eNodeb: function() {
-							return eNodeb;
-						},
-						beginDate: function() {
-							return beginDate;
-						},
-						endDate: function() {
-							return endDate;
-						}
-					}
-				});
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Parameters/Region/ENodebFlow.html',
+			        controller: 'eNodeb.flow',
+			        resolve: stationFormatService.dateSpanDateResolve({
+			                eNodeb: function() {
+			                    return eNodeb;
+			                }
+			            },
+			            beginDate,
+			            endDate)
+			    });
 			},
 			showHotSpotCellFlow: function(hotSpot, beginDate, endDate) {
-				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/Parameters/Region/ENodebFlow.html',
-					controller: 'hotSpot.cell.flow',
-					resolve: {
-						hotSpot: function() {
-							return hotSpot;
-						},
-						beginDate: function() {
-							return beginDate;
-						},
-						endDate: function() {
-							return endDate;
-						}
-					}
-				});
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Parameters/Region/ENodebFlow.html',
+			        controller: 'hotSpot.cell.flow',
+			        resolve: stationFormatService.dateSpanDateResolve({
+			                hotSpot: function() {
+			                    return hotSpot;
+			                }
+			            },
+			            beginDate,
+			            endDate)
+			    });
 			},
 			showHotSpotCells: function(name) {
 				menuItemService.showGeneralDialog({
@@ -6964,169 +6332,133 @@ angular.module('kpi.work', ['app.menu', 'myApp.region'])
                 });
             },
 			showPreciseTrend: function(city, beginDate, endDate) {
-				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/Rutrace/Coverage/Trend.html',
-					controller: 'rutrace.trend.dialog',
-					resolve: {
-						city: function() {
-							return city;
-						},
-						beginDate: function() {
-							return beginDate;
-						},
-						endDate: function() {
-							return endDate;
-						}
-					}
-				});
-            },
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Rutrace/Coverage/Trend.html',
+			        controller: 'rutrace.trend.dialog',
+			        resolve: stationFormatService.dateSpanDateResolve({
+			                city: function() {
+			                    return city;
+			                }
+			            },
+			            beginDate,
+			            endDate)
+			    });
+			},
             showRrcTrend: function (city, beginDate, endDate) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/WorkItem/RrcTrend.html',
                     controller: 'rrc.trend.dialog',
-                    resolve: {
-                        city: function () {
-                            return city;
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            city: function() {
+                                return city;
+                            }
                         },
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        }
-                    }
+                        beginDate,
+                        endDate)
                 });
             },
             showCqiTrend: function (city, beginDate, endDate) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/WorkItem/RrcTrend.html',
                     controller: 'cqi.trend.dialog',
-                    resolve: {
-                        city: function () {
-                            return city;
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            city: function() {
+                                return city;
+                            }
                         },
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        }
-                    }
+                        beginDate,
+                        endDate)
                 });
             },
             showDownSwitchTrend: function (city, beginDate, endDate) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/WorkItem/RrcTrend.html',
                     controller: 'down.switch.trend.dialog',
-                    resolve: {
-                        city: function () {
-                            return city;
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            city: function() {
+                                return city;
+                            }
                         },
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        }
-                    }
+                        beginDate,
+                        endDate)
                 });
             },
 			showBasicTrend: function(city, beginDate, endDate) {
-				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/BasicKpi/Trend.html',
-					controller: 'basic.kpi.trend',
-					resolve: {
-						city: function() {
-							return city;
-						},
-						beginDate: function() {
-							return beginDate;
-						},
-						endDate: function() {
-							return endDate;
-						}
-					}
-				});
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/BasicKpi/Trend.html',
+			        controller: 'basic.kpi.trend',
+			        resolve: stationFormatService.dateSpanDateResolve({
+			                city: function() {
+			                    return city;
+			                }
+			            },
+			            beginDate,
+			            endDate)
+			    });
 			},
 			showTopDropTrend: function(city, beginDate, endDate, topCount) {
-				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/BasicKpi/TopDrop2GTrend.html',
-					controller: 'kpi.topDrop2G.trend',
-					resolve: {
-						city: function() {
-							return city;
-						},
-						beginDate: function() {
-							return beginDate;
-						},
-						endDate: function() {
-							return endDate;
-						},
-						topCount: function() {
-							return topCount;
-						}
-					}
-				});
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/BasicKpi/TopDrop2GTrend.html',
+			        controller: 'kpi.topDrop2G.trend',
+			        resolve: stationFormatService.dateSpanDateResolve({
+			                city: function() {
+			                    return city;
+			                },
+			                topCount: function() {
+			                    return topCount;
+			                }
+			            },
+			            beginDate,
+			            endDate)
+			    });
 			},
 			showTopConnectionTrend: function(city, beginDate, endDate, topCount) {
-				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/BasicKpi/TopConnection3GTrend.html',
-					controller: 'kpi.topConnection3G.trend',
-					resolve: {
-						city: function() {
-							return city;
-						},
-						beginDate: function() {
-							return beginDate;
-						},
-						endDate: function() {
-							return endDate;
-						},
-						topCount: function() {
-							return topCount;
-						}
-					}
-				});
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/BasicKpi/TopConnection3GTrend.html',
+			        controller: 'kpi.topConnection3G.trend',
+			        resolve: stationFormatService.dateSpanDateResolve({
+			                city: function() {
+			                    return city;
+			                },
+			                topCount: function() {
+			                    return topCount;
+			                }
+			            },
+			            beginDate,
+			            endDate)
+			    });
 			},
-			showStationInfo: function(station, beginDate, endDate) {
-				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/Home/StationDetails.html',
-					controller: 'map.station.dialog',
-					resolve: {
-						dialogTitle: function() {
-							return "站点信息:" + station.StationName;
-						},
-						station: function() {
-							return station;
-						},
-						beginDate: function() {
-							return beginDate;
-						},
-						endDate: function() {
-							return endDate;
-						}
-					}
-				});
+			showStationInfoDialog: function(station, beginDate, endDate) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/Details/StationDetails.html',
+			        controller: 'map.station.dialog',
+			        resolve: stationFormatService.dateSpanDateResolve({
+			                dialogTitle: function() {
+			                    return "站点信息:" + station.name;
+			                },
+			                station: function() {
+			                    return station;
+			                }
+			            },
+			            beginDate,
+			            endDate)
+			    });
 			},
-			showIndoorInfo: function (station, beginDate, endDate) {
-				menuItemService.showGeneralDialog({
-					templateUrl: '/appViews/Home/IndoorDetails.html',
-					controller: 'map.indoor.dialog',
-					resolve: {
-						dialogTitle: function () {
-							return "站点信息:" + station.name;
-						},
-						station: function () {
-							return station;
-						},
-						beginDate: function () {
-							return beginDate;
-						},
-						endDate: function () {
-							return endDate;
-						}
-					}
-				});
+			showIndoorInfoDialog: function (station, beginDate, endDate) {
+			    menuItemService.showGeneralDialog({
+			        templateUrl: '/appViews/Home/Details/StationDetails.html',
+			        controller: 'map.indoor.dialog',
+			        resolve: stationFormatService.dateSpanDateResolve({
+			                dialogTitle: function() {
+			                    return "站点信息:" + station.name;
+			                },
+			                station: function() {
+			                    return station;
+			                }
+			            },
+			            beginDate,
+			            endDate)
+			    });
 			},
 			showDistributionInfo: function(distribution) {
 				menuItemService.showGeneralDialog({
@@ -7142,7 +6474,7 @@ angular.module('kpi.work', ['app.menu', 'myApp.region'])
 					}
 				});
 			},
-			showTodayKpi: function(city) {
+			showTodayOverallKpi: function(city) {
 				menuItemService.showGeneralDialog({
 					templateUrl: '/appViews/Rutrace/Index.html',
 					controller: 'rutrace.index',
@@ -7172,7 +6504,37 @@ angular.module('kpi.work', ['app.menu', 'myApp.region'])
 						}
 					}
 				});
-			}
+            },
+            showDownSwitchCellTrend: function (name, cellId, sectorId) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Rutrace/WorkItem/CellTrend.html',
+                    controller: 'down.switch.cell.trend',
+                    resolve: {
+                        name: function () {
+                            return name;
+                        },
+                        cellId: function () {
+                            return cellId;
+                        },
+                        sectorId: function () {
+                            return sectorId;
+                        }
+                    }
+                });
+            },
+            processPreciseWorkItem: function(cell, beginDate, endDate) {
+                menuItemService.showGeneralDialog({
+                    templateUrl: '/appViews/Rutrace/WorkItem/ForCell.html',
+                    controller: "rutrace.workitems.process",
+                    resolve: stationFormatService.dateSpanDateResolve({
+                            cell: function() {
+                                return cell;
+                            }
+                        },
+                        beginDate,
+                        endDate)
+                });
+            }
 		};
 	});
 

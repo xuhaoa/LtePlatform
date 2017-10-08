@@ -222,15 +222,30 @@
                             });
                     });
                 },
-                showMaintainStations: function(stations, color) {
-                    generalMapService.showGeneralPointCollection(stations, color, workItemDialog.showStationInfo);
+                showMaintainStations: function(stations, color, beginDate, endDate) {
+                    generalMapService.showGeneralPointCollection(stations, color, function(station) {
+                        workItemDialog.showStationInfoDialog(station, beginDate, endDate);
+                    });
                 },
-                showIndoorStations: function(stations, color) {
-                    generalMapService.showGeneralPointCollection(stations, color, workItemDialog.showIndoorInfo);
+                showIndoorStations: function(stations, color, beginDate, endDate) {
+                    generalMapService.showGeneralPointCollection(stations, color,
+                        function(station) {
+                            workItemDialog.showIndoorInfoDialog(station, beginDate, endDate);
+                        });
                 },
-                showCheckingStations: function(stations, color) {
+                showCheckingStations: function(stations, color, status) {
                     generalMapService
-                        .showGeneralPointCollection(stations, color, mapDialogService.showCheckingStationInfo);
+                        .showGeneralPointCollection(stations, color, function(data) {
+                            if (status === '已巡检') {
+                                parametersDialogService.showCheckingStationInfo(data);
+                            } else {
+                                parametersDialogService.showCommonStationInfo(data);
+                            }
+                        });
+                },
+                showFixingStations: function(stations, color) {
+                    generalMapService
+                        .showGeneralPointCollection(stations, color, mapDialogService.showFixingStationInfo);
                 },
                 showConstructionSites: function(stations, status, callback) {
                     baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute)

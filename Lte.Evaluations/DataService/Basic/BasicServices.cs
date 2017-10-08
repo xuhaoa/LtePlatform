@@ -207,7 +207,9 @@ namespace Lte.Evaluations.DataService.Basic
 
         public IEnumerable<TownBoundaryView> GetTownBoundaryViews(string city, string district, string town)
         {
-            var item = _repository.QueryTown(city, district, town);
+            var item =
+                _repository.GetAllList()
+                    .FirstOrDefault(x => x.CityName == city && x.DistrictName == district && x.TownName == town);
             if (item == null) return new List<TownBoundaryView>();
             var coors = _boundaryRepository.GetAllList(x => x.TownId == item.Id);
             var boundaries = new List<TownBoundaryView>();
@@ -224,7 +226,8 @@ namespace Lte.Evaluations.DataService.Basic
 
         public bool IsInTownBoundaries(double longtitute, double lattitute, string city, string district, string town)
         {
-            var item = _repository.QueryTown(city, district, town);
+            var item = _repository.GetAllList()
+                    .FirstOrDefault(x => x.CityName == city && x.DistrictName == district && x.TownName == town);
             if (item == null) return false;
             var point = new GeoPoint(longtitute, lattitute);
             return _boundaryRepository.GetAllList(x => x.TownId == item.Id).IsInTownRange(point);
@@ -278,7 +281,7 @@ namespace Lte.Evaluations.DataService.Basic
             });
             var allCells = _cellRepository.GetAllInUseList();
             return (from district in GetDistricts(city)
-                    let townList = _repository.GetAllList(city, district)
+                    let townList = _repository.GetAllList().Where(x => x.CityName == city && x.DistrictName == district)
                     let cells = (from t in townList
                                  join e in eNodebTownIds on t.Id equals e.TownId
                                  join c in allCells on e.ENodebId equals c.ENodebId
@@ -300,20 +303,20 @@ namespace Lte.Evaluations.DataService.Basic
             });
             var allCells = _cellRepository.GetAllInUseList();
             return (from district in GetDistricts(city)
-                    let townList = _repository.GetAllList(city, district)
-                    let cells = (from t in townList
-                                 join e in eNodebTownIds on t.Id equals e.TownId
-                                 join c in allCells on e.ENodebId equals c.ENodebId
-                                 select c)
-                    select new DistrictBandClassStat
-                    {
-                        District = district,
-                        Band1Cells = cells.Count(x => x.BandClass == 1),
-                        Band3Cells = cells.Count(x => x.BandClass == 3),
-                        Band5Cells = cells.Count(x => x.BandClass == 5 && x.Frequency != 2506),
-                        NbIotCells = cells.Count(x => x.BandClass == 5 && x.Frequency == 2506),
-                        Band41Cells = cells.Count(x => x.BandClass == 41)
-                    }).ToList();
+                let townList = _repository.GetAllList().Where(x => x.CityName == city && x.DistrictName == district)
+                let cells = (from t in townList
+                    join e in eNodebTownIds on t.Id equals e.TownId
+                    join c in allCells on e.ENodebId equals c.ENodebId
+                    select c)
+                select new DistrictBandClassStat
+                {
+                    District = district,
+                    Band1Cells = cells.Count(x => x.BandClass == 1),
+                    Band3Cells = cells.Count(x => x.BandClass == 3),
+                    Band5Cells = cells.Count(x => x.BandClass == 5 && x.Frequency != 2506),
+                    NbIotCells = cells.Count(x => x.BandClass == 5 && x.Frequency == 2506),
+                    Band41Cells = cells.Count(x => x.BandClass == 41)
+                }).ToList();
         }
 
         public List<DistrictStat> QueryDistrictStats(string city)
@@ -331,7 +334,7 @@ namespace Lte.Evaluations.DataService.Basic
             var cellENodebs = _cellRepository.GetAllInUseList();
             var cdmaCellBtsIds = _cdmaCellRepository.GetAllInUseList().Select(x => x.BtsId);
             return (from district in GetDistricts(city)
-                let townList = _repository.GetAllList(city, district)
+                let townList = _repository.GetAllList().Where(x => x.CityName == city && x.DistrictName == district)
                 let eNodebs = (from t in townList join e in eNodebTownIds on t.Id equals e.TownId select e)
                 let btss = (from t in townList join b in btsTownIds on t.Id equals b.TownId select b)
                 let cells = (from t in townList
@@ -379,7 +382,7 @@ namespace Lte.Evaluations.DataService.Basic
             });
             var cellENodebs = _cellRepository.GetAllInUseList();
             var cdmaCellBtsIds = _cdmaCellRepository.GetAllInUseList().Select(x => x.BtsId);
-            return (from town in _repository.GetAllList(city, district)
+            return (from town in _repository.GetAllList().Where(x => x.CityName == city && x.DistrictName == district)
                     let eNodebs = eNodebTownIds.Where(x => x.TownId == town.Id)
                     let btss = btsTownIds.Where(x => x.TownId == town.Id)
                     let cells = (from e in eNodebs join c in cellENodebs on e.ENodebId equals c.ENodebId select c)
@@ -418,13 +421,13 @@ namespace Lte.Evaluations.DataService.Basic
         public Town GetTown(string city, string district, string town)
         {
             return
-                _repository.FirstOrDefault(
+                _repository.GetAllList().FirstOrDefault(
                     x => x.CityName == city && x.DistrictName == district && x.TownName == town);
         }
 
         public Tuple<string, string, string> GetTownNamesByENodebId(int eNodebId)
         {
-            var item = _eNodebRepository.GetByENodebId(eNodebId);
+            var item = _eNodebRepository.FirstOrDefault(x => x.ENodebId == eNodebId);
             var town = item == null ? null : _repository.Get(item.TownId);
             return town == null
                 ? null

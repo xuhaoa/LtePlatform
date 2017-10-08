@@ -25,7 +25,7 @@
                         controller: "menu.root"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Query.html",
+                        templateUrl: "/appViews/Home/Query.html",
                         controller: "home.query"
                     }
                 },
@@ -39,7 +39,7 @@
                         controller: "menu.root"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Query.html",
+                        templateUrl: "/appViews/Home/Query.html",
                         controller: "evaluation.home"
                     }
                 },
@@ -63,15 +63,15 @@
             {
                 views: {
                     'menu': {
-                        templateUrl: viewDir + "StationSearchMenu.html",
+                        templateUrl: "/appViews/Home/StationSearchMenu.html",
                         controller: "menu.operation-station"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Station.html",
+                        templateUrl: "/appViews/Home/Station.html",
                         controller: "operation-station.network"
                     },
                     "filter": {
-                        templateUrl: viewDir + "StationFilter.html",
+                        templateUrl: "/appViews/Home/StationFilter.html",
                         controller: "operation-station.filter"
                     }
 
@@ -82,15 +82,15 @@
             {
                 views: {
                     'menu': {
-                        templateUrl: viewDir + "StationSearchMenu.html",
+                        templateUrl: "/appViews/Home/StationSearchMenu.html",
                         controller: "menu.operation-indoor"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Station.html",
+                        templateUrl: "/appViews/Home/Station.html",
                         controller: "operation-indoor.network"
                     },
                     "filter": {
-                        templateUrl: viewDir + "IndoorFilter.html",
+                        templateUrl: "/appViews/Home/IndoorFilter.html",
                         controller: "operation-indoor.filter"
                     }
 
@@ -100,11 +100,11 @@
             .state('common-station', {
                 views: {
                     'menu': {
-                        templateUrl: viewDir + "StationSearchMenu.html",
+                        templateUrl: "/appViews/Home/StationSearchMenu.html",
                         controller: "menu.common-station"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Common.html",
+                        templateUrl: "/appViews/Home/Common.html",
                         controller: "common-station.network"
                     }
                 },
@@ -113,11 +113,11 @@
             .state('common-indoor', {
                 views: {
                     'menu': {
-                        templateUrl: viewDir + "StationSearchMenu.html",
+                        templateUrl: "/appViews/Home/StationSearchMenu.html",
                         controller: "menu.common-indoor"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Common.html",
+                        templateUrl: "/appViews/Home/Common.html",
                         controller: "common-indoor.network"
                     }
                 },
@@ -165,20 +165,6 @@
                 },
                 url: "/kpi"
             })
-            .state('quality',
-            {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.kpi"
-                    },
-                    "contents": {
-                        templateUrl: "/appViews/BasicKpi/Quality.html",
-                        controller: "kpi.quality"
-                    }
-                },
-                url: "/quality"
-            })
             .state('plan',
             {
                 views: {
@@ -187,21 +173,35 @@
                         controller: "menu.plan"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Plan.html",
+                        templateUrl: "/appViews/Home/Menu/Plan.html",
                         controller: "home.plan"
                     }
                 },
                 url: "/plan"
+            })
+            .state('cdma',
+            {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.cdma"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/Home/Menu/Cdma.html",
+                        controller: "home.cdma"
+                    }
+                },
+                url: "/cdma"
             })
             .state('interference',
             {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.plan"
+                        controller: "menu.cdma"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Plan.html",
+                        templateUrl: "/appViews/Home/Menu/Plan.html",
                         controller: "home.interference"
                     }
                 },

@@ -71,9 +71,6 @@ angular.module('app.core', [])
             getDtUrlHost: function () {
                 return (window.location.hostname === publicNetworkIp) ? '/' : 'http://132.110.71.121:2889/';
             },
-            getDistributionHost: function () {
-                return (window.location.hostname === publicNetworkIp) ? 'http://119.145.142.74:8109/' : 'http://132.110.71.122:8086/';
-            },
             getParameterUrlHost: function () {
                 return (window.location.hostname === publicNetworkIp) ? 'http://119.145.142.74:8110/' : 'http://132.110.71.122:8001/';
             },
@@ -138,7 +135,7 @@ angular.module('app.core', [])
                         store.add(value);
                     }
 
-                }
+                };
             },
             refreshIndexedDb: function(db, storeName, keyName, items) {
                 var transaction = db.transaction(storeName, 'readwrite');
@@ -163,6 +160,34 @@ angular.module('app.core', [])
                         callback(data);
                     }
                 };
+            }
+        };
+    })
+    .factory('stationFormatService', function() {
+        return {
+            dateSpanResolve: function (basicFields, beginDate, endDate) {
+                angular.extend(basicFields,
+                    {
+                        begin: function () {
+                            return beginDate;
+                        },
+                        end: function () {
+                            return endDate;
+                        }
+                    });
+                return basicFields;
+            },
+            dateSpanDateResolve: function (basicFields, beginDate, endDate) {
+                angular.extend(basicFields,
+                    {
+                        beginDate: function () {
+                            return beginDate;
+                        },
+                        endDate: function () {
+                            return endDate;
+                        }
+                    });
+                return basicFields;
             }
         };
     })
@@ -225,32 +250,8 @@ angular.module('app.core', [])
                 { value: 'CC', name: '禅城' },
                 { value: 'SS', name: '三水' },
                 { value: 'GM', name: '高明' }
-            ],
-            dateSpanResolve: function(basicFields, beginDate, endDate) {
-                angular.extend(basicFields,
-                {
-                    begin: function() {
-                        return beginDate;
-                    },
-                    end: function() {
-                        return endDate;
-                    }
-                });
-                return basicFields;
-            },
-            dateSpanDateResolve: function (basicFields, beginDate, endDate) {
-                angular.extend(basicFields,
-                    {
-                        beginDate: function () {
-                            return beginDate;
-                        },
-                        endDate: function () {
-                            return endDate;
-                        }
-                    });
-                return basicFields;
-            }
-        }
+            ]
+        };
     })
     .controller('header.menu', function($scope, appUrlService) {
         $scope.emergencyUrl = appUrlService.getCustomerHost() + 'IndexOfEmerCom.aspx';
@@ -2022,6 +2023,28 @@ angular.module('app.format', [])
                         { field: 'town', name: '镇区' }
                     ].concat(kpiFields);
                 },
+                generateLteCellNameDef: function() {
+                    return {
+                        cellTemplate: '<span class="text-primary">{{row.entity.eNodebName}}-{{row.entity.sectorId}}</span>',
+                        name: '小区名称'
+                    }
+                },
+                generatePreciseRateDef: function(index) {
+                    var englishDicts = ['first', 'second', 'third'];
+                    var chineseDicts = ['一', '二', '三'];
+                    return {
+                        cellTemplate: '<span class="text-primary">{{100 - row.entity.' +
+                            englishDicts[index] +
+                            'Rate | number:2}}</span>',
+                        name: '第' + chineseDicts[index] + '邻区精确覆盖率',
+                        cellTooltip: function(row) {
+                            return '第' +
+                                chineseDicts[index] +
+                                '邻区与主服务小区RSRP的差值小于6dB的比例是: ' +
+                                row.entity[englishDicts[index] + 'Rate'];
+                        }
+                    }
+                },
                 generateDistrictPieNameValueFuncs: function() {
                     return {
                         nameFunc: function(stat) {
@@ -2046,9 +2069,9 @@ angular.module('app.format', [])
                 }
             };
         });
-angular.module('app.chart', ['app.format'])
+angular.module('app.chart', ['app.format', 'app.calculation'])
     .factory('chartCalculateService',
-        function(appFormatService) {
+        function (appFormatService, basicCalculationService) {
             return {
                 generateDrillDownData: function(districtStats, townStats, queryFunction) {
                     var results = [];
@@ -2127,20 +2150,28 @@ angular.module('app.chart', ['app.format'])
                     return chart.options;
                 },
                 calculateMemberSum: function(array, memberList, categoryFunc) {
-                    var result = _.reduce(array,
-                        function(memo, num) {
-                            var temp = {};
-                            angular.forEach(memberList,
-                                function(member) {
-                                    temp[member] = memo[member] + num[member];
-                                });
-                            return temp;
-                        });
+                    var result = basicCalculationService.calculateArraySum(array, memberList);
                     categoryFunc(result);
                     return result;
                 },
                 generateDistrictStats: function(districts, stats, funcs) {
                     var outputStats = [];
+                    var initFuncs =
+                    {
+                        districtViewFunc: function(stat) { return 0; },
+                        initializeFunc: function(stat) { return 0; },
+                        calculateFunc: function (stat) { return 0; },
+                        accumulateFunc: function (stat, view) { return 0; },
+                        zeroFunc: function () { return 0; },
+                        totalFunc: function (stat) { return 0; }
+                    };
+                    funcs = funcs || initFuncs;
+                    funcs.districtViewFunc = funcs.districtViewFunc || initFuncs.districtViewFunc;
+                    funcs.initializeFunc = funcs.initializeFunc || initFuncs.initializeFunc;
+                    funcs.calculateFunc = funcs.calculateFunc || initFuncs.calculateFunc;
+                    funcs.accumulateFunc = funcs.accumulateFunc || initFuncs.accumulateFunc;
+                    funcs.zeroFunc = funcs.zeroFunc || initFuncs.zeroFunc;
+                    funcs.totalFunc = funcs.totalFunc || initFuncs.totalFunc;
                     angular.forEach(stats,
                         function(stat) {
                             var districtViews = funcs.districtViewFunc(stat);
@@ -2194,7 +2225,7 @@ angular.module('app.chart', ['app.format'])
                     trendStat.districtStats = funcs.districtViewsFunc(result[0]);
                     trendStat.townStats = funcs.townViewsFunc(result[0]);
                     for (var i = 1; i < result.length; i++) {
-                        angular.forEach(funcs.districtViewsFunc(result[0]),
+                        angular.forEach(funcs.districtViewsFunc(result[i]),
                             function(currentDistrictStat) {
                                 var found = false;
                                 for (var k = 0; k < trendStat.districtStats.length; k++) {
@@ -2209,7 +2240,7 @@ angular.module('app.chart', ['app.format'])
                                     trendStat.districtStats.push(currentDistrictStat);
                                 }
                             });
-                        angular.forEach(result[i].townPreciseView,
+                        angular.forEach(funcs.townViewsFunc(result[i]),
                             function(currentTownStat) {
                                 var found = false;
                                 for (var k = 0; k < trendStat.townStats.length; k++) {
@@ -3253,7 +3284,8 @@ angular.module('app.chart', ['app.format'])
                     };
                 }
             };
-        })
+        });
+angular.module('app.kpi.chart', ['app.format', 'app.chart', 'app.calculation'])
     .factory('preciseChartService',
         function(generalChartService, chartCalculateService) {
             return {
@@ -3393,6 +3425,795 @@ angular.module('app.chart', ['app.format'])
                         titleSettings);
                 }
             }
+        })
+    .factory('kpiChartCalculateService',
+        function(chartCalculateService, calculateService, preciseChartService, appFormatService, generalChartService) {
+            return {
+                generateFlowTrendStatsForPie: function(trendStat, result) {
+                    chartCalculateService.generateStatsForPie(trendStat,
+                        result,
+                        {
+                            districtViewsFunc: function(stat) {
+                                return stat.districtViews;
+                            },
+                            townViewsFunc: function(stat) {
+                                return stat.townViews;
+                            },
+                            accumulateFunc: function(source, accumulate) {
+                                calculateService.accumulateFlowStat(source, accumulate);
+                            }
+                        });
+                },
+                generateFlowDistrictStats: function(districts, stats) {
+                    return chartCalculateService.generateDistrictStats(districts,
+                        stats,
+                        {
+                            districtViewFunc: function(stat) {
+                                return stat.districtViews;
+                            },
+                            initializeFunc: function(generalStat) {
+                                generalStat.pdcpDownlinkFlow = 0;
+                                generalStat.pdcpUplinkFlow = 0;
+                            },
+                            calculateFunc: function(view) {
+                                return {
+                                    pdcpDownlinkFlow: view.pdcpDownlinkFlow / 1024 / 1024 / 8,
+                                    pdcpUplinkFlow: view.pdcpUplinkFlow / 1024 / 1024 / 8
+                                };
+                            },
+                            accumulateFunc: function(generalStat, view) {
+                                generalStat.pdcpDownlinkFlow += view.pdcpDownlinkFlow / 1024 / 1024 / 8;
+                                generalStat.pdcpUplinkFlow += view.pdcpUplinkFlow / 1024 / 1024 / 8;
+                            },
+                            zeroFunc: function() {
+                                return {
+                                    pdcpDownlinkFlow: 0,
+                                    pdcpUplinkFlow: 0
+                                };
+                            },
+                            totalFunc: function(generalStat) {
+                                return {
+                                    pdcpDownlinkFlow: generalStat.pdcpDownlinkFlow,
+                                    pdcpUplinkFlow: generalStat.pdcpUplinkFlow
+                                }
+                            }
+                        });
+                },
+                generateUsersDistrictStats: function (districts, stats) {
+                    return chartCalculateService.generateDistrictStats(districts,
+                        stats,
+                        {
+                            districtViewFunc: function (stat) {
+                                return stat.districtViews;
+                            },
+                            initializeFunc: function (generalStat) {
+                                generalStat.maxUsers = 0;
+                                generalStat.maxActiveUsers = 0;
+                            },
+                            calculateFunc: function (view) {
+                                return {
+                                    maxUsers: view.maxUsers,
+                                    maxActiveUsers: view.maxActiveUsers
+                                };
+                            },
+                            accumulateFunc: function (generalStat, view) {
+                                generalStat.maxUsers += view.maxUsers;
+                                generalStat.maxActiveUsers += view.maxActiveUsers;
+                            },
+                            zeroFunc: function () {
+                                return {
+                                    maxUsers: 0,
+                                    maxActiveUsers: 0
+                                };
+                            },
+                            totalFunc: function (generalStat) {
+                                return {
+                                    maxUsers: generalStat.maxUsers,
+                                    maxActiveUsers: generalStat.maxActiveUsers
+                                }
+                            }
+                        });
+                },
+                generateRank2DistrictStats: function (districts, stats) {
+                    return chartCalculateService.generateDistrictStats(districts,
+                        stats,
+                        {
+                            districtViewFunc: function (stat) {
+                                return stat.districtViews;
+                            },
+                            initializeFunc: function (generalStat) {
+                                generalStat.totalRank2Times = 0;
+                                generalStat.totalSchedulingTimes = 0;
+                            },
+                            calculateFunc: function (view) {
+                                return {
+                                    schedulingTimes: view.schedulingTimes,
+                                    rank2Rate: view.rank2Rate
+                                };
+                            },
+                            accumulateFunc: function (generalStat, view) {
+                                generalStat.totalRank2Times += view.schedulingRank2;
+                                generalStat.totalSchedulingTimes += view.schedulingTimes;
+                            },
+                            zeroFunc: function () {
+                                return {
+                                    totalRank2Times: 0,
+                                    totalSchedulingTimes: 0
+                                };
+                            },
+                            totalFunc: function (generalStat) {
+                                return {
+                                    schedulingTimes: generalStat.totalSchedulingTimes,
+                                    rank2Rate: 100 * generalStat.totalRank2Times / generalStat.totalSchedulingTimes
+                                };
+                            }
+                        });
+                },
+                generateFeelingRateDistrictStats: function (districts, stats) {
+                    return chartCalculateService.generateDistrictStats(districts,
+                        stats,
+                        {
+                            districtViewFunc: function (stat) {
+                                return stat.districtViews;
+                            },
+                            initializeFunc: function (generalStat) {
+                                generalStat.totalUplinkDuration = 0;
+                                generalStat.totalUplinkThroughput = 0;
+                                generalStat.totalDownlinkDuration = 0;
+                                generalStat.totalDownlinkThroughput = 0;
+                            },
+                            calculateFunc: function (view) {
+                                return {
+                                    uplinkFeelingRate: view.uplinkFeelingRate,
+                                    downlinkFeelingRate: view.downlinkFeelingRate
+                                };
+                            },
+                            accumulateFunc: function (generalStat, view) {
+                                generalStat.totalUplinkDuration += view.uplinkFeelingDuration;
+                                generalStat.totalUplinkThroughput += view.uplinkFeelingThroughput;
+                                generalStat.totalDownlinkDuration += view.downlinkFeelingDuration;
+                                generalStat.totalDownlinkThroughput += view.downlinkFeelingThroughput;
+                            },
+                            zeroFunc: function () {
+                                return {
+                                    totalUplinkDuration: 0,
+                                    totalUplinkThroughput: 0,
+                                    totalDownlinkDuration: 0,
+                                    totalDownlinkThroughput: 0
+                                };
+                            },
+                            totalFunc: function (generalStat) {
+                                return {
+                                    uplinkFeelingRate: generalStat.totalUplinkThroughput /
+                                    generalStat.totalUplinkDuration,
+                                    downlinkFeelingRate: generalStat.totalDownlinkThroughput /
+                                    generalStat.totalDownlinkDuration
+                                };
+                            }
+                        });
+                },
+                generateDownSwitchDistrictStats: function (districts, stats) {
+                    return chartCalculateService.generateDistrictStats(districts,
+                        stats,
+                        {
+                            districtViewFunc: function (stat) {
+                                return stat.districtViews;
+                            },
+                            initializeFunc: function (generalStat) {
+                                generalStat.totalDownSwitchTimes = 0;
+                                generalStat.totalUplinkThroughput = 0;
+                                generalStat.totalDownlinkThroughput = 0;
+                            },
+                            calculateFunc: function (view) {
+                                return {
+                                    downSwitchTimes: view.redirectCdma2000,
+                                    downSwitchRate: view.downSwitchRate
+                                };
+                            },
+                            accumulateFunc: function (generalStat, view) {
+                                generalStat.totalDownSwitchTimes += view.redirectCdma2000;
+                                generalStat.totalUplinkThroughput += view.pdcpUplinkFlow;
+                                generalStat.totalDownlinkThroughput += view.pdcpDownlinkFlow;
+                            },
+                            zeroFunc: function () {
+                                return {
+                                    totalDownSwitchTimes: 0,
+                                    totalUplinkThroughput: 0,
+                                    totalDownlinkThroughput: 0
+                                };
+                            },
+                            totalFunc: function (generalStat) {
+                                return {
+                                    downSwitchTimes: generalStat.totalDownSwitchTimes,
+                                    downSwitchRate: 1024 *
+                                    8 *
+                                    generalStat.totalDownSwitchTimes /
+                                    (generalStat.totalUplinkThroughput + generalStat.totalDownlinkThroughput)
+                                };
+                            }
+                        });
+                },
+                getDownlinkFlowDistrictOptions: function(stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function(stat) {
+                            return stat.pdcpDownlinkFlow;
+                        },
+                        {
+                            title: "下行流量变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "下行流量(TB)"
+                        });
+                },
+                getUplinkFlowDistrictOptions: function(stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function(stat) {
+                            return stat.pdcpUplinkFlow;
+                        },
+                        {
+                            title: "上行流量变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "上行流量(TB)"
+                        });
+                },
+                getMaxUsersDistrictOptions: function (stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function (stat) {
+                            return stat.maxUsers;
+                        },
+                        {
+                            title: "最大用户数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "最大用户数"
+                        });
+                },
+                getMaxActiveUsersDistrictOptions: function (stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function (stat) {
+                            return stat.maxActiveUsers;
+                        },
+                        {
+                            title: "最大激活用户数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "最大激活用户数"
+                        });
+                },
+                getDownSwitchTimesDistrictOptions: function (stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function (stat) {
+                            return stat.downSwitchTimes;
+                        },
+                        {
+                            title: "下切次数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "下切次数"
+                        });
+                },
+                getSchedulingTimesDistrictOptions: function (stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function (stat) {
+                            return stat.schedulingTimes;
+                        },
+                        {
+                            title: "调度次数变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "调度次数"
+                        });
+                },
+                getDownSwitchRateDistrictOptions: function (stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function (stat) {
+                            return stat.downSwitchRate;
+                        },
+                        {
+                            title: "下切比例变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "下切比例（次/GB）"
+                        });
+                },
+                getRank2RateDistrictOptions: function (stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function (stat) {
+                            return stat.rank2Rate;
+                        },
+                        {
+                            title: "双流比变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "双流比（%）"
+                        });
+                },
+                getDownlinkFlowOptions: function(districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                            townStats,
+                            function(stat) {
+                                return stat.pdcpDownlinkFlow / 1024 / 1024 / 8;
+                            }),
+                        {
+                            title: "分镇区下行流量分布图（TB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域"
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                getUplinkFlowOptions: function(districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                            townStats,
+                            function(stat) {
+                                return stat.pdcpUplinkFlow / 1024 / 1024 / 8;
+                            }),
+                        {
+                            title: "分镇区上行流量分布图（TB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域"
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                getMaxUsersOptions: function (districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                        townStats,
+                        function (stat) {
+                            return stat.maxUsers;
+                        }),
+                        {
+                            title: "分镇区最大用户数-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域"
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                getMaxActiveUsersOptions: function (districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                        townStats,
+                        function (stat) {
+                            return stat.maxActiveUsers;
+                        }),
+                        {
+                            title: "分镇区最大激活用户数-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域"
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                getDownlinkRateOptions: function (districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                        townStats,
+                        function (stat) {
+                            return stat.downlinkFeelingRate;
+                        }),
+                        {
+                            title: "分镇区下行感知速率分布图（Mbit/s）-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域",
+                            yMin: 5,
+                            yMax: 40
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                getUplinkRateOptions: function (districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                        townStats,
+                        function (stat) {
+                            return stat.uplinkFeelingRate;
+                        }),
+                        {
+                            title: "分镇区上行感知速率分布图（Mbit/s）-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域",
+                            yMin: 0,
+                            yMax: 15
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                getDownlinkRateDistrictOptions: function (stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function (stat) {
+                            return stat.downlinkFeelingRate;
+                        },
+                        {
+                            title: "下行感知速率变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "下行感知速率（Mbit/s）"
+                        });
+                },
+                getUplinkRateDistrictOptions: function (stats, inputDistricts, frequency) {
+                    var districts = inputDistricts.concat("全网");
+                    return preciseChartService.generateDistrictTrendOptions(stats,
+                        districts,
+                        function (stat) {
+                            return stat.uplinkFeelingRate;
+                        },
+                        {
+                            title: "上行感知速率变化趋势图-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            xTitle: '日期',
+                            yTitle: "上行感知速率（Mbit/s）"
+                        });
+                },
+                getDownSwitchTimesOptions: function (districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                        townStats,
+                        function (stat) {
+                            return stat.redirectCdma2000;
+                        }),
+                        {
+                            title: "分镇区4G下切3G次数-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域"
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                getSchedulingTimesOptions: function (districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownPieOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                        townStats,
+                        function (stat) {
+                            return stat.schedulingTimes;
+                        }),
+                        {
+                            title: "分镇区调度次数-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域"
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                getDownSwitchRateOptions: function (districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                        townStats,
+                        function (stat) {
+                            return stat.downSwitchRate;
+                        }),
+                        {
+                            title: "分镇区4G下切3G比例（次/GB）-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域"
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                getRank2RateOptions: function (districtStats, townStats, frequency) {
+                    return chartCalculateService.generateDrillDownColumnOptionsWithFunc(chartCalculateService
+                        .generateDrillDownData(districtStats,
+                        townStats,
+                        function (stat) {
+                            return stat.rank2Rate;
+                        }),
+                        {
+                            title: "分镇区双流比（%）-" + (frequency === 'all' ? frequency : frequency + 'M'),
+                            seriesName: "区域"
+                        },
+                        appFormatService.generateDistrictPieNameValueFuncs());
+                },
+                generateDownlinkFlowOptions: function(stats, topic) {
+                    return generalChartService.getPieOptions(stats,
+                        {
+                            title: topic + '下行PDCP层流量（MB）',
+                            seriesTitle: '下行PDCP层流量（MB）'
+                        },
+                        function(stat) {
+                            return stat.cellName;
+                        },
+                        function(stat) {
+                            return stat.pdcpDownlinkFlow;
+                        });
+                },
+                generateUplinkFlowOptions: function(stats, topic) {
+                    return generalChartService.getPieOptions(stats,
+                        {
+                            title: topic + '上行PDCP层流量（MB）',
+                            seriesTitle: '上行PDCP层流量（MB）'
+                        },
+                        function(stat) {
+                            return stat.cellName;
+                        },
+                        function(stat) {
+                            return stat.pdcpUplinkFlow;
+                        });
+                },
+                generateMaxUsersOptions: function(stats, topic) {
+                    return generalChartService.getPieOptions(stats,
+                        {
+                            title: topic + '最大连接用户数',
+                            seriesTitle: '最大连接用户数'
+                        },
+                        function(stat) {
+                            return stat.cellName;
+                        },
+                        function(stat) {
+                            return stat.maxUsers;
+                        });
+                },
+                generateAverageUsersOptions: function(stats, topic) {
+                    return generalChartService.getPieOptions(stats,
+                        {
+                            title: topic + '平均连接用户数',
+                            seriesTitle: '平均连接用户数'
+                        },
+                        function(stat) {
+                            return stat.cellName;
+                        },
+                        function(stat) {
+                            return stat.averageUsers;
+                        });
+                },
+                generateMaxActiveUsersOptions: function(stats, topic) {
+                    return generalChartService.getPieOptions(stats,
+                        {
+                            title: topic + '最大激活用户数',
+                            seriesTitle: '最大激活用户数'
+                        },
+                        function(stat) {
+                            return stat.cellName;
+                        },
+                        function(stat) {
+                            return stat.maxActiveUsers;
+                        });
+                },
+                generateAverageActiveUsersOptions: function(stats, topic) {
+                    return generalChartService.getPieOptions(stats,
+                        {
+                            title: topic + '平均激活用户数',
+                            seriesTitle: '平均激活用户数'
+                        },
+                        function(stat) {
+                            return stat.cellName;
+                        },
+                        function(stat) {
+                            return stat.averageActiveUsers;
+                        });
+                },
+                generateMergeFlowOptions: function(stats, topic) {
+                    var flowData = generalChartService.generateColumnDataByKeys(stats,
+                        'statTime',
+                        [
+                            'pdcpDownlinkFlow',
+                            'pdcpUplinkFlow'
+                        ]);
+                    return generalChartService.queryMultipleColumnOptions({
+                            xtitle: '日期',
+                            ytitle: '流量（MB）',
+                            title: topic + '流量统计'
+                        },
+                        flowData.categories,
+                        flowData.dataList,
+                        ['下行流量', '上行流量']);
+                },
+                generateMergeUsersOptions: function(stats, topic) {
+                    var usersData = generalChartService.generateColumnDataByKeys(stats,
+                        'statTime',
+                        [
+                            'averageActiveUsers',
+                            'averageUsers',
+                            'maxActiveUsers',
+                            'maxUsers'
+                        ]);
+                    return generalChartService.queryMultipleColumnOptions({
+                            xtitle: '日期',
+                            ytitle: '用户数',
+                            title: topic + '用户数'
+                        },
+                        usersData.categories,
+                        usersData.dataList,
+                        ['平均激活用户数', '平均连接用户数', '最大激活用户数', '最大连接用户数']);
+                },
+                generateSchedulingTimeOptions: function(stats, topic) {
+                    return generalChartService.getPieOptions(stats,
+                        {
+                            title: topic + '调度次数',
+                            seriesTitle: '调度次数'
+                        },
+                        function(stat) {
+                            return stat.cellName;
+                        },
+                        function(stat) {
+                            return stat.schedulingTimes;
+                        });
+                },
+                generateDownSwitchTimeOptions: function(stats, topic) {
+                    return generalChartService.getPieOptions(stats,
+                        {
+                            title: topic + '下切3G次数',
+                            seriesTitle: '4G下切3G次数'
+                        },
+                        function(stat) {
+                            return stat.cellName;
+                        },
+                        function(stat) {
+                            return stat.redirectCdma2000;
+                        });
+                },
+                generateMergeFeelingOptions: function(stats, topic) {
+                    var flowData = generalChartService.generateColumnDataByKeys(stats,
+                        'statTime',
+                        [
+                            'pdcpDownlinkFlow',
+                            'pdcpUplinkFlow',
+                            'downlinkFeelingRate',
+                            'uplinkFeelingRate'
+                        ]);
+                    return generalChartService.queryMultipleComboOptionsWithDoubleAxes({
+                            xtitle: '日期',
+                            ytitles: ['流量（MB）', '感知速率（Mbit/s）'],
+                            title: topic + '流量/感知速率'
+                        },
+                        flowData.categories,
+                        flowData.dataList,
+                        ['下行流量', '上行流量', '下行感知速率', '上行感知速率'],
+                        ['column', 'column', 'line', 'line'],
+                        [0, 0, 1, 1]);
+                },
+                generateMergeDownSwitchOptions: function(stats, topic) {
+                    angular.forEach(stats,
+                        function(stat) {
+                            stat.schedulingTimes /= 10000;
+                        });
+                    var usersData = generalChartService.generateColumnDataByKeys(stats,
+                        'statTime',
+                        [
+                            'redirectCdma2000',
+                            'schedulingTimes',
+                            'rank2Rate'
+                        ]);
+                    return generalChartService.queryMultipleComboOptionsWithDoubleAxes({
+                            xtitle: '日期',
+                            ytitles: ['下切次数', '双流比（%）'],
+                            title: topic + '下切次数/调度次数/双流比'
+                        },
+                        usersData.categories,
+                        usersData.dataList,
+                        ['4G下切3G次数', '调度次数（万次）', '双流比（%）'],
+                        ['column', 'column', 'line'],
+                        [0, 0, 1]);
+                }
+            };
+        })
+    .factory('kpiChartService',
+        function(kpiChartCalculateService) {
+            return {
+                showFlowCharts: function(flowStats, topic, mergeStats) {
+                    angular.forEach(flowStats,
+                        function(stat) {
+                            stat.pdcpDownlinkFlow /= 8;
+                            stat.pdcpUplinkFlow /= 8;
+                        });
+                    angular.forEach(mergeStats,
+                        function(stat) {
+                            stat.pdcpUplinkFlow /= 8;
+                            stat.pdcpDownlinkFlow /= 8;
+                        });
+                    angular.forEach(flowStats,
+                        function(stat) {
+                            stat.pdcpDownlinkFlow /= 8;
+                            stat.pdcpUplinkFlow /= 8;
+                        });
+                    angular.forEach(mergeStats,
+                        function(stat) {
+                            stat.pdcpUplinkFlow /= 8;
+                            stat.pdcpDownlinkFlow /= 8;
+                        });
+                    $("#downlinkFlowChart").highcharts(kpiChartCalculateService
+                        .generateDownlinkFlowOptions(flowStats, topic));
+                    $("#uplinkFlowChart").highcharts(kpiChartCalculateService
+                        .generateUplinkFlowOptions(flowStats, topic));
+                    $("#maxUsersChart").highcharts(kpiChartCalculateService.generateMaxUsersOptions(flowStats, topic));
+                    $("#averageUsersChart").highcharts(kpiChartCalculateService
+                        .generateAverageUsersOptions(flowStats, topic));
+                    $("#maxActiveUsersChart").highcharts(kpiChartCalculateService
+                        .generateMaxActiveUsersOptions(flowStats, topic));
+                    $("#averageActiveUsersChart")
+                        .highcharts(kpiChartCalculateService.generateAverageActiveUsersOptions(flowStats, topic));
+
+                    $("#flowDate").highcharts(kpiChartCalculateService.generateMergeFlowOptions(mergeStats, topic));
+
+                    $("#usersDate").highcharts(kpiChartCalculateService.generateMergeUsersOptions(mergeStats, topic));
+                },
+                showFeelingCharts: function(flowStats, topic, mergeStats) {
+                    angular.forEach(flowStats,
+                        function(stat) {
+                            stat.pdcpDownlinkFlow /= 8;
+                            stat.pdcpUplinkFlow /= 8;
+                        });
+                    angular.forEach(mergeStats,
+                        function(stat) {
+                            stat.pdcpDownlinkFlow /= 8;
+                            stat.pdcpUplinkFlow /= 8;
+                            stat.downlinkFeelingRate = stat.downlinkFeelingThroughput / stat.downlinkFeelingDuration;
+                            stat.uplinkFeelingRate = stat.uplinkFeelingThroughput / stat.uplinkFeelingDuration;
+                            stat.rank2Rate = stat.schedulingRank2 * 100 / stat.schedulingTimes;
+                        });
+                    $("#downlinkFlowChart").highcharts(kpiChartCalculateService
+                        .generateDownlinkFlowOptions(flowStats, topic));
+                    $("#uplinkFlowChart").highcharts(kpiChartCalculateService
+                        .generateUplinkFlowOptions(flowStats, topic));
+                    $("#maxUsersChart").highcharts(kpiChartCalculateService
+                        .generateSchedulingTimeOptions(flowStats, topic));
+                    $("#averageUsersChart").highcharts(kpiChartCalculateService
+                        .generateDownSwitchTimeOptions(flowStats, topic));
+
+                    $("#flowDate").highcharts(kpiChartCalculateService.generateMergeFeelingOptions(mergeStats, topic));
+
+                    $("#usersDate").highcharts(kpiChartCalculateService
+                        .generateMergeDownSwitchOptions(mergeStats, topic));
+                },
+                generateDistrictFrequencyFlowTrendCharts: function(districts, frequency, result) {
+                    var stats = kpiChartCalculateService.generateFlowDistrictStats(districts, result);
+                    var trendStat = {};
+                    kpiChartCalculateService.generateFlowTrendStatsForPie(trendStat, result);
+                    $("#leftChart").highcharts(kpiChartCalculateService
+                        .getDownlinkFlowDistrictOptions(stats, districts, frequency));
+                    $("#rightChart").highcharts(kpiChartCalculateService
+                        .getUplinkFlowDistrictOptions(stats, districts, frequency));
+                    $("#thirdChart").highcharts(kpiChartCalculateService
+                        .getDownlinkFlowOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                    $("#fourthChart").highcharts(kpiChartCalculateService
+                        .getUplinkFlowOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                },
+                generateDistrictFrequencyUsersTrendCharts: function(districts, frequency, result) {
+                    var stats = kpiChartCalculateService.generateUsersDistrictStats(districts, result);
+                    var trendStat = {};
+                    kpiChartCalculateService.generateFlowTrendStatsForPie(trendStat, result);
+                    $("#leftChart").highcharts(kpiChartCalculateService
+                        .getMaxUsersDistrictOptions(stats, districts, frequency));
+                    $("#rightChart").highcharts(kpiChartCalculateService
+                        .getMaxActiveUsersDistrictOptions(stats, districts, frequency));
+                    $("#thirdChart").highcharts(kpiChartCalculateService
+                        .getMaxUsersOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                    $("#fourthChart").highcharts(kpiChartCalculateService
+                        .getMaxActiveUsersOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                },
+                generateDistrictFrequencyFeelingTrendCharts: function(districts, frequency, result) {
+                    var stats = kpiChartCalculateService.generateFeelingRateDistrictStats(districts, result);
+                    var trendStat = {};
+                    kpiChartCalculateService.generateFlowTrendStatsForPie(trendStat, result);
+                    $("#leftChart").highcharts(kpiChartCalculateService
+                        .getDownlinkRateDistrictOptions(stats, districts, frequency));
+                    $("#rightChart").highcharts(kpiChartCalculateService
+                        .getUplinkRateDistrictOptions(stats, districts, frequency));
+                    $("#thirdChart").highcharts(kpiChartCalculateService
+                        .getDownlinkRateOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                    $("#fourthChart").highcharts(kpiChartCalculateService
+                        .getUplinkRateOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                },
+                generateDistrictFrequencyDownSwitchTrendCharts: function(districts, frequency, result) {
+                    var stats = kpiChartCalculateService.generateDownSwitchDistrictStats(districts, result);
+                    var trendStat = {};
+                    kpiChartCalculateService.generateFlowTrendStatsForPie(trendStat, result);
+                    $("#leftChart").highcharts(kpiChartCalculateService
+                        .getDownSwitchTimesDistrictOptions(stats, districts, frequency));
+                    $("#rightChart").highcharts(kpiChartCalculateService
+                        .getDownSwitchRateDistrictOptions(stats, districts, frequency));
+                    $("#thirdChart").highcharts(kpiChartCalculateService
+                        .getDownSwitchTimesOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                    $("#fourthChart").highcharts(kpiChartCalculateService
+                        .getDownSwitchRateOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                },
+                generateDistrictFrequencyRand2TrendCharts: function(districts, frequency, result) {
+                    var stats = kpiChartCalculateService.generateRank2DistrictStats(districts, result);
+                    var trendStat = {};
+                    kpiChartCalculateService.generateFlowTrendStatsForPie(trendStat, result);
+                    $("#leftChart").highcharts(kpiChartCalculateService
+                        .getSchedulingTimesDistrictOptions(stats, districts, frequency));
+                    $("#rightChart").highcharts(kpiChartCalculateService
+                        .getRank2RateDistrictOptions(stats, districts, frequency));
+                    $("#thirdChart").highcharts(kpiChartCalculateService
+                        .getSchedulingTimesOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                    $("#fourthChart").highcharts(kpiChartCalculateService
+                        .getRank2RateOptions(trendStat.districtStats, trendStat.townStats, frequency));
+                }
+            };
         });
 angular.module('app.geometry', [])
     .factory('geometryCalculateService', function() {
@@ -3623,26 +4444,48 @@ angular.module('app.geometry', [])
         };
     });
 angular.module('app.calculation', [])
-    .factory('preciseWorkItemGenerator', function() {
+    .factory('basicCalculationService', function() {
+        var isLongtituteValid = function(longtitute) {
+            return (!isNaN(longtitute)) && longtitute > 112 && longtitute < 114;
+        };
+
+        var isLattituteValid = function(lattitute) {
+            return (!isNaN(lattitute)) && lattitute > 22 && lattitute < 24;
+        };
+        return {
+            calculateArraySum: function(data, keys) {
+                return _.reduce(data,
+                    function(memo, num) {
+                        var result = {};
+                        angular.forEach(keys,
+                            function(key) {
+                                result[key] = memo[key] + (num[key] || 0);
+                            });
+                        return result;
+                    });
+            },
+            isLonLatValid: function(item) {
+                return isLongtituteValid(item.longtitute) && isLattituteValid(item.lattitute);
+            },
+            mapLonLat: function(source, destination) {
+                source.longtitute = destination.longtitute;
+                source.lattitute = destination.lattitute;
+            }
+        };
+    })
+    .factory('preciseWorkItemGenerator', function (basicCalculationService) {
         return {
             generatePreciseInterferenceNeighborDtos: function(sources) {
-                var sumDb6Share = 0;
-                var sumDb10Share = 0;
-                var sumMod3Share = 0;
-                var sumMod6Share = 0;
                 var dtos = [];
-                angular.forEach(sources, function(source) {
-                    sumDb6Share += source.overInterferences6Db;
-                    sumDb10Share += source.overInterferences10Db;
-                    sumMod3Share += source.mod3Interferences;
-                    sumMod6Share += source.mod6Interferences;
-                });
+                var sum = basicCalculationService
+                    .calculateArraySum(sources,
+                        ['overInterferences6Db', 'overInterferences10Db', 'mod3Interferences', 'mod6Interferences']);
                 angular.forEach(sources, function(source) {
                     if (source.destENodebId > 0 && source.destSectorId > 0) {
-                        var db6Share = source.overInterferences6Db * 100 / sumDb6Share;
-                        var db10Share = source.overInterferences10Db * 100 / sumDb10Share;
-                        var mod3Share = source.mod3Interferences * 100 / sumMod3Share;
-                        var mod6Share = source.mod6Interferences * 100 / sumMod6Share;
+                        var db6Share = source.overInterferences6Db * 100 / sum.overInterferences6Db;
+                        var db10Share = source.overInterferences10Db * 100 / sum.overInterferences10Db;
+                        var mod3Share = source.mod3Interferences * 100 / sum.mod3Interferences;
+                        var mod6Share = source.mod6Interferences * 100 / sum.mod6Interferences;
                         if (db6Share > 10 || db10Share > 10 || mod3Share > 10 || mod6Share > 10) {
                             dtos.push({
                                 eNodebId: source.destENodebId,
@@ -3658,23 +4501,16 @@ angular.module('app.calculation', [])
                 return dtos;
             },
             generatePreciseInterferenceVictimDtos: function(sources) {
-                var sumBackwardDb6Share = 0;
-                var sumBackwardDb10Share = 0;
-                var sumBackwardMod3Share = 0;
-                var sumBackwardMod6Share = 0;
                 var dtos = [];
-                angular.forEach(sources, function(source) {
-                    sumBackwardDb6Share += source.overInterferences6Db;
-                    sumBackwardDb10Share += source.overInterferences10Db;
-                    sumBackwardMod3Share += source.mod3Interferences;
-                    sumBackwardMod6Share += source.mod6Interferences;
-                });
+                var sum = basicCalculationService
+                    .calculateArraySum(sources,
+                        ['overInterferences6Db', 'overInterferences10Db', 'mod3Interferences', 'mod6Interferences']);
                 angular.forEach(sources, function(source) {
                     if (source.victimENodebId > 0 && source.victimSectorId > 0) {
-                        var db6Share = source.overInterferences6Db * 100 / sumBackwardDb6Share;
-                        var db10Share = source.overInterferences10Db * 100 / sumBackwardDb10Share;
-                        var mod3Share = source.mod3Interferences * 100 / sumBackwardMod3Share;
-                        var mod6Share = source.mod6Interferences * 100 / sumBackwardMod6Share;
+                        var db6Share = source.overInterferences6Db * 100 / sum.overInterferences6Db;
+                        var db10Share = source.overInterferences10Db * 100 / sum.overInterferences10Db;
+                        var mod3Share = source.mod3Interferences * 100 / sum.mod3Interferences;
+                        var mod6Share = source.mod6Interferences * 100 / sum.mod6Interferences;
                         if (db6Share > 10 || db10Share > 10 || mod3Share > 10 || mod6Share > 10) {
                             dtos.push({
                                 eNodebId: source.victimENodebId,
@@ -3709,91 +4545,35 @@ angular.module('app.calculation', [])
             }
         };
     })
-    .factory('neGeometryService', function() {
-        var isLongtituteValid = function(longtitute) {
-            return (!isNaN(longtitute)) && longtitute > 112 && longtitute < 114;
-        };
-
-        var isLattituteValid = function(lattitute) {
-            return (!isNaN(lattitute)) && lattitute > 22 && lattitute < 24;
-        };
-
-        var isLonLatValid = function(item) {
-            return isLongtituteValid(item.longtitute) && isLattituteValid(item.lattitute);
-        };
-
-        var mapLonLat = function(source, destination) {
-            source.longtitute = destination.longtitute;
-            source.lattitute = destination.lattitute;
-        };
-
+    .factory('neGeometryService', function (basicCalculationService) {
         return {
             queryENodebLonLatEdits: function(eNodebs) {
                 var result = [];
-                for (var index = 0; index < eNodebs.length; index++) {
-                    if (!isLonLatValid(eNodebs[index])) {
-                        result.push({
-                            index: index,
-                            eNodebId: eNodebs[index].eNodebId,
-                            name: eNodebs[index].name,
-                            district: eNodebs[index].districtName,
-                            town: eNodebs[index].townName,
-                            longtitute: eNodebs[index].longtitute,
-                            lattitute: eNodebs[index].lattitute
-                        });
-                    }
-                }
+                angular.forEach(eNodebs,
+                    function(eNodeb, $index) {
+                        if (!basicCalculationService.isLonLatValid(eNodeb)) {
+                            var item = {
+                                index: $index
+                            };
+                            angular.extend(item, eNodeb);
+                            item.town = eNodeb.townName;
+                            result.push(item);
+                        }
+                    });
                 return result;
             },
-            queryBtsLonLatEdits: function(btss) {
+            queryGeneralLonLatEdits: function(stats) {
                 var result = [];
-                for (var index = 0; index < btss.length; index++) {
-                    if (!isLonLatValid(btss[index])) {
-                        result.push({
-                            index: index,
-                            bscId: btss[index].bscId,
-                            btsId: btss[index].btsId,
-                            name: btss[index].name,
-                            districtName: btss[index].districtName,
-                            longtitute: eNodebs[index].longtitute,
-                            lattitute: eNodebs[index].lattitute
-                        });
-                    }
-                }
-                return result;
-            },
-            queryCellLonLatEdits: function(cells) {
-                var result = [];
-                for (var index = 0; index < cells.length; index++) {
-                    if (!isLonLatValid(cells[index])) {
-                        result.push({
-                            index: index,
-                            eNodebId: cells[index].eNodebId,
-                            sectorId: cells[index].sectorId,
-                            frequency: cells[index].frequency,
-                            isIndoor: cells[index].isIndoor,
-                            longtitute: cells[index].longtitute,
-                            lattitute: cells[index].lattitute
-                        });
-                    }
-                }
-                return result;
-            },
-            queryCdmaCellLonLatEdits: function(cells) {
-                var result = [];
-                for (var index = 0; index < cells.length; index++) {
-                    if (!isLonLatValid(cells[index])) {
-                        result.push({
-                            index: index,
-                            btsId: cells[index].btsId,
-                            sectorId: cells[index].sectorId,
-                            frequency: cells[index].frequency,
-                            isIndoor: cells[index].isIndoor,
-                            longtitute: cells[index].longtitute,
-                            lattitute: cells[index].lattitute
-                        });
-                    }
-                }
+                angular.forEach(stats,
+                    function(stat, $index) {
+                        if (!basicCalculationService.isLonLatValid(stat)) {
+                            var item = {
+                                index: $index
+                            };
+                            angular.extend(item, stat);
+                            result.push(item);
+                        }
+                    });
                 return result;
             },
             mapLonLatEdits: function(sourceFunc, destList) {
@@ -3801,9 +4581,8 @@ angular.module('app.calculation', [])
                 for (var i = 0; i < destList.length; i++) {
                     destList[i].longtitute = parseFloat(destList[i].longtitute);
                     destList[i].lattitute = parseFloat(destList[i].lattitute);
-                    if (isLonLatValid(destList[i])) {
-                        console.log(destList[i]);
-                        mapLonLat(sourceList[destList[i].index], destList[i]);
+                    if (basicCalculationService.isLonLatValid(destList[i])) {
+                        basicCalculationService.mapLonLat(sourceList[destList[i].index], destList[i]);
                     }
                 }
                 sourceFunc(sourceList);
@@ -4503,4 +5282,5 @@ angular.module('app.calculation', [])
             }
         };
     });
-angular.module('myApp.url', ['app.core', 'app.menu', 'app.format', 'app.chart', 'app.geometry', 'app.calculation']);
+angular.module('myApp.url',
+    ['app.core', 'app.menu', 'app.format', 'app.chart', 'app.kpi.chart', 'app.geometry', 'app.calculation']);

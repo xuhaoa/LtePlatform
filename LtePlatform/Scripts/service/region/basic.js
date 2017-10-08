@@ -689,6 +689,13 @@
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/single',
                         {
+                            "SysStationId": id
+                        });
+                },
+                getStationByStationId: function (id) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/single',
+                        {
                             "id": id
                         });
                 },

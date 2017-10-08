@@ -37,6 +37,11 @@
                     stationNum: stationNum
                 });
             },
+            queryCellStationInfoByRruName: function (rruName) {
+                return generalHttpService.getApiData('CellStation', {
+                    rruName: rruName
+                });
+            },
             queryCellSectorIds: function (name) {
                 return generalHttpService.getApiData('Cell', {
                     eNodebName: name
@@ -116,6 +121,28 @@
                     district: district,
                     town: town
                 });
+            },
+            queryBtssByTownArea: function (city, district, town) {
+                return generalHttpService.getApiData('BtsQuery',
+                    {
+                        city: city,
+                        district: district,
+                        town: town
+                    });
+            },
+            updateENodebTownInfo: function(view) {
+                return generalHttpService.getApiData('ENodebQuery',
+                    {
+                        eNodebId: view.eNodebId,
+                        townId: view.townId
+                    });
+            },
+            updateBtsTownInfo: function (view) {
+                return generalHttpService.getApiData('BtsQuery',
+                    {
+                        btsId: view.btsId,
+                        townId: view.townId
+                    });
             },
             queryENodebStationInfo: function (stationNum) {
                 return generalHttpService.getApiData('ENodebStation', {

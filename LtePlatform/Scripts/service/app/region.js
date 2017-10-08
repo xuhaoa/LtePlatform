@@ -689,6 +689,13 @@ angular.module('region.basic', ['app.core'])
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/single',
                         {
+                            "SysStationId": id
+                        });
+                },
+                getStationByStationId: function (id) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/single',
+                        {
                             "id": id
                         });
                 },
@@ -1152,6 +1159,17 @@ angular.module('region.kpi', ['app.core'])
                         city: city,
                         district: district
                     });
+                },
+                queryTopDownSwitchByPolicyInDistrict: function (begin, end, topCount, policy, city, district) {
+                    return generalHttpService.getApiData('TopDownSwitch',
+                        {
+                            begin: begin,
+                            end: end,
+                            topCount: topCount,
+                            orderSelection: policy,
+                            city: city,
+                            district: district
+                        });
                 },
                 queryTopDownSwitchByPolicy: function (begin, end, topCount, policy) {
                     return generalHttpService.getApiData('TopDownSwitch',
@@ -2337,6 +2355,11 @@ angular.module('region.network', ['app.core'])
                     stationNum: stationNum
                 });
             },
+            queryCellStationInfoByRruName: function (rruName) {
+                return generalHttpService.getApiData('CellStation', {
+                    rruName: rruName
+                });
+            },
             queryCellSectorIds: function (name) {
                 return generalHttpService.getApiData('Cell', {
                     eNodebName: name
@@ -2416,6 +2439,28 @@ angular.module('region.network', ['app.core'])
                     district: district,
                     town: town
                 });
+            },
+            queryBtssByTownArea: function (city, district, town) {
+                return generalHttpService.getApiData('BtsQuery',
+                    {
+                        city: city,
+                        district: district,
+                        town: town
+                    });
+            },
+            updateENodebTownInfo: function(view) {
+                return generalHttpService.getApiData('ENodebQuery',
+                    {
+                        eNodebId: view.eNodebId,
+                        townId: view.townId
+                    });
+            },
+            updateBtsTownInfo: function (view) {
+                return generalHttpService.getApiData('BtsQuery',
+                    {
+                        btsId: view.btsId,
+                        townId: view.townId
+                    });
             },
             queryENodebStationInfo: function (stationNum) {
                 return generalHttpService.getApiData('ENodebStation', {

@@ -37,20 +37,24 @@
             beginDate,
             endDate,
             appFormatService,
-            networkElementService) {
+            networkElementService,
+            downSwitchService) {
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
-            $scope.itemGroups = appFormatService.generateStationGroups(station);
             $scope.cellList = [];
-            networkElementService.queryENodebStationInfo(station.StationId).then(function(eNodeb) {
-                if (eNodeb) {
-                    $scope.eNodebGroups = appFormatService.generateENodebGroups(eNodeb);
-                }
-
+            downSwitchService.getStationByStationId(station.id).then(function (stationDetails) {
+                var item = stationDetails.result[0];
+                $scope.itemGroups = appFormatService.generateStationGroups(item);
+                networkElementService.queryENodebStationInfo(item.SysStationId).then(function(eNodeb) {
+                    if (eNodeb) {
+                        $scope.eNodebGroups = appFormatService.generateENodebGroups(eNodeb);
+                    }
+                });
+                networkElementService.queryCellStationInfo(item.SysStationId).then(function(cellList) {
+                    $scope.cellList = cellList;
+                });
             });
-            networkElementService.queryCellStationInfo(station.StationId).then(function(cellList) {
-                $scope.cellList = cellList;
-            });
+            
             $scope.dialogTitle = dialogTitle;
             $scope.ok = function() {
                 $uibModalInstance.close($scope.site);
@@ -68,14 +72,22 @@
             beginDate,
             endDate,
             appFormatService,
-            downSwitchService) {
+            downSwitchService,
+            networkElementService) {
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
-
-            downSwitchService.getIndoorById(station.id).then(function (response) {
-                response.result[0].longtitute = station.longtitute;
-                response.result[0].lattitute = station.lattitute;
-                $scope.itemGroups = appFormatService.generateIndoorGroups(response.result[0]);
+            downSwitchService.getIndoorById(station.id).then(function (stationDetails) {
+                var item = stationDetails.result[''];
+                angular.extend(item, station);
+                $scope.itemGroups = appFormatService.generateIndoorGroups(item);
+                networkElementService.queryENodebsByGeneralName(item.name).then(function (eNodebs) {
+                    if (eNodebs.length) {
+                        $scope.eNodebGroups = appFormatService.generateENodebGroups(eNodebs[0]);
+                    }
+                });
+                networkElementService.queryCellStationInfoByRruName(item.name).then(function (cellList) {
+                    $scope.cellList = cellList;
+                });
             });
             $scope.dialogTitle = dialogTitle;
             $scope.ok = function() {
@@ -131,4 +143,32 @@
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
+        })
+    .controller("rutrace.workitems.process",
+        function($scope,
+            $uibModalInstance,
+            cell,
+            beginDate,
+            endDate,
+            workitemService,
+            networkElementService,
+            appFormatService) {
+            $scope.dialogTitle = cell.eNodebName + "-" + cell.sectorId + ":TOP小区工单历史";
+            $scope.queryWorkItems = function() {
+                workitemService.queryByCellId(cell.cellId, cell.sectorId).then(function(result) {
+                    $scope.viewItems = result;
+                });
+                networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function(result) {
+                    $scope.lteCellGroups = appFormatService.generateCellGroups(result);
+                });
+            };
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.distributionGroups);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+            $scope.queryWorkItems();
         });

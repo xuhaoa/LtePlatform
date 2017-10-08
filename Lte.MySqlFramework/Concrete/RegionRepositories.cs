@@ -144,27 +144,12 @@ namespace Lte.MySqlFramework.Concrete
                 && (x.DistrictName == district || district.IndexOf(flag, StringComparison.Ordinal) >= 0)
                 && (x.CityName == city || city.IndexOf(flag, StringComparison.Ordinal) >= 0));
         }
-
-        public Town QueryTown(string city, string district, string town)
-        {
-            return FirstOrDefault(x => x.CityName == city && x.DistrictName == district && x.TownName == town);
-        }
-
+        
         public Town QueryTown(string district, string town)
         {
             return FirstOrDefault(x => x.DistrictName == district && x.TownName == town);
         }
-
-        public List<Town> GetAll(string city)
-        {
-            return GetAllList(x => x.CityName == city);
-        }
-
-        public List<Town> GetAllList(string city, string district)
-        {
-            return GetAllList(x => x.CityName == city && x.DistrictName == district);
-        }
-
+        
         public IEnumerable<string> GetFoshanDistricts()
         {
             return new[] { "顺德", "南海", "禅城", "三水", "高明" };

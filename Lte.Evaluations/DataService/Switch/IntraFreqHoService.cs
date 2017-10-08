@@ -33,7 +33,7 @@ namespace Lte.Evaluations.DataService.Switch
 
         private IMongoQuery<ENodebIntraFreqHoView> ConstructENodebQuery(int eNodebId)
         {
-            var eNodeb = _eNodebRepository.GetByENodebId(eNodebId);
+            var eNodeb = _eNodebRepository.FirstOrDefault(x => x.ENodebId == eNodebId);
             if (eNodeb == null) return null;
             return eNodeb.Factory == "华为"
                 ? (IMongoQuery<ENodebIntraFreqHoView>) new HuaweiIntraFreqENodebMongoQuery(_huaweiENodebHoRepository, eNodebId)
@@ -48,7 +48,7 @@ namespace Lte.Evaluations.DataService.Switch
 
         private IMongoQuery<CellIntraFreqHoView> ConstructCellQuery(int eNodebId, byte sectorId)
         {
-            var eNodeb = _eNodebRepository.GetByENodebId(eNodebId);
+            var eNodeb = _eNodebRepository.FirstOrDefault(x => x.ENodebId == eNodebId);
             if (eNodeb == null) return null;
             return eNodeb.Factory == "华为"
                 ? (IMongoQuery<CellIntraFreqHoView>)

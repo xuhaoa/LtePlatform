@@ -101,7 +101,7 @@ namespace Lte.Evaluations.DataService.Switch
 
         protected IDateSpanQuery<List<T>> ConstructQuery(int eNodebId, byte sectorId)
         {
-            var eNodeb = ENodebRepository.GetByENodebId(eNodebId);
+            var eNodeb = ENodebRepository.FirstOrDefault(x => x.ENodebId == eNodebId);
             if (eNodeb == null) return null;
             return eNodeb.Factory == "华为"
                 ? GenerateHuaweiQuery(eNodebId, sectorId)

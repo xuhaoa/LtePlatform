@@ -354,7 +354,7 @@
 
     })
     .controller("bts.lonLat", function ($scope, neGeometryService) {
-        $scope.newBtsLonLatEdits = neGeometryService.queryBtsLonLatEdits($scope.importData.newBtss);
+        $scope.newBtsLonLatEdits = neGeometryService.queryGeneralLonLatEdits($scope.importData.newBtss);
 
         $scope.postBtsLonLat = function () {
             neGeometryService.mapLonLatEdits($scope.importData.newBtss, $scope.newBtsLonLatEdits);
@@ -416,7 +416,7 @@
         };
     })
     .controller("cell.lonLat", function ($scope, neGeometryService) {
-        $scope.newCellLonLatEdits = neGeometryService.queryCellLonLatEdits($scope.importData.newCells);
+        $scope.newCellLonLatEdits = neGeometryService.queryGeneralLonLatEdits($scope.importData.newCells);
 
         $scope.postCellLonLat = function () {
             neGeometryService.mapLonLatEdits($scope.importData.newCells, $scope.newCellLonLatEdits);
@@ -479,7 +479,7 @@
     })
     .controller("cdmaCell.lonLat", function ($scope, neGeometryService) {
         $scope.newCdmaCellLonLatEdits
-            = neGeometryService.queryCdmaCellLonLatEdits($scope.importData.newCdmaCells);
+            = neGeometryService.queryGeneralLonLatEdits($scope.importData.newCdmaCells);
 
         $scope.postCdmaCellLonLat = function () {
             neGeometryService.mapLonLatEdits($scope.importData.newCdmaCells, $scope.newCdmaCellLonLatEdits);

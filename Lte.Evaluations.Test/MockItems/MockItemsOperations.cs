@@ -102,7 +102,7 @@ namespace Lte.Evaluations.MockItems
 
         public static void MockOperations(this Mock<IENodebRepository> repository)
         {
-            repository.Setup(x => x.GetByENodebId(It.IsAny<int>()))
+            repository.Setup(x => x.FirstOrDefault(e => e.ENodebId == It.IsAny<int>()))
                 .Returns<int>(eNodebId => repository.Object.GetAll().FirstOrDefault(x => x.ENodebId == eNodebId));
             
             repository.Setup(x => x.GetByName(It.IsAny<string>()))
@@ -151,18 +151,7 @@ namespace Lte.Evaluations.MockItems
                 .Returns<string, DateTime, DateTime>((city, begin, end) =>
                     repository.Object.GetAll().Where(x => x.City == city && x.StatTime >= begin && x.StatTime < end).ToList());
         }
-
-        public static void MockOpertion(this Mock<ITownRepository> repository)
-        {
-            repository.Setup(x => x.GetAll(It.IsAny<string>()))
-                .Returns<string>(city => repository.Object.GetAll().Where(x => x.CityName == city).ToList());
-            repository.Setup(x => x.QueryTown(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns<string, string, string>(
-                    (city, district, town) =>
-                        repository.Object.GetAll()
-                            .FirstOrDefault(x => x.CityName == city && x.DistrictName == district && x.TownName == town));
-        }
-
+        
         public static void MockOperation(this Mock<IPreciseWorkItemCellRepository> repository)
         {
             repository.Setup(x => x.Get(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<byte>()))

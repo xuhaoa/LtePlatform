@@ -164,11 +164,6 @@ namespace Lte.MySqlFramework.Concrete
 
     public class ENodebRepository : EfRepositorySave<MySqlContext, ENodeb>, IENodebRepository
     {
-        public ENodeb GetByENodebId(int eNodebId)
-        {
-            return FirstOrDefault(x => x.ENodebId == eNodebId);
-        }
-
         public ENodeb GetByName(string name)
         {
             return FirstOrDefault(x => x.Name == name);
