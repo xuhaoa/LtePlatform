@@ -228,9 +228,19 @@
                 showIndoorStations: function(stations, color) {
                     generalMapService.showGeneralPointCollection(stations, color, workItemDialog.showIndoorInfo);
                 },
-                showCheckingStations: function(stations, color) {
+                showCheckingStations: function(stations, color, status) {
                     generalMapService
-                        .showGeneralPointCollection(stations, color, mapDialogService.showCheckingStationInfo);
+                        .showGeneralPointCollection(stations, color, function(data) {
+                            if (status === '已巡检') {
+                                parametersDialogService.showCheckingStationInfo(data);
+                            } else {
+                                parametersDialogService.showCommonStationInfo(data);
+                            }
+                        });
+                },
+                showFixingStations: function(stations, color) {
+                    generalMapService
+                        .showGeneralPointCollection(stations, color, mapDialogService.showFixingStationInfo);
                 },
                 showConstructionSites: function(stations, status, callback) {
                     baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute)
