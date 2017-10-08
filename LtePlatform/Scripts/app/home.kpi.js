@@ -153,7 +153,7 @@
                 mapDialogService.showPreciseTrendDialog($scope.city, $scope.beginDate, $scope.endDate);
             };
             $scope.showRrcStats = function() {
-                mapDialogService.showRrcTrend($scope.city, $scope.beginDate, $scope.endDate);
+                workItemDialog.showRrcTrendDialog($scope.city, $scope.beginDate, $scope.endDate);
             };
             $scope.showCqiStats = function() {
                 mapDialogService.showCqiTrend($scope.city, $scope.beginDate, $scope.endDate);
