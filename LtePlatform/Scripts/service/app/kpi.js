@@ -4982,7 +4982,7 @@ angular.module('kpi.parameter.query', ['myApp.url', 'myApp.region', "ui.bootstra
         });
 angular.module('kpi.parameter', ['app.menu', 'app.core', 'region.network'])
     .factory('neighborDialogService',
-    function (menuItemService, networkElementService, stationFormatService, baiduMapService) {
+        function(menuItemService, networkElementService, stationFormatService, baiduMapService) {
             return {
                 dumpCellMongo: function(cell, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
@@ -5016,7 +5016,7 @@ angular.module('kpi.parameter', ['app.menu', 'app.core', 'region.network'])
                             endDate)
                     });
                 },
-                showRutraceInterferenceMap: function (cell, beginDate, endDate) {
+                showRutraceInterferenceMap: function(cell, beginDate, endDate) {
                     menuItemService.showGeneralDialogWithAction({
                             templateUrl: '/appViews/Rutrace/Map/Index.html',
                             controller: 'rutrace.map.analysis',
@@ -5051,7 +5051,7 @@ angular.module('kpi.parameter', ['app.menu', 'app.core', 'region.network'])
                             endDate)
                     });
                 },
-                showGeneralCoverage: function (cell, beginDate, endDate) {
+                showGeneralCoverage: function(cell, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Coverage/General.html',
                         controller: 'general.coverage.analysis',
@@ -5234,7 +5234,6 @@ angular.module('kpi.parameter', ['app.menu', 'app.core', 'region.network'])
                 }
             }
         });
-
 angular.module('kpi.work.dialog', ['myApp.url', 'myApp.region', "ui.bootstrap", "kpi.core"])
     .controller('workitem.feedback.dialog',
         function($scope, $uibModalInstance, input, dialogTitle) {

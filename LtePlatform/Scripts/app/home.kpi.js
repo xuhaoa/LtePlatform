@@ -2,7 +2,7 @@
     .controller('menu.kpi',
         function($scope, appUrlService) {
             $scope.menuItem = {
-                displayName: "指标优化",
+                displayName: "4G优化",
                 subItems: [
                     {
                         displayName: "指标总览",
@@ -14,9 +14,6 @@
                     }, {
                         displayName: "容量优化",
                         url: appUrlService.getPlanUrlHost() + 'erab'
-                    }, {
-                        displayName: "室分专项",
-                        url: appUrlService.getDistributionHost()
                     }
                 ]
             };
@@ -104,7 +101,7 @@
                     district).then(function(result) {
                     angular.forEach(result,
                         function(item) {
-                            networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function (cell) {
+                            networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function(cell) {
                                 if (cell) {
                                     collegeMapService.showFlowCellSector(cell, item, $scope.beginDate, $scope.endDate);
                                 }
@@ -148,7 +145,7 @@
                     });
             };
 
-            $scope.showTodayKpi = function () {
+            $scope.showTodayKpi = function() {
                 workItemDialog.showTodayOverallKpi($scope.city.selected);
             }
 
@@ -158,7 +155,7 @@
             $scope.showRrcStats = function() {
                 mapDialogService.showRrcTrend($scope.city, $scope.beginDate, $scope.endDate);
             };
-            $scope.showCqiStats = function () {
+            $scope.showCqiStats = function() {
                 mapDialogService.showCqiTrend($scope.city, $scope.beginDate, $scope.endDate);
             };
             $scope.showDownSwitchStats = function() {
@@ -216,4 +213,14 @@
                     baiduMapService.switchMainMap);
             };
             $scope.updateMap();
+        })
+    .controller("home.interference",
+        function($scope, baiduMapService) {
+            baiduMapService.initializeMap("map", 11);
+            baiduMapService.addCityBoundary("佛山");
+        })
+    .controller("home.cdma",
+        function($scope, baiduMapService) {
+            baiduMapService.initializeMap("map", 11);
+            baiduMapService.addCityBoundary("佛山");
         });

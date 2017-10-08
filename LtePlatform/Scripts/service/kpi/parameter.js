@@ -1,6 +1,6 @@
 ﻿angular.module('kpi.parameter', ['app.menu', 'app.core', 'region.network'])
     .factory('neighborDialogService',
-    function (menuItemService, networkElementService, stationFormatService, baiduMapService) {
+        function(menuItemService, networkElementService, stationFormatService, baiduMapService) {
             return {
                 dumpCellMongo: function(cell, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
@@ -34,7 +34,7 @@
                             endDate)
                     });
                 },
-                showRutraceInterferenceMap: function (cell, beginDate, endDate) {
+                showRutraceInterferenceMap: function(cell, beginDate, endDate) {
                     menuItemService.showGeneralDialogWithAction({
                             templateUrl: '/appViews/Rutrace/Map/Index.html',
                             controller: 'rutrace.map.analysis',
@@ -69,7 +69,7 @@
                             endDate)
                     });
                 },
-                showGeneralCoverage: function (cell, beginDate, endDate) {
+                showGeneralCoverage: function(cell, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Coverage/General.html',
                         controller: 'general.coverage.analysis',

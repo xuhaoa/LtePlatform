@@ -71,9 +71,6 @@
             getDtUrlHost: function () {
                 return (window.location.hostname === publicNetworkIp) ? '/' : 'http://132.110.71.121:2889/';
             },
-            getDistributionHost: function () {
-                return (window.location.hostname === publicNetworkIp) ? 'http://119.145.142.74:8109/' : 'http://132.110.71.122:8086/';
-            },
             getParameterUrlHost: function () {
                 return (window.location.hostname === publicNetworkIp) ? 'http://119.145.142.74:8110/' : 'http://132.110.71.122:8001/';
             },

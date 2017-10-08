@@ -484,11 +484,12 @@
     <Content Include="appViews\Home\Kpi2G.html" />
     <Content Include="appViews\Home\Kpi4G.html" />
     <Content Include="appViews\Home\KpiDownSwitch.html" />
+    <Content Include="appViews\Home\Menu\Cdma.html" />
     <Content Include="appViews\Home\Micro.html" />
     <Content Include="appViews\Home\Mr.html" />
     <Content Include="appViews\Home\MrGrid.html" />
     <Content Include="appViews\Home\Network.html" />
-    <Content Include="appViews\Home\Plan.html" />
+    <Content Include="appViews\Home\Menu\Plan.html" />
     <Content Include="appViews\Home\PlanningDetails.html" />
     <Content Include="appViews\Home\Query.html" />
     <Content Include="appViews\Home\SingleChartDialog.html" />

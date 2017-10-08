@@ -666,7 +666,7 @@ angular.module('parameters.cell.module', ['ui.grid', 'myApp.region', 'myApp.url'
                 neighborDialogService.showCell(cell);
             };
             $scope.showInterference = function(cell) {
-                neighborDialogService.showInterference({
+                neighborDialogService.showRutraceInterference({
                         cellId: cell.eNodebId,
                         sectorId: cell.sectorId,
                         name: cell.eNodebName

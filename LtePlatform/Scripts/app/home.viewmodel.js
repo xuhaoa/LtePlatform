@@ -136,7 +136,7 @@ angular.module('home.route', ['app.common'])
                         controller: "menu.root"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Query.html",
+                        templateUrl: "/appViews/Home/Query.html",
                         controller: "home.query"
                     }
                 },
@@ -150,7 +150,7 @@ angular.module('home.route', ['app.common'])
                         controller: "menu.root"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Query.html",
+                        templateUrl: "/appViews/Home/Query.html",
                         controller: "evaluation.home"
                     }
                 },
@@ -174,15 +174,15 @@ angular.module('home.route', ['app.common'])
             {
                 views: {
                     'menu': {
-                        templateUrl: viewDir + "StationSearchMenu.html",
+                        templateUrl: "/appViews/Home/StationSearchMenu.html",
                         controller: "menu.operation-station"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Station.html",
+                        templateUrl: "/appViews/Home/Station.html",
                         controller: "operation-station.network"
                     },
                     "filter": {
-                        templateUrl: viewDir + "StationFilter.html",
+                        templateUrl: "/appViews/Home/StationFilter.html",
                         controller: "operation-station.filter"
                     }
 
@@ -193,15 +193,15 @@ angular.module('home.route', ['app.common'])
             {
                 views: {
                     'menu': {
-                        templateUrl: viewDir + "StationSearchMenu.html",
+                        templateUrl: "/appViews/Home/StationSearchMenu.html",
                         controller: "menu.operation-indoor"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Station.html",
+                        templateUrl: "/appViews/Home/Station.html",
                         controller: "operation-indoor.network"
                     },
                     "filter": {
-                        templateUrl: viewDir + "IndoorFilter.html",
+                        templateUrl: "/appViews/Home/IndoorFilter.html",
                         controller: "operation-indoor.filter"
                     }
 
@@ -211,11 +211,11 @@ angular.module('home.route', ['app.common'])
             .state('common-station', {
                 views: {
                     'menu': {
-                        templateUrl: viewDir + "StationSearchMenu.html",
+                        templateUrl: "/appViews/Home/StationSearchMenu.html",
                         controller: "menu.common-station"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Common.html",
+                        templateUrl: "/appViews/Home/Common.html",
                         controller: "common-station.network"
                     }
                 },
@@ -224,11 +224,11 @@ angular.module('home.route', ['app.common'])
             .state('common-indoor', {
                 views: {
                     'menu': {
-                        templateUrl: viewDir + "StationSearchMenu.html",
+                        templateUrl: "/appViews/Home/StationSearchMenu.html",
                         controller: "menu.common-indoor"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Common.html",
+                        templateUrl: "/appViews/Home/Common.html",
                         controller: "common-indoor.network"
                     }
                 },
@@ -284,21 +284,35 @@ angular.module('home.route', ['app.common'])
                         controller: "menu.plan"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Plan.html",
+                        templateUrl: "/appViews/Home/Menu/Plan.html",
                         controller: "home.plan"
                     }
                 },
                 url: "/plan"
+            })
+            .state('cdma',
+            {
+                views: {
+                    'menu': {
+                        templateUrl: "/appViews/DropDownMenu.html",
+                        controller: "menu.cdma"
+                    },
+                    "contents": {
+                        templateUrl: "/appViews/Home/Menu/Cdma.html",
+                        controller: "home.cdma"
+                    }
+                },
+                url: "/cdma"
             })
             .state('interference',
             {
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.plan"
+                        controller: "menu.cdma"
                     },
                     "contents": {
-                        templateUrl: viewDir + "Plan.html",
+                        templateUrl: "/appViews/Home/Menu/Plan.html",
                         controller: "home.interference"
                     }
                 },
@@ -2686,13 +2700,24 @@ angular.module('home.menu', ['app.common'])
                     }, {
                         displayName: "智能规划",
                         url: appUrlService.getPlanUrlHost() + 'guihua'
-                    }, {
-                        displayName: "干扰管理",
-                        url: '/#/interference'
                     }
                 ]
             };
         })
+    .controller('menu.cdma', function($scope) {
+        $scope.menuItem = {
+            displayName: "2G优化",
+            subItems: [
+                {
+                    displayName: "指标优化",
+                    url: '/#/cdma'
+                }, {
+                    displayName: "干扰管理",
+                    url: '/#/interference'
+                }
+            ]
+        };
+    })
     .controller('menu.mr',
         function($scope) {
             var rootUrl = "/#";
@@ -3464,11 +3489,6 @@ angular.module('home.network', ['app.common'])
                 });
 
         })
-    .controller("home.interference",
-        function($scope, baiduMapService) {
-            baiduMapService.initializeMap("map", 11);
-            baiduMapService.addCityBoundary("佛山");
-        })
     .controller("bts.construction",
         function($scope,
             baiduMapService,
@@ -3702,7 +3722,7 @@ angular.module('home.kpi', ['app.common'])
     .controller('menu.kpi',
         function($scope, appUrlService) {
             $scope.menuItem = {
-                displayName: "指标优化",
+                displayName: "4G优化",
                 subItems: [
                     {
                         displayName: "指标总览",
@@ -3714,9 +3734,6 @@ angular.module('home.kpi', ['app.common'])
                     }, {
                         displayName: "容量优化",
                         url: appUrlService.getPlanUrlHost() + 'erab'
-                    }, {
-                        displayName: "室分专项",
-                        url: appUrlService.getDistributionHost()
                     }
                 ]
             };
@@ -3804,7 +3821,7 @@ angular.module('home.kpi', ['app.common'])
                     district).then(function(result) {
                     angular.forEach(result,
                         function(item) {
-                            networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function (cell) {
+                            networkElementService.queryCellInfo(item.eNodebId, item.sectorId).then(function(cell) {
                                 if (cell) {
                                     collegeMapService.showFlowCellSector(cell, item, $scope.beginDate, $scope.endDate);
                                 }
@@ -3848,7 +3865,7 @@ angular.module('home.kpi', ['app.common'])
                     });
             };
 
-            $scope.showTodayKpi = function () {
+            $scope.showTodayKpi = function() {
                 workItemDialog.showTodayOverallKpi($scope.city.selected);
             }
 
@@ -3858,7 +3875,7 @@ angular.module('home.kpi', ['app.common'])
             $scope.showRrcStats = function() {
                 mapDialogService.showRrcTrend($scope.city, $scope.beginDate, $scope.endDate);
             };
-            $scope.showCqiStats = function () {
+            $scope.showCqiStats = function() {
                 mapDialogService.showCqiTrend($scope.city, $scope.beginDate, $scope.endDate);
             };
             $scope.showDownSwitchStats = function() {
@@ -3916,6 +3933,16 @@ angular.module('home.kpi', ['app.common'])
                     baiduMapService.switchMainMap);
             };
             $scope.updateMap();
+        })
+    .controller("home.interference",
+        function($scope, baiduMapService) {
+            baiduMapService.initializeMap("map", 11);
+            baiduMapService.addCityBoundary("佛山");
+        })
+    .controller("home.cdma",
+        function($scope, baiduMapService) {
+            baiduMapService.initializeMap("map", 11);
+            baiduMapService.addCityBoundary("佛山");
         });
 /// <reference path="./common.js" />
 
