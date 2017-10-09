@@ -47,24 +47,18 @@
                 $uibModalInstance.dismiss('cancel');
             };
         })
-    .controller('map.checkingStation.dialog',
-        function($scope,
-            $uibModalInstance,
-            station,
-            dialogTitle,
-            appFormatService,
-            networkElementService,
-            downSwitchService) {
-            downSwitchService.getCheckDetailsById(station.id).then(function(response) {
-                $scope.station = response.result[0];
-            });
+    .controller('map.checkingStation.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+        appFormatService, networkElementService, downSwitchService) {
+        $scope.station;
+        downSwitchService.getCheckDetailsById(station.id).then(function (response) {
+            $scope.station = response.result[0];
+        });
+        $scope.dialogTitle = dialogTitle;
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
 
-            $scope.dialogTitle = dialogTitle;
-
-            $scope.cancel = function() {
-                $uibModalInstance.dismiss('cancel');
-            };
-        })
     .controller('map.fixingStation.dialog',
         function($scope,
             $uibModalInstance,
@@ -107,7 +101,7 @@
             });
             $scope.details = function(stationId) {
                 downSwitchService.getCommonStationById(stationId).then(function(result) {
-                    parametersDialogService.showCommonStationInfo(result.result[0]);
+                    mapDialogService.showCommonStationInfo(result.result[0]);
                 });
             }
 

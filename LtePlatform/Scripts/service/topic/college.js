@@ -239,7 +239,7 @@
                             if (status === '已巡检') {
                                 parametersDialogService.showCheckingStationInfo(data);
                             } else {
-                                parametersDialogService.showCommonStationInfo(data);
+                                mapDialogService.showCommonStationInfo(data);
                             }
                         });
                 },

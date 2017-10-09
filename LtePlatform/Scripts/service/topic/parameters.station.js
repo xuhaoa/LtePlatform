@@ -207,6 +207,7 @@
             dialogTitle,
             downSwitchService,
             parametersDialogService,
+            mapDialogService,
             $uibModalInstance) {
             $scope.dialogTitle = dialogTitle;
             $scope.tab = 1;
@@ -215,7 +216,7 @@
             $scope.kpid = 100;
             $scope.getAssessment = function(areaName) {
                 downSwitchService.getAssessment(areaName, cycle).then(function(result) {
-                    parametersDialogService.showCommonStationInfo(result.result[0]);
+                    mapDialogService.showCommonStationInfo(result.result[0]);
                 });
             };
             $scope.changejqf = function() {

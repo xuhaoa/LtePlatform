@@ -792,7 +792,7 @@ angular.module('topic.college',
                             if (status === '已巡检') {
                                 parametersDialogService.showCheckingStationInfo(data);
                             } else {
-                                parametersDialogService.showCommonStationInfo(data);
+                                mapDialogService.showCommonStationInfo(data);
                             }
                         });
                 },
@@ -1583,6 +1583,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             dialogTitle,
             downSwitchService,
             parametersDialogService,
+            mapDialogService,
             $uibModalInstance) {
             $scope.dialogTitle = dialogTitle;
             $scope.tab = 1;
@@ -1591,7 +1592,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             $scope.kpid = 100;
             $scope.getAssessment = function(areaName) {
                 downSwitchService.getAssessment(areaName, cycle).then(function(result) {
-                    parametersDialogService.showCommonStationInfo(result.result[0]);
+                    mapDialogService.showCommonStationInfo(result.result[0]);
                 });
             };
             $scope.changejqf = function() {
@@ -1747,6 +1748,20 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                             },
                             type: function () {
                                 return type;
+                            }
+                        }
+                    });
+                },
+                showCheckingStationInfo: function (station) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Evaluation/Dialog/CheckDetails.html',
+                        controller: 'map.checkingStation.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "巡检信息:" + station.name;
+                            },
+                            station: function () {
+                                return station;
                             }
                         }
                     });
@@ -3327,24 +3342,18 @@ angular.module('topic.dialog.station', ['myApp.url', 'myApp.region', 'myApp.kpi'
                 $uibModalInstance.dismiss('cancel');
             };
         })
-    .controller('map.checkingStation.dialog',
-        function($scope,
-            $uibModalInstance,
-            station,
-            dialogTitle,
-            appFormatService,
-            networkElementService,
-            downSwitchService) {
-            downSwitchService.getCheckDetailsById(station.id).then(function(response) {
-                $scope.station = response.result[0];
-            });
+    .controller('map.checkingStation.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+        appFormatService, networkElementService, downSwitchService) {
+        $scope.station;
+        downSwitchService.getCheckDetailsById(station.id).then(function (response) {
+            $scope.station = response.result[0];
+        });
+        $scope.dialogTitle = dialogTitle;
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    })
 
-            $scope.dialogTitle = dialogTitle;
-
-            $scope.cancel = function() {
-                $uibModalInstance.dismiss('cancel');
-            };
-        })
     .controller('map.fixingStation.dialog',
         function($scope,
             $uibModalInstance,
@@ -3387,7 +3396,7 @@ angular.module('topic.dialog.station', ['myApp.url', 'myApp.region', 'myApp.kpi'
             });
             $scope.details = function(stationId) {
                 downSwitchService.getCommonStationById(stationId).then(function(result) {
-                    parametersDialogService.showCommonStationInfo(result.result[0]);
+                    mapDialogService.showCommonStationInfo(result.result[0]);
                 });
             }
 

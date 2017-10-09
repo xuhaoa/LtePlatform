@@ -2606,7 +2606,7 @@ angular.module('home.alarm.menu', ['app.common', 'home.station'])
         });
 angular.module('station.checking', ['app.common', 'home.station'])
     .controller("menu.checking-station",
-        function($scope, downSwitchService, MyValue, baiduMapService, parametersDialogService, baiduQueryService) {
+    function ($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService, mapDialogService) {
 
             $scope.stationName = "";
             $scope.stations = [];
@@ -2619,7 +2619,7 @@ angular.module('station.checking', ['app.common', 'home.station'])
             }
             $scope.showStationInfo = function(index) {
                 document.getElementById("cardlist").style.display = "none";
-                parametersDialogService.showCommonStationInfo($scope.stations[index - 1]);
+                mapDialogService.showCommonStationInfo($scope.stations[index - 1]);
             }
             $scope.$watch('stations',
                 function() {
@@ -2635,13 +2635,13 @@ angular.module('station.checking', ['app.common', 'home.station'])
                                 -xOffset,
                                 -yOffset,
                                 function() {
-                                    parametersDialogService.showCommonStationInfo(this.data);
+                                    mapDialogService.showCommonStationInfo(this.data);
                                 });
                         });
                 });
         })
     .controller("menu.checking-indoor",
-        function($scope, downSwitchService, MyValue, baiduMapService, parametersDialogService, baiduQueryService) {
+    function ($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService, mapDialogService) {
 
             $scope.stationName = "";
             $scope.stations = [];
@@ -2654,7 +2654,7 @@ angular.module('station.checking', ['app.common', 'home.station'])
             }
             $scope.showStationInfo = function(index) {
                 document.getElementById("cardlist").style.display = "none";
-                parametersDialogService.showCommonStationInfo($scope.stations[index - 1]);
+                mapDialogService.showCommonStationInfo($scope.stations[index - 1]);
             }
             $scope.$watch('stations',
                 function() {
@@ -2670,7 +2670,7 @@ angular.module('station.checking', ['app.common', 'home.station'])
                                 -xOffset,
                                 -yOffset,
                                 function() {
-                                    parametersDialogService.showCommonStationInfo(this.data);
+                                    mapDialogService.showCommonStationInfo(this.data);
                                 });
                         });
                 });
@@ -2683,8 +2683,10 @@ angular.module('station.checking', ['app.common', 'home.station'])
             geometryService,
             collegeMapService,
             dumpPreciseService) {
+            $scope.areaNames = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
+            $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
             $scope.distinct = $scope.distincts[0];
-            $scope.statusNames = new Array('未巡检', '需整治', '正常', '全部');
+            $scope.statusNames = new Array('未巡检', '已巡检', '全部');
             baiduMapService.initializeMap("map", 13);
 
             $scope.statusIndex = 0;
@@ -2775,8 +2777,10 @@ angular.module('station.checking', ['app.common', 'home.station'])
             baiduMapService,
             collegeMapService,
             dumpPreciseService) {
+            $scope.areaNames = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
+            $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
             $scope.distinct = $scope.distincts[0];
-            $scope.statusNames = new Array('未巡检', '需整治', '正常', '全部');
+            $scope.statusNames = new Array('未巡检', '已巡检', '全部');
             baiduMapService.initializeMap("map", 13);
 
             $scope.statusIndex = 0;
@@ -4916,7 +4920,7 @@ angular.module('home.kpi', ['app.common'])
                 mapDialogService.showPreciseTrendDialog($scope.city, $scope.beginDate, $scope.endDate);
             };
             $scope.showRrcStats = function() {
-                mapDialogService.showRrcTrend($scope.city, $scope.beginDate, $scope.endDate);
+                workItemDialog.showRrcTrendDialog($scope.city, $scope.beginDate, $scope.endDate);
             };
             $scope.showCqiStats = function() {
                 mapDialogService.showCqiTrend($scope.city, $scope.beginDate, $scope.endDate);
