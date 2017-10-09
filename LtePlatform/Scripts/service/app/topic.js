@@ -525,6 +525,27 @@ angular.module('topic.basic', ['myApp.url', 'myApp.region'])
                 map.addOverlay(pointCollection); // 添加Overlay
                 return pointCollection;
             },
+            drawPointWithClusterer: function (coors, index, xoffset, yoffset, callback) {
+                var MAX = 10;
+                var markers = [];
+                var iconStr = '/Content/Images/BtsIcons/btsicon_' + index + '.png';
+                //alert(iconStr);
+                angular.forEach(coors, function (data) {
+
+                    var myIcon = new BMap.Icon(iconStr, new BMap.Size(22, 28), {
+                        anchor: new BMap.Size(10, 30)
+                    });
+
+                    var point = new BMap.Point(data.longtitute - xoffset, data.lattitute - yoffset);
+                    var marker = new BMap.Marker(point, { icon: myIcon });
+                    marker.data = data;
+                    marker.addEventListener("click", callback);
+                    markers.push(marker);
+                    //map.addOverlay(marker);
+                });
+                var markerClusterer = new BMapLib.MarkerClusterer(map, { markers: markers });
+                return;
+            },
             isPointInCurrentCity: function(longtitute, lattitute) {
                 return BMapLib.GeoUtils.isPointInPolygon(new BMap.Point(longtitute, lattitute), mapStructure.currentCityBounday);
             }
@@ -3469,8 +3490,8 @@ angular.module('topic.dialog.alarm', ['myApp.url', 'myApp.region', 'myApp.kpi', 
             downSwitchService.getAlarmStationById(station.StationId, 0, 10000).then(function(response) {
                 $scope.alarmStations = response.result;
             });
-            $scope.showHistory = function(netAdminId) {
-                mapDialogService.showAlarmHistoryList(netAdminId);
+            $scope.showHistory = function () {
+                mapDialogService.showAlarmHistoryList(station.StationId);
             };
             $scope.showStationInfo = function() {
                 downSwitchService.getStationById(station.StationId).then(function(result) {
@@ -3730,7 +3751,7 @@ angular.module('topic.dialog',[ 'app.menu', 'app.core' ])
                         controller: 'map.alarmStation.dialog',
                         resolve: stationFormatService.dateSpanDateResolve({
                                 dialogTitle: function() {
-                                    return "告警信息:" + station.StationName;
+                                    return "告警信息:" + station.name;
                                 },
                                 station: function() {
                                     return station;

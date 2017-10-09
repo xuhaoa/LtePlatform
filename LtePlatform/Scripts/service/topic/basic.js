@@ -525,6 +525,27 @@
                 map.addOverlay(pointCollection); // 添加Overlay
                 return pointCollection;
             },
+            drawPointWithClusterer: function (coors, index, xoffset, yoffset, callback) {
+                var MAX = 10;
+                var markers = [];
+                var iconStr = '/Content/Images/BtsIcons/btsicon_' + index + '.png';
+                //alert(iconStr);
+                angular.forEach(coors, function (data) {
+
+                    var myIcon = new BMap.Icon(iconStr, new BMap.Size(22, 28), {
+                        anchor: new BMap.Size(10, 30)
+                    });
+
+                    var point = new BMap.Point(data.longtitute - xoffset, data.lattitute - yoffset);
+                    var marker = new BMap.Marker(point, { icon: myIcon });
+                    marker.data = data;
+                    marker.addEventListener("click", callback);
+                    markers.push(marker);
+                    //map.addOverlay(marker);
+                });
+                var markerClusterer = new BMapLib.MarkerClusterer(map, { markers: markers });
+                return;
+            },
             isPointInCurrentCity: function(longtitute, lattitute) {
                 return BMapLib.GeoUtils.isPointInPolygon(new BMap.Point(longtitute, lattitute), mapStructure.currentCityBounday);
             }
