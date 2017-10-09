@@ -997,6 +997,12 @@
     <Content Include="Scripts\service\app\kpi.js" />
     <Content Include="Scripts\service\app\topic.js" />
     <Content Include="Scripts\service\filters\combined.js" />
+    <Content Include="Scripts\service\Gruntfile.es5.js">
+      <DependentUpon>Gruntfile.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\service\Gruntfile.es5.min.js">
+      <DependentUpon>Gruntfile.es5.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\service\kpi\app.kpi.js" />
     <Content Include="Scripts\service\app\region.js" />
     <Content Include="Scripts\service\app\url.js" />
@@ -1044,6 +1050,12 @@
     <Content Include="Scripts\service\topic\parameters.js" />
     <Content Include="Scripts\service\topic\dialog.station.js" />
     <Content Include="Scripts\service\topic\parameters.station.js" />
+    <Content Include="Scripts\service\url\app.url.es5.js">
+      <DependentUpon>app.url.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\service\url\app.url.es5.min.js">
+      <DependentUpon>app.url.es5.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\service\url\app.url.js" />
     <Content Include="Scripts\service\filters\basic.js" />
     <Content Include="Scripts\service\filters\cell.js" />

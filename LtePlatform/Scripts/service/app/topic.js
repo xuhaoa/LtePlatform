@@ -835,7 +835,9 @@ angular.module('topic.college',
                         });
                 },
                 showComplainItems: function(sites, color) {
-                    generalMapService.showContainerSites(sites,
+                    generalMapService.showContainerSites(_.filter(sites, function(item) {
+                            return item.longtitute && item.lattitute;
+                        }),
                         color,
                         function(container) {
                             networkElementService.queryRangeComplains(container).then(function(items) {
