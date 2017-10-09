@@ -6344,7 +6344,7 @@ angular.module('kpi.work', ['app.menu', 'app.core', 'myApp.region'])
 			            endDate)
 			    });
 			},
-            showRrcTrend: function (city, beginDate, endDate) {
+            showRrcTrendDialog: function (city, beginDate, endDate) {
                 menuItemService.showGeneralDialog({
                     templateUrl: '/appViews/WorkItem/RrcTrend.html',
                     controller: 'rrc.trend.dialog',
