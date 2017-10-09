@@ -145,7 +145,8 @@
                     });
             });
     })
-    .controller("menu.alarm-station", function ($scope, downSwitchService, myValue, baiduMapService, workItemDialog, baiduQueryService) {
+    /*
+    .controller("menu.alarm-station", function ($scope, downSwitchService, baiduMapService, workItemDialog, baiduQueryService,mapDialogService) {
         $scope.stationName = "";
         $scope.stations = [];
 
@@ -156,7 +157,7 @@
         }
         $scope.showStationInfo = function (index) {
             document.getElementById("cardlist").style.display = "none";
-            workItemDialog.showAlarmStationInfo($scope.stations[index - 1]);
+            mapDialogService.showAlarmStationInfo($scope.stations[index - 1]);
         }
         $scope.$watch('stations', function () {
             baiduMapService.clearOverlays();
@@ -167,12 +168,12 @@
                 var xOffset = coors.x - $scope.stations[0].longtitute;
                 var yOffset = coors.y - $scope.stations[0].lattitute;
                 baiduMapService.drawPointsUsual($scope.stations, -xOffset, -yOffset, function () {
-                    workItemDialog.showAlarmStationInfo(this.data, $scope.beginDate, $scope.endDate);
+                    mapDialogService.showAlarmStationInfo(this.data, $scope.beginDate, $scope.endDate);
                 });
             });
         });
     })
-    .controller("menu.alarm-indoor", function ($scope, downSwitchService, myValue, baiduMapService, workItemDialog, baiduQueryService) {
+    .controller("menu.alarm-indoor", function ($scope, downSwitchService, baiduMapService, workItemDialog, baiduQueryService,mapDialogService) {
 
         $scope.stationName = "";
         $scope.stations = [];
@@ -184,7 +185,7 @@
         }
         $scope.showStationInfo = function (index) {
             document.getElementById("cardlist").style.display = "none";
-            workItemDialog.showAlarmStationInfo($scope.stations[index - 1]);
+            mapDialogService.showAlarmStationInfo($scope.stations[index - 1]);
         }
         $scope.$watch('stations', function () {
             baiduMapService.clearOverlays();
@@ -195,12 +196,13 @@
                 var xOffset = coors.x - $scope.stations[0].longtitute;
                 var yOffset = coors.y - $scope.stations[0].lattitute;
                 baiduMapService.drawPointsUsual($scope.stations, -xOffset, -yOffset, function () {
-                    workItemDialog.showAlarmStationInfo(this.data, $scope.beginDate, $scope.endDate);
+                    mapDialogService.showAlarmStationInfo(this.data, $scope.beginDate, $scope.endDate);
                 });
             });
         });
-    })
-    .controller("menu.checking-station", function ($scope, downSwitchService, myValue, baiduMapService, workItemDialog, baiduQueryService) {
+    })*/
+    /*
+    .controller("menu.checking-station", function ($scope, downSwitchService, myValue, baiduMapService, workItemDialog, baiduQueryService,mapDialogService) {
 
         $scope.stationName = "";
         $scope.stations = [];
@@ -256,8 +258,9 @@
             });
         });
     })
-
-    .controller("menu.fixing-station", function ($scope, downSwitchService, myValue, baiduMapService, workItemDialog, baiduQueryService) {
+    */
+    /*
+    .controller("menu.fixing-station", function ($scope, downSwitchService, myValue, baiduMapService, workItemDialog, baiduQueryService,mapDialogService) {
 
         $scope.stationName = "";
         $scope.stations = [];
@@ -269,7 +272,7 @@
         }
         $scope.showStationInfo = function (index) {
             document.getElementById("cardlist").style.display = "none";
-            workItemDialog.showFixingStationInfo($scope.stations[index - 1]);
+            mapDialogService.showFixingStationInfo($scope.stations[index - 1]);
         }
         $scope.$watch('stations', function () {
             baiduMapService.clearOverlays();
@@ -280,12 +283,12 @@
                 var xOffset = coors.x - $scope.stations[0].longtitute;
                 var yOffset = coors.y - $scope.stations[0].lattitute;
                 baiduMapService.drawPointsUsual($scope.stations, -xOffset, -yOffset, function () {
-                    workItemDialog.showFixingStationInfo(this.data);
+                    mapDialogService.showFixingStationInfo(this.data);
                 });
             });
         });
     })
-    .controller("menu.fixing-indoor", function ($scope, downSwitchService, myValue, baiduMapService, workItemDialog, baiduQueryService) {
+    .controller("menu.fixing-indoor", function ($scope, downSwitchService, myValue, baiduMapService, workItemDialog, baiduQueryService,mapDialogService) {
 
         $scope.stationName = "";
         $scope.stations = [];
@@ -297,7 +300,7 @@
         }
         $scope.showStationInfo = function (index) {
             document.getElementById("cardlist").style.display = "none";
-            workItemDialog.showFixingStationInfo($scope.stations[index - 1]);
+            mapDialogService.showFixingStationInfo($scope.stations[index - 1]);
         }
         $scope.$watch('stations', function () {
             baiduMapService.clearOverlays();
@@ -308,12 +311,13 @@
                 var xOffset = coors.x - $scope.stations[0].longtitute;
                 var yOffset = coors.y - $scope.stations[0].lattitute;
                 baiduMapService.drawPointsUsual($scope.stations, -xOffset, -yOffset, function () {
-                    workItemDialog.showFixingStationInfo(this.data);
+                    mapDialogService.showFixingStationInfo(this.data);
                 });
             });
         });
     })
-
+    */
+    /*
     .controller("menu.resource-station", function ($scope, downSwitchService, myValue, baiduMapService, workItemDialog, baiduQueryService) {
 
         $scope.stationName = "";
@@ -369,7 +373,7 @@
                 });
             });
         });
-    })
+    })*/
     .controller("operation-station.filter",
     function ($scope, downSwitchService, myValue, baiduMapService, collegeMapService, dumpPreciseService) {
         $scope.changeTimes = 0;
@@ -831,192 +835,7 @@
             });
 
     })
-    .controller("alarm-station.network",
-    function ($scope,
-        downSwitchService,
-        myValue,
-        baiduMapService,
-        geometryService,
-        dumpPreciseService,
-        mapDialogService,
-        baiduQueryService,
-        appUrlService,
-        generalMapService) {
-        $scope.areaNames = new Array('', 'SD', 'NH', 'CC', 'SS', 'GM');
-        $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
-        $scope.levelNames = new Array('C', 'D', '全部');
-        $scope.distinct = "佛山市";
-        $scope.stationss = [];
-        $scope.stationss[1] = [];
-        $scope.stationss[2] = [];
-        $scope.stationss[3] = [];
-        $scope.stationss[4] = [];
-        $scope.stationss[5] = [];
-        baiduMapService.initializeMap("map", 13);
-
-        $scope.colorAlarm = new Array("#FF0000", "#FF8C00");
-
-        $scope.levelIndex = 0;
-        $scope.level = $scope.levelNames[$scope.levelIndex];
-        $scope.distinctIndex = 0;
-
-        //获取站点
-        $scope.getStations = function (areaIndex, levelIndex) {
-            var areaName = $scope.areaNames[areaIndex];
-            var levelName = $scope.levelNames[levelIndex];
-            downSwitchService.getAlarmStations(areaName, levelName, 'JZ', 0, 10000).then(function (response) {
-                if (response.result.rows.length == 0) {
-                    return;
-                }
-                $scope.stationss[areaIndex] = response.result.rows;
-                var color = $scope.colorAlarm[levelIndex];
-                baiduQueryService.transformToBaidu($scope.stationss[areaIndex][0].longtitute, $scope.stationss[areaIndex][0].lattitute).then(function (coors) {
-                    var xOffset = coors.x - $scope.stationss[areaIndex][0].longtitute;
-                    var yOffset = coors.y - $scope.stationss[areaIndex][0].lattitute;
-                    baiduMapService.drawPointCollection($scope.stationss[areaIndex], areaIndex, -xOffset, -yOffset, function () {
-                        parametersDialogService.showAlarmStationInfo(this.data, $scope.beginDate, $scope.endDate);
-                    });
-                });
-            });
-        };
-
-        $scope.changeDistinct = function (index) {
-
-            $scope.distinctIndex = index;
-            $scope.distinct = $scope.distincts[$scope.distinctIndex];
-
-            $scope.reflashMap();
-        };
-        $scope.changeLevel = function (index) {
-            $scope.levelIndex = index;
-            $scope.level = $scope.levelNames[$scope.levelIndex];
-
-            $scope.reflashMap();
-        };
-        $scope.changeNetType = function (netType) {
-            $scope.netType = netType;
-
-            $scope.reflashMap();
-        };
-        $scope.reflashMap = function () {
-            baiduMapService.clearOverlays();
-            baiduMapService.setCenter($scope.distinctIndex);
-            if ($scope.distinctIndex !== 0) {
-                if ($scope.levelIndex !== 2) {
-                    $scope.getStations($scope.distinctIndex, $scope.levelIndex);
-                } else {
-                    for (var i = 0; i < 2; ++i) {
-                        $scope.getStations($scope.distinctIndex, i);
-                    }
-                }
-            } else {
-                if ($scope.levelIndex !== 2) {
-                    for (var i = 1; i < 6; ++i) {
-                        $scope.getStations(i, $scope.levelIndex);
-                    }
-                } else {
-                    for (var i = 1; i < 6; ++i) {
-                        for (var j = 0; j < 2; ++j)
-                            $scope.getStations(i, j);
-                    }
-                }
-            }
-        };
-        $scope.reflashMap();
-    })
-    .controller("alarm-indoor.network",
-    function ($scope,
-        downSwitchService,
-        myValue,
-        baiduMapService,
-        geometryService,
-        dumpPreciseService,
-        mapDialogService,
-        baiduQueryService,
-        appUrlService,
-        generalMapService) {
-        $scope.areaNames = new Array('', 'SD', 'NH', 'CC', 'SS', 'GM');
-        $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
-        $scope.levelNames = new Array('C', 'D', '全部');
-        $scope.distinct = "佛山市";
-        $scope.stationss = [];
-        $scope.stationss[1] = [];
-        $scope.stationss[2] = [];
-        $scope.stationss[3] = [];
-        $scope.stationss[4] = [];
-        $scope.stationss[5] = [];
-        baiduMapService.initializeMap("map", 13);
-
-        $scope.colorAlarm = new Array("#FF0000", "#FF8C00");
-
-        $scope.levelIndex = 0;
-        $scope.level = $scope.levelNames[$scope.levelIndex];
-        $scope.distinctIndex = 5;
-
-        //获取站点
-        $scope.getStations = function (areaIndex, levelIndex) {
-            var areaName = $scope.areaNames[areaIndex];
-            var levelName = $scope.levelNames[levelIndex];
-            downSwitchService.getAlarmStations(areaName, levelName, 'SF', 0, 10000).then(function (response) {
-                if (response.result.rows.length == 0) {
-                    return;
-                }
-                $scope.stationss[areaIndex] = response.result.rows;
-                var color = $scope.colorAlarm[levelIndex];
-                baiduQueryService.transformToBaidu($scope.stationss[areaIndex][0].longtitute, $scope.stationss[areaIndex][0].lattitute).then(function (coors) {
-                    var xOffset = coors.x - $scope.stationss[areaIndex][0].longtitute;
-                    var yOffset = coors.y - $scope.stationss[areaIndex][0].lattitute;
-                    baiduMapService.drawPointCollection($scope.stationss[areaIndex], areaIndex, -xOffset, -yOffset, function () {
-                        parametersDialogService.showAlarmStationInfo(this.data, $scope.beginDate, $scope.endDate);
-                    });
-                });
-            });
-        };
-
-        $scope.changeDistinct = function (index) {
-
-            $scope.distinctIndex = index;
-            $scope.distinct = $scope.distincts[$scope.distinctIndex];
-
-            $scope.reflashMap();
-        };
-        $scope.changeLevel = function (index) {
-            $scope.levelIndex = index;
-            $scope.level = $scope.levelNames[$scope.levelIndex];
-
-            $scope.reflashMap();
-        };
-        $scope.changeNetType = function (netType) {
-            $scope.netType = netType;
-
-            $scope.reflashMap();
-        };
-        $scope.reflashMap = function () {
-            baiduMapService.clearOverlays();
-            baiduMapService.setCenter($scope.distinctIndex);
-            if ($scope.distinctIndex !== 0) {
-                if ($scope.levelIndex !== 2) {
-                    $scope.getStations($scope.distinctIndex, $scope.levelIndex);
-                } else {
-                    for (var i = 0; i < 2; ++i) {
-                        $scope.getStations($scope.distinctIndex, i);
-                    }
-                }
-            } else {
-                if ($scope.levelIndex !== 2) {
-                    for (var i = 1; i < 6; ++i) {
-                        $scope.getStations(i, $scope.levelIndex);
-                    }
-                } else {
-                    for (var i = 1; i < 6; ++i) {
-                        for (var j = 0; j < 2; ++j)
-                            $scope.getStations(i, j);
-                    }
-                }
-            }
-        };
-        $scope.reflashMap();
-    })
+    /*
     .controller("checking-station.network",
     function ($scope,
         downSwitchService,
@@ -1061,9 +880,9 @@
                     var yOffset = coors.y - $scope.stationss[areaIndex][0].lattitute;
                     baiduMapService.drawPointCollection($scope.stationss[areaIndex], areaIndex, -xOffset, -yOffset, function () {
                         if (status == '已巡检') {
-                            parametersDialogService.showCheckingStationInfo(this.data);
+                            mapDialogService.showCheckingStationInfo(this.data);
                         } else {
-                            parametersDialogService.showCommonStationInfo(this.data);
+                            mapDialogService.showCommonStationInfo(this.data);
                         }
 
 
@@ -1157,9 +976,9 @@
                     var yOffset = coors.y - $scope.stationss[areaIndex][0].lattitute;
                     baiduMapService.drawPointCollection($scope.stationss[areaIndex], areaIndex, -xOffset, -yOffset, function () {
                         if (status == '已巡检') {
-                            parametersDialogService.showCheckingStationInfo(this.data);
+                            mapDialogService.showCheckingStationInfo(this.data);
                         } else {
-                            parametersDialogService.showCommonStationInfo(this.data);
+                            mapDialogService.showCommonStationInfo(this.data);
                         }
                     });
                 });
@@ -1205,8 +1024,8 @@
             }
         };
         $scope.reflashMap();
-    })
-
+    })*/
+    /*
     .controller("fixing-station.network",
     function ($scope,
         downSwitchService,
@@ -1250,7 +1069,7 @@
                     var xOffset = coors.x - $scope.stationss[areaIndex][0].longtitute;
                     var yOffset = coors.y - $scope.stationss[areaIndex][0].lattitute;
                     baiduMapService.drawPointCollection($scope.stationss[areaIndex], areaIndex, -xOffset, -yOffset, function () {
-                        parametersDialogService.showFixingStationInfo(this.data);
+                        mapDialogService.showFixingStationInfo(this.data);
                     });
                 });
             });
@@ -1339,7 +1158,7 @@
                     var xOffset = coors.x - $scope.stationss[areaIndex][0].longtitute;
                     var yOffset = coors.y - $scope.stationss[areaIndex][0].lattitute;
                     baiduMapService.drawPointCollection($scope.stationss[areaIndex], areaIndex, -xOffset, -yOffset, function () {
-                        parametersDialogService.showFixingStationInfo(this.data);
+                        mapDialogService.showFixingStationInfo(this.data);
                     });
                 });
             });
@@ -1384,8 +1203,8 @@
             }
         };
         $scope.reflashMap();
-    })
-
+    })*/
+    /*
     .controller("resource-station.network",
     function ($scope,
         downSwitchService,
@@ -1409,7 +1228,7 @@
         $scope.stationss[4] = [];
         $scope.stationss[5] = [];
         baiduMapService.initializeMap("map", 13);
-        baiduMapService.setCenter(MyValue.distinctIndex);
+        baiduMapService.setCenter(myValue.distinctIndex);
         $scope.type = 'JZ';
         $scope.typeDisplay = '基站';
         //获取站点
@@ -1424,7 +1243,7 @@
                     var xOffset = coors.x - $scope.stationss[index][0].longtitute;
                     var yOffset = coors.y - $scope.stationss[index][0].lattitute;
                     baiduMapService.drawPointCollection($scope.stationss[index], index, -xOffset, -yOffset, function () {
-                        parametersDialogService.showResourceInfo(this.data);
+                        mapDialogService.showResourceInfo(this.data);
                     });
                 });
             });
@@ -1432,12 +1251,12 @@
 
         $scope.reflashMap = function (areaNameIndex, type) {
             baiduMapService.clearOverlays();
-            MyValue.distinctIndex = areaNameIndex;
+            myValue.distinctIndex = areaNameIndex;
             var areaName = $scope.areaNames[areaNameIndex];
             $scope.distinct = $scope.distincts[areaNameIndex];
             baiduMapService.setCenter(areaNameIndex);
-            if (MyValue.distinctIndex !== 0) {
-                $scope.getStations(areaName, MyValue.distinctIndex, type);
+            if (myValue.distinctIndex !== 0) {
+                $scope.getStations(areaName, myValue.distinctIndex, type);
             } else {
                 for (var i = 1; i < 6; ++i) {
                     $scope.getStations($scope.areaNames[i], i, type);
@@ -1450,7 +1269,7 @@
         $scope.changeType = function (typeIndex) {
             $scope.type = $scope.types[typeIndex];
             $scope.typeDisplay = $scope.typesDisplay[typeIndex];
-            $scope.reflashMap(MyValue.distinctIndex, $scope.type);
+            $scope.reflashMap(myValue.distinctIndex, $scope.type);
         }
         $scope.reflashMap(0, 'JZ');
 
@@ -1478,7 +1297,7 @@
         $scope.stationss[4] = [];
         $scope.stationss[5] = [];
         baiduMapService.initializeMap("map", 13);
-        baiduMapService.setCenter(MyValue.distinctIndex);
+        baiduMapService.setCenter(myValue.distinctIndex);
         $scope.type = 'JZ';
         $scope.typeDisplay = '基站';
         //获取站点
@@ -1493,7 +1312,7 @@
                     var xOffset = coors.x - $scope.stationss[index][0].longtitute;
                     var yOffset = coors.y - $scope.stationss[index][0].lattitute;
                     baiduMapService.drawPointCollection($scope.stationss[index], index, -xOffset, -yOffset, function () {
-                        parametersDialogService.showResourceInfo(this.data);
+                        mapDialogService.showResourceInfo(this.data);
                     });
                 });
             });
@@ -1501,12 +1320,12 @@
 
         $scope.reflashMap = function (areaNameIndex, type) {
             baiduMapService.clearOverlays();
-            MyValue.distinctIndex = areaNameIndex;
+            myValue.distinctIndex = areaNameIndex;
             var areaName = $scope.areaNames[areaNameIndex];
             $scope.distinct = $scope.distincts[areaNameIndex];
             baiduMapService.setCenter(areaNameIndex);
-            if (MyValue.distinctIndex !== 0) {
-                $scope.getStations(areaName, MyValue.distinctIndex, type);
+            if (myValue.distinctIndex !== 0) {
+                $scope.getStations(areaName, myValue.distinctIndex, type);
             } else {
                 for (var i = 1; i < 6; ++i) {
                     $scope.getStations($scope.areaNames[i], i, type);
@@ -1519,8 +1338,8 @@
         $scope.changeType = function (typeIndex) {
             $scope.type = $scope.types[typeIndex];
             $scope.typeDisplay = $scope.typesDisplay[typeIndex];
-            $scope.reflashMap(MyValue.distinctIndex, $scope.type);
+            $scope.reflashMap(myValue.distinctIndex, $scope.type);
         }
         $scope.reflashMap(0, 'SF');
 
-    })
+    })*/

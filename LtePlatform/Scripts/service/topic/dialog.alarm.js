@@ -46,8 +46,8 @@
             downSwitchService.getAlarmStationById(station.StationId, 0, 10000).then(function(response) {
                 $scope.alarmStations = response.result;
             });
-            $scope.showHistory = function(netAdminId) {
-                mapDialogService.showAlarmHistoryList(netAdminId);
+            $scope.showHistory = function () {
+                mapDialogService.showAlarmHistoryList(station.StationId);
             };
             $scope.showStationInfo = function() {
                 downSwitchService.getStationById(station.StationId).then(function(result) {

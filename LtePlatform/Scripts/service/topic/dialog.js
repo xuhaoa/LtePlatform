@@ -138,7 +138,7 @@
                         controller: 'map.alarmStation.dialog',
                         resolve: stationFormatService.dateSpanDateResolve({
                                 dialogTitle: function() {
-                                    return "告警信息:" + station.StationName;
+                                    return "告警信息:" + station.name;
                                 },
                                 station: function() {
                                     return station;

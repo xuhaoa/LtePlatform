@@ -569,6 +569,13 @@
     <Content Include="Content\Images\BtsIcons\alarm_purple.png" />
     <Content Include="Content\Images\BtsIcons\alarm_red.png" />
     <Content Include="Content\Images\BtsIcons\alarm_yellow.png" />
+    <Content Include="Content\Images\BtsIcons\btsicon_0.png" />
+    <Content Include="Content\Images\BtsIcons\btsicon_1.png" />
+    <Content Include="Content\Images\BtsIcons\btsicon_2.png" />
+    <Content Include="Content\Images\BtsIcons\btsicon_3.png" />
+    <Content Include="Content\Images\BtsIcons\btsicon_4.png" />
+    <Content Include="Content\Images\BtsIcons\btsicon_5.png" />
+    <Content Include="Content\Images\BtsIcons\btsicon_6.png" />
     <Content Include="Content\Images\BtsIcons\icon.png" />
     <Content Include="Content\Images\BtsIcons\m_2_end.png" />
     <Content Include="Content\Images\BtsIcons\m_6_end.png" />
