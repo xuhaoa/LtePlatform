@@ -611,6 +611,14 @@
                         district: district
                     });
                 },
+                queryLastMonthComplainListInOneDistrict: function (today, city, district) {
+                    return generalHttpService.getApiData("ComplainQuery",
+                    {
+                        today: today,
+                        city: city,
+                        district: district
+                    });
+                },
                 updateComplain: function(dto) {
                     return generalHttpService.putApiData("ComplainQuery", dto);
                 },

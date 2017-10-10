@@ -307,16 +307,19 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
-        [ApiDoc("查询日期范围内的投诉工单视图")]
+        [ApiDoc("查询日期范围内的后端投诉工单视图")]
         [ApiParameterDoc("begin", "开始日期")]
         [ApiParameterDoc("end", "结束日期")]
-        [ApiResponse("日期范围内的投诉工单视图")]
+        [ApiResponse("日期范围内的后端投诉工单视图")]
         public List<ComplainDto> Get(DateTime begin, DateTime end)
         {
             return _service.Query(begin, end);
         }
 
         [HttpGet]
+        [ApiDoc("查询初始日期前的最近一天后端投诉工单视图")]
+        [ApiParameterDoc("statDate", "初始日期")]
+        [ApiResponse("最近一天后端投诉工单视图")]
         public List<ComplainDto> Get(DateTime statDate, string district)
         {
             var end = statDate.AddDays(1);
@@ -339,6 +342,17 @@ namespace LtePlatform.Controllers.College
         public async Task<int> Put(ComplainDto dto)
         {
             return await _service.UpdateAsync(dto);
+        }
+
+        [HttpGet]
+        [ApiDoc("查询指定区域内指定日期的前一个月的在后端投诉工单")]
+        [ApiParameterDoc("today", "指定日期")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiParameterDoc("district", "区域")]
+        [ApiResponse("指定区域内指定日期的前一个月的后端投诉工单")]
+        public IEnumerable<ComplainDto> Get(DateTime today, string city, string district)
+        {
+            return _service.QueryList(today, city, district);
         }
     }
 

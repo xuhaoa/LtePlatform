@@ -67,7 +67,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
     [AutoMapFrom(typeof(OnlineSustain))]
-    public class OnlineSustainDto
+    public class OnlineSustainDto : ICityDistrictTown
     {
         public DateTime BeginDate { get; set; }
 

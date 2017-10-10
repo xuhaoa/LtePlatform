@@ -3,12 +3,9 @@ using Abp.Domain.Repositories;
 using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Repositories;
 using AutoMapper;
-using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
-using Lte.Evaluations.ViewModels.College;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Abstract.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -122,6 +119,35 @@ namespace Lte.Evaluations.DataService.College
                 result= service.QueryItems(begin, end);
             }
             return result;
+        }
+
+        public static IEnumerable<TView> QueryItemViews<TItem, TView>(this IEnumerable<TItem> items, string city,
+            string district, ITownRepository repository)
+            where TItem: ITownId
+            where TView: ICityDistrictTown
+        {
+            var views = district != "其他"
+                ? from item in items
+                join town in repository.GetAllList(x => x.CityName == city && x.DistrictName == district) on
+                item.TownId equals town.Id
+                select new
+                {
+                    Town = town,
+                    Item = item
+                }
+                : items.Where(x => x.TownId == 0).Select(item => new
+                {
+                    Town = new Town {TownName = "其他"},
+                    Item = item
+                });
+            return views.Select(x =>
+            {
+                var view = x.Item.MapTo<TView>();
+                view.City = city;
+                view.District = district;
+                view.Town = x.Town.TownName;
+                return view;
+            });
         }
 
         public static async Task<int> QueryCount<TService, TItem>(this TService service, DateTime today)
@@ -472,6 +498,13 @@ namespace Lte.Evaluations.DataService.College
             return await _repository.UpdateOne<IComplainItemRepository, ComplainItem, ComplainDto>(dto);
         }
 
+        public IEnumerable<ComplainDto> QueryList(DateTime today, string city, string district)
+        {
+            var items =
+                this.QueryItems<ComplainService, ComplainItem>(today);
+            return items.QueryItemViews<ComplainItem, ComplainDto>(city, district, _townRepository);
+        }
+
         public DistrictComplainDateView QueryLastDateStat(DateTime initialDate)
         {
             var stats = _repository.QueryBeginDate(initialDate.Date,
@@ -645,23 +678,7 @@ namespace Lte.Evaluations.DataService.College
         {
             var items =
                 this.QueryItems<OnlineSustainService, OnlineSustain>(today);
-            var towns = _townRepository.GetAllList(x => x.CityName == city && x.DistrictName == district);
-            var views = from item in items
-                join town in towns on item.TownId equals town.Id
-                select new
-                {
-                    Town = town,
-                    Item = item
-                };
-            return views.Select(x =>
-            {
-                var view = x.Item.MapTo<OnlineSustainDto>();
-                view.City = city;
-                view.District = district;
-                view.Town = x.Town.TownName;
-                return view;
-            });
-
+            return items.QueryItemViews<OnlineSustain, OnlineSustainDto>(city, district, _townRepository);
         }
 
         public IEnumerable<OnlineSustainDto> QueryList(double west, double east, double south, double north)
