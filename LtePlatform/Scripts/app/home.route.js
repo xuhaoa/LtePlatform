@@ -459,7 +459,7 @@
                         controller: "fixing-station.network"
                     }
                 },
-                url: "/fixing"
+                url: "/fixing-station"
             })
             .state('fixing-indoor',
             {

@@ -3361,8 +3361,15 @@ angular.module('topic.dialog.station', ['myApp.url', 'myApp.region', 'myApp.kpi'
             $uibModalInstance,
             station,
             dialogTitle,
-            appFormatService) {
-            $scope.itemGroups = appFormatService.generateFixingStationGroups(station);
+            appFormatService,
+            downSwitchService) {
+
+            downSwitchService.getFixingStationById(station.id).then(function (response) {
+                $scope.fixingStations = response.result[0];
+                $scope.fixingStations.longtitute = station.longtitute;
+                $scope.fixingStations.lattitute = station.lattitute;
+                $scope.itemGroups = appFormatService.generateFixingStationGroups($scope.fixingStations);
+            });
             $scope.dialogTitle = dialogTitle;
 
             $scope.cancel = function() {

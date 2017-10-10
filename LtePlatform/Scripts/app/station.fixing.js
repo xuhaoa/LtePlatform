@@ -1,6 +1,6 @@
 ﻿angular.module('station.fixing', ['app.common', 'home.station'])
     .controller("menu.fixing-station",
-        function($scope, downSwitchService, MyValue, baiduMapService, parametersDialogService, baiduQueryService) {
+        function($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService) {
 
             $scope.stationName = "";
             $scope.stations = [];
@@ -12,7 +12,7 @@
             }
             $scope.showStationInfo = function(index) {
                 document.getElementById("cardlist").style.display = "none";
-                parametersDialogService.showFixingStationInfo($scope.stations[index - 1]);
+                mapDialogService.showFixingStationInfo($scope.stations[index - 1]);
             }
             $scope.$watch('stations',
                 function() {
@@ -28,13 +28,13 @@
                                 -xOffset,
                                 -yOffset,
                                 function() {
-                                    parametersDialogService.showFixingStationInfo(this.data);
+                                    mapDialogService.showFixingStationInfo(this.data);
                                 });
                         });
                 });
         })
     .controller("menu.fixing-indoor",
-        function($scope, downSwitchService, MyValue, baiduMapService, parametersDialogService, baiduQueryService) {
+        function($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService) {
 
             $scope.stationName = "";
             $scope.stations = [];
@@ -46,7 +46,7 @@
             }
             $scope.showStationInfo = function(index) {
                 document.getElementById("cardlist").style.display = "none";
-                parametersDialogService.showFixingStationInfo($scope.stations[index - 1]);
+                mapDialogService.showFixingStationInfo($scope.stations[index - 1]);
             }
             $scope.$watch('stations',
                 function() {
@@ -62,7 +62,7 @@
                                 -xOffset,
                                 -yOffset,
                                 function() {
-                                    parametersDialogService.showFixingStationInfo(this.data);
+                                    mapDialogService.showFixingStationInfo(this.data);
                                 });
                         });
                 });
@@ -74,7 +74,8 @@
             baiduMapService,
             collegeMapService,
             dumpPreciseService) {
-            $scope.districts = [];
+
+            $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
             $scope.distinct = $scope.distincts[0];
             $scope.alphabetNames = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
             $scope.statusNames = new Array('很紧急', '紧急', '极重要', '重要', '一般', '整治完成', '全部');
@@ -90,7 +91,7 @@
                 downSwitchService.getFixingStation(areaName, status, 'JZ', 0, 10000).then(function(response) {
                     var stations = response.result.rows;
                     if (stations.length) {
-                        collegeMapService.showFixingStationInfo(stations, color);
+                        collegeMapService.showFixingStations(stations, color);
                     }
 
                 });
@@ -165,7 +166,7 @@
         })
     .controller("fixing-indoor.network",
         function($scope, downSwitchService, baiduMapService, collegeMapService, dumpPreciseService) {
-            $scope.districts = [];
+            $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
             $scope.distinct = $scope.distincts[0];
             $scope.alphabetNames = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
             $scope.statusNames = new Array('很紧急', '紧急', '极重要', '重要', '一般', '整治完成', '全部');
@@ -181,7 +182,7 @@
                 downSwitchService.getFixingStation(areaName, status, 'JZ', 0, 10000).then(function(response) {
                     var stations = response.result.rows;
                     if (stations.length) {
-                        collegeMapService.showFixingStationInfo(stations, color);
+                        collegeMapService.showFixingStations(stations, color);
                     }
 
                 });
