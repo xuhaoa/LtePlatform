@@ -247,6 +247,10 @@
                     generalMapService
                         .showGeneralPointCollection(stations, color, mapDialogService.showFixingStationInfo);
                 },
+                showResourceStations: function (stations, color) {
+                    generalMapService
+                        .showGeneralPointCollection(stations, color, mapDialogService.showResourceStationInfo);
+                },
                 showConstructionSites: function(stations, status, callback) {
                     baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute)
                         .then(function(coors) {

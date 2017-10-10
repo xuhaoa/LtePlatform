@@ -18,9 +18,10 @@
 				<tr>
 					<td>站址ID</td>
 					<td>站址名称</td>
-					<td>经度</td>
-					<td>纬度</td>
 					<td>所属区域</td>
+                    <td>站址类型</td>
+                    <td>机房归属</td>
+                    <td>网络类型</td>
 					<td align="center">操作</td>
 				</tr>
 			</thead>
@@ -28,9 +29,10 @@
 				<tr ng-repeat="station in stationList">
 					<td>{{station.StationId}}</td>
 					<td>{{station.StationName}}</td>
-					<td>{{station.longtitute}}</td>
-					<td>{{station.lattitute}}</td>
 					<td>{{station.AreaName}}</td>
+                    <td>{{station.StationType}}</td>
+                    <td>{{station.RoomAttribution}}</td>
+                    <td>{{station.NetType}}</td>
 					<td align="center"><a href="javascript:void(0);" ng-click="details(station.StationId)">查看</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" ng-click="edit(station.StationId)">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" ng-click="delete(station.StationId)">删除</a></td>
 				</tr>
 			</tbody>

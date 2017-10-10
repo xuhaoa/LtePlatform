@@ -800,6 +800,10 @@ angular.module('topic.college',
                     generalMapService
                         .showGeneralPointCollection(stations, color, mapDialogService.showFixingStationInfo);
                 },
+                showResourceStations: function (stations, color) {
+                    generalMapService
+                        .showGeneralPointCollection(stations, color, mapDialogService.showResourceStationInfo);
+                },
                 showConstructionSites: function(stations, status, callback) {
                     baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute)
                         .then(function(coors) {
@@ -1390,14 +1394,10 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             $scope.page = 1;
             $scope.stationName = '';
             $scope.totolPage = 1;
-            downSwitchService.getStations(0, 10).then(function(result) {
-                $scope.stationList = result.result.rows;
-                $scope.totolPage = result.result.total_pages;
-                $scope.page = result.result.curr_page;
-            });
+            
             $scope.details = function(stationId) {
-                downSwitchService.getStationById(stationId).then(function(result) {
-                    workItemDialog.showStationInfo(result.result[0]);
+                downSwitchService.getCommonStationById(stationId).then(function(result) {
+                    workItemDialog.showStationInfoDialog(result.result[0]);
                 });
             }
 
@@ -1443,13 +1443,14 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             $scope.jumpPage = function(page) {
                 if (page >= $scope.totolPage)
                     page = $scope.totolPage;
-                downSwitchService.getStationByName($scope.stationName, $scope.selectDistinct, page, 10)
+                downSwitchService.getStationListByName($scope.stationName, $scope.selectDistinct, page, 10)
                     .then(function(result) {
                         $scope.stationList = result.result.rows;
                         $scope.totolPage = result.result.total_pages;
                         $scope.page = result.result.curr_page;
                     });
             };
+            $scope.jumpPage(1);
         })
     .controller('map.stationEdit.dialog',
         function($scope, stationId, dialogTitle, $uibModalInstance, downSwitchService) {
@@ -1768,6 +1769,7 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                         }
                     });
                 },
+                
                 showAssessmentDialog: function () {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Evaluation/Dialog/AssessmentDialog.html',
@@ -3355,6 +3357,49 @@ angular.module('topic.dialog.station', ['myApp.url', 'myApp.region', 'myApp.kpi'
             $uibModalInstance.dismiss('cancel');
         };
     })
+    .controller('map.resourceStation.dialog', function ($scope, $uibModalInstance, station, dialogTitle, downSwitchService,
+        appFormatService, networkElementService) {
+        $scope.station = station;
+        $scope.dialogTitle = dialogTitle;
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        $scope.tab = 1;
+
+        $scope.selectTab = function (setTab) {
+            $scope.tab = setTab;
+            if (0 == setTab) {
+                downSwitchService.getResourceCounter(station.id).then(function (response) {
+                    $scope.counter = response.result;
+                });
+            } else if (1 == setTab) {
+                $scope.table = "crru";
+            } else if (2 == setTab) {
+                $scope.table = "cjz";
+            } else if (3 == setTab) {
+                $scope.table = "csf";
+            } else if (4 == setTab) {
+                $scope.table = "czf";
+            } else if (5 == setTab) {
+                $scope.table = "lrru";
+            } else if (6 == setTab) {
+                $scope.table = "ljz";
+            } else if (7 == setTab) {
+                $scope.table = "asset";
+            }
+            if (0 != setTab) {
+                downSwitchService.getResource($scope.table, station.id).then(function (response) {
+                    $scope.resourceList = response.result;
+                });
+            }
+        }
+
+        $scope.isSelectTab = function (checkTab) {
+            return $scope.tab === checkTab
+        }
+        $scope.selectTab(0);
+    })
 
     .controller('map.fixingStation.dialog',
         function($scope,
@@ -3816,6 +3861,20 @@ angular.module('topic.dialog',[ 'app.menu', 'app.core' ])
                                 return "整治信息:" + station.name;
                             },
                             station: function() {
+                                return station;
+                            }
+                        }
+                    });
+                },
+                showResourceStationInfo: function (station) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews//Evaluation/Dialog/ResoureDetails.html',
+                        controller: 'map.resourceStation.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "资源资产:" + station.name;
+                            },
+                            station: function () {
                                 return station;
                             }
                         }

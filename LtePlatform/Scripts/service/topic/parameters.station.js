@@ -12,14 +12,10 @@
             $scope.page = 1;
             $scope.stationName = '';
             $scope.totolPage = 1;
-            downSwitchService.getStations(0, 10).then(function(result) {
-                $scope.stationList = result.result.rows;
-                $scope.totolPage = result.result.total_pages;
-                $scope.page = result.result.curr_page;
-            });
+            
             $scope.details = function(stationId) {
-                downSwitchService.getStationById(stationId).then(function(result) {
-                    workItemDialog.showStationInfo(result.result[0]);
+                downSwitchService.getCommonStationById(stationId).then(function(result) {
+                    workItemDialog.showStationInfoDialog(result.result[0]);
                 });
             }
 
@@ -65,13 +61,14 @@
             $scope.jumpPage = function(page) {
                 if (page >= $scope.totolPage)
                     page = $scope.totolPage;
-                downSwitchService.getStationByName($scope.stationName, $scope.selectDistinct, page, 10)
+                downSwitchService.getStationListByName($scope.stationName, $scope.selectDistinct, page, 10)
                     .then(function(result) {
                         $scope.stationList = result.result.rows;
                         $scope.totolPage = result.result.total_pages;
                         $scope.page = result.result.curr_page;
                     });
             };
+            $scope.jumpPage(1);
         })
     .controller('map.stationEdit.dialog',
         function($scope, stationId, dialogTitle, $uibModalInstance, downSwitchService) {

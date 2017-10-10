@@ -662,6 +662,16 @@
                         'type': type
                     });
                 },
+                getStationListByName: function (name, type, page, pageSize) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/Station/llist',
+                        {
+                            "curr_page": page,
+                            "page_size": pageSize,
+                            "stationName": name
+                        });
+                },
                 getIndoorByName: function (name, type, page, pageSize) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +
@@ -692,6 +702,21 @@
                         "page_size": pageSize,
                         "stationName": name,
                         'type': type
+                    });
+                },
+                getResource: function (table, id) {
+                    return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/Resource/single',
+                        {
+                        "table": table,
+                        "id": id
+                    });
+                },
+                getResourceCounter: function (id) {
+                    return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/Resource/counter',
+                        {
+                        "id": id
                     });
                 },
                 deleteStationById: function(stationId) {

@@ -143,6 +143,7 @@
                         }
                     });
                 },
+                
                 showAssessmentDialog: function () {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Evaluation/Dialog/AssessmentDialog.html',

@@ -135,149 +135,157 @@
                                 });
                         });
                 });
-        })
+    })
     .controller("resource-station.network",
-        function($scope,
-            downSwitchService,
-            MyValue,
-            baiduMapService,
-            geometryService,
-            parametersDialogService,
-            baiduQueryService) {
-            $scope.areaNames = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
-            $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
-            $scope.distinct = "佛山市";
-            $scope.types = new Array('JZ', 'SF');
-            $scope.typesDisplay = new Array('基站', '室分');
-            $scope.stationss = [];
-            $scope.stationss[1] = [];
-            $scope.stationss[2] = [];
-            $scope.stationss[3] = [];
-            $scope.stationss[4] = [];
-            $scope.stationss[5] = [];
-            baiduMapService.initializeMap("map", 13);
-            baiduMapService.setCenter(MyValue.distinctIndex);
-            $scope.type = 'JZ';
-            $scope.typeDisplay = '基站';
-            //获取站点
-            $scope.getStations = function(areaName, index, type) {
-                downSwitchService.getResourceStations(areaName, type, 0, 10000).then(function(response) {
-                    if (response.result.rows.length == 0) {
-                        return;
-                    }
-                    $scope.stationss[index] = response.result.rows;
-                    var color = $scope.colors[index];
-                    baiduQueryService.transformToBaidu($scope.stationss[index][0].longtitute,
-                        $scope.stationss[index][0].lattitute).then(function(coors) {
-                        var xOffset = coors.x - $scope.stationss[index][0].longtitute;
-                        var yOffset = coors.y - $scope.stationss[index][0].lattitute;
-                        baiduMapService.drawPointCollection($scope.stationss[index],
-                            index,
-                            -xOffset,
-                            -yOffset,
-                            function() {
-                                parametersDialogService.showResourceInfo(this.data);
-                            });
-                    });
-                });
-            };
+    function ($scope,
+        downSwitchService,
+        myValue,
+        baiduMapService,
+        geometryService,
+        parametersDialogService,
+        collegeMapService,
+        dumpPreciseService,
+        appUrlService,
+        generalMapService) {
+        $scope.distinct = $scope.distincts[0];
+        baiduMapService.initializeMap("map", 13);
 
-            $scope.reflashMap = function(areaNameIndex, type) {
-                baiduMapService.clearOverlays();
-                MyValue.distinctIndex = areaNameIndex;
-                var areaName = $scope.areaNames[areaNameIndex];
-                $scope.distinct = $scope.distincts[areaNameIndex];
-                baiduMapService.setCenter(areaNameIndex);
-                if (MyValue.distinctIndex !== 0) {
-                    $scope.getStations(areaName, MyValue.distinctIndex, type);
-                } else {
-                    for (var i = 1; i < 6; ++i) {
-                        $scope.getStations($scope.areaNames[i], i, type);
+        $scope.getStations = function (areaName, index) {
+            downSwitchService.getResourceStations(areaName, 'JZ', 0, 10000).then(function (response) {
+                var stations = response.result.rows;
+                if (stations.length) {
+                    var color = $scope.colors[index];
+                    $scope.legend.intervals.push({
+                        threshold: areaName,
+                        color: color
+                    });
+                    collegeMapService.showResourceStations(stations, color);
+                }
+
+            });
+        };
+        $scope.reflashMap = function (areaNameIndex) {
+            baiduMapService.clearOverlays();
+            $scope.initializeLegend();
+            var areaName = $scope.areaNames[areaNameIndex];
+            $scope.distinct = $scope.distincts[areaNameIndex];
+
+            if (areaNameIndex !== 0) {
+                baiduMapService.setCenter(dumpPreciseService.getDistrictIndex(areaName));
+                $scope.getStations(areaName, areaNameIndex);
+            } else {
+                baiduMapService.setCenter(0);
+                angular.forEach($scope.areaNames.slice(1, $scope.areaNames.length),
+                    function (name, $index) {
+                        $scope.getStations(name, $index);
+                    });
+            }
+
+        };
+
+
+        $scope.districts = [];
+        $scope.$watch('city.selected',
+            function (city) {
+                if (city) {
+                    $scope.initializeLegend();
+                    baiduMapService.clearOverlays();
+                    if ($scope.distincts.length === 1) {
+                        generalMapService
+                            .generateUsersDistrictsAndDistincts(city,
+                            $scope.districts,
+                            $scope.distincts,
+                            $scope.areaNames,
+                            function (district, $index) {
+                                $scope.getStations('FS' + district, $index + 1);
+                            });
+                    } else {
+                        generalMapService.generateUsersDistrictsOnly(city,
+                            $scope.districts,
+                            function (district, $index) {
+                                $scope.getStations('FS' + district, $index + 1);
+                            });
                     }
                 }
-            };
-            $scope.changeArea = function(areaNameIndex) {
-                $scope.reflashMap(areaNameIndex, 'JZ');
-            }
-            $scope.changeType = function(typeIndex) {
-                $scope.type = $scope.types[typeIndex];
-                $scope.typeDisplay = $scope.typesDisplay[typeIndex];
-                $scope.reflashMap(MyValue.distinctIndex, $scope.type);
-            }
-            $scope.reflashMap(0, 'JZ');
-
-        })
-    .controller("resource-indoor.network",
-        function($scope,
-            downSwitchService,
-            MyValue,
-            baiduMapService,
-            geometryService,
-            parametersDialogService,
-            baiduQueryService) {
-            $scope.areaNames = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
-            $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
-            $scope.distinct = "佛山市";
-            $scope.types = new Array('JZ', 'SF');
-            $scope.typesDisplay = new Array('基站', '室分');
-            $scope.stationss = [];
-            $scope.stationss[1] = [];
-            $scope.stationss[2] = [];
-            $scope.stationss[3] = [];
-            $scope.stationss[4] = [];
-            $scope.stationss[5] = [];
-            baiduMapService.initializeMap("map", 13);
-            baiduMapService.setCenter(MyValue.distinctIndex);
-            $scope.type = 'JZ';
-            $scope.typeDisplay = '基站';
-            //获取站点
-            $scope.getStations = function(areaName, index, type) {
-                downSwitchService.getResourceStations(areaName, type, 0, 10000).then(function(response) {
-                    if (response.result.rows.length == 0) {
-                        return;
-                    }
-                    $scope.stationss[index] = response.result.rows;
-                    var color = $scope.colors[index];
-                    baiduQueryService.transformToBaidu($scope.stationss[index][0].longtitute,
-                        $scope.stationss[index][0].lattitute).then(function(coors) {
-                        var xOffset = coors.x - $scope.stationss[index][0].longtitute;
-                        var yOffset = coors.y - $scope.stationss[index][0].lattitute;
-                        baiduMapService.drawPointCollection($scope.stationss[index],
-                            index,
-                            -xOffset,
-                            -yOffset,
-                            function() {
-                                parametersDialogService.showResourceInfo(this.data);
-                            });
-                    });
-                });
-            };
-
-            $scope.reflashMap = function(areaNameIndex, type) {
-                baiduMapService.clearOverlays();
-                MyValue.distinctIndex = areaNameIndex;
-                var areaName = $scope.areaNames[areaNameIndex];
-                $scope.distinct = $scope.distincts[areaNameIndex];
-                baiduMapService.setCenter(areaNameIndex);
-                if (MyValue.distinctIndex !== 0) {
-                    $scope.getStations(areaName, MyValue.distinctIndex, type);
-                } else {
-                    for (var i = 1; i < 6; ++i) {
-                        $scope.getStations($scope.areaNames[i], i, type);
-                    }
-                }
-            };
-            $scope.changeArea = function(areaNameIndex) {
-                $scope.reflashMap(areaNameIndex, 'SF');
-            }
-            $scope.changeType = function(typeIndex) {
-                $scope.type = $scope.types[typeIndex];
-                $scope.typeDisplay = $scope.typesDisplay[typeIndex];
-                $scope.reflashMap(MyValue.distinctIndex, $scope.type);
-            }
-            $scope.reflashMap(0, 'SF');
+            });
 
     })
+
+    .controller("resource-indoor.network",
+    function ($scope,
+        downSwitchService,
+        myValue,
+        baiduMapService,
+        geometryService,
+        parametersDialogService,
+        collegeMapService,
+        dumpPreciseService,
+        appUrlService,
+        generalMapService) {
+        $scope.distinct = $scope.distincts[0];
+        baiduMapService.initializeMap("map", 13);
+
+        $scope.getStations = function (areaName, index) {
+            downSwitchService.getResourceStations(areaName, 'SF', 0, 10000).then(function (response) {
+                var stations = response.result.rows;
+                if (stations.length) {
+                    var color = $scope.colors[index];
+                    $scope.legend.intervals.push({
+                        threshold: areaName,
+                        color: color
+                    });
+                    collegeMapService.showResourceStations(stations, color);
+                }
+
+            });
+        };
+        $scope.reflashMap = function (areaNameIndex) {
+            baiduMapService.clearOverlays();
+            $scope.initializeLegend();
+            var areaName = $scope.areaNames[areaNameIndex];
+            $scope.distinct = $scope.distincts[areaNameIndex];
+
+            if (areaNameIndex !== 0) {
+                baiduMapService.setCenter(dumpPreciseService.getDistrictIndex(areaName));
+                $scope.getStations(areaName, areaNameIndex);
+            } else {
+                baiduMapService.setCenter(0);
+                angular.forEach($scope.areaNames.slice(1, $scope.areaNames.length),
+                    function (name, $index) {
+                        $scope.getStations(name, $index);
+                    });
+            }
+
+        };
+
+
+        $scope.districts = [];
+        $scope.$watch('city.selected',
+            function (city) {
+                if (city) {
+                    $scope.initializeLegend();
+                    baiduMapService.clearOverlays();
+                    if ($scope.distincts.length === 1) {
+                        generalMapService
+                            .generateUsersDistrictsAndDistincts(city,
+                            $scope.districts,
+                            $scope.distincts,
+                            $scope.areaNames,
+                            function (district, $index) {
+                                $scope.getStations('FS' + district, $index + 1);
+                            });
+                    } else {
+                        generalMapService.generateUsersDistrictsOnly(city,
+                            $scope.districts,
+                            function (district, $index) {
+                                $scope.getStations('FS' + district, $index + 1);
+                            });
+                    }
+                }
+            });
+
+    })
+   
     .controller("alarm-station.network",
     function ($scope,
         downSwitchService,

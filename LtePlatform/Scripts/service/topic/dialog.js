@@ -190,6 +190,20 @@
                         }
                     });
                 },
+                showResourceStationInfo: function (station) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews//Evaluation/Dialog/ResoureDetails.html',
+                        controller: 'map.resourceStation.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "资源资产:" + station.name;
+                            },
+                            station: function () {
+                                return station;
+                            }
+                        }
+                    });
+                },
                 showCommonStationInfo: function(station) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Evaluation/Dialog/CommonStationDetails.html',

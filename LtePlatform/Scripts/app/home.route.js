@@ -478,7 +478,7 @@
             .state('resource-station', {
                 views: {
                     'menu': {
-                        templateUrl: viewDir + "CommonMenu.html",
+                        templateUrl: viewDir + "StationSearchMenu.html",
                         controller: "menu.resource-station"
                     },
                     "contents": {
@@ -492,7 +492,7 @@
             .state('resource-indoor', {
                 views: {
                     'menu': {
-                        templateUrl: viewDir + "CommonMenu.html",
+                        templateUrl: viewDir + "StationSearchMenu.html",
                         controller: "menu.resource-indoor"
                     },
                     "contents": {
@@ -574,21 +574,6 @@
                     }
                 },
                 url: "/clear-voice"
-            })
-            .state('resource',
-            {
-                views: {
-                    'menu': {
-                        templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.resource"
-                    },
-                    "contents": {
-                        templateUrl: "/appViews/BasicKpi/Resource.html",
-                        controller: "resource.network"
-                    }
-
-                },
-                url: "/resource"
             })
             .state('construction',
             {
