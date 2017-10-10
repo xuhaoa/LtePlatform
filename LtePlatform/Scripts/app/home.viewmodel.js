@@ -4679,7 +4679,7 @@ angular.module('home.complain', ['app.common'])
             baiduMapService.initializeMap("map", 11);
             baiduMapService.addCityBoundary("佛山");
 
-            $scope.showDistrictComplains = function(district, color) {
+            $scope.showDistrictOss = function(district, color) {
                 var city = $scope.city.selected;
                 baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
                 $scope.legend.intervals.push({
@@ -4698,11 +4698,23 @@ angular.module('home.complain', ['app.common'])
                 $scope.initializeLegend();
                 baiduMapService.clearOverlays();
                 $scope.currentView = "电子运维工单";
-                var districts = $scope.districts.concat(['其他']);
-                console.log(districts);
-                angular.forEach(districts,
+                angular.forEach($scope.districts.concat(['其他']),
                     function(district, $index) {
-                        $scope.showDistrictComplains(district, $scope.colors[$index]);
+                        $scope.showDistrictOss(district, $scope.colors[$index]);
+                    });
+            };
+            $scope.showDistrictBackworks = function (district, color) {
+                var city = $scope.city.selected;
+                baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
+                $scope.legend.intervals.push({
+                    threshold: district,
+                    color: color
+                });
+                complainService.queryLastMonthComplainListInOneDistrict($scope.endDate.value, city, district)
+                    .then(function (sites) {
+                        if (sites.length) {
+                            collegeMapService.showComplainItems(sites, color);
+                        }
                     });
             };
             $scope.showBackWorkItem = function() {
@@ -4710,6 +4722,10 @@ angular.module('home.complain', ['app.common'])
                 $scope.initializeLegend();
                 baiduMapService.clearOverlays();
                 $scope.currentView = "后端工单";
+                angular.forEach($scope.districts.concat(['其他']),
+                    function (district, $index) {
+                        $scope.showDistrictBackworks(district, $scope.colors[$index]);
+                    });
             };
 
             $scope.showYesterdayItems = function() {
@@ -4717,6 +4733,9 @@ angular.module('home.complain', ['app.common'])
             };
             $scope.showMonthlyTrend = function() {
                 mapDialogService.showMonthComplainItems();
+            };
+            $scope.positionModify = function() {
+                mapDialogService.adjustComplainItems();
             };
 
             $scope.districts = [];
@@ -4729,7 +4748,7 @@ angular.module('home.complain', ['app.common'])
                         dumpPreciseService.generateUsersDistrict(city,
                             $scope.districts,
                             function(district, $index) {
-                                $scope.showDistrictComplains(district, $scope.colors[$index]);
+                                $scope.showDistrictOss(district, $scope.colors[$index]);
                             });
                     }
                 });
@@ -4761,7 +4780,7 @@ angular.module('home.complain', ['app.common'])
                         $scope.legend.title = city;
                         $scope.initializeLegend();
                         dumpPreciseService.generateUsersDistrict(city,
-                            $scope.districts,
+                            $scope.districts.concat(['其他']),
                             function(district, $index) {
                                 baiduMapService.addDistrictBoundary(district, $scope.colors[$index]);
                             });

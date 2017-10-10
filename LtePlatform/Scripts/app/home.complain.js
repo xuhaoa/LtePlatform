@@ -27,7 +27,7 @@
             baiduMapService.initializeMap("map", 11);
             baiduMapService.addCityBoundary("佛山");
 
-            $scope.showDistrictComplains = function(district, color) {
+            $scope.showDistrictOss = function(district, color) {
                 var city = $scope.city.selected;
                 baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
                 $scope.legend.intervals.push({
@@ -48,7 +48,21 @@
                 $scope.currentView = "电子运维工单";
                 angular.forEach($scope.districts.concat(['其他']),
                     function(district, $index) {
-                        $scope.showDistrictComplains(district, $scope.colors[$index]);
+                        $scope.showDistrictOss(district, $scope.colors[$index]);
+                    });
+            };
+            $scope.showDistrictBackworks = function (district, color) {
+                var city = $scope.city.selected;
+                baiduMapService.addDistrictBoundary($scope.city.selected + '市' + district + '区', color);
+                $scope.legend.intervals.push({
+                    threshold: district,
+                    color: color
+                });
+                complainService.queryLastMonthComplainListInOneDistrict($scope.endDate.value, city, district)
+                    .then(function (sites) {
+                        if (sites.length) {
+                            collegeMapService.showComplainItems(sites, color);
+                        }
                     });
             };
             $scope.showBackWorkItem = function() {
@@ -56,6 +70,10 @@
                 $scope.initializeLegend();
                 baiduMapService.clearOverlays();
                 $scope.currentView = "后端工单";
+                angular.forEach($scope.districts.concat(['其他']),
+                    function (district, $index) {
+                        $scope.showDistrictBackworks(district, $scope.colors[$index]);
+                    });
             };
 
             $scope.showYesterdayItems = function() {
@@ -63,6 +81,9 @@
             };
             $scope.showMonthlyTrend = function() {
                 mapDialogService.showMonthComplainItems();
+            };
+            $scope.positionModify = function() {
+                mapDialogService.adjustComplainItems();
             };
 
             $scope.districts = [];
@@ -75,7 +96,7 @@
                         dumpPreciseService.generateUsersDistrict(city,
                             $scope.districts,
                             function(district, $index) {
-                                $scope.showDistrictComplains(district, $scope.colors[$index]);
+                                $scope.showDistrictOss(district, $scope.colors[$index]);
                             });
                     }
                 });

@@ -9,7 +9,7 @@ using System;
 namespace Lte.MySqlFramework.Entities
 {
     [AutoMapFrom(typeof(ComplainDto), typeof(ComplainExcel))]
-    public class ComplainItem : Entity, IBeginDate
+    public class ComplainItem : Entity, IBeginDate, ITownId
     {
         public string SerialNumber { get; set; }
 
@@ -108,7 +108,7 @@ namespace Lte.MySqlFramework.Entities
     }
 
     [AutoMapFrom(typeof(ComplainItem))]
-    public class ComplainDto : IStateChange, IBeginDate
+    public class ComplainDto : IStateChange, IBeginDate, ICityDistrictTown
     {
         public string SerialNumber { get; set; }
 
