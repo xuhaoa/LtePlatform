@@ -645,14 +645,20 @@ namespace Lte.Evaluations.DataService.College
         {
             var items =
                 this.QueryItems<OnlineSustainService, OnlineSustain>(today);
-            var towns = _townRepository.GetAllList(x => x.CityName == city && x.DistrictName == district);
-            var views = from item in items
-                join town in towns on item.TownId equals town.Id
+            var views = district != "其他"
+                ? from item in items
+                join town in _townRepository.GetAllList(x => x.CityName == city && x.DistrictName == district) on
+                item.TownId equals town.Id
                 select new
                 {
                     Town = town,
                     Item = item
-                };
+                }
+                : items.Where(x => x.TownId == 0).Select(item => new
+                {
+                    Town = new Town {TownName = "其他"},
+                    Item = item
+                });
             return views.Select(x =>
             {
                 var view = x.Item.MapTo<OnlineSustainDto>();

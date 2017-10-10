@@ -4698,7 +4698,9 @@ angular.module('home.complain', ['app.common'])
                 $scope.initializeLegend();
                 baiduMapService.clearOverlays();
                 $scope.currentView = "电子运维工单";
-                angular.forEach($scope.districts,
+                var districts = $scope.districts.concat(['其他']);
+                console.log(districts);
+                angular.forEach(districts,
                     function(district, $index) {
                         $scope.showDistrictComplains(district, $scope.colors[$index]);
                     });

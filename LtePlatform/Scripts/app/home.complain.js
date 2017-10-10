@@ -46,7 +46,7 @@
                 $scope.initializeLegend();
                 baiduMapService.clearOverlays();
                 $scope.currentView = "电子运维工单";
-                angular.forEach($scope.districts,
+                angular.forEach($scope.districts.concat(['其他']),
                     function(district, $index) {
                         $scope.showDistrictComplains(district, $scope.colors[$index]);
                     });
@@ -107,7 +107,7 @@
                         $scope.legend.title = city;
                         $scope.initializeLegend();
                         dumpPreciseService.generateUsersDistrict(city,
-                            $scope.districts,
+                            $scope.districts.concat(['其他']),
                             function(district, $index) {
                                 baiduMapService.addDistrictBoundary(district, $scope.colors[$index]);
                             });
