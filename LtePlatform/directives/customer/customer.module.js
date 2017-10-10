@@ -1,263 +1,292 @@
-﻿angular.module('customer.module', ['customer.emergency', 'customer.vip', 'customer.complain'])
+﻿angular.module('customer.module',
+        ['customer.emergency.module', 'customer.vip.module', 'customer.complain.module', 'customer.complain.module'])
     .constant('customerRoot', '/directives/customer/');
 
-angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
-    .controller('EmergencyCommunicationController', function($scope) {
-        $scope.gridOptions = {
-            columnDefs: [
-                { field: 'projectName', name: '项目名称' },
-                { field: 'beginDate', name: '开始日期', cellFilter: 'date: "yyyy-MM-dd"' },
-                { field: 'endDate', name: '结束日期', cellFilter: 'date: "yyyy-MM-dd"' },
-                { field: 'demandLevelDescription', name: '需求等级' },
-                { field: 'vehicularTypeDescription', name: '通信车类型' },
-                { field: 'expectedPeople', name: '预计人数' },
-                {
-                    name: '工单处理',
-                    cellTemplate:'<a ng-href="{{grid.appScope.rootPath}}emergency/process/{{row.entity.id}}" class="btn btn-sm btn-success">{{row.entity.currentStateDescription}}</a>'
-                }
-            ],
-            data: []
-        };
-    })
-    .directive('emergencyCommunicationList', function ($compile, calculateService) {
-        return calculateService.generateGridDirective({
-            controller: 'EmergencyCommunicationController',
-            scope: {
-                items: '=',
-                rootPath: '='
-            },
-            argumentName: 'items'
-        }, $compile);
-    })
-
-    .controller('BranchListController', function ($scope) {
-        $scope.gridOptions = {
-            paginationPageSizes: [20, 40, 60],
-            paginationPageSize: 20,
-            columnDefs: [
-                { field: 'serialNumber', name: '序列号' },
-                { field: 'beginDate', name: '受理时间', cellFilter: 'date: "yyyy-MM-dd"' },
-                { field: 'subscriberInfo', name: '用户信息' },
-                { field: 'managerInfo', name: '客户经理' },
-                { field: 'complainContents', name: '投诉内容' },
-                { field: 'solveFunctionDescription', name: '处理措施' }
-            ],
-            data: []
-        };
-    })
-    .directive('branchList', function ($compile, calculateService) {
-        return calculateService.generatePagingGridDirective({
-            controllerName: 'BranchListController',
-            scope: {
-                items: '=',
-                rootPath: '='
-            },
-            argumentName: 'items'
-        }, $compile);
-    })
-
-    .controller('HotSpotController', function ($scope, customerDialogService, workItemDialog) {
-        $scope.gridOptions = {
-            paginationPageSizes: [20, 40, 60],
-            paginationPageSize: 20,
-            columnDefs: [
-                { field: 'hotspotName', name: '热点名称' },
-                { field: 'address', name: '地址' },
-                { field: 'typeDescription', name: '热点类型' },
-                { field: 'sourceName', name: '热点描述' },
-                { field: 'longtitute', name: '经度' },
-                { field: 'lattitute', name: '纬度' },
-                {
-                    name: '信息',
-                    cellTemplate: '<div class="btn-group-sm"> \
+angular.module('customer.emergency.module', ['myApp.region', 'myApp.kpi'])
+    .controller('EmergencyCommunicationController',
+        function($scope) {
+            $scope.gridOptions = {
+                columnDefs: [
+                    { field: 'projectName', name: '项目名称' },
+                    { field: 'beginDate', name: '开始日期', cellFilter: 'date: "yyyy-MM-dd"' },
+                    { field: 'endDate', name: '结束日期', cellFilter: 'date: "yyyy-MM-dd"' },
+                    { field: 'demandLevelDescription', name: '需求等级' },
+                    { field: 'vehicularTypeDescription', name: '通信车类型' },
+                    { field: 'expectedPeople', name: '预计人数' },
+                    {
+                        name: '工单处理',
+                        cellTemplate:
+                            '<a ng-href="{{grid.appScope.rootPath}}emergency/process/{{row.entity.id}}" class="btn btn-sm btn-success">{{row.entity.currentStateDescription}}</a>'
+                    }
+                ],
+                data: []
+            };
+        })
+    .directive('emergencyCommunicationList',
+        function($compile, calculateService) {
+            return calculateService.generateGridDirective({
+                    controller: 'EmergencyCommunicationController',
+                    scope: {
+                        items: '=',
+                        rootPath: '='
+                    },
+                    argumentName: 'items'
+                },
+                $compile);
+        })
+    .controller('BranchListController',
+        function($scope) {
+            $scope.gridOptions = {
+                paginationPageSizes: [20, 40, 60],
+                paginationPageSize: 20,
+                columnDefs: [
+                    { field: 'serialNumber', name: '序列号' },
+                    { field: 'beginDate', name: '受理时间', cellFilter: 'date: "yyyy-MM-dd"' },
+                    { field: 'subscriberInfo', name: '用户信息' },
+                    { field: 'managerInfo', name: '客户经理' },
+                    { field: 'complainContents', name: '投诉内容' },
+                    { field: 'solveFunctionDescription', name: '处理措施' }
+                ],
+                data: []
+            };
+        })
+    .directive('branchList',
+        function($compile, calculateService) {
+            return calculateService.generatePagingGridDirective({
+                    controllerName: 'BranchListController',
+                    scope: {
+                        items: '=',
+                        rootPath: '='
+                    },
+                    argumentName: 'items'
+                },
+                $compile);
+        })
+    .controller('HotSpotController',
+        function($scope, customerDialogService, workItemDialog) {
+            $scope.gridOptions = {
+                paginationPageSizes: [20, 40, 60],
+                paginationPageSize: 20,
+                columnDefs: [
+                    { field: 'hotspotName', name: '热点名称' },
+                    { field: 'address', name: '地址' },
+                    { field: 'typeDescription', name: '热点类型' },
+                    { field: 'sourceName', name: '热点描述' },
+                    { field: 'longtitute', name: '经度' },
+                    { field: 'lattitute', name: '纬度' },
+                    {
+                        name: '信息',
+                        cellTemplate: '<div class="btn-group-sm"> \
                         <button class="btn btn-sm btn-success" ng-click="grid.appScope.editInfo(row.entity)">编辑</button> \
                         <button class="btn btn-sm btn-primary" ng-click="grid.appScope.showCells(row.entity.hotspotName)">小区</button> \
                         <button class="btn btn-sm btn-default" ng-click="grid.appScope.showFlow(row.entity)">流量</button> \
                         </div>',
-                    width: 200
-                }
-            ],
-            data: []
-        };
-        $scope.editInfo = function (spot) {
-            customerDialogService.manageHotSpotCells(spot, function() {
+                        width: 200
+                    }
+                ],
+                data: []
+            };
+            $scope.editInfo = function(spot) {
+                customerDialogService.manageHotSpotCells(spot,
+                    function() {
 
-            });
-        };
-        $scope.showFlow = function (hotSpot) {
-            workItemDialog.showHotSpotCellFlow(hotSpot, $scope.beginDate, $scope.endDate);
-        };
-        $scope.showCells = function(name) {
-            workItemDialog.showHotSpotCells(name);
-        };
-    })
-    .directive('hotSpotList', function ($compile, calculateService) {
-        return calculateService.generateGridDirective({
-            controllerName: 'HotSpotController',
-            scope: {
-                items: '='
-            },
-            argumentName: 'items'
-        }, $compile);
-    })
-
-    .controller('OnlineListController', function ($scope) {
-        $scope.gridOptions = {
-            paginationPageSizes: [20, 40, 60],
-            paginationPageSize: 20,
-            columnDefs: [
-                { field: 'serialNumber', name: '序列号' },
-                { field: 'beginDate', name: '受理时间', cellFilter: 'date: "yyyy-MM-dd"' },
-                { field: 'address', name: '投诉地址' },
-                { field: 'complainCategoryDescription', name: '投诉类型' },
-                { field: 'phenomenon', name: '投诉现象' },
-                { field: 'followInfo', name: '跟进信息' },
-                { field: 'dutyStaff', name: '值班人员' }
-            ],
-            data: []
-        };
-    })
-    .directive('onlineList', function ($compile, calculateService) {
-        return calculateService.generateGridDirective({
-            controllerName: 'OnlineListController',
-            scope: {
-                items: '=',
-                rootPath: '='
-            },
-            argumentName: 'items'
-        }, $compile);
-    })
-
-    .controller('EmergencyProcessController', function ($scope) {
-        $scope.gridOptions = {
-            columnDefs: [
-                { field: 'processTime', name: '处理时间', cellFilter: 'date: "yyyy-MM-dd HH:mm:ss"' },
-                { field: 'processPerson', name: '处理人' },
-                { field: 'processStateDescription', name: '处理步骤' },
-                { field: 'processInfo', name: '反馈信息' }
-            ],
-            data: []
-        };
-    })
-    .directive('emergencyProcessList', function ($compile, calculateService) {
-        return calculateService.generateGridDirective({
-            controllerName: 'EmergencyProcessController',
-            scope: {
-                items: '='
-            },
-            argumentName: 'items'
-        }, $compile);
-    })
-
-    .controller('VipProcessController', function ($scope, emergencyService, collegeDialogService, customerDialogService) {
-        $scope.updateProcess = function(item) {
-            if ($scope.collegeName && item.vipStateDescription === '现场测试') {
-                collegeDialogService.processTest($scope.collegeName, function(info) {
-                    item.processInfo = info;
+                    });
+            };
+            $scope.showFlow = function(hotSpot) {
+                workItemDialog.showHotSpotCellFlow(hotSpot, $scope.beginDate, $scope.endDate);
+            };
+            $scope.showCells = function(name) {
+                workItemDialog.showHotSpotCells(name);
+            };
+        })
+    .directive('hotSpotList',
+        function($compile, calculateService) {
+            return calculateService.generateGridDirective({
+                    controllerName: 'HotSpotController',
+                    scope: {
+                        items: '='
+                    },
+                    argumentName: 'items'
+                },
+                $compile);
+        })
+    .controller('OnlineListController',
+        function($scope) {
+            $scope.gridOptions = {
+                paginationPageSizes: [20, 40, 60],
+                paginationPageSize: 20,
+                columnDefs: [
+                    { field: 'serialNumber', name: '序列号' },
+                    { field: 'beginDate', name: '受理时间', cellFilter: 'date: "yyyy-MM-dd"' },
+                    { field: 'address', name: '投诉地址' },
+                    { field: 'complainCategoryDescription', name: '投诉类型' },
+                    { field: 'phenomenon', name: '投诉现象' },
+                    { field: 'followInfo', name: '跟进信息' },
+                    { field: 'dutyStaff', name: '值班人员' }
+                ],
+                data: []
+            };
+        })
+    .directive('onlineList',
+        function($compile, calculateService) {
+            return calculateService.generateGridDirective({
+                    controllerName: 'OnlineListController',
+                    scope: {
+                        items: '=',
+                        rootPath: '='
+                    },
+                    argumentName: 'items'
+                },
+                $compile);
+        })
+    .controller('EmergencyProcessController',
+        function($scope) {
+            $scope.gridOptions = {
+                columnDefs: [
+                    { field: 'processTime', name: '处理时间', cellFilter: 'date: "yyyy-MM-dd HH:mm:ss"' },
+                    { field: 'processPerson', name: '处理人' },
+                    { field: 'processStateDescription', name: '处理步骤' },
+                    { field: 'processInfo', name: '反馈信息' }
+                ],
+                data: []
+            };
+        })
+    .directive('emergencyProcessList',
+        function($compile, calculateService) {
+            return calculateService.generateGridDirective({
+                    controllerName: 'EmergencyProcessController',
+                    scope: {
+                        items: '='
+                    },
+                    argumentName: 'items'
+                },
+                $compile);
+        })
+    .controller('VipProcessController',
+        function($scope, emergencyService, collegeDialogService, customerDialogService) {
+            $scope.updateProcess = function(item) {
+                if ($scope.collegeName && item.vipStateDescription === '现场测试') {
+                    collegeDialogService.processTest($scope.collegeName,
+                        function(info) {
+                            item.processInfo = info;
+                            emergencyService.finishVipProcess(item).then(function() {
+                                $scope.query();
+                            });
+                        });
+                } else if ($scope.collegeName && item.vipStateDescription === '通信车需求') {
+                    customerDialogService.constructEmergencyCollege(item.serialNumber,
+                        $scope.collegeName,
+                        function() {
+                            emergencyService.finishVipProcess(item).then(function() {
+                                $scope.query();
+                            });
+                        });
+                } else if ($scope.collegeName && item.vipStateDescription === '测试评估') {
+                    collegeDialogService.tracePlanning($scope.collegeName,
+                        function(info) {
+                            item.processInfo = info;
+                            emergencyService.finishVipProcess(item).then(function() {
+                                $scope.query();
+                            });
+                        });
+                } else {
                     emergencyService.finishVipProcess(item).then(function() {
                         $scope.query();
                     });
-                });
-            } else if ($scope.collegeName && item.vipStateDescription === '通信车需求') {
-                customerDialogService.constructEmergencyCollege(item.serialNumber, $scope.collegeName, function() {
-                    emergencyService.finishVipProcess(item).then(function () {
-                        $scope.query();
-                    });
-                });
-            } else if ($scope.collegeName && item.vipStateDescription === '测试评估') {
-                collegeDialogService.tracePlanning($scope.collegeName, function (info) {
-                    item.processInfo = info;
-                    emergencyService.finishVipProcess(item).then(function () {
-                        $scope.query();
-                    });
-                });
-            } else {
-                emergencyService.finishVipProcess(item).then(function() {
-                    $scope.query();
-                });
-            }
-        };
-        $scope.gridOptions = {
-            columnDefs: [
-                { field: 'beginTime', name: '开始时间', cellFilter: 'date: "yyyy-MM-dd HH:mm:ss"' },
-                { field: 'contactPerson', name: '发起人' },
-                { field: 'vipStateDescription', name: '处理步骤' },
-                { field: 'beginInfo', name: '建单信息' },
-                { field: 'processPerson', name: '处理人' },
-                { field: 'processInfo', name: '处理信息' },
-                {
-                    name: '处理',
-                    cellTemplate: '<button ng-disabled="row.entity.processInfo" class="btn btn-sm btn-success" ng-click="grid.appScope.updateProcess(row.entity)">处理信息</button>'
                 }
-            ],
-            data: []
-        };
-    })
-    .directive('vipProcessList', function ($compile, calculateService) {
-        return calculateService.generateGridDirective({
-            controllerName: 'VipProcessController',
-            scope: {
-                items: '=',
-                collegeName: '=',
-                query: '&'
-            },
-            argumentName: 'items'
-        }, $compile);
-    })
+            };
+            $scope.gridOptions = {
+                columnDefs: [
+                    { field: 'beginTime', name: '开始时间', cellFilter: 'date: "yyyy-MM-dd HH:mm:ss"' },
+                    { field: 'contactPerson', name: '发起人' },
+                    { field: 'vipStateDescription', name: '处理步骤' },
+                    { field: 'beginInfo', name: '建单信息' },
+                    { field: 'processPerson', name: '处理人' },
+                    { field: 'processInfo', name: '处理信息' },
+                    {
+                        name: '处理',
+                        cellTemplate:
+                            '<button ng-disabled="row.entity.processInfo" class="btn btn-sm btn-success" ng-click="grid.appScope.updateProcess(row.entity)">处理信息</button>'
+                    }
+                ],
+                data: []
+            };
+        })
+    .directive('vipProcessList',
+        function($compile, calculateService) {
+            return calculateService.generateGridDirective({
+                    controllerName: 'VipProcessController',
+                    scope: {
+                        items: '=',
+                        collegeName: '=',
+                        query: '&'
+                    },
+                    argumentName: 'items'
+                },
+                $compile);
+        });
 
-    .controller('ComplainProcessController', function ($scope) {
-        $scope.gridOptions = {
-            columnDefs: [
-                { field: 'beginTime', name: '开始时间', cellFilter: 'date: "yyyy-MM-dd HH:mm:ss"' },
-                { field: 'contactPerson', name: '发起人' },
-                { field: 'complainStateDescription', name: '处理步骤' },
-                { field: 'beginInfo', name: '建单信息' },
-                { field: 'processPerson', name: '处理人' },
-                { field: 'processInfo', name: '处理信息' }
-            ],
-            data: []
-        };
-    })
-    .directive('complainProcessList', function ($compile, calculateService) {
-        return calculateService.generateGridDirective({
-            controllerName: 'ComplainProcessController',
-            scope: {
-                items: '='
-            },
-            argumentName: 'items'
-        }, $compile);
-    })
-
-    .controller('FiberItemController', function ($scope, emergencyService) {
-        $scope.gridOptions = {
-            columnDefs: [
-                { field: 'beginDate', name: '建单时间', cellFilter: 'date: "yyyy-MM-dd HH:mm:ss"' },
-                { field: 'finishDate', name: '完成时间', cellFilter: 'date: "yyyy-MM-dd HH:mm:ss"' },
-                { field: 'person', name: '联系人' },
-                { field: 'workItemNumber', name: '工单编号' },
-                {
-                    name: '处理',
-                    cellTemplate: '<button ng-if="!grid.appScope.finishDate" ng-click="grid.appScope.finish(row.entity)" class="btn btn-success">完成</button>'
-                }
-            ],
-            data: []
-        };
-        $scope.finish = function(item) {
-            emergencyService.finishFiberItem(item).then(function() {
-                item.finishDate = new Date();
-            });
-        };
-    })
-    .directive('fiberItemList', function ($compile, calculateService) {
-        return calculateService.generateGridDirective({
-            controllerName: 'FiberItemController',
-            scope: {
-                items: '='
-            },
-            argumentName: 'items'
-        }, $compile);
-    })
-    .value('processTypeDictionay', {
+angular.module('customer.process.module', ['myApp.region', 'myApp.kpi'])
+    .controller('ComplainProcessController',
+        function($scope) {
+            $scope.gridOptions = {
+                columnDefs: [
+                    { field: 'beginTime', name: '开始时间', cellFilter: 'date: "yyyy-MM-dd HH:mm:ss"' },
+                    { field: 'contactPerson', name: '发起人' },
+                    { field: 'complainStateDescription', name: '处理步骤' },
+                    { field: 'beginInfo', name: '建单信息' },
+                    { field: 'processPerson', name: '处理人' },
+                    { field: 'processInfo', name: '处理信息' }
+                ],
+                data: []
+            };
+        })
+    .directive('complainProcessList',
+        function($compile, calculateService) {
+            return calculateService.generateGridDirective({
+                    controllerName: 'ComplainProcessController',
+                    scope: {
+                        items: '='
+                    },
+                    argumentName: 'items'
+                },
+                $compile);
+        })
+    .controller('FiberItemController',
+        function($scope, emergencyService) {
+            $scope.gridOptions = {
+                columnDefs: [
+                    { field: 'beginDate', name: '建单时间', cellFilter: 'date: "yyyy-MM-dd HH:mm:ss"' },
+                    { field: 'finishDate', name: '完成时间', cellFilter: 'date: "yyyy-MM-dd HH:mm:ss"' },
+                    { field: 'person', name: '联系人' },
+                    { field: 'workItemNumber', name: '工单编号' },
+                    {
+                        name: '处理',
+                        cellTemplate:
+                            '<button ng-if="!grid.appScope.finishDate" ng-click="grid.appScope.finish(row.entity)" class="btn btn-success">完成</button>'
+                    }
+                ],
+                data: []
+            };
+            $scope.finish = function(item) {
+                emergencyService.finishFiberItem(item).then(function() {
+                    item.finishDate = new Date();
+                });
+            };
+        })
+    .directive('fiberItemList',
+        function($compile, calculateService) {
+            return calculateService.generateGridDirective({
+                    controllerName: 'FiberItemController',
+                    scope: {
+                        items: '='
+                    },
+                    argumentName: 'items'
+                },
+                $compile);
+        })
+    .value('processTypeDictionay',
+    {
         "通信车申请": 'default',
         "光纤起单": 'danger',
         "电源准备": 'primary',
@@ -267,29 +296,32 @@ angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
         "优化测试": 'info',
         "完成": 'success'
     })
-    .directive('emergencyProcessState', function(processTypeDictionay) {
-        return {
-            restrict: 'A',
-            scope: {
-                state: '='
-            },
-            template: '<span>{{state}}</span>',
-            link: function(scope, element, attrs) {
-                element.addClass('label');
-                
-                scope.$watch("state", function (state, oldState) {
-                    if (oldState) {
-                        element.removeClass('label-' + processTypeDictionay[oldState]);
-                    }
-                    if (state) {
-                        var type = processTypeDictionay[state] || 'primary';
-                        element.addClass('label-' + type);
-                    }
-                });
-            }
-        };
-    })
-    .value('vipTypeDictionay', {
+    .directive('emergencyProcessState',
+        function(processTypeDictionay) {
+            return {
+                restrict: 'A',
+                scope: {
+                    state: '='
+                },
+                template: '<span>{{state}}</span>',
+                link: function(scope, element, attrs) {
+                    element.addClass('label');
+
+                    scope.$watch("state",
+                        function(state, oldState) {
+                            if (oldState) {
+                                element.removeClass('label-' + processTypeDictionay[oldState]);
+                            }
+                            if (state) {
+                                var type = processTypeDictionay[state] || 'primary';
+                                element.addClass('label-' + type);
+                            }
+                        });
+                }
+            };
+        })
+    .value('vipTypeDictionay',
+    {
         "预处理": 'default',
         "现场测试": 'danger',
         "测试评估": 'primary',
@@ -298,29 +330,32 @@ angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
         "通信车需求": 'primary',
         "保障结论": 'info'
     })
-    .directive('vipProcessState', function (vipTypeDictionay) {
-        return {
-            restrict: 'A',
-            scope: {
-                state: '='
-            },
-            template: '<span>{{state}}</span>',
-            link: function (scope, element, attrs) {
-                element.addClass('label');
+    .directive('vipProcessState',
+        function(vipTypeDictionay) {
+            return {
+                restrict: 'A',
+                scope: {
+                    state: '='
+                },
+                template: '<span>{{state}}</span>',
+                link: function(scope, element, attrs) {
+                    element.addClass('label');
 
-                scope.$watch("state", function (state, oldState) {
-                    if (oldState) {
-                        element.removeClass('label-' + vipTypeDictionay[oldState]);
-                    }
-                    if (state) {
-                        var type = vipTypeDictionay[state] || 'primary';
-                        element.addClass('label-' + type);
-                    }
-                });
-            }
-        };
-    })
-    .value('complainTypeDictionay', {
+                    scope.$watch("state",
+                        function(state, oldState) {
+                            if (oldState) {
+                                element.removeClass('label-' + vipTypeDictionay[oldState]);
+                            }
+                            if (state) {
+                                var type = vipTypeDictionay[state] || 'primary';
+                                element.addClass('label-' + type);
+                            }
+                        });
+                }
+            };
+        })
+    .value('complainTypeDictionay',
+    {
         "生成工单": 'default',
         "预处理": 'danger',
         "预约测试": 'primary',
@@ -329,30 +364,32 @@ angular.module('customer.emergency', ['myApp.region', 'myApp.kpi'])
         "回访用户": 'primary',
         "工单归档": 'success'
     })
-    .directive('complainProcessState', function (complainTypeDictionay) {
-        return {
-            restrict: 'A',
-            scope: {
-                state: '='
-            },
-            template: '<span>{{state}}</span>',
-            link: function (scope, element, attrs) {
-                element.addClass('label');
+    .directive('complainProcessState',
+        function(complainTypeDictionay) {
+            return {
+                restrict: 'A',
+                scope: {
+                    state: '='
+                },
+                template: '<span>{{state}}</span>',
+                link: function(scope, element, attrs) {
+                    element.addClass('label');
 
-                scope.$watch("state", function (state, oldState) {
-                    if (oldState) {
-                        element.removeClass('label-' + complainTypeDictionay[oldState]);
-                    }
-                    if (state) {
-                        var type = complainTypeDictionay[state] || 'primary';
-                        element.addClass('label-' + type);
-                    }
-                });
-            }
-        };
-    });
+                    scope.$watch("state",
+                        function(state, oldState) {
+                            if (oldState) {
+                                element.removeClass('label-' + complainTypeDictionay[oldState]);
+                            }
+                            if (state) {
+                                var type = complainTypeDictionay[state] || 'primary';
+                                element.addClass('label-' + type);
+                            }
+                        });
+                }
+            };
+        });
 
-angular.module('customer.vip', ['myApp.region'])
+angular.module('customer.vip.module', ['myApp.region', 'kpi.customer'])
     .controller('VipDemandController', function($scope, customerDialogService) {
         $scope.supplement = function(view) {
             customerDialogService.supplementVipDemandInfo(view, $scope.city, $scope.district, $scope.messages,
@@ -387,7 +424,7 @@ angular.module('customer.vip', ['myApp.region'])
         };
     });
 
-angular.module('customer.complain', ['myApp.region'])
+angular.module('customer.complain.module', ['myApp.region'])
     .controller('ComplainPositionController', function($scope, customerDialogService) {
         $scope.gridOptions = {
             paginationPageSizes: [25, 50, 75],
