@@ -920,7 +920,7 @@ angular.module('topic.parameters.basic', ['myApp.url', 'myApp.region', 'myApp.kp
                 });
                 networkElementService.queryStationByENodeb(eNodeb.eNodebId, eNodeb.planNum).then(function(dict) {
                     if (dict) {
-                        downSwitchService.getStationById(dict.stationNum).then(function(stations) {
+                        downSwitchService.getStationByStationId(dict.stationNum).then(function(stations) {
                             stations.result[0].Town = result.townName;
                             $scope.stationGroups = appFormatService.generateStationGroups(stations.result[0]);
                         });
