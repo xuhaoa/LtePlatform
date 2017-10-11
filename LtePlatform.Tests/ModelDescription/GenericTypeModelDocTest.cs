@@ -13,7 +13,7 @@ namespace LtePlatform.Tests.ModelDescription
     {
         private ModelDescriptionGenerator generator;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetup()
         {
             var configuration = new HttpConfiguration();

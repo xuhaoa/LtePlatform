@@ -16,7 +16,7 @@ namespace Lte.Parameters.Test.Entities
     {
         private string _xmlFileName;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetup()
         {
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;

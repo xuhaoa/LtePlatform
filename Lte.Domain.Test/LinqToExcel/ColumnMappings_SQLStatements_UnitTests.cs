@@ -11,10 +11,8 @@ namespace Lte.Domain.Test.LinqToExcel
     {
         private ExcelQueryFactory _repo;
 
-        [TestFixtureSetUp]
-        public void fs()
+        public ColumnMappings_SQLStatements_UnitTests() : base()
         {
-            InstantiateLogger();
         }
 
         [SetUp]

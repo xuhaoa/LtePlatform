@@ -13,11 +13,9 @@ namespace Lte.Parameters.Test.Kpi
     {
         ExcelQueryFactory _repo;
         string _excelFileName;
-
-        [TestFixtureSetUp]
-        public void fs()
+        
+        public CdmaTopKpiExcelTest()
         {
-            InstantiateLogger();
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
             _excelFileName = Path.Combine(excelFilesDirectory, "佛山.xls");

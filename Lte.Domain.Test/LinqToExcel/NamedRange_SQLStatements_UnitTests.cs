@@ -9,13 +9,7 @@ namespace Lte.Domain.Test.LinqToExcel
     public class NamedRange_SQLStatements_UnitTests : SQLLogStatements_Helper
     {
         private IExcelQueryFactory _factory;
-
-        [TestFixtureSetUp]
-        public void fs()
-        {
-            InstantiateLogger();
-        }
-
+        
         [SetUp]
         public void s()
         {

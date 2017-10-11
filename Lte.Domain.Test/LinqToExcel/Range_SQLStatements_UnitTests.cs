@@ -10,13 +10,7 @@ namespace Lte.Domain.Test.LinqToExcel
     public class Range_SQLStatements_UnitTests : SQLLogStatements_Helper
     {
         private IExcelQueryFactory _factory;
-
-        [TestFixtureSetUp]
-        public void fs()
-        {
-            InstantiateLogger();
-        }
-
+        
         [SetUp]
         public void s()
         {
@@ -36,27 +30,39 @@ namespace Lte.Domain.Test.LinqToExcel
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException),
-            ExpectedMessage = "StartRange argument '22' is invalid format for cell name")]
         public void Throws_argument_exception_if_startRange_is_incorrect_format()
         {
-            var companies = from c in _factory.WorksheetRange("22", "D4")
-                            select c;
+            Assert.Throws<ArgumentException>(() =>
+            {
+                var companies = from c in _factory.WorksheetRange("22", "D4")
+                    select c;
+                try
+                {
+                    companies.GetEnumerator();
+                }
+                catch (OleDbException)
+                {
+                }
+            }, "StartRange argument '22' is invalid format for cell name");
 
-            try { companies.GetEnumerator(); }
-            catch (OleDbException) { }
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException),
-            ExpectedMessage = "EndRange argument 'DD' is invalid format for cell name")]
         public void Throws_argument_exception_if_endRange_is_incorrect_format()
         {
-            var companies = from c in _factory.WorksheetRange("B2", "DD")
-                            select c;
+            Assert.Throws<ArgumentException>(() =>
+            {
+                var companies = from c in _factory.WorksheetRange("B2", "DD")
+                    select c;
 
-            try { companies.GetEnumerator(); }
-            catch (OleDbException) { }
+                try
+                {
+                    companies.GetEnumerator();
+                }
+                catch (OleDbException)
+                {
+                }
+            }, "EndRange argument 'DD' is invalid format for cell name");
         }
 
         [Test]

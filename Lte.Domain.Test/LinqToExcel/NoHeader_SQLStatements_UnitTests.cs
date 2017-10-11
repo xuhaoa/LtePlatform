@@ -10,13 +10,7 @@ namespace Lte.Domain.Test.LinqToExcel
     public class NoHeader_SQLStatements_UnitTests : SQLLogStatements_Helper
     {
         private ExcelQueryFactory _factory;
-
-        [TestFixtureSetUp]
-        public void fs()
-        {
-            InstantiateLogger();
-        }
-
+        
         [SetUp]
         public void s()
         {
@@ -25,15 +19,16 @@ namespace Lte.Domain.Test.LinqToExcel
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException),
-            ExpectedMessage = "Cannot use WorksheetRangeNoHeader on csv files")]
         public void range_csv_file_throws_exception()
         {
             var csvFile = @"C:\ExcelFiles\NoHeaderRange.csv";
 
-            var excel = new ExcelQueryFactory(csvFile);
-            var companies = (from c in excel.WorksheetRangeNoHeader("B9", "E15")
-                             select c).ToList();
+            Assert.Throws<ArgumentException>(() =>
+            {
+                var excel = new ExcelQueryFactory(csvFile);
+                var companies = (from c in excel.WorksheetRangeNoHeader("B9", "E15")
+                    select c).ToList();
+            }, "Cannot use WorksheetRangeNoHeader on csv files");
         }
 
         [Test]

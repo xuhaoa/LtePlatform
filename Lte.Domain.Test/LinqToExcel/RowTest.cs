@@ -44,12 +44,13 @@ namespace Lte.Domain.Test.LinqToExcel
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException),
-            ExpectedMessage = "'First Name' column name does not exist. Valid column names are 'Name', 'Favorite Sport', 'Age'")]
         public void invalid_column_name_index_throws_argument_exception()
         {
-            var newRow = new ExcelRow(_cells, _columnMappings);
-            var temp = newRow["First Name"];
+            Assert.Throws<ArgumentException>(() =>
+            {
+                var newRow = new ExcelRow(_cells, _columnMappings);
+                var temp = newRow["First Name"];
+            }, "'First Name' column name does not exist. Valid column names are 'Name', 'Favorite Sport', 'Age'");
         }
     }
 }

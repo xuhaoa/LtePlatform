@@ -10,12 +10,10 @@ namespace Lte.Domain.Test.LinqToExcel
     public class CSV_SQLStatements_UnitTests : SQLLogStatements_Helper
     {
         string _fileName;
-
-        [TestFixtureSetUp]
-        public void fs()
+        
+        public CSV_SQLStatements_UnitTests()
         {
             _fileName = Path.Combine(Path.GetTempPath(), "spreadsheet.csv");
-            InstantiateLogger();
         }
 
         [SetUp]

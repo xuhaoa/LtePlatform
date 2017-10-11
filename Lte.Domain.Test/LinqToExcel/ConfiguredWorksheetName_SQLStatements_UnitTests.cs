@@ -8,10 +8,8 @@ namespace Lte.Domain.Test.LinqToExcel
     [TestFixture]
     public class ConfiguredWorksheetName_SQLStatements_UnitTests : SQLLogStatements_Helper
     {
-        [TestFixtureSetUp]
-        public void fs()
+        public ConfiguredWorksheetName_SQLStatements_UnitTests() : base()
         {
-            InstantiateLogger();
         }
 
         [SetUp]

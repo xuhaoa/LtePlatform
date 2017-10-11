@@ -25,11 +25,13 @@ namespace Lte.Domain.Test.LinqToExcel
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void throw_argumentnullexception_when_filename_is_null()
         {
-            var repo = new ExcelQueryFactory();
-            var first = (from r in repo.Worksheet() select r).First();
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var repo = new ExcelQueryFactory();
+                var first = (from r in repo.Worksheet() select r).First();
+            });
         }
 
         [Test]
@@ -61,19 +63,26 @@ namespace Lte.Domain.Test.LinqToExcel
         }
 
         [Test]
-        [ExpectedException(typeof(NullReferenceException), ExpectedMessage = "FileName property is not set")]
         public void GetWorksheetNames_throws_exception_when_filename_not_set()
         {
-            var factory = new ExcelQueryFactory();
-            factory.GetWorksheetNames();
+            Assert.Throws<NullReferenceException>((() =>
+                {
+                    var factory = new ExcelQueryFactory();
+                    factory.GetWorksheetNames();
+                }
+            ), "FileName property is not set");
+
         }
 
         [Test]
-        [ExpectedException(typeof(NullReferenceException), ExpectedMessage = "FileName property is not set")]
         public void GetColumnNames_throws_exception_when_filename_not_set()
         {
-            var factory = new ExcelQueryFactory();
-            factory.GetColumnNames("");
+            Assert.Throws<NullReferenceException>(() =>
+            {
+                var factory = new ExcelQueryFactory();
+                factory.GetColumnNames("");
+            }, "FileName property is not set");
+
         }
 
         [Test]
@@ -146,14 +155,15 @@ namespace Lte.Domain.Test.LinqToExcel
         }
 
         [Test]
-        [ExpectedException(typeof(StrictMappingException), 
-            ExpectedMessage = "'City' property is not mapped to a column")]
         public void StrictMapping_ClassStrict_throws_StrictMappingException_when_property_is_not_mapped_to_column()
         {
-            var excel = new ExcelQueryFactory(_excelFileName);
-            excel.StrictMapping = StrictMappingType.ClassStrict;
-            var companies = (from x in excel.Worksheet<CompanyWithCity>()
-                             select x).ToList();
+            Assert.Throws<StrictMappingException>(() =>
+            {
+                var excel = new ExcelQueryFactory(_excelFileName);
+                excel.StrictMapping = StrictMappingType.ClassStrict;
+                var companies = (from x in excel.Worksheet<CompanyWithCity>()
+                    select x).ToList();
+            }, "'City' property is not mapped to a column");
         }
 
         [Test]
@@ -171,14 +181,15 @@ namespace Lte.Domain.Test.LinqToExcel
         }
 
         [Test]
-        [ExpectedException(typeof(StrictMappingException),
-            ExpectedMessage = "'City' column is not mapped to a property")]
         public void StrictMapping_WorksheetStrict_throws_StrictMappingException_when_column_is_not_mapped_to_property()
         {
-            var excel = new ExcelQueryFactory(_excelFileName);
-            excel.StrictMapping = StrictMappingType.WorksheetStrict;
-            var companies = (from x in excel.Worksheet<Company>("Null Dates")
-                             select x).ToList();
+            Assert.Throws<StrictMappingException>(() =>
+            {
+                var excel = new ExcelQueryFactory(_excelFileName);
+                excel.StrictMapping = StrictMappingType.WorksheetStrict;
+                var companies = (from x in excel.Worksheet<Company>("Null Dates")
+                    select x).ToList();
+            }, "'City' column is not mapped to a property");
         }
 
         [Test]
@@ -196,25 +207,28 @@ namespace Lte.Domain.Test.LinqToExcel
         }
 
         [Test]
-        [ExpectedException(typeof(StrictMappingException), 
-            ExpectedMessage = "'City' property is not mapped to a column")]
         public void StrictMapping_Both_throws_StrictMappingException_when_property_is_not_mapped_to_column()
         {
-            var excel = new ExcelQueryFactory(_excelFileName);
-            excel.StrictMapping = StrictMappingType.Both;
-            var companies = (from x in excel.Worksheet<CompanyWithCity>()
-                             select x).ToList();
+            Assert.Throws<StrictMappingException>(() =>
+            {
+                var excel = new ExcelQueryFactory(_excelFileName);
+                excel.StrictMapping = StrictMappingType.Both;
+                var companies = (from x in excel.Worksheet<CompanyWithCity>()
+                    select x).ToList();
+            }, "'City' property is not mapped to a column");
+
         }
 
         [Test]
-        [ExpectedException(typeof(StrictMappingException),
-            ExpectedMessage = "'City' column is not mapped to a property")]
         public void StrictMapping_Both_throws_StrictMappingException_when_column_is_not_mapped_to_property()
         {
-            var excel = new ExcelQueryFactory(_excelFileName);
-            excel.StrictMapping = StrictMappingType.Both;
-            var companies = (from x in excel.Worksheet<Company>("Null Dates")
-                             select x).ToList();
+            Assert.Throws<StrictMappingException>(() =>
+            {
+                var excel = new ExcelQueryFactory(_excelFileName);
+                excel.StrictMapping = StrictMappingType.Both;
+                var companies = (from x in excel.Worksheet<Company>("Null Dates")
+                    select x).ToList();
+            }, "'City' column is not mapped to a property");
         }
 
         [Test]

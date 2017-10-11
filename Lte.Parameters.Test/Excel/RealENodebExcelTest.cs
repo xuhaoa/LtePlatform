@@ -14,11 +14,9 @@ namespace Lte.Parameters.Test.Excel
         ExcelQueryFactory _repo;
         string _excelFileName;
         string _worksheetName;
-
-        [TestFixtureSetUp]
-        public void fs()
+        
+        public RealENodebExcelTest()
         {
-            InstantiateLogger();
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
             _excelFileName = Path.Combine(excelFilesDirectory, "佛山无线中心LTE工参-20151105.xlsx");

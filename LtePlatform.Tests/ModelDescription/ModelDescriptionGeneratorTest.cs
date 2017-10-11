@@ -17,11 +17,13 @@ namespace LtePlatform.Tests.ModelDescription
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void Test_GetOrCreateModelDescription_NullType()
         {
-            var description = generator.GetOrCreateModelDescription(null);
-            Assert.IsNotNull(description);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var description = generator.GetOrCreateModelDescription(null);
+                Assert.IsNotNull(description);
+            });
         }
 
         [Test]

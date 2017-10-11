@@ -765,7 +765,7 @@
                         .postPhpUrlData(appUrlService.getPhpHost() +
                         'LtePlatForm/lte/index.php/Station/single',
                         {
-                            "id": id
+                            "SysStationId": id
                         });
                 },
                 updateStation: function(station) {

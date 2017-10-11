@@ -13,7 +13,7 @@ namespace Lte.Domain.Test.LinqToExcel
         /// </summary>
         protected MemoryAppender _loggedEvents;
 
-        protected void InstantiateLogger()
+        protected SQLLogStatements_Helper()
         {
             _loggedEvents = new MemoryAppender();
             log4net.Config.BasicConfigurator.Configure(_loggedEvents);

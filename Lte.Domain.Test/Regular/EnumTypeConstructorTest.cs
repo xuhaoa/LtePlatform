@@ -20,7 +20,7 @@ namespace Lte.Domain.Test.Regular
             public string VehicleTypeDescription { get; set; }
         }
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetUp()
         {
             Expression<Func<Source, Dest>> constructor = src => new Dest
@@ -65,7 +65,7 @@ namespace Lte.Domain.Test.Regular
             }
         }
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetUp()
         {
 

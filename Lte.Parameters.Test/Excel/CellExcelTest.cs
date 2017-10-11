@@ -16,11 +16,9 @@ namespace Lte.Parameters.Test.Excel
         ExcelQueryFactory _repo;
         string _excelFileName;
         string _worksheetName;
-
-        [TestFixtureSetUp]
-        public void fs()
+        
+        public CellExcelTest()
         {
-            InstantiateLogger();
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
             _excelFileName = Path.Combine(excelFilesDirectory, "Cell.xlsx");

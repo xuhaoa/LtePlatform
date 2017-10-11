@@ -12,12 +12,10 @@ namespace Lte.Parameters.Test.Kpi
     public class CdmaRegionStatExcelTest : SQLLogStatements_Helper
     {
         ExcelQueryFactory _repo;
-        string _excelFileName;
-
-        [TestFixtureSetUp]
-        public void fs()
+        readonly string _excelFileName;
+        
+        public CdmaRegionStatExcelTest()
         {
-            InstantiateLogger();
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
             _excelFileName = Path.Combine(excelFilesDirectory, "佛山.xls");

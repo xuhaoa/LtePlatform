@@ -9,10 +9,8 @@ namespace Lte.Domain.Test.LinqToExcel
     [TestFixture]
     public class ConnectionString_UnitTests : SQLLogStatements_Helper
     {
-        [TestFixtureSetUp]
-        public void fs()
+        public ConnectionString_UnitTests() : base()
         {
-            InstantiateLogger();
         }
 
         [SetUp]

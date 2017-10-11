@@ -3,7 +3,7 @@
 }
 
 <h3 class="text text-primary"><strong>@ViewBag.Title</strong></h3>
-<div class="row">
+<div class="row" ng-controller="neighbor.import">
     <div class="col-md-6">
         @{
             Html.RenderPartial("_AlertPanel");
@@ -39,7 +39,7 @@
             }
         }
     </div>
-    <div class="col-md-6" ng-controller="neighbor.import">
+    <div class="col-md-6">
         <h4>华为流量</h4>
         <button class="btn btn-primary" ng-click="dumpHuaweiItems()" ng-disabled="huaweiInfo.totalDumpItems === 0">
             一键导入
@@ -83,7 +83,9 @@
                     {{100*zteInfo.totalFailItems / zteInfo.totalDumpItems | number: 2}}%
                 </span>
             </div>
-        </div>
+        </div>        
+    </div>
+    <div class="col-md-12">
         <div date-span-row begin-date="beginDate" end-date="endDate">
             <button class="btn btn-primary" ng-click="updateDumpHistory()">更新</button>
         </div>
@@ -96,7 +98,9 @@
                     <th>中兴数量</th>
                     <th>中兴RRC记录</th>
                     <th>镇区统计-全部</th>
-                    <th>镇区统计-分频率</th>
+                    <th>镇区统计-2.1G</th>
+                    <th>镇区统计-1.8G</th>
+                    <th>镇区统计-800M</th>
                     <th>镇区RRC统计</th>
                     <th>镇区CQI统计</th>
                 </tr>
@@ -109,20 +113,16 @@
                     <td>{{stat.zteItems}}</td>
                     <td>{{stat.zteRrcs}}</td>
                     <td>{{stat.townStats}}</td>
-                    <td>{{stat.townStats2100+stat.townStats1800+stat.townStats800VoLte}}</td>
+                    <td>{{stat.townStats2100}}</td>
+                    <td>{{stat.townStats1800}}</td>
+                    <td>{{stat.townStats800VoLte}}</td>
                     <td>{{stat.townRrcs}}</td>
                     <td>{{stat.townQcis}}</td>
                 </tr>
             </tbody>
-        </table>        
+        </table>
     </div>
 </div>
-
-
-
-
-
-
 
 @section Scripts{
     <script src="~/Scripts/parameters/neighbor/import.controller.js"></script>
