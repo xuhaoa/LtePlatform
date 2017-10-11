@@ -401,6 +401,7 @@
     <Content Include="appViews\BasicKpi\HotspotDtDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\AssessmentDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\CheckDetails.html" />
+    <Content Include="appViews\Evaluation\Dialog\CheckIndoorDetails.html" />
     <Content Include="appViews\Evaluation\Dialog\ResoureDetails.html" />
     <Content Include="appViews\Evaluation\Resource.html" />
     <Content Include="appViews\Home\Common.html" />
@@ -571,6 +572,13 @@
     <Content Include="Content\Images\BtsIcons\alarm_purple.png" />
     <Content Include="Content\Images\BtsIcons\alarm_red.png" />
     <Content Include="Content\Images\BtsIcons\alarm_yellow.png" />
+    <Content Include="Content\Images\BtsIcons\btsicon_003300.png" />
+    <Content Include="Content\Images\BtsIcons\btsicon_3366D0.png" />
+    <Content Include="Content\Images\BtsIcons\btsicon_99CC00.png" />
+    <Content Include="Content\Images\BtsIcons\btsicon_CC3333.png" />
+    <Content Include="Content\Images\BtsIcons\btsicon_CC6699.png" />
+    <Content Include="Content\Images\BtsIcons\btsicon_CC9966.png" />
+    <Content Include="Content\Images\BtsIcons\btsicon_FF9966.png" />
     <Content Include="Content\Images\BtsIcons\btsicon_0.png" />
     <Content Include="Content\Images\BtsIcons\btsicon_1.png" />
     <Content Include="Content\Images\BtsIcons\btsicon_2.png" />

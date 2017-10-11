@@ -8,7 +8,8 @@
             geometryCalculateService,
             dumpPreciseService) {
             return {
-                showGeneralPointCollection: function(stations, color, callback) {
+                showGeneralPointCollection: function (stations, color, callback) {
+                    alert(color);
                     baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute)
                         .then(function(coors) {
                             var xOffset = coors.x - stations[0].longtitute;
@@ -19,6 +20,20 @@
                                 -yOffset,
                                 function(e) {
                                     callback(e.point.data);
+                                });
+                        });
+                },               
+                showPointWithClusterer: function (stations, color, callback) {     
+                    baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute)
+                        .then(function (coors) {
+                            var xOffset = coors.x - stations[0].longtitute;
+                            var yOffset = coors.y - stations[0].lattitute;
+                            baiduMapService.drawPointWithClusterer(stations,
+                                color.slice(1,7),
+                                -xOffset,
+                                -yOffset,
+                                function () {
+                                    callback(this.data);
                                 });
                         });
                 },
@@ -223,21 +238,24 @@
                     });
                 },
                 showMaintainStations: function(stations, color, beginDate, endDate) {
-                    generalMapService.showGeneralPointCollection(stations, color, function(station) {
+                    generalMapService.showPointWithClusterer(stations, color, function(station) {
                         workItemDialog.showStationInfoDialog(station, beginDate, endDate);
                     });
                 },
                 showIndoorStations: function(stations, color, beginDate, endDate) {
-                    generalMapService.showGeneralPointCollection(stations, color,
+                    generalMapService.showPointWithClusterer(stations, color,
                         function(station) {
                             workItemDialog.showIndoorInfoDialog(station, beginDate, endDate);
                         });
                 },
                 showCheckingStations: function(stations, color, status) {
                     generalMapService
-                        .showGeneralPointCollection(stations, color, function(data) {
+                        .showPointWithClusterer(stations, color, function(data) {
                             if (status === '已巡检') {
-                                parametersDialogService.showCheckingStationInfo(data);
+                                if(data.id.indexOf('JZ')>0)
+                                    parametersDialogService.showCheckingStationInfo(data);
+                                else
+                                    parametersDialogService.showCheckingIndoorInfo(data);
                             } else {
                                 mapDialogService.showCommonStationInfo(data);
                             }
@@ -245,11 +263,11 @@
                 },
                 showFixingStations: function(stations, color) {
                     generalMapService
-                        .showGeneralPointCollection(stations, color, mapDialogService.showFixingStationInfo);
+                        .showPointWithClusterer(stations, color, mapDialogService.showFixingStationInfo);
                 },
                 showResourceStations: function (stations, color) {
                     generalMapService
-                        .showGeneralPointCollection(stations, color, mapDialogService.showResourceStationInfo);
+                        .showPointWithClusterer(stations, color, mapDialogService.showResourceStationInfo);
                 },
                 showConstructionSites: function(stations, status, callback) {
                     baiduQueryService.transformToBaidu(stations[0].longtitute, stations[0].lattitute)

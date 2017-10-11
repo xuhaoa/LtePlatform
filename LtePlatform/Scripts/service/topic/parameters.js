@@ -143,7 +143,20 @@
                         }
                     });
                 },
-                
+                showCheckingIndoorInfo: function (station) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Evaluation/Dialog/CheckIndoorDetails.html',
+                        controller: 'map.checkingStation.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "巡检信息:" + station.name;
+                            },
+                            station: function () {
+                                return station;
+                            }
+                        }
+                    });
+                },
                 showAssessmentDialog: function () {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Evaluation/Dialog/AssessmentDialog.html',
