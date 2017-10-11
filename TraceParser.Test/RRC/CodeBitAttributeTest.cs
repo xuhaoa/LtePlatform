@@ -34,7 +34,7 @@ namespace TraceParser.Test.RRC
     {
         private readonly Mock<IBitArrayReader> _reader = new Mock<IBitArrayReader>();
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetup()
         {
             _reader.Setup(x => x.ReadBitString(It.IsAny<int>())).Returns<int>(position => "code" + position.ToString());

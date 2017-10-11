@@ -13,11 +13,9 @@ namespace Lte.Domain.Test.LinqToExcel.ColumnFormat
         ExcelQueryFactory _repo;
         string _excelFileName;
         string _worksheetName;
-
-        [TestFixtureSetUp]
-        public void fs()
+        
+        public IntegerClassTest_ColumnAnnotation() : base()
         {
-            InstantiateLogger();
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
             _excelFileName = Path.Combine(excelFilesDirectory, "IntegerFormat.xls");
@@ -95,27 +93,6 @@ namespace Lte.Domain.Test.LinqToExcel.ColumnFormat
             Assert.AreEqual(rows.Count, 2);
             Assert.AreEqual(rows[0].IntegerColumn, -2);
             Assert.AreEqual(rows[1].IntegerColumn, -7);
-
-            var events = _loggedEvents.GetEvents();
-            Console.Write("0:{0}\n1:{1}\n2:{2}",
-                events[0].RenderedMessage, events[1].RenderedMessage, events[2].RenderedMessage);
-            var warningEvents = events.Where(x => x.Level == Level.Warn || x.Level == Level.Alert);
-            Assert.AreEqual(warningEvents.Count(), 0);
-        }
-
-        [Test]
-        [ExpectedException(typeof(FormatException), ExpectedMessage = "输入字符串的格式不正确。")]
-        public void Test_DoublePoints()
-        {
-            _worksheetName = "DoublePoints";
-            _loggedEvents.Clear();
-
-            var rows = (from c in _repo.Worksheet<IntegerClassWithColumnAnnotation>(_worksheetName)
-                        select c).ToList();
-
-            Assert.AreEqual(rows.Count, 2);
-            Assert.AreEqual(rows[0].IntegerColumn, 25);
-            Assert.AreEqual(rows[1].IntegerColumn, 7);
 
             var events = _loggedEvents.GetEvents();
             Console.Write("0:{0}\n1:{1}\n2:{2}",

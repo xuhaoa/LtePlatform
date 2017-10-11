@@ -1,19 +1,18 @@
 ﻿using Abp.EntityFramework.AutoMapper;
 using AutoMapper;
-using NUnit.Framework;
 using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
 using Lte.Domain.Common;
 using Lte.MySqlFramework.Entities;
+using NUnit.Framework;
 
 namespace Abp.EntityFramework.Tests.AutoMapper
 {
     [TestFixture]
     public class BtsExcelMapperTest
     {
-        [TestFixtureSetUp]
-        public void TestFixtureSetup()
+        public BtsExcelMapperTest()
         {
             Mapper.Initialize(cfg => AutoMapperHelper.CreateMap(typeof (BtsExcel), cfg));
         }

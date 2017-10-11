@@ -12,7 +12,7 @@ namespace Lte.Domain.Test.LinqToExcel
     {
         private string _excelFileName;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void fs()
         {
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
@@ -21,118 +21,138 @@ namespace Lte.Domain.Test.LinqToExcel
         }
 
         [Test]
-        [ExpectedException(typeof(DataException), ExpectedMessage = "'Bad Column' is not a valid column name. " +
-            "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'")]
         public void row_column_in_where_clause()
         {
-            var list = (from x in ExcelQueryFactory.Worksheet("Sheet1", _excelFileName)
-                        where x["Bad Column"].ToString() == "nothing"
-                        select x).ToList();
+            Assert.Throws<DataException>(() =>
+            {
+                var list = (from x in ExcelQueryFactory.Worksheet("Sheet1", _excelFileName)
+                    where x["Bad Column"].ToString() == "nothing"
+                    select x).ToList();
+            }, "'Bad Column' is not a valid column name. " +
+               "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'");
         }
 
         [Test]
-        [ExpectedException(typeof(DataException), ExpectedMessage = "'Bad Column' is not a valid column name. " +
-            "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'")]
         public void row_column_in_orderby_clause()
         {
-            var list = (from x in ExcelQueryFactory.Worksheet("Sheet1", _excelFileName)
+            Assert.Throws<DataException>(() =>
+            {
+                var list = (from x in ExcelQueryFactory.Worksheet("Sheet1", _excelFileName)
                         select x)
-                        .OrderBy(x => x["Bad Column"])
-                        .ToList();
+                    .OrderBy(x => x["Bad Column"])
+                    .ToList();
+            }, "'Bad Column' is not a valid column name. " +
+               "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'");
         }
 
         [Test]
-        [ExpectedException(typeof(DataException), ExpectedMessage = "'City' is not a valid column name. " +
-            "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'")]
         public void bad_column_in_where_clause()
         {
-            var list = (from x in ExcelQueryFactory.Worksheet<CompanyWithCity>("Sheet1", _excelFileName)
-                        where x.City == "Omaha"
-                        select x).ToList();
+            Assert.Throws<DataException>(() =>
+            {
+                var list = (from x in ExcelQueryFactory.Worksheet<CompanyWithCity>("Sheet1", _excelFileName)
+                    where x.City == "Omaha"
+                    select x).ToList();
+            }, "'City' is not a valid column name. " +
+               "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'");
         }
 
         [Test]
-        [ExpectedException(typeof(DataException), ExpectedMessage = "'Town' is not a valid column name. " +
-            "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'")]
         public void bad_column_mapping_in_where_clause()
         {
-            var excel = new ExcelQueryFactory(_excelFileName);
-            excel.AddMapping<CompanyWithCity>(x => x.City, "Town");
-            var list = (from x in excel.Worksheet<CompanyWithCity>("Sheet1")
-                        where x.City == "Omaha"
-                        select x).ToList();
+            Assert.Throws<DataException>(() =>
+            {
+                var excel = new ExcelQueryFactory(_excelFileName);
+                excel.AddMapping<CompanyWithCity>(x => x.City, "Town");
+                var list = (from x in excel.Worksheet<CompanyWithCity>("Sheet1")
+                    where x.City == "Omaha"
+                    select x).ToList();
+            }, "'Town' is not a valid column name. " +
+               "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'");
         }
 
         [Test]
-        [ExpectedException(typeof(DataException), ExpectedMessage = "'City' is not a valid column name. " +
-            "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'")]
         public void bad_column_in_orderby_clause()
         {
-            var list = (from x in ExcelQueryFactory.Worksheet<CompanyWithCity>("Sheet1", _excelFileName)
+            Assert.Throws<DataException>(() =>
+            {
+                var list = (from x in ExcelQueryFactory.Worksheet<CompanyWithCity>("Sheet1", _excelFileName)
                         select x)
-                        .OrderBy(x => x.City)
-                        .ToList();
+                    .OrderBy(x => x.City)
+                    .ToList();
+            }, "'City' is not a valid column name. " +
+               "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'");
         }
 
         [Test]
-        [ExpectedException(typeof(DataException), ExpectedMessage = "'Town' is not a valid column name. " +
-            "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'")]
         public void bad_column_mapping_in_orderby_clause()
         {
-            var excel = new ExcelQueryFactory(_excelFileName);
-            excel.AddMapping<CompanyWithCity>(x => x.City, "Town");
-            var list = (from x in excel.Worksheet<CompanyWithCity>("Sheet1")
+            Assert.Throws<DataException>(() =>
+            {
+                var excel = new ExcelQueryFactory(_excelFileName);
+                excel.AddMapping<CompanyWithCity>(x => x.City, "Town");
+                var list = (from x in excel.Worksheet<CompanyWithCity>("Sheet1")
                         select x)
-                        .OrderBy(x => x.City)
-                        .ToList();
+                    .OrderBy(x => x.City)
+                    .ToList();
+            }, "'Town' is not a valid column name. " +
+               "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'");
         }
 
         [Test]
-        [ExpectedException(typeof(DataException), ExpectedMessage = "'Employees' is not a valid column name. " +
-            "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'")]
         public void bad_column_in_average_aggregate()
         {
-            var excel = new ExcelQueryFactory(_excelFileName);
-            excel.AddMapping<CompanyWithCity>(x => x.EmployeeCount, "Employees");
-            var list = (from x in excel.Worksheet<CompanyWithCity>("Sheet1")
+            Assert.Throws<DataException>(() =>
+            {
+                var excel = new ExcelQueryFactory(_excelFileName);
+                excel.AddMapping<CompanyWithCity>(x => x.EmployeeCount, "Employees");
+                var list = (from x in excel.Worksheet<CompanyWithCity>("Sheet1")
                         select x)
-                        .Average(x => x.EmployeeCount);
+                    .Average(x => x.EmployeeCount);
+            }, "'Employees' is not a valid column name. " +
+               "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'");
         }
 
         [Test]
-        [ExpectedException(typeof(DataException), ExpectedMessage = "'Employees' is not a valid column name. " +
-            "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'")]
         public void bad_column_in_max_aggregate()
         {
-            var excel = new ExcelQueryFactory(_excelFileName);
-            excel.AddMapping<CompanyWithCity>(x => x.EmployeeCount, "Employees");
-            var list = (from x in excel.Worksheet<CompanyWithCity>("Sheet1")
+            Assert.Throws<DataException>(() =>
+            {
+                var excel = new ExcelQueryFactory(_excelFileName);
+                excel.AddMapping<CompanyWithCity>(x => x.EmployeeCount, "Employees");
+                var list = (from x in excel.Worksheet<CompanyWithCity>("Sheet1")
                         select x)
-                        .Max(x => x.EmployeeCount);
+                    .Max(x => x.EmployeeCount);
+            }, "'Employees' is not a valid column name. " +
+               "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'");
         }
 
         [Test]
-        [ExpectedException(typeof(DataException), ExpectedMessage = "'Employees' is not a valid column name. " +
-            "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'")]
         public void bad_column_in_min_aggregate()
         {
-            var excel = new ExcelQueryFactory(_excelFileName);
-            excel.AddMapping<CompanyWithCity>(x => x.EmployeeCount, "Employees");
-            var list = (from x in excel.Worksheet<CompanyWithCity>("Sheet1")
+            Assert.Throws<DataException>(() =>
+            {
+                var excel = new ExcelQueryFactory(_excelFileName);
+                excel.AddMapping<CompanyWithCity>(x => x.EmployeeCount, "Employees");
+                var list = (from x in excel.Worksheet<CompanyWithCity>("Sheet1")
                         select x)
-                        .Min(x => x.EmployeeCount);
+                    .Min(x => x.EmployeeCount);
+            }, "'Employees' is not a valid column name. " +
+               "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'");
         }
 
         [Test]
-        [ExpectedException(typeof(DataException), ExpectedMessage = "'Employees' is not a valid column name. " +
-            "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'")]
         public void bad_column_in_sum_aggregate()
         {
-            var excel = new ExcelQueryFactory(_excelFileName);
-            excel.AddMapping<CompanyWithCity>(x => x.EmployeeCount, "Employees");
-            var list = (from x in excel.Worksheet<CompanyWithCity>("Sheet1")
+            Assert.Throws<DataException>(() =>
+            {
+                var excel = new ExcelQueryFactory(_excelFileName);
+                excel.AddMapping<CompanyWithCity>(x => x.EmployeeCount, "Employees");
+                var list = (from x in excel.Worksheet<CompanyWithCity>("Sheet1")
                         select x)
-                        .Sum(x => x.EmployeeCount);
+                    .Sum(x => x.EmployeeCount);
+            }, "'Employees' is not a valid column name. " +
+               "Valid column names are: 'Name', 'CEO', 'EmployeeCount', 'StartDate'");
         }
     }
 }

@@ -12,11 +12,9 @@ namespace Lte.Domain.Test.LinqToExcel.ColumnFormat
         ExcelQueryFactory _repo;
         string _excelFileName;
         string _worksheetName;
-
-        [TestFixtureSetUp]
-        public void fs()
+        
+        public ChineseClassTest_ColumnAnnotation() : base()
         {
-            InstantiateLogger();
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
             _excelFileName = Path.Combine(excelFilesDirectory, "ChineseNameColumn.xlsx");

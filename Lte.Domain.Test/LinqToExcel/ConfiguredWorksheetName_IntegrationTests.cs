@@ -10,14 +10,12 @@ namespace Lte.Domain.Test.LinqToExcel
     public class ConfiguredWorksheetName_IntegrationTests : SQLLogStatements_Helper
     {
         private string _excelFileName;
-
-        [TestFixtureSetUp]
-        public void fs()
+        
+        public ConfiguredWorksheetName_IntegrationTests() : base()
         {
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
             _excelFileName = Path.Combine(excelFilesDirectory, "Companies.xls");
-            InstantiateLogger();
         }
 
         [SetUp]
@@ -46,13 +44,16 @@ namespace Lte.Domain.Test.LinqToExcel
         }
 
         [Test]
-        [ExpectedException(typeof(System.Data.DataException))]
         public void worksheetIndex_too_high_throws_exception()
         {
-            var companies = from c in ExcelQueryFactory.Worksheet<Company>(8, _excelFileName)
-                            select c;
+            Assert.Throws<System.Data.DataException>(() =>
+            {
+                var companies = from c in ExcelQueryFactory.Worksheet<Company>(8, _excelFileName)
+                    select c;
 
-            companies.ToList();
+                companies.ToList();
+            });
+
         }
     }
 }

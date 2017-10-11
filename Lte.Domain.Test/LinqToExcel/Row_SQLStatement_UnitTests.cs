@@ -9,12 +9,6 @@ namespace Lte.Domain.Test.LinqToExcel
     [TestFixture]
     public class Row_SQLStatement_UnitTests : SQLLogStatements_Helper
     {
-        [TestFixtureSetUp]
-        public void fs()
-        {
-            InstantiateLogger();
-        }
-
         [SetUp]
         public void s()
         {
@@ -98,16 +92,23 @@ namespace Lte.Domain.Test.LinqToExcel
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException),
-            ExpectedMessage = "Can only use column indexes in WHERE clause when using WorksheetNoHeader")]
         public void argument_exception_thrown_when_column_indexes_used_in_worksheet_where_clause()
         {
-            var companies = from c in ExcelQueryFactory.Worksheet("", "", null)
-                            where c[0] == "Omaha"
-                            select c;
-            
-            try { companies.GetEnumerator(); }
-            catch (OleDbException) { }
+            Assert.Throws<ArgumentException>(() =>
+            {
+                var companies = from c in ExcelQueryFactory.Worksheet("", "", null)
+                    where c[0] == "Omaha"
+                    select c;
+
+                try
+                {
+                    companies.GetEnumerator();
+                }
+                catch (OleDbException)
+                {
+                }
+            }, "Can only use column indexes in WHERE clause when using WorksheetNoHeader");
+
         }
     }
 }

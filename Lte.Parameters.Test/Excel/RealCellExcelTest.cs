@@ -16,11 +16,9 @@ namespace Lte.Parameters.Test.Excel
         ExcelQueryFactory _repo;
         string _excelFileName;
         string _worksheetName;
-
-        [TestFixtureSetUp]
-        public void fs()
+        
+        public RealCellExcelTest()
         {
-            InstantiateLogger();
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
             _excelFileName = Path.Combine(excelFilesDirectory, "佛山无线中心LTE工参-20151105.xlsx");
@@ -52,11 +50,9 @@ namespace Lte.Parameters.Test.Excel
         string _excelFileName;
         string _worksheetName;
         private string _excelFilesDirectory;
-
-        [TestFixtureSetUp]
-        public void fs()
+        
+        public OnlineSustainTests()
         {
-            InstantiateLogger();
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
             _excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
             _worksheetName = "Sheet1";

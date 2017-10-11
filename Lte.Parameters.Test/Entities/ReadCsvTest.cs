@@ -81,7 +81,7 @@ namespace Lte.Parameters.Test.Entities
     [TestFixture]
     public class ReadFileRecordCsvTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Ts()
         {
             Mapper.Initialize(cfg=>cfg.CreateMap<FileRecord3GCsv, FileRecord3G>());

@@ -18,13 +18,11 @@ namespace Lte.Parameters.Test.Excel
     {
         ExcelQueryFactory _repo;
         string _excelFileName;
-        string _worksheetName;
-        private string _testDirectory;
+        readonly string _worksheetName;
+        private readonly string _testDirectory;
 
-        [TestFixtureSetUp]
-        public void fs()
+        public WorkItemExcelTest()
         {
-            InstantiateLogger();
             _testDirectory = AppDomain.CurrentDomain.BaseDirectory;
             _worksheetName = "工单查询结果";
         }
@@ -135,10 +133,8 @@ namespace Lte.Parameters.Test.Excel
         string _worksheetName;
         private string _excelFilesDirectory;
 
-        [TestFixtureSetUp]
-        public void fs()
+        public ComplainExcelTest2()
         {
-            InstantiateLogger();
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
             _excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
             _worksheetName = "组合项目";
@@ -224,11 +220,9 @@ namespace Lte.Parameters.Test.Excel
         string _excelFileName;
         string _worksheetName;
         private string _excelFilesDirectory;
-
-        [TestFixtureSetUp]
-        public void fs()
+        
+        public ComplainExcelTest()
         {
-            InstantiateLogger();
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
             _excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
             _worksheetName = "当月累积受理工单详单";

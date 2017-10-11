@@ -12,7 +12,7 @@ namespace Lte.Domain.Test.LinqToExcel
         ExcelQueryFactory _factory;
         string _excelFileName;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void fs()
         {
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;

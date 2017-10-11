@@ -14,10 +14,8 @@ namespace Lte.Domain.Test.LinqToExcel
         string _excelFileName;
         string _worksheetName;
 
-        [TestFixtureSetUp]
-        public void fs()
+        public ColumnMappings_IntegrationTests() : base()
         {
-            InstantiateLogger();
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var excelFilesDirectory = Path.Combine(testDirectory, "ExcelFiles");
             _excelFileName = Path.Combine(excelFilesDirectory, "Companies.xls");

@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Lte.Domain.Regular;
 using Lte.Domain.Common.Geo;
 using Lte.Parameters.MockOperations;
-using MongoDB.Driver.Core.Configuration;
 using NUnit.Framework;
 using Lte.MySqlFramework.Entities;
 
@@ -22,7 +19,7 @@ namespace Lte.Parameters.Test.Entities
         private string _mergeFileName;
         private string _lastFileName;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetup()
         {
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;

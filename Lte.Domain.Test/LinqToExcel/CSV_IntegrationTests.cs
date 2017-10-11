@@ -11,7 +11,7 @@ namespace Lte.Domain.Test.LinqToExcel
     {
         string _fileName;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void fs()
         {
             var testDirectory = AppDomain.CurrentDomain.BaseDirectory;

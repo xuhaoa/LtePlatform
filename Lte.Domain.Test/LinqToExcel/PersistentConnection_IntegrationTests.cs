@@ -14,7 +14,7 @@ namespace Lte.Domain.Test.LinqToExcel
 		private IExcelQueryFactory _factory;
 	    private string excelFileName;
 
-		[TestFixtureSetUp]
+		[OneTimeSetUp]
 		public void fs()
 		{
 			string testDirectory = AppDomain.CurrentDomain.BaseDirectory;
@@ -66,7 +66,7 @@ namespace Lte.Domain.Test.LinqToExcel
             Assert.AreEqual(7, companies.Count);
         }
 
-		[TestFixtureTearDown]
+		[OneTimeTearDown]
 		public void td()
 		{
 			//dispose of the factory (and persistent connection)
