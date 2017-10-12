@@ -82,7 +82,7 @@ angular.module('topic.basic', ['myApp.url', 'myApp.region'])
 
                 map.centerAndZoom(new BMap.Point(113.01, 23.02), zoomLevel);
                 map.setMinZoom(8); //设置地图最小级别
-                map.setMaxZoom(17); //设置地图最大级别
+                map.setMaxZoom(18); //设置地图最大级别
 
                 map.enableScrollWheelZoom(); //启用滚轮放大缩小
                 map.enableDragging();
@@ -791,8 +791,9 @@ angular.module('topic.college',
                     });
                 },
                 showMaintainStations: function(stations, color, beginDate, endDate) {
-                    generalMapService.showPointWithClusterer(stations, color, function(station) {
-                        workItemDialog.showStationInfoDialog(station, beginDate, endDate);
+                    generalMapService.showPointWithClusterer(stations, color,
+                        function (station) {
+                            workItemDialog.showStationInfoDialog(station, beginDate, endDate);
                     });
                 },
                 showIndoorStations: function(stations, color, beginDate, endDate) {
@@ -801,16 +802,22 @@ angular.module('topic.college',
                             workItemDialog.showIndoorInfoDialog(station, beginDate, endDate);
                         });
                 },
+                showCommonStations: function (stations, color) {
+                    generalMapService.showPointWithClusterer(stations, color,
+                        function (station) {
+                            mapDialogService.showCommonStationInfo(station);
+                        });
+                },
                 showCheckingStations: function(stations, color, status) {
                     generalMapService
-                        .showPointWithClusterer(stations, color, function(data) {
+                        .showPointWithClusterer(stations, color, function (station) {
                             if (status === '已巡检') {
-                                if(data.id.indexOf('JZ')>0)
-                                    parametersDialogService.showCheckingStationInfo(data);
+                                if (station.id.indexOf('JZ')>0)
+                                    parametersDialogService.showCheckingStationInfo(station);
                                 else
-                                    parametersDialogService.showCheckingIndoorInfo(data);
+                                    parametersDialogService.showCheckingIndoorInfo(station);
                             } else {
-                                mapDialogService.showCommonStationInfo(data);
+                                mapDialogService.showCommonStationInfo(station);
                             }
                         });
                 },

@@ -82,7 +82,7 @@
 
                 map.centerAndZoom(new BMap.Point(113.01, 23.02), zoomLevel);
                 map.setMinZoom(8); //设置地图最小级别
-                map.setMaxZoom(17); //设置地图最大级别
+                map.setMaxZoom(18); //设置地图最大级别
 
                 map.enableScrollWheelZoom(); //启用滚轮放大缩小
                 map.enableDragging();

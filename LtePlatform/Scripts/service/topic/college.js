@@ -238,8 +238,9 @@
                     });
                 },
                 showMaintainStations: function(stations, color, beginDate, endDate) {
-                    generalMapService.showPointWithClusterer(stations, color, function(station) {
-                        workItemDialog.showStationInfoDialog(station, beginDate, endDate);
+                    generalMapService.showPointWithClusterer(stations, color,
+                        function (station) {
+                            workItemDialog.showStationInfoDialog(station, beginDate, endDate);
                     });
                 },
                 showIndoorStations: function(stations, color, beginDate, endDate) {
@@ -248,16 +249,22 @@
                             workItemDialog.showIndoorInfoDialog(station, beginDate, endDate);
                         });
                 },
+                showCommonStations: function (stations, color) {
+                    generalMapService.showPointWithClusterer(stations, color,
+                        function (station) {
+                            mapDialogService.showCommonStationInfo(station);
+                        });
+                },
                 showCheckingStations: function(stations, color, status) {
                     generalMapService
-                        .showPointWithClusterer(stations, color, function(data) {
+                        .showPointWithClusterer(stations, color, function (station) {
                             if (status === '已巡检') {
-                                if(data.id.indexOf('JZ')>0)
-                                    parametersDialogService.showCheckingStationInfo(data);
+                                if (station.id.indexOf('JZ')>0)
+                                    parametersDialogService.showCheckingStationInfo(station);
                                 else
-                                    parametersDialogService.showCheckingIndoorInfo(data);
+                                    parametersDialogService.showCheckingIndoorInfo(station);
                             } else {
-                                mapDialogService.showCommonStationInfo(data);
+                                mapDialogService.showCommonStationInfo(station);
                             }
                         });
                 },
