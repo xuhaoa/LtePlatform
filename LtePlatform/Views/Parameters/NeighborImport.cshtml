@@ -89,38 +89,7 @@
         <div date-span-row begin-date="beginDate" end-date="endDate">
             <button class="btn btn-primary" ng-click="updateDumpHistory()">更新</button>
         </div>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>日期</th>
-                    <th>华为数量</th>
-                    <th>华为RRC数量</th>
-                    <th>中兴数量</th>
-                    <th>中兴RRC记录</th>
-                    <th>镇区统计-全部</th>
-                    <th>镇区统计-2.1G</th>
-                    <th>镇区统计-1.8G</th>
-                    <th>镇区统计-800M</th>
-                    <th>镇区RRC统计</th>
-                    <th>镇区CQI统计</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="stat in dumpHistory">
-                    <td>{{stat.dateString}}</td>
-                    <td>{{stat.huaweiItems}}</td>
-                    <td>{{stat.huaweiRrcs}}</td>
-                    <td>{{stat.zteItems}}</td>
-                    <td>{{stat.zteRrcs}}</td>
-                    <td>{{stat.townStats}}</td>
-                    <td>{{stat.townStats2100}}</td>
-                    <td>{{stat.townStats1800}}</td>
-                    <td>{{stat.townStats800VoLte}}</td>
-                    <td>{{stat.townRrcs}}</td>
-                    <td>{{stat.townQcis}}</td>
-                </tr>
-            </tbody>
-        </table>
+        <div flow-dump-history-table items="dumpHistory"></div>
     </div>
 </div>
 
