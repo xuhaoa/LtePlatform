@@ -2,6 +2,7 @@ using System;
 using Abp.Domain.Entities;
 using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Dependency;
+using Castle.MicroKernel.Registration;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
@@ -9,7 +10,7 @@ using Lte.Domain.Regular.Attributes;
 
 namespace Lte.MySqlFramework.Entities
 {
-    [AutoMapFrom(typeof(FlowHuawei), typeof(FlowZte))]
+    [AutoMapFrom(typeof(FlowHuawei), typeof(FlowZte), typeof(FlowView))]
     public class TownFlowStat : Entity, ITownId, IStatTime
     {
         [ArraySumProtection]
