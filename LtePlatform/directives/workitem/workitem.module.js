@@ -72,35 +72,67 @@ angular.module('workitem.module.table', ['myApp.kpi'])
         };
     });
 
-angular.module('workitem.module.feedback', ['myApp.kpi'])
-    .directive('platformAndFeedbackInfo', function(workitemRoot, workItemDialog, workitemService) {
-        return {
-            restrict: 'ECMA',
-            replace: true,
-            scope: {
-                currentView: '=',
-                serialNumber: '='
-            },
-            templateUrl: workitemRoot + 'PlatformAndFeedbackInfo.html',
-            link: function(scope, element, attrs) {
-                scope.feedback = function() {
-                    workItemDialog.feedback(scope.currentView, scope.updateWorkItems);
-                };
-                scope.$watch('currentView', function(view) {
-                    if (view) {
-                        scope.platformInfos = workItemDialog.calculatePlatformInfo(view.comments);
-                        scope.feedbackInfos = workItemDialog.calculatePlatformInfo(view.feedbackContents);
-                    }
-                });
+angular.module('workitem.module.feedback', ['ui.grid', 'myApp.kpi'])
+    .directive('platformAndFeedbackInfo',
+        function(workitemRoot, workItemDialog, workitemService) {
+            return {
+                restrict: 'ECMA',
+                replace: true,
+                scope: {
+                    currentView: '=',
+                    serialNumber: '='
+                },
+                templateUrl: workitemRoot + 'PlatformAndFeedbackInfo.html',
+                link: function(scope, element, attrs) {
+                    scope.feedback = function() {
+                        workItemDialog.feedback(scope.currentView, scope.updateWorkItems);
+                    };
+                    scope.$watch('currentView',
+                        function(view) {
+                            if (view) {
+                                scope.platformInfos = workItemDialog.calculatePlatformInfo(view.comments);
+                                scope.feedbackInfos = workItemDialog.calculatePlatformInfo(view.feedbackContents);
+                            }
+                        });
 
-                scope.updateWorkItems = function() {
-                    workitemService.querySingleItem(scope.serialNumber).then(function(result) {
-                        scope.currentView = result;
-                    });
-                };
-            }
-        };
-    });
+                    scope.updateWorkItems = function() {
+                        workitemService.querySingleItem(scope.serialNumber).then(function(result) {
+                            scope.currentView = result;
+                        });
+                    };
+                }
+            };
+        })
+    .controller('FlowDumpHistoryController',
+        function($scope) {
+            $scope.gridOptions = {
+                columnDefs: [
+                    { field: 'dateString', name: '日期' },
+                    { field: 'huaweiItems', name: '华为数量' },
+                    { field: 'huaweiRrcs', name: '华为RRC数量' },
+                    { field: 'zteItems', name: '中兴数量' },
+                    { field: 'zteRrcs', name: '中兴RRC记录' },
+                    { field: 'townStats', name: '镇区统计-全部' },
+                    { field: 'townStats2100', name: '镇区统计-2.1G' },
+                    { field: 'townStats1800', name: '镇区统计-1.8G' },
+                    { field: 'townStats800VoLte', name: '镇区统计-800M' },
+                    { field: 'townRrcs', name: '镇区RRC统计' },
+                    { field: 'townQcis', name: '镇区CQI统计' }
+                ],
+                data: []
+            };
+        })
+    .directive('flowDumpHistoryTable',
+        function($compile, calculateService) {
+            return calculateService.generateGridDirective({
+                controllerName: 'FlowDumpHistoryController',
+                    scope: {
+                        items: '='
+                    },
+                    argumentName: 'items'
+                },
+                $compile);
+        });
 
 angular.module('workitem.module.details', [])
     .directive('workItemDetails', function(workitemRoot) {
