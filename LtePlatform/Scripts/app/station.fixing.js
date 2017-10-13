@@ -1,6 +1,6 @@
 ﻿angular.module('station.fixing', ['app.common', 'home.station'])
     .controller("menu.fixing-station",
-        function($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService) {
+    function ($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService, mapDialogService) {
 
             $scope.stationName = "";
             $scope.stations = [];
@@ -34,7 +34,7 @@
                 });
         })
     .controller("menu.fixing-indoor",
-        function($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService) {
+    function ($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService, mapDialogService) {
 
             $scope.stationName = "";
             $scope.stations = [];

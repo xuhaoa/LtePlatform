@@ -10,7 +10,7 @@
 </div>
 
 <div class="modal-body form-horizontal">
-    <div uib-tabset active="active" type="pills">
+    <div uib-tabset active="active" select="selectTab(0)" type="pills">
         <div uib-tab index="0" heading="总表">
             <table class="table table-striped">
                 <tr>
@@ -109,7 +109,7 @@
                 </tr>
             </table>
         </div>
-        <div uib-tab index="1" heading="现场抽查">
+        <div uib-tab index="1" elect="selectTab(1)" heading="现场抽查">
             <table class="table table-striped">
                 <tr>
                     <td>序号</td>
@@ -198,7 +198,7 @@
                 <tr><td colspan='6'>说明：评分采取扣分制，基础分为100分，按实际得分折算。每个考核细项的扣分不能超过该细项的扣分上限，扣完为止；每个考核项目内的考核细项扣分总和也不能超过该考核项目的总分值。</td></tr>
             </table>
         </div>
-        <div uib-tab index="2" heading="指标">
+        <div uib-tab index="2" select="selectTab(2)" heading="指标">
             <table class="table table-striped">
                 <tr><td colspan="7">KPI指标</td></tr>
                 <tr><td colspan="7">
@@ -213,7 +213,7 @@
                 <tr><td colspan="7">说明:网络质量KPI指标主要包括故障工单接单及时率、故障工单处理及时率和因故障处理不及时导致的用户投诉；基础分为100分，三项指标累加扣分，按KPI指标百分制实际得分计算方法进行评分。甲方综合考虑上级主管部门要求及网络实际情况，乙方所负责区域的每季度考核指标目标值由甲方在上一季度末25日前提供。</td></tr>
             </table>
         </div>
-        <div uib-tab index="3" heading="加扣分">
+        <div uib-tab index="3" select="selectTab(3)" heading="加扣分">
             <table class="table table-striped">
                 <tr><td>序号</td><td>项目</td><td>评分标准</td><td>扣分上限</td><td>扣 分</td><td>扣分说明</td><td>备注</td></tr>
 
@@ -285,7 +285,7 @@
                 <tr><td>56</td><td rowspan='3'>基础信息管理</td><td>信息更新的及时性和有效性符合要求。</td></tr>
                 <tr><td>57</td><td>1.未按照服务规范规定进行维护管理基础信息维护导致信息不正确，每个问题扣0.1分。其中室分系统未掌握天馈线及设备布放图（含有源及无源设备），缺少或明显与实际不符每套扣0.5分。</td></tr>
                 <tr><td>58</td><td>2.甲方每月抽查基站、天馈、室分等台帐数据，每发现一项资料不符合要求扣0.2分，满分3分，扣完为止。乙方未及时更新基础资料，每次扣0.2分，满分3分，扣完为止。</td></tr>
-
+ 
                 <tr><td>59</td><td rowspan='7'>防范性</td><td>1.乙方应根据国家相关要求做好安全管理工作，具有完备的安全管理流程与规范，一旦发生因乙方原因导致的人员伤亡或重大网络安全事故，甲方有权终止其服务资格，且保留进一步追究相关责任的权利。</td><td rowspan='7'>按实核算</td><td rowspan='7'><input type="number" min="-100" max="100" step="0.1" ng-model="jqf4" ng-change="changejqf()"></td><td rowspan='7'></td><td rowspan='7'></td></tr>
                 <tr><td>60</td><td>2.因乙方原因引起一般故障每次扣2分，较大故障每次扣3分，重大故障每次扣5分，特别重大故障每次扣10分。</td></tr>
                 <tr><td>61</td><td>3.乙方出现转包或分包现象的，每发现一次扣10分。</td></tr>

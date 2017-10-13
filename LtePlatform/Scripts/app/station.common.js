@@ -1,18 +1,18 @@
 ﻿angular.module('station.common', ['app.common', 'home.station'])
     .controller("menu.common-station",
-        function($scope, downSwitchService, myValue, baiduMapService, workItemDialog, baiduQueryService) {
+    function ($scope, downSwitchService, myValue, baiduMapService, mapDialogService, baiduQueryService) {
 
             $scope.stationName = "";
             $scope.stations = [];
             $scope.search = function() {
-                downSwitchService.getStationByName($scope.stationName, $scope.areaNames[myValue.distinctIndex], 1, 10)
-                    .then(function(response) {
+                downSwitchService.getStationByName($scope.stationName, 'JZ', 1, 10)
+                    .then(function (response) {
                         $scope.stations = response.result.rows;
                     });
             }
             $scope.showStationInfo = function(index) {
                 document.getElementById("cardlist").style.display = "none";
-                workItemDialog.showStationInfo($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
+                mapDialogService.showCommonStationInfo($scope.stations[index - 1]);
             }
             $scope.$watch('stations',
                 function() {
@@ -28,25 +28,25 @@
                                 -xOffset,
                                 -yOffset,
                                 function() {
-                                    workItemDialog.showStationInfo(this.data);
+                                    mapDialogService.showCommonStationInfo(this.data);
                                 });
                         });
                 });
         })
     .controller("menu.common-indoor",
-        function($scope, downSwitchService, myValue, baiduMapService, workItemDialog, baiduQueryService) {
+    function ($scope, downSwitchService, myValue, baiduMapService, mapDialogService, baiduQueryService) {
 
             $scope.stationName = "";
             $scope.stations = [];
             $scope.search = function() {
-                downSwitchService.getStationByName($scope.stationName, $scope.areaNames[myValue.distinctIndex], 1, 10)
+                downSwitchService.getStationByName($scope.stationName, 'SF', 1, 10)
                     .then(function(response) {
                         $scope.stations = response.result.rows;
                     });
             }
             $scope.showStationInfo = function(index) {
                 document.getElementById("cardlist").style.display = "none";
-                workItemDialog.showStationInfo($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
+                mapDialogService.showCommonStationInfo($scope.stations[index - 1]);
             }
             $scope.$watch('stations',
                 function() {
@@ -62,7 +62,7 @@
                                 -xOffset,
                                 -yOffset,
                                 function() {
-                                    workItemDialog.showStationInfo(this.data);
+                                    mapDialogService.showCommonStationInfo(this.data);
                                 });
                         });
                 });

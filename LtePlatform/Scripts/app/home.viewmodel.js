@@ -746,7 +746,7 @@ angular.module('home.station', ['app.common'])
         };
         $scope.showStationInfo = function (index) {
             document.getElementById("cardlist").style.display = "none";
-            workItemDialog.showStationInfo($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
+            workItemDialog.showStationInfoDialog($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
         };
         $scope.displayStations = function () {
             baiduMapService.clearOverlays();
@@ -759,7 +759,7 @@ angular.module('home.station', ['app.common'])
                         -xOffset,
                         -yOffset,
                         function () {
-                            workItemDialog.showStationInfo(this.data, $scope.beginDate, $scope.endDate);
+                            workItemDialog.showStationInfoDialog(this.data, $scope.beginDate, $scope.endDate);
                         });
                 });
         };
@@ -777,7 +777,7 @@ angular.module('home.station', ['app.common'])
         };
         $scope.showStationInfo = function (index) {
             document.getElementById("cardlist").style.display = "none";
-            workItemDialog.showIndoorInfo($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
+            workItemDialog.showIndoorInfoDialog($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
         };
         $scope.displayStations = function () {
             baiduMapService.clearOverlays();
@@ -790,7 +790,7 @@ angular.module('home.station', ['app.common'])
                         -xOffset,
                         -yOffset,
                         function () {
-                            workItemDialog.showIndoorInfo(this.data, $scope.beginDate, $scope.endDate);
+                            workItemDialog.showIndoorInfoDialog(this.data, $scope.beginDate, $scope.endDate);
                         });
                 });
         };
@@ -1083,7 +1083,7 @@ angular.module('home.station', ['app.common'])
 
 angular.module('home.alarm.menu', ['app.common', 'home.station'])
     .controller("menu.alarm-station",
-        function($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService) {
+    function ($scope, downSwitchService, baiduMapService, mapDialogService, baiduQueryService) {
             $scope.stationName = "";
             $scope.stations = [];
 
@@ -1094,7 +1094,7 @@ angular.module('home.alarm.menu', ['app.common', 'home.station'])
             }
             $scope.showStationInfo = function(index) {
                 document.getElementById("cardlist").style.display = "none";
-                parametersDialogService.showAlarmStationInfo($scope.stations[index - 1]);
+                mapDialogService.showAlarmStationInfo($scope.stations[index - 1]);
             }
             $scope.$watch('stations',
                 function() {
@@ -1110,14 +1110,14 @@ angular.module('home.alarm.menu', ['app.common', 'home.station'])
                                 -xOffset,
                                 -yOffset,
                                 function() {
-                                    parametersDialogService
+                                    mapDialogService
                                         .showAlarmStationInfo(this.data, $scope.beginDate, $scope.endDate);
                                 });
                         });
                 });
         })
     .controller("menu.alarm-indoor",
-        function($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService) {
+    function ($scope, downSwitchService, baiduMapService, mapDialogService, baiduQueryService) {
 
             $scope.stationName = "";
             $scope.stations = [];
@@ -1129,7 +1129,7 @@ angular.module('home.alarm.menu', ['app.common', 'home.station'])
             }
             $scope.showStationInfo = function(index) {
                 document.getElementById("cardlist").style.display = "none";
-                parametersDialogService.showAlarmStationInfo($scope.stations[index - 1]);
+                mapDialogService.showAlarmStationInfo($scope.stations[index - 1]);
             }
             $scope.$watch('stations',
                 function() {
@@ -1145,14 +1145,14 @@ angular.module('home.alarm.menu', ['app.common', 'home.station'])
                                 -xOffset,
                                 -yOffset,
                                 function() {
-                                    parametersDialogService
+                                    mapDialogService
                                         .showAlarmStationInfo(this.data, $scope.beginDate, $scope.endDate);
                                 });
                         });
                 });
         })
     .controller("menu.resource-station",
-        function($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService) {
+    function ($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService, mapDialogService) {
 
             $scope.stationName = "";
             $scope.stations = [];
@@ -1164,7 +1164,7 @@ angular.module('home.alarm.menu', ['app.common', 'home.station'])
             }
             $scope.showStationInfo = function(index) {
                 document.getElementById("cardlist").style.display = "none";
-                parametersDialogService.showCommonStationInfo($scope.stations[index - 1]);
+                mapDialogService.showCommonStationInfo($scope.stations[index - 1]);
             }
             $scope.$watch('stations',
                 function() {
@@ -1180,13 +1180,13 @@ angular.module('home.alarm.menu', ['app.common', 'home.station'])
                                 -xOffset,
                                 -yOffset,
                                 function() {
-                                    parametersDialogService.showCommonStationInfo(this.data);
+                                    mapDialogService.showCommonStationInfo(this.data);
                                 });
                         });
                 });
         })
     .controller("menu.resource-indoor",
-        function($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService) {
+    function ($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService, mapDialogService) {
 
             $scope.stationName = "";
             $scope.stations = [];
@@ -1198,7 +1198,7 @@ angular.module('home.alarm.menu', ['app.common', 'home.station'])
             }
             $scope.showStationInfo = function(index) {
                 document.getElementById("cardlist").style.display = "none";
-                parametersDialogService.showCommonStationInfo($scope.stations[index - 1]);
+                mapDialogService.showCommonStationInfo($scope.stations[index - 1]);
             }
             $scope.$watch('stations',
                 function() {
@@ -1214,7 +1214,7 @@ angular.module('home.alarm.menu', ['app.common', 'home.station'])
                                 -xOffset,
                                 -yOffset,
                                 function() {
-                                    parametersDialogService.showCommonStationInfo(this.data);
+                                    mapDialogService.showCommonStationInfo(this.data);
                                 });
                         });
                 });
@@ -1554,68 +1554,6 @@ angular.module('home.alarm.menu', ['app.common', 'home.station'])
         $scope.reflashMap();
     })
 
-    .controller("menu.operation-station",
-        function($scope, downSwitchService, distinctIndex, baiduMapService, workItemDialog, baiduQueryService) {
-            $scope.stationName = "";
-            $scope.stations = [];
-            $scope.search = function() {
-                downSwitchService.getStationByName($scope.stationName, 1, 10)
-                    .then(function(response) {
-                        $scope.stations = response.result.rows;
-                        $scope.displayStations();
-                    });
-            };
-            $scope.showStationInfo = function(index) {
-                document.getElementById("cardlist").style.display = "none";
-                workItemDialog.showStationInfo($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
-            };
-            $scope.displayStations = function() {
-                baiduMapService.clearOverlays();
-                document.getElementById("cardlist").style.display = "inline";
-                baiduQueryService.transformToBaidu($scope.stations[0].longtitute, $scope.stations[0].lattitute)
-                    .then(function(coors) {
-                        var xOffset = coors.x - $scope.stations[0].longtitute;
-                        var yOffset = coors.y - $scope.stations[0].lattitute;
-                        baiduMapService.drawPointsUsual($scope.stations,
-                            -xOffset,
-                            -yOffset,
-                            function() {
-                                workItemDialog.showStationInfo(this.data, $scope.beginDate, $scope.endDate);
-                            });
-                    });
-            };
-        })
-    .controller("menu.operation-indoor",
-        function($scope, downSwitchService, distinctIndex, baiduMapService, workItemDialog, baiduQueryService) {
-            $scope.stationName = "";
-            $scope.stations = [];
-            $scope.search = function() {
-                downSwitchService.getIndoorByName($scope.stationName, 1, 10)
-                    .then(function(response) {
-                        $scope.stations = response.result.rows;
-                        $scope.displayStations();
-                    });
-            };
-            $scope.showStationInfo = function(index) {
-                document.getElementById("cardlist").style.display = "none";
-                workItemDialog.showIndoorInfo($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
-            };
-            $scope.displayStations = function() {
-                baiduMapService.clearOverlays();
-                document.getElementById("cardlist").style.display = "inline";
-                baiduQueryService.transformToBaidu($scope.stations[0].longtitute, $scope.stations[0].lattitute)
-                    .then(function(coors) {
-                        var xOffset = coors.x - $scope.stations[0].longtitute;
-                        var yOffset = coors.y - $scope.stations[0].lattitute;
-                        baiduMapService.drawPointsUsual($scope.stations,
-                            -xOffset,
-                            -yOffset,
-                            function() {
-                                workItemDialog.showIndoorInfo(this.data, $scope.beginDate, $scope.endDate);
-                            });
-                    });
-            };
-        });
 angular.module('station.checking', ['app.common', 'home.station'])
     .controller("menu.checking-station",
     function ($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService, mapDialogService) {
@@ -1920,7 +1858,7 @@ angular.module('station.checking', ['app.common', 'home.station'])
         });
 angular.module('station.fixing', ['app.common', 'home.station'])
     .controller("menu.fixing-station",
-        function($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService) {
+    function ($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService, mapDialogService) {
 
             $scope.stationName = "";
             $scope.stations = [];
@@ -1954,7 +1892,7 @@ angular.module('station.fixing', ['app.common', 'home.station'])
                 });
         })
     .controller("menu.fixing-indoor",
-        function($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService) {
+    function ($scope, downSwitchService, baiduMapService, parametersDialogService, baiduQueryService, mapDialogService) {
 
             $scope.stationName = "";
             $scope.stations = [];
@@ -2428,19 +2366,19 @@ angular.module('station.fixing', ['app.common', 'home.station'])
         });
 angular.module('station.common', ['app.common', 'home.station'])
     .controller("menu.common-station",
-        function($scope, downSwitchService, myValue, baiduMapService, workItemDialog, baiduQueryService) {
+    function ($scope, downSwitchService, myValue, baiduMapService, mapDialogService, baiduQueryService) {
 
             $scope.stationName = "";
             $scope.stations = [];
             $scope.search = function() {
-                downSwitchService.getStationByName($scope.stationName, $scope.areaNames[myValue.distinctIndex], 1, 10)
-                    .then(function(response) {
+                downSwitchService.getStationByName($scope.stationName, 'JZ', 1, 10)
+                    .then(function (response) {
                         $scope.stations = response.result.rows;
                     });
             }
             $scope.showStationInfo = function(index) {
                 document.getElementById("cardlist").style.display = "none";
-                workItemDialog.showStationInfo($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
+                mapDialogService.showCommonStationInfo($scope.stations[index - 1]);
             }
             $scope.$watch('stations',
                 function() {
@@ -2456,25 +2394,25 @@ angular.module('station.common', ['app.common', 'home.station'])
                                 -xOffset,
                                 -yOffset,
                                 function() {
-                                    workItemDialog.showStationInfo(this.data);
+                                    mapDialogService.showCommonStationInfo(this.data);
                                 });
                         });
                 });
         })
     .controller("menu.common-indoor",
-        function($scope, downSwitchService, myValue, baiduMapService, workItemDialog, baiduQueryService) {
+    function ($scope, downSwitchService, myValue, baiduMapService, mapDialogService, baiduQueryService) {
 
             $scope.stationName = "";
             $scope.stations = [];
             $scope.search = function() {
-                downSwitchService.getStationByName($scope.stationName, $scope.areaNames[myValue.distinctIndex], 1, 10)
+                downSwitchService.getStationByName($scope.stationName, 'SF', 1, 10)
                     .then(function(response) {
                         $scope.stations = response.result.rows;
                     });
             }
             $scope.showStationInfo = function(index) {
                 document.getElementById("cardlist").style.display = "none";
-                workItemDialog.showStationInfo($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
+                mapDialogService.showCommonStationInfo($scope.stations[index - 1]);
             }
             $scope.$watch('stations',
                 function() {
@@ -2490,7 +2428,7 @@ angular.module('station.common', ['app.common', 'home.station'])
                                 -xOffset,
                                 -yOffset,
                                 function() {
-                                    workItemDialog.showStationInfo(this.data);
+                                    mapDialogService.showCommonStationInfo(this.data);
                                 });
                         });
                 });

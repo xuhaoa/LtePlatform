@@ -216,8 +216,9 @@
                     mapDialogService.showCommonStationInfo(result.result[0]);
                 });
             };
-            $scope.changejqf = function() {
+            $scope.changejqf = function () {
                 $scope.jqf = $scope.jqf1 + $scope.jqf2 + $scope.jqf3 + $scope.jqf4 + $scope.jqf5;
+                alert($scope.jqf);
             };
             $scope.changecxcc = function() {
                 $scope.xcccd = 100 +
@@ -241,4 +242,33 @@
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
+            $scope.selectTab = function (setTab) {
+                $scope.tab = setTab;
+                if (0 == setTab) {
+                    $scope.zf = $scope.jqf + $scope.kpid * 0.3 + $scope.xcccd * 0.7;
+                } else if (1 == setTab) {
+                    $scope.xccc1 = 0;
+                    $scope.xccc2 = 0;
+                    $scope.xccc3 = 0;
+                    $scope.xccc4 = 0;
+                    $scope.xccc5 = 0;
+                    $scope.xccc6 = 0;
+                    $scope.xccc7 = 0;
+                    $scope.xccc8 = 0;
+                    $scope.changecxcc();
+                } else if (2 == setTab) {
+                    $scope.kpi1 = 0;
+                    $scope.kpi2 = 0;
+                    $scope.kpi3 = 0;
+                    $scope.changekpi();
+                } else if (3 == setTab) {
+                    $scope.jqf1 = 0;
+                    $scope.jqf2 = 0;
+                    $scope.jqf3 = 0;
+                    $scope.jqf4 = 0;
+                    $scope.jqf5 = 0;
+                    $scope.changejqf();
+                } 
+            }
+            $scope.selectTab(0);
         });

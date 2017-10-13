@@ -28,7 +28,7 @@
         };
         $scope.showStationInfo = function (index) {
             document.getElementById("cardlist").style.display = "none";
-            workItemDialog.showStationInfo($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
+            workItemDialog.showStationInfoDialog($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
         };
         $scope.displayStations = function () {
             baiduMapService.clearOverlays();
@@ -41,7 +41,7 @@
                         -xOffset,
                         -yOffset,
                         function () {
-                            workItemDialog.showStationInfo(this.data, $scope.beginDate, $scope.endDate);
+                            workItemDialog.showStationInfoDialog(this.data, $scope.beginDate, $scope.endDate);
                         });
                 });
         };
@@ -59,7 +59,7 @@
         };
         $scope.showStationInfo = function (index) {
             document.getElementById("cardlist").style.display = "none";
-            workItemDialog.showIndoorInfo($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
+            workItemDialog.showIndoorInfoDialog($scope.stations[index - 1], $scope.beginDate, $scope.endDate);
         };
         $scope.displayStations = function () {
             baiduMapService.clearOverlays();
@@ -72,7 +72,7 @@
                         -xOffset,
                         -yOffset,
                         function () {
-                            workItemDialog.showIndoorInfo(this.data, $scope.beginDate, $scope.endDate);
+                            workItemDialog.showIndoorInfoDialog(this.data, $scope.beginDate, $scope.endDate);
                         });
                 });
         };
