@@ -399,6 +399,7 @@
     <Content Include="appViews\BasicKpi\Construction.html" />
     <Content Include="appViews\BasicKpi\CsvDtDialog.html" />
     <Content Include="appViews\BasicKpi\HotspotDtDialog.html" />
+    <Content Include="appViews\College\Table\DumpCollegeFlowTable.html" />
     <Content Include="appViews\Evaluation\Dialog\AssessmentDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\CheckDetails.html" />
     <Content Include="appViews\Evaluation\Dialog\CheckIndoorDetails.html" />
@@ -744,7 +745,6 @@
     <Content Include="directives\rutrace\import\ForwardNeighbors.html" />
     <Content Include="appViews\Rutrace\Index.html" />
     <Content Include="appViews\Rutrace\Interference\DumpCellMongoDialog.html" />
-    <Content Include="appViews\Rutrace\Interference\DumpCells.html" />
     <Content Include="appViews\Rutrace\Interference\Index.html" />
     <Content Include="appViews\Rutrace\Interference\CoverageDialog.html" />
     <Content Include="directives\rutrace\interference\MongoNeighbors.html" />

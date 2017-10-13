@@ -267,9 +267,11 @@ describe('app.calculation service tests',
         describe('test basicCalculationService',
             function() {
                 var basicCalculationService;
+                var appFormatService;
 
-                beforeEach(inject(function(_basicCalculationService_) {
+                beforeEach(inject(function(_basicCalculationService_, _appFormatService_) {
                     basicCalculationService = _basicCalculationService_;
+                    appFormatService = _appFormatService_;
                 }));
 
                 describe('test calculateArraySum',
@@ -297,6 +299,17 @@ describe('app.calculation service tests',
                             });
                     }
                 );
+
+                describe('test generateDateSpanService function',
+                    function() {
+                        it('test the normal case',
+                            function() {
+                                var result = basicCalculationService.generateDateSpanSeries('2017-1-1', '2017-1-8');
+                                expect(result.length).toBe(7);
+                                expect(result[0].date).toEqual('2017-01-01');
+                                expect(result[6].date).toEqual('2017-01-07');
+                            });
+                    });
             });
 
         describe('test neGeometryService',

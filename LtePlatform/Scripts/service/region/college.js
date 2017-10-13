@@ -228,6 +228,12 @@
                     beginDate: begin,
                     endDate: end
                 });
+            },
+            retrieveDateCollegeFlowStats: function (statDate) {
+                return generalHttpService.getApiData('CollegeFlow',
+                    {
+                        statDate: statDate
+                    })
             }
         };
     })

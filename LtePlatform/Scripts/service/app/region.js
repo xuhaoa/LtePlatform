@@ -2062,6 +2062,12 @@ angular.module('region.college', ['app.core'])
                     beginDate: begin,
                     endDate: end
                 });
+            },
+            retrieveDateCollegeFlowStats: function (statDate) {
+                return generalHttpService.getApiData('CollegeFlow',
+                    {
+                        statDate: statDate
+                    })
             }
         };
     })
@@ -2439,6 +2445,19 @@ angular.module('region.precise', ['app.core'])
                     {
                         statDate: statDate,
                         frequency: frequency
+                    });
+                },
+                getCurrentDateTownFlowStats: function (statDate, frequency) {
+                    return generalHttpService.getApiData('TownFlow',
+                        {
+                            currentDate: statDate,
+                            frequency: frequency
+                        });
+                },
+                updateTownFlowStat: function(stat) {
+                    return generalHttpService.postApiData('TownFlow',
+                    {
+                        stat: stat
                     });
                 }
             };

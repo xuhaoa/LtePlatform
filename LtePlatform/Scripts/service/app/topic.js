@@ -2841,7 +2841,31 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
-        });
+    })
+    .controller('college.flow.dump',
+    function($scope,
+        $uibModalInstance,
+        beginDate,
+        endDate,
+        basicCalculationService,
+        kpiChartService) {
+        $scope.beginDate = beginDate;
+        $scope.endDate = endDate;
+        $scope.dialogTitle = "校园网流量导入";
+        $scope.query = function() {
+            $scope.stats = basicCalculationService.generateDateSpanSeries($scope.beginDate.value, $scope.endDate.value);
+        };
+
+        $scope.query();
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.building);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    });
 angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', "ui.bootstrap"])
     .run(function($rootScope, kpiPreciseService) {
         $rootScope.orderPolicy = {
@@ -4164,40 +4188,32 @@ angular.module('topic.dialog',[ 'app.menu', 'app.core' ])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Trend.html',
                         controller: 'cqi.trend',
-                        resolve: {
-                            dialogTitle: function () {
-                                return "CQI优良比变化趋势";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return "CQI优良比变化趋势";
+                                },
+                                city: function() {
+                                    return city;
+                                }
                             },
-                            city: function () {
-                                return city;
-                            },
-                            beginDate: function () {
-                                return beginDate;
-                            },
-                            endDate: function () {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showDownSwitchTrendDialog: function (city, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Trend.html',
                         controller: 'down.switch.trend',
-                        resolve: {
-                            dialogTitle: function () {
-                                return "4G下切3G变化趋势";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return "4G下切3G变化趋势";
+                                },
+                                city: function() {
+                                    return city;
+                                }
                             },
-                            city: function () {
-                                return city;
-                            },
-                            beginDate: function () {
-                                return beginDate;
-                            },
-                            endDate: function () {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showPreciseWorkItem: function(endDate) {
@@ -4242,17 +4258,13 @@ angular.module('topic.dialog',[ 'app.menu', 'app.core' ])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Top.html',
                         controller: 'down.switch.top',
-                        resolve: {
-                            dialogTitle: function () {
-                                return "全市4G下切3GTOP统计";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return "全市4G下切3GTOP统计";
+                                }
                             },
-                            beginDate: function () {
-                                return beginDate;
-                            },
-                            endDate: function () {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showPreciseTopDistrict: function(beginDate, endDate, district) {
@@ -4341,51 +4353,48 @@ angular.module('topic.dialog',[ 'app.menu', 'app.core' ])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/College/Test/CollegeFlow.html',
                         controller: 'hotSpot.flow.name',
-                        resolve: {
-                            beginDate: function () {
-                                return beginDate;
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                name: function() {
+                                    return name;
+                                }
                             },
-                            endDate: function () {
-                                return endDate;
-                            },
-                            name: function () {
-                                return name;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showCollegeFeelingTrend: function (beginDate, endDate, name) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/College/Test/CollegeFlow.html',
                         controller: 'college.feeling.name',
-                        resolve: {
-                            beginDate: function () {
-                                return beginDate;
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                name: function() {
+                                    return name;
+                                }
                             },
-                            endDate: function () {
-                                return endDate;
-                            },
-                            name: function () {
-                                return name;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showHotSpotFeelingTrend: function (beginDate, endDate, name) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/College/Test/CollegeFlow.html',
                         controller: 'hotSpot.feeling.name',
-                        resolve: {
-                            beginDate: function () {
-                                return beginDate;
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                name: function() {
+                                    return name;
+                                }
                             },
-                            endDate: function () {
-                                return endDate;
-                            },
-                            name: function () {
-                                return name;
-                            }
-                        }
+                            beginDate,
+                            endDate)
+                    });
+                },
+                showCollegeFlowDumpDialog: function(beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/College/Table/DumpCollegeFlowTable.html',
+                        controller: 'college.flow.dump',
+                        resolve: stationFormatService.dateSpanDateResolve({},
+                            beginDate,
+                            endDate)
                     });
                 }
             };

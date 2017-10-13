@@ -54,7 +54,7 @@ namespace Lte.MySqlFramework.Abstract
         
     }
 
-    public interface ITownFlowRepository : IRepository<TownFlowStat>, ISaveChanges
+    public interface ITownFlowRepository : IRepository<TownFlowStat>, ISaveChanges, IMatchRepository<TownFlowStat>
     {
     }
 

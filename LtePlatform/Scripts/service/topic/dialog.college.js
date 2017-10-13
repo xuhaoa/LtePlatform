@@ -171,4 +171,28 @@
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
-        });
+    })
+    .controller('college.flow.dump',
+    function($scope,
+        $uibModalInstance,
+        beginDate,
+        endDate,
+        basicCalculationService,
+        kpiChartService) {
+        $scope.beginDate = beginDate;
+        $scope.endDate = endDate;
+        $scope.dialogTitle = "校园网流量导入";
+        $scope.query = function() {
+            $scope.stats = basicCalculationService.generateDateSpanSeries($scope.beginDate.value, $scope.endDate.value);
+        };
+
+        $scope.query();
+
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.building);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    });

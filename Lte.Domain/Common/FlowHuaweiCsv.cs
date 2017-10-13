@@ -68,10 +68,22 @@ namespace Lte.Domain.Common
         public int DownlinkMaxUsers { get; set; }
 
         [CsvColumn(Name = "小区下行有数据传输总时长(1ms精度) (毫秒)")]
-        public int DownlinkDurationInMs { get; set; }
+        public string DownlinkDurationInMsString { get; set; }
+
+        public int DownlinkDurationInMs
+        {
+            get { return DownlinkDurationInMsString.ConvertToInt(0); }
+            set { DownlinkDurationInMsString = value.ToString(); }
+        }
 
         [CsvColumn(Name = "小区上行有数据传输总时长(1ms精度) (毫秒)")]
-        public int UplinkDurationInMs { get; set; }
+        public string UplinkDurationInMsString { get; set; }
+
+        public int UplinkDurationInMs
+        {
+            get { return UplinkDurationInMsString.ConvertToInt(0); }
+            set { UplinkDurationInMsString = value.ToString(); }
+        }
 
         [CsvColumn(Name = "小区Uu接口寻呼用户个数 (无)")]
         public string PagingUsersString { get; set; }
@@ -114,16 +126,40 @@ namespace Lte.Domain.Common
         public string PucchPrbsString { get; set; }
 
         [CsvColumn(Name = "使UE缓存为空的最后一个TTI所传的上行PDCP吞吐量 (比特)")]
-        public long LastTtiUplinkFlowInByte { get; set; }
+        public string LastTtiUplinkFlowInByteString { get; set; }
+
+        public long LastTtiUplinkFlowInByte
+        {
+            get { return LastTtiUplinkFlowInByteString.ConvertToLong(0); }
+            set { LastTtiUplinkFlowInByteString = value.ToString(); }
+        }
+        
 
         [CsvColumn(Name = "扣除使UE缓存为空的最后一个TTI之后的上行数传时长 (毫秒)")]
-        public int ButLastUplinkDurationInMs { get; set; }
+        public string ButLastUplinkDurationInMsString { get; set; }
+
+        public int ButLastUplinkDurationInMs
+        {
+            get { return ButLastUplinkDurationInMsString.ConvertToInt(0); }
+            set { ButLastUplinkDurationInMsString = value.ToString(); }
+        } 
 
         [CsvColumn(Name = "使缓存为空的最后一个TTI所传的下行PDCP吞吐量 (比特)")]
-        public long LastTtiDownlinkFlowInByte { get; set; }
+        public string LastTtiDownlinkFlowInByteString { get; set; }
+
+        public long LastTtiDownlinkFlowInByte {
+            get { return LastTtiDownlinkFlowInByteString.ConvertToLong(0); }
+            set { LastTtiDownlinkFlowInByteString = value.ToString(); }
+        }
 
         [CsvColumn(Name = "扣除使下行缓存为空的最后一个TTI之后的数传时长 (毫秒)")]
-        public int ButLastDownlinkDurationInMs { get; set; }
+        public string ButLastDownlinkDurationInMsString { get; set; }
+
+        public int ButLastDownlinkDurationInMs
+        {
+            get { return ButLastDownlinkDurationInMsString.ConvertToInt(0); }
+            set { ButLastDownlinkDurationInMsString = value.ToString(); }
+        }
 
         [CsvColumn(Name = "RANK1的上报次数 (无)")]
         public string SchedulingRank1String { get; set; }

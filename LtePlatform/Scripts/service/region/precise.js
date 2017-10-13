@@ -315,6 +315,19 @@
                         statDate: statDate,
                         frequency: frequency
                     });
+                },
+                getCurrentDateTownFlowStats: function (statDate, frequency) {
+                    return generalHttpService.getApiData('TownFlow',
+                        {
+                            currentDate: statDate,
+                            frequency: frequency
+                        });
+                },
+                updateTownFlowStat: function(stat) {
+                    return generalHttpService.postApiData('TownFlow',
+                    {
+                        stat: stat
+                    });
                 }
             };
         });

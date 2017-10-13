@@ -9,6 +9,7 @@ using Abp.EntityFramework.AutoMapper;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Abp.EntityFramework.Dependency;
 using Abp.EntityFramework.Extensions;
+using Abp.EntityFramework.Repositories;
 using Lte.Domain.Common.Wireless;
 
 namespace Lte.Evaluations.DataService.Kpi
@@ -85,12 +86,12 @@ namespace Lte.Evaluations.DataService.Kpi
         {
         }
 
-        protected override IDateSpanQuery<List<FlowView>> GenerateHuaweiQuery(int eNodebId, byte sectorId)
+        protected override Switch.IDateSpanQuery<List<FlowView>> GenerateHuaweiQuery(int eNodebId, byte sectorId)
         {
             return new HuaweiFlowQuery(HuaweiRepository, HuaweiCellRepository, eNodebId, sectorId);
         }
 
-        protected override IDateSpanQuery<List<FlowView>> GenerateZteQuery(int eNodebId, byte sectorId)
+        protected override Switch.IDateSpanQuery<List<FlowView>> GenerateZteQuery(int eNodebId, byte sectorId)
         {
             return new ZteFlowQuery(ZteRepository, eNodebId, sectorId);
         }
@@ -131,12 +132,12 @@ namespace Lte.Evaluations.DataService.Kpi
         {
         }
 
-        protected override IDateSpanQuery<List<RrcView>> GenerateHuaweiQuery(int eNodebId, byte sectorId)
+        protected override Switch.IDateSpanQuery<List<RrcView>> GenerateHuaweiQuery(int eNodebId, byte sectorId)
         {
             return new HuaweiRrcQuery(HuaweiRepository, HuaweiCellRepository, eNodebId, sectorId);
         }
 
-        protected override IDateSpanQuery<List<RrcView>> GenerateZteQuery(int eNodebId, byte sectorId)
+        protected override Switch.IDateSpanQuery<List<RrcView>> GenerateZteQuery(int eNodebId, byte sectorId)
         {
             return new ZteRrcQuery(ZteRepository, eNodebId, sectorId);
         }
@@ -213,6 +214,15 @@ namespace Lte.Evaluations.DataService.Kpi
             return stats.Select(x => x.ConstructView<TownFlowStat, TownFlowView>(_townRepository));
         }
 
+        public IEnumerable<TownFlowStat> QueryCurrentDateStats(DateTime currentDate, FrequencyBandType frequency)
+        {
+            var beginDate = currentDate.Date;
+            var endDate = beginDate.AddDays(1);
+            return
+                _repository.GetAllList(
+                    x => x.StatTime >= beginDate && x.StatTime < endDate && x.FrequencyBandType == frequency);
+        }
+
         public FlowRegionDateView QueryLastDateStat(DateTime initialDate, string city)
         {
             var stats = _repository.QueryLastDate(initialDate, (repository, beginDate, endDate) =>
@@ -243,7 +253,12 @@ namespace Lte.Evaluations.DataService.Kpi
                        TownViews = g.Select(x => x),
                        DistrictViews = g.Select(x => x).Merge(v =>v.MapTo<DistrictFlowView>())
                    };
-        } 
+        }
+
+        public TownFlowStat Update(TownFlowStat stat)
+        {
+            return _repository.ImportOne(stat);
+        }
     }
 
     public class DownSwitchFlowService

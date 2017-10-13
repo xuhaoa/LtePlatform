@@ -127,6 +127,15 @@ namespace Lte.MySqlFramework.Concrete
         public TownFlowRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
+
+        public TownFlowStat Match(TownFlowStat stat)
+        {
+            return
+                FirstOrDefault(
+                    x =>
+                        x.TownId == stat.TownId && x.StatTime == stat.StatTime &&
+                        x.FrequencyBandType == stat.FrequencyBandType);
+        }
     }
 
     public class TownRrcRepository : EfRepositorySave<MySqlContext, TownRrcStat>, ITownRrcRepository

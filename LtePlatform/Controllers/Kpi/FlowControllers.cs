@@ -226,6 +226,16 @@ namespace LtePlatform.Controllers.Kpi
         }
 
         [HttpGet]
+        [ApiDoc("查询指定日期有记录的镇级天流量")]
+        [ApiParameterDoc("currentDate", "统计日期")]
+        [ApiParameterDoc("frequency", "频段描述")]
+        [ApiResponse("镇级天流量，每个镇一条记录")]
+        public IEnumerable<TownFlowStat> GetCurrentDate(DateTime currentDate, string frequency)
+        {
+            return _service.QueryCurrentDateStats(currentDate, frequency.GetBandFromFcn());
+        }
+
+        [HttpGet]
         [ApiDoc("查询时间段内区域天流量统计")]
         [ApiParameterDoc("begin", "开始日期")]
         [ApiParameterDoc("end", "结束日期")]
@@ -235,9 +245,15 @@ namespace LtePlatform.Controllers.Kpi
         public IEnumerable<FlowRegionDateView> Get(DateTime begin, DateTime end, string city, string frequency)
         {
             return _service.QueryDateSpanStats(begin, end, city, frequency.GetBandFromFcn());
-        } 
-    }
+        }
 
+        [HttpPost]
+        public TownFlowStat Post(TownFlowStat stat)
+        {
+            return _service.Update(stat);
+        }
+    }
+    
     [ApiControl("校园网流量查询控制器")]
     public class CollegeFlowController : ApiController
     {
@@ -294,10 +310,14 @@ namespace LtePlatform.Controllers.Kpi
             }).OrderBy(x=>x.StatTime);
         }
 
+        [HttpGet]
+        [ApiDoc("抽取查询单日所有校园网的流量统计")]
+        [ApiParameterDoc("statDate", "统计日期")]
+        [ApiResponse("所有校园网的流量统计")]
         public IEnumerable<TownFlowStat> GetDateFlowView(DateTime statDate)
         {
-            var beginDate = statDate;
-            var endDate = statDate.AddDays(1);
+            var beginDate = statDate.Date;
+            var endDate = beginDate.AddDays(1);
             var colleges = _collegeService.QueryInfos();
             return colleges.Select(college =>
             {

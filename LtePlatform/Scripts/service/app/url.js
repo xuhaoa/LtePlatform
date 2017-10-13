@@ -4443,8 +4443,8 @@ angular.module('app.geometry', [])
             constructionStateOptions: ['全部', '审计会审', '天馈施工', '整体完工', '基站开通', '其他']
         };
     });
-angular.module('app.calculation', [])
-    .factory('basicCalculationService', function() {
+angular.module('app.calculation', ['app.format'])
+    .factory('basicCalculationService', function (appFormatService) {
         var isLongtituteValid = function(longtitute) {
             return (!isNaN(longtitute)) && longtitute > 112 && longtitute < 114;
         };
@@ -4470,6 +4470,18 @@ angular.module('app.calculation', [])
             mapLonLat: function(source, destination) {
                 source.longtitute = destination.longtitute;
                 source.lattitute = destination.lattitute;
+            },
+            generateDateSpanSeries: function(beginDate, endDate) {
+                var begin = new Date();
+                begin.setDate(beginDate.getDate());
+                var end = new Date();
+                end.setDate(endDate.setDate());
+                var result = [];
+                while (begin < end) {
+                    result.push({ date: appFormatService.getDateString(begin, 'yyyy-MM-dd') });
+                    begin.setDate(begin.getDate() + 1);
+                }
+                return result;
             }
         };
     })
