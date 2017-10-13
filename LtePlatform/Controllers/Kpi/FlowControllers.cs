@@ -243,11 +243,14 @@ namespace LtePlatform.Controllers.Kpi
     {
         private readonly FlowQueryService _service;
         private readonly CollegeCellViewService _collegeCellViewService;
+        private readonly CollegeStatService _collegeService;
 
-        public CollegeFlowController(FlowQueryService service, CollegeCellViewService collegeCellViewService)
+        public CollegeFlowController(FlowQueryService service, CollegeCellViewService collegeCellViewService,
+            CollegeStatService collegeService)
         {
             _service = service;
             _collegeCellViewService = collegeCellViewService;
+            _collegeService = collegeService;
         }
 
         [HttpGet]
@@ -289,7 +292,27 @@ namespace LtePlatform.Controllers.Kpi
                 stat.StatTime = x.Key;
                 return stat;
             }).OrderBy(x=>x.StatTime);
-        } 
+        }
+
+        public IEnumerable<TownFlowStat> GetDateFlowView(DateTime statDate)
+        {
+            var beginDate = statDate;
+            var endDate = statDate.AddDays(1);
+            var colleges = _collegeService.QueryInfos();
+            return colleges.Select(college =>
+            {
+                var cells = _collegeCellViewService.GetCollegeViews(college.Name);
+                var viewList = cells.Select(cell => _service.Query(cell.ENodebId, cell.SectorId, beginDate, endDate))
+                    .Where(views => views != null && views.Any())
+                    .Aggregate((x, y) => x.Concat(y).ToList());
+                if (!viewList.Any()) return null;
+                var stat = viewList.ArraySum().MapTo<TownFlowStat>();
+                stat.FrequencyBandType = FrequencyBandType.College;
+                stat.TownId = college.Id;
+                return stat;
+            });
+
+        }
     }
 
     [ApiControl("校园网流量查询控制器")]

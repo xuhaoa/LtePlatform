@@ -21,7 +21,7 @@ namespace Lte.Domain.Test.Common
                 typeof (AlarmType).GetCustomAttribute<EnumTypeDescriptionAttribute>();
             Assert.IsNotNull(attribute);
             var list = attribute.TupleList;
-            Assert.AreEqual(list.Length, 46);
+            Assert.AreEqual(list.Length, 71);
             var defaultValue = attribute.DefaultValue;
             Assert.AreEqual(defaultValue, AlarmType.Others);
         }

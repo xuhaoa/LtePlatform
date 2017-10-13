@@ -32,7 +32,8 @@ namespace Lte.Domain.Common.Wireless
         Band2100,
         Band1800,
         Band800VoLte,
-        Band800NbIot
+        Band800NbIot,
+        College
     }
 
     internal class FrequencyBandDef
