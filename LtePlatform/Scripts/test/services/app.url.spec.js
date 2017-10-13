@@ -304,10 +304,10 @@ describe('app.calculation service tests',
                     function() {
                         it('test the normal case',
                             function() {
-                                var result = basicCalculationService.generateDateSpanSeries('2017-1-1', '2017-1-8');
+                                var result = basicCalculationService.generateDateSpanSeries(new Date(2017,1,1), new Date(2017,1,8));
                                 expect(result.length).toBe(7);
-                                expect(result[0].date).toEqual('2017-01-01');
-                                expect(result[6].date).toEqual('2017-01-07');
+                                expect(result[0].date).toEqual(new Date(2017,1,1));
+                                expect(result[6].date).toEqual(new Date(2017,1,7));
                             });
                     });
             });

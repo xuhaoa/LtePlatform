@@ -322,15 +322,16 @@ namespace LtePlatform.Controllers.Kpi
             return colleges.Select(college =>
             {
                 var cells = _collegeCellViewService.GetCollegeViews(college.Name);
-                var viewList = cells.Select(cell => _service.Query(cell.ENodebId, cell.SectorId, beginDate, endDate))
-                    .Where(views => views != null && views.Any())
-                    .Aggregate((x, y) => x.Concat(y).ToList());
+                var viewListList = cells.Select(cell => _service.Query(cell.ENodebId, cell.SectorId, beginDate, endDate))
+                    .Where(views => views != null && views.Any()).ToList();
+                if (!viewListList.Any()) return null;
+                var viewList = viewListList.Aggregate((x, y) => x.Concat(y).ToList());
                 if (!viewList.Any()) return null;
                 var stat = viewList.ArraySum().MapTo<TownFlowStat>();
                 stat.FrequencyBandType = FrequencyBandType.College;
                 stat.TownId = college.Id;
                 return stat;
-            });
+            }).Where(x => x != null);
 
         }
     }

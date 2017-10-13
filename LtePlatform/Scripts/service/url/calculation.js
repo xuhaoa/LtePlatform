@@ -26,15 +26,14 @@
                 source.longtitute = destination.longtitute;
                 source.lattitute = destination.lattitute;
             },
-            generateDateSpanSeries: function(beginDate, endDate) {
-                var begin = new Date();
-                begin.setDate(beginDate.getDate());
-                var end = new Date();
-                end.setDate(endDate.setDate());
+            generateDateSpanSeries: function(begin, end) {
                 var result = [];
-                while (begin < end) {
-                    result.push({ date: appFormatService.getDateString(begin, 'yyyy-MM-dd') });
-                    begin.setDate(begin.getDate() + 1);
+                var beginDate = new Date(begin.getYear() + 1900, begin.getMonth(), begin.getDate());
+                while (beginDate < end) {
+                    result.push({
+                        date: new Date(beginDate.getYear() + 1900, beginDate.getMonth(), beginDate.getDate())
+                    });
+                    beginDate.setDate(beginDate.getDate() + 1);
                 }
                 return result;
             }

@@ -2455,10 +2455,7 @@ angular.module('region.precise', ['app.core'])
                         });
                 },
                 updateTownFlowStat: function(stat) {
-                    return generalHttpService.postApiData('TownFlow',
-                    {
-                        stat: stat
-                    });
+                    return generalHttpService.postApiData('TownFlow', stat);
                 }
             };
         });

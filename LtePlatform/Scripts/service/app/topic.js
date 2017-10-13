@@ -2669,8 +2669,8 @@ angular.module('topic.dialog.parameters', ['myApp.url', 'myApp.region', 'myApp.k
             };
         });
 angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', "ui.bootstrap"])
-    .run(function ($rootScope) {
-        $rootScope.closeAlert = function (messages, index) {
+    .run(function($rootScope) {
+        $rootScope.closeAlert = function(messages, index) {
             messages.splice(index, 1);
         };
     })
@@ -2710,9 +2710,9 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
-    })
+        })
     .controller("hotSpot.flow.name",
-        function ($scope,
+        function($scope,
             $uibModalInstance,
             name,
             beginDate,
@@ -2725,31 +2725,31 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
             $scope.endDate = endDate;
             $scope.flowStats = [];
             $scope.mergeStats = [];
-            $scope.query = function () {
+            $scope.query = function() {
                 appKpiService.calculateFlowStats($scope.cellList,
                     $scope.flowStats,
                     $scope.mergeStats,
                     $scope.beginDate,
                     $scope.endDate);
             };
-            $scope.showCharts = function () {
+            $scope.showCharts = function() {
                 kpiChartService.showFlowCharts($scope.flowStats, name, $scope.mergeStats);
             };
-            complainService.queryHotSpotCells(name).then(function (cells) {
+            complainService.queryHotSpotCells(name).then(function(cells) {
                 $scope.cellList = cells;
                 $scope.query();
             });
 
-            $scope.ok = function () {
+            $scope.ok = function() {
                 $uibModalInstance.close($scope.eNodeb);
             };
 
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
         })
     .controller("college.feeling.name",
-        function ($scope,
+        function($scope,
             $uibModalInstance,
             name,
             beginDate,
@@ -2762,31 +2762,31 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
             $scope.endDate = endDate;
             $scope.flowStats = [];
             $scope.mergeStats = [];
-            $scope.query = function () {
+            $scope.query = function() {
                 appKpiService.calculateFeelingStats($scope.cellList,
                     $scope.flowStats,
                     $scope.mergeStats,
                     $scope.beginDate,
                     $scope.endDate);
             };
-            $scope.showCharts = function () {
+            $scope.showCharts = function() {
                 kpiChartService.showFeelingCharts($scope.flowStats, name, $scope.mergeStats);
             };
-            collegeService.queryCells(name).then(function (cells) {
+            collegeService.queryCells(name).then(function(cells) {
                 $scope.cellList = cells;
                 $scope.query();
             });
 
-            $scope.ok = function () {
+            $scope.ok = function() {
                 $uibModalInstance.close($scope.eNodeb);
             };
 
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
-    })
+        })
     .controller("hotSpot.feeling.name",
-        function ($scope,
+        function($scope,
             $uibModalInstance,
             name,
             beginDate,
@@ -2799,26 +2799,26 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
             $scope.endDate = endDate;
             $scope.flowStats = [];
             $scope.mergeStats = [];
-            $scope.query = function () {
+            $scope.query = function() {
                 appKpiService.calculateFeelingStats($scope.cellList,
                     $scope.flowStats,
                     $scope.mergeStats,
                     $scope.beginDate,
                     $scope.endDate);
             };
-            $scope.showCharts = function () {
+            $scope.showCharts = function() {
                 kpiChartService.showFeelingCharts($scope.flowStats, name, $scope.mergeStats);
             };
-            complainService.queryHotSpotCells(name).then(function (cells) {
+            complainService.queryHotSpotCells(name).then(function(cells) {
                 $scope.cellList = cells;
                 $scope.query();
             });
 
-            $scope.ok = function () {
+            $scope.ok = function() {
                 $uibModalInstance.close($scope.eNodeb);
             };
 
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
         })
@@ -2841,31 +2841,48 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
-    })
+        })
     .controller('college.flow.dump',
-    function($scope,
-        $uibModalInstance,
-        beginDate,
-        endDate,
-        basicCalculationService,
-        kpiChartService) {
-        $scope.beginDate = beginDate;
-        $scope.endDate = endDate;
-        $scope.dialogTitle = "校园网流量导入";
-        $scope.query = function() {
-            $scope.stats = basicCalculationService.generateDateSpanSeries($scope.beginDate.value, $scope.endDate.value);
-        };
+        function($scope,
+            $uibModalInstance,
+            beginDate,
+            endDate,
+            basicCalculationService,
+            appRegionService,
+            collegeQueryService) {
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.dialogTitle = "校园网流量导入";
+            $scope.query = function() {
+                $scope.stats = basicCalculationService
+                    .generateDateSpanSeries($scope.beginDate.value, $scope.endDate.value);
+                angular.forEach($scope.stats,
+                    function(stat) {
+                        appRegionService.getCurrentDateTownFlowStats(stat.date, 'college').then(function(items) {
+                            stat.items = items;
+                            if (!items.length) {
+                                collegeQueryService.retrieveDateCollegeFlowStats(stat.date).then(function(newItems) {
+                                    stat.items = newItems;
+                                    angular.forEach(newItems,
+                                        function(item) {
+                                            appRegionService.updateTownFlowStat(item).then(function(result) {});
+                                        });
+                                });
+                            }
+                        });
+                    });
+            };
 
-        $scope.query();
+            $scope.query();
 
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.building);
-        };
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.building);
+            };
 
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-    });
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        });
 angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', "ui.bootstrap"])
     .run(function($rootScope, kpiPreciseService) {
         $rootScope.orderPolicy = {
