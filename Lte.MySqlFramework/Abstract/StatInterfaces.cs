@@ -54,6 +54,16 @@ namespace Lte.MySqlFramework.Abstract
         
     }
 
+    public interface IPrbHuaweiRepository : IRepository<PrbHuawei>, ISaveChanges, IMatchRepository<PrbHuawei>
+    {
+        
+    }
+
+    public interface IPrbZteRepository : IRepository<PrbZte>, ISaveChanges, IMatchRepository<PrbZte>
+    {
+        
+    }
+
     public interface ITownFlowRepository : IRepository<TownFlowStat>, ISaveChanges, IMatchRepository<TownFlowStat>
     {
     }
@@ -64,6 +74,11 @@ namespace Lte.MySqlFramework.Abstract
     }
 
     public interface ITownQciRepository : IRepository<TownQciStat>, ISaveChanges
+    {
+        
+    }
+
+    public interface ITownPrbRepository : IRepository<TownPrbStat>, ISaveChanges
     {
         
     }

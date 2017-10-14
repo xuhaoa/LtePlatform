@@ -30,10 +30,12 @@ namespace Lte.Evaluations.DataService.Kpi
         private readonly ITownRrcRepository _townRrcRepository;
         private readonly ITownQciRepository _townQciRepository;
         private readonly ICellRepository _cellRepository;
+        private readonly IPrbHuaweiRepository _prbHuaweiRepository;
+        private readonly IPrbZteRepository _prbZteRepository;
 
-        private static Stack<Tuple<FlowHuawei, RrcHuawei, QciHuawei>> FlowHuaweis { get; set; }
+        private static Stack<Tuple<FlowHuawei, RrcHuawei, QciHuawei, PrbHuawei>> FlowHuaweis { get; set; }
 
-        private static Stack<Tuple<FlowZte, RrcZte, QciZte>> FlowZtes { get; set; }
+        private static Stack<Tuple<FlowZte, RrcZte, QciZte, PrbZte>> FlowZtes { get; set; }
 
         public int FlowHuaweiCount => FlowHuaweis.Count;
 
@@ -44,7 +46,8 @@ namespace Lte.Evaluations.DataService.Kpi
             IQciZteRepository qciZteRepository, IQciHuaweiRepository qciHuaweiRepository,
             ITownFlowRepository townFlowRepository, IENodebRepository eNodebRepository,
             ITownRrcRepository townRrcRepository, ITownQciRepository townQciRepository, 
-            ICellRepository cellRepository)
+            ICellRepository cellRepository, IPrbHuaweiRepository prbHuaweiRepository,
+            IPrbZteRepository prbZteRepository)
         {
             _huaweiRepository = huaweiRepositroy;
             _zteRepository = zteRepository;
@@ -57,8 +60,10 @@ namespace Lte.Evaluations.DataService.Kpi
             _townRrcRepository = townRrcRepository;
             _townQciRepository = townQciRepository;
             _cellRepository = cellRepository;
-            if (FlowHuaweis == null) FlowHuaweis = new Stack<Tuple<FlowHuawei, RrcHuawei, QciHuawei>>();
-            if (FlowZtes == null) FlowZtes = new Stack<Tuple<FlowZte, RrcZte, QciZte>>();
+            _prbHuaweiRepository = prbHuaweiRepository;
+            _prbZteRepository = prbZteRepository;
+            if (FlowHuaweis == null) FlowHuaweis = new Stack<Tuple<FlowHuawei, RrcHuawei, QciHuawei, PrbHuawei>>();
+            if (FlowZtes == null) FlowZtes = new Stack<Tuple<FlowZte, RrcZte, QciZte, PrbZte>>();
         }
 
         public void UploadFlowHuaweis(StreamReader reader)
@@ -78,8 +83,10 @@ namespace Lte.Evaluations.DataService.Kpi
                 })).ToList();
             foreach (var csv in mergedCsvs)
             {
-                FlowHuaweis.Push(new Tuple<FlowHuawei, RrcHuawei, QciHuawei>(Mapper.Map<FlowHuaweiCsv, FlowHuawei>(csv),
-                    Mapper.Map<FlowHuaweiCsv, RrcHuawei>(csv), Mapper.Map<FlowHuaweiCsv, QciHuawei>(csv)));
+                FlowHuaweis.Push(
+                    new Tuple<FlowHuawei, RrcHuawei, QciHuawei, PrbHuawei>(Mapper.Map<FlowHuaweiCsv, FlowHuawei>(csv),
+                        Mapper.Map<FlowHuaweiCsv, RrcHuawei>(csv), Mapper.Map<FlowHuaweiCsv, QciHuawei>(csv),
+                        Mapper.Map<FlowHuaweiCsv, PrbHuawei>(csv)));
             }
         }
 
@@ -88,8 +95,9 @@ namespace Lte.Evaluations.DataService.Kpi
             var csvs = FlowZteCsv.ReadFlowZteCsvs(reader);
             foreach (var csv in csvs)
             {
-                FlowZtes.Push(new Tuple<FlowZte, RrcZte, QciZte>(Mapper.Map<FlowZteCsv, FlowZte>(csv),
-                    Mapper.Map<FlowZteCsv, RrcZte>(csv), Mapper.Map<FlowZteCsv, QciZte>(csv)));
+                FlowZtes.Push(new Tuple<FlowZte, RrcZte, QciZte, PrbZte>(Mapper.Map<FlowZteCsv, FlowZte>(csv),
+                    Mapper.Map<FlowZteCsv, RrcZte>(csv), Mapper.Map<FlowZteCsv, QciZte>(csv),
+                    Mapper.Map<FlowZteCsv, PrbZte>(csv)));
             }
         }
 
@@ -107,6 +115,10 @@ namespace Lte.Evaluations.DataService.Kpi
             if (stat.Item3 != null)
             {
                 await _qciHuaweiRepository.ImportOneAsync(stat.Item3);
+            }
+            if (stat.Item4 != null)
+            {
+                await _prbHuaweiRepository.ImportOneAsync(stat.Item4);
             }
 
             return true;
@@ -126,6 +138,10 @@ namespace Lte.Evaluations.DataService.Kpi
             if (stat.Item3 != null)
             {
                 await _qciZteRepository.ImportOneAsync(stat.Item3);
+            }
+            if (stat.Item4 != null)
+            {
+                await _prbZteRepository.ImportOneAsync(stat.Item4);
             }
 
             return true;

@@ -66,6 +66,20 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
+    public class PrbZteRepository : EfRepositorySave<MySqlContext, PrbZte>, IPrbZteRepository
+    {
+        public PrbZteRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public PrbZte Match(PrbZte stat)
+        {
+            return FirstOrDefault(x =>
+                x.StatTime == stat.StatTime && x.ENodebId == stat.ENodebId &&
+                x.SectorId == stat.SectorId);
+        }
+    }
+
     public class FlowHuaweiRepository : EfRepositorySave<MySqlContext, FlowHuawei>, IFlowHuaweiRepository
     {
         public FlowHuaweiRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
@@ -122,6 +136,20 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
+    public class PrbHuaweiRepository : EfRepositorySave<MySqlContext, PrbHuawei>, IPrbHuaweiRepository
+    {
+        public PrbHuaweiRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+
+        public PrbHuawei Match(PrbHuawei stat)
+        {
+            return FirstOrDefault(x =>
+                x.StatTime == stat.StatTime && x.ENodebId == stat.ENodebId &&
+                x.LocalCellId == stat.LocalCellId);
+        }
+    }
+
     public class TownFlowRepository : EfRepositorySave<MySqlContext, TownFlowStat>, ITownFlowRepository
     {
         public TownFlowRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
@@ -148,6 +176,13 @@ namespace Lte.MySqlFramework.Concrete
     public class TownQciRepository : EfRepositorySave<MySqlContext, TownQciStat>, ITownQciRepository
     {
         public TownQciRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+    }
+
+    public class TownPrbRepository : EfRepositorySave<MySqlContext, TownPrbStat>, ITownPrbRepository
+    {
+        public TownPrbRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }
