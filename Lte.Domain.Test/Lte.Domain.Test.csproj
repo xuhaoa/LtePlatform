@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\DescriptionAttributeTest.cs" />
+    <Compile Include="Common\FlowHuaweiCsv_Tests.cs" />
     <Compile Include="Common\GeneralTextTest.cs" />
     <Compile Include="Common\GeoMathTest.cs" />
     <Compile Include="LinqToCsv\CsvContextWriteTests.cs" />

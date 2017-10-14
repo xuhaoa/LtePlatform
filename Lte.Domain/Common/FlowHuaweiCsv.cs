@@ -6,34 +6,47 @@ using Lte.Domain.LinqToCsv;
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
 using Lte.Domain.Regular;
+using Lte.Domain.Regular.Attributes;
 
 namespace Lte.Domain.Common
 {
     public class FlowHuaweiCsv
     {
         [CsvColumn(Name = "开始时间")]
+        [ArraySumProtection]
         public DateTime StatTime { get; set; }
 
         [CsvColumn(Name = "小区")]
+        [ArraySumProtection]
         public string CellInfo { get; set; }
-
+        
         public int ENodebId
         {
             get
             {
                 if (string.IsNullOrEmpty(CellInfo)) return 0;
                 var fields = CellInfo.GetSplittedFields(", ");
-                return fields.Length == 0 ? 0 : fields[3].GetSplittedFields('=')[1].ConvertToInt(0);
+                return fields.Length < 4 ? 0 : fields[3].GetSplittedFields('=')[1].ConvertToInt(0);
             }
         }
-
+        
         public byte LocalCellId
         {
             get
             {
                 if (string.IsNullOrEmpty(CellInfo)) return 0;
                 var fields = CellInfo.GetSplittedFields(", ");
-                return fields.Length == 0 ? (byte)0 : fields[1].GetSplittedFields('=')[1].ConvertToByte(0);
+                return fields.Length < 4 ? (byte)0 : fields[1].GetSplittedFields('=')[1].ConvertToByte(0);
+            }
+        }
+
+        public byte SectorId
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(CellInfo)) return 0;
+                var fields = CellInfo.GetSplittedFields(", ");
+                return fields.Length < 6 ? (byte)0 : fields[5].GetSplittedFields('=')[1].ConvertToByte(0);
             }
         }
 
@@ -44,30 +57,39 @@ namespace Lte.Domain.Common
         public long PdcpUplinkFlowInByte { get; set; }
 
         [CsvColumn(Name = "小区内的平均用户数 (无)")]
+        [ArrayAverage]
         public double AverageUsers { get; set; }
 
         [CsvColumn(Name = "小区内的最大用户数 (无)")]
+        [ArrayMax]
         public int MaxUsers { get; set; }
 
         [CsvColumn(Name = "平均激活用户数 (无)")]
+        [ArrayAverage]
         public double AverageActiveUsers { get; set; }
 
         [CsvColumn(Name = "最大激活用户数 (无)")]
+        [ArrayMax]
         public int MaxActiveUsers { get; set; }
 
         [CsvColumn(Name = "上行平均激活用户数 (无)")]
+        [ArrayAverage]
         public double UplinkAverageUsers { get; set; }
 
         [CsvColumn(Name = "上行最大激活用户数 (无)")]
+        [ArrayMax]
         public int UplinkMaxUsers { get; set; }
 
         [CsvColumn(Name = "下行平均激活用户数 (无)")]
+        [ArrayAverage]
         public double DownlinkAverageUsers { get; set; }
 
         [CsvColumn(Name = "下行最大激活用户数 (无)")]
+        [ArrayMax]
         public int DownlinkMaxUsers { get; set; }
 
         [CsvColumn(Name = "小区下行有数据传输总时长(1ms精度) (毫秒)")]
+        [ArraySumProtection]
         public string DownlinkDurationInMsString { get; set; }
 
         public int DownlinkDurationInMs
@@ -77,6 +99,7 @@ namespace Lte.Domain.Common
         }
 
         [CsvColumn(Name = "小区上行有数据传输总时长(1ms精度) (毫秒)")]
+        [ArraySumProtection]
         public string UplinkDurationInMsString { get; set; }
 
         public int UplinkDurationInMs
@@ -87,18 +110,6 @@ namespace Lte.Domain.Common
 
         [CsvColumn(Name = "小区Uu接口寻呼用户个数 (无)")]
         public string PagingUsersString { get; set; }
-
-        [CsvColumn(Name = "下行Physical Resource Block被使用的平均个数 (无)")]
-        public double DownlinkAveragePrbs { get; set; }
-
-        [CsvColumn(Name = "下行PDSCH DRB的Physical Resource Block被使用的平均个数 (无)")]
-        public double DownlinkDrbPbs { get; set; }
-
-        [CsvColumn(Name = "上行Physical Resource Block被使用的平均个数 (无)")]
-        public double UplinkAveragePrbs { get; set; }
-
-        [CsvColumn(Name = "上行PUSCH DRB的Physical Resource Block被使用的平均个数 (无)")]
-        public double UplinkDrbPbs { get; set; }
 
         [CsvColumn(Name = "小区接收到属于Group A的Preamble消息次数 (无)")]
         public int GroupAPreambles { get; set; }
@@ -126,6 +137,7 @@ namespace Lte.Domain.Common
         public string PucchPrbsString { get; set; }
 
         [CsvColumn(Name = "使UE缓存为空的最后一个TTI所传的上行PDCP吞吐量 (比特)")]
+        [ArraySumProtection]
         public string LastTtiUplinkFlowInByteString { get; set; }
 
         public long LastTtiUplinkFlowInByte
@@ -136,6 +148,7 @@ namespace Lte.Domain.Common
         
 
         [CsvColumn(Name = "扣除使UE缓存为空的最后一个TTI之后的上行数传时长 (毫秒)")]
+        [ArraySumProtection]
         public string ButLastUplinkDurationInMsString { get; set; }
 
         public int ButLastUplinkDurationInMs
@@ -145,6 +158,7 @@ namespace Lte.Domain.Common
         } 
 
         [CsvColumn(Name = "使缓存为空的最后一个TTI所传的下行PDCP吞吐量 (比特)")]
+        [ArraySumProtection]
         public string LastTtiDownlinkFlowInByteString { get; set; }
 
         public long LastTtiDownlinkFlowInByte {
@@ -153,6 +167,7 @@ namespace Lte.Domain.Common
         }
 
         [CsvColumn(Name = "扣除使下行缓存为空的最后一个TTI之后的数传时长 (毫秒)")]
+        [ArraySumProtection]
         public string ButLastDownlinkDurationInMsString { get; set; }
 
         public int ButLastDownlinkDurationInMs
@@ -295,6 +310,84 @@ namespace Lte.Domain.Common
 
         [CsvColumn(Name = "空口上报全带宽CQI为15的次数 (无)")]
         public int Cqi15Times { get; set; }
+
+        [CsvColumn(Name = "下行Physical Resource Block被使用的平均个数 (无)")]
+        public double PdschPrbs { get; set; }
+
+        [CsvColumn(Name = "下行PDSCH DRB的Physical Resource Block被使用的平均个数 (无)")]
+        public double DownlinkDtchPrbNumber { get; set; }
+
+        [CsvColumn(Name = "下行可用的PRB个数 (无)")]
+        public int DownlinkPrbSubframe { get; set; }
+
+        [CsvColumn(Name = "上行Physical Resource Block被使用的平均个数 (无)")]
+        public double PuschPrbs { get; set; }
+
+        [CsvColumn(Name = "上行PUSCH DRB的Physical Resource Block被使用的平均个数 (无)")]
+        public double UplinkDtchPrbNumber { get; set; }
+
+        [CsvColumn(Name = "上行可用的PRB个数 (无)")]
+        public int UplinkPrbSubframe { get; set; }
+
+        [CsvColumn(Name = "PDSCH的PRB资源利用率在区间0内的样本数 (无)")]
+        public double PdschUsageInterval0Seconds { get; set; }
+
+        [CsvColumn(Name = "PDSCH的PRB资源利用率在区间1内的样本数 (无)")]
+        public double PdschUsageInterval10Seconds { get; set; }
+
+        [CsvColumn(Name = "PDSCH的PRB资源利用率在区间2内的样本数 (无)")]
+        public double PdschUsageInterval20Seconds { get; set; }
+
+        [CsvColumn(Name = "PDSCH的PRB资源利用率在区间3内的样本数 (无)")]
+        public double PdschUsageInterval30Seconds { get; set; }
+
+        [CsvColumn(Name = "PDSCH的PRB资源利用率在区间4内的样本数 (无)")]
+        public double PdschUsageInterval40Seconds { get; set; }
+
+        [CsvColumn(Name = "PDSCH的PRB资源利用率在区间5内的样本数 (无)")]
+        public double PdschUsageInterval50Seconds { get; set; }
+
+        [CsvColumn(Name = "PDSCH的PRB资源利用率在区间6内的样本数 (无)")]
+        public double PdschUsageInterval60Seconds { get; set; }
+
+        [CsvColumn(Name = "PDSCH的PRB资源利用率在区间7内的样本数 (无)")]
+        public double PdschUsageInterval70Seconds { get; set; }
+
+        [CsvColumn(Name = "PDSCH的PRB资源利用率在区间8内的样本数 (无)")]
+        public double PdschUsageInterval80Seconds { get; set; }
+
+        [CsvColumn(Name = "PDSCH的PRB资源利用率在区间9内的样本数 (无)")]
+        public double PdschUsageInterval90Seconds { get; set; }
+
+        [CsvColumn(Name = "PUSCH的PRB资源利用率在区间0内的样本数 (无)")]
+        public double PuschUsageInterval0Seconds { get; set; }
+
+        [CsvColumn(Name = "PUSCH的PRB资源利用率在区间1内的样本数 (无)")]
+        public double PuschUsageInterval10Seconds { get; set; }
+
+        [CsvColumn(Name = "PUSCH的PRB资源利用率在区间2内的样本数 (无)")]
+        public double PuschUsageInterval20Seconds { get; set; }
+
+        [CsvColumn(Name = "PUSCH的PRB资源利用率在区间3内的样本数 (无)")]
+        public double PuschUsageInterval30Seconds { get; set; }
+
+        [CsvColumn(Name = "PUSCH的PRB资源利用率在区间4内的样本数 (无)")]
+        public double PuschUsageInterval40Seconds { get; set; }
+
+        [CsvColumn(Name = "PUSCH的PRB资源利用率在区间5内的样本数 (无)")]
+        public double PuschUsageInterval50Seconds { get; set; }
+
+        [CsvColumn(Name = "PUSCH的PRB资源利用率在区间6内的样本数 (无)")]
+        public double PuschUsageInterval60Seconds { get; set; }
+
+        [CsvColumn(Name = "PUSCH的PRB资源利用率在区间7内的样本数 (无)")]
+        public double PuschUsageInterval70Seconds { get; set; }
+
+        [CsvColumn(Name = "PUSCH的PRB资源利用率在区间8内的样本数 (无)")]
+        public double PuschUsageInterval80Seconds { get; set; }
+
+        [CsvColumn(Name = "PUSCH的PRB资源利用率在区间9内的样本数 (无)")]
+        public double PuschUsageInterval90Seconds { get; set; }
 
         public static List<FlowHuaweiCsv> ReadFlowHuaweiCsvs(StreamReader reader)
         {
