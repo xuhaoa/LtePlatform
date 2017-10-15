@@ -7,32 +7,22 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
             chartCalculateService,
             generalChartService) {
             return {
-                generatePreciseBarOptions: function(districtStats, cityStat) {
-                    var chart = new BarChart();
-                    chart.title.text = cityStat.city + "精确覆盖率统计";
-                    chart.legend.enabled = false;
-                    var category = [];
-                    var precise = [];
-                    angular.forEach(districtStats,
-                        function(stat) {
-                            category.push(stat.district);
-                            precise.push(stat.preciseRate);
+                generatePreciseBarOptions: function (districtStats, cityStat) {
+                    return chartCalculateService.generateSingleSeriesBarOptions(districtStats,
+                        'district',
+                        'preciseRate',
+                        {
+                            title: cityStat.city + "精确覆盖率统计",
+                            summaryStat: {
+                                district: cityStat.city,
+                                preciseRate: cityStat.preciseRate
+                            },
+                            xTitle: '区域',
+                            yTitle: '精确覆盖率',
+                            yMin: 70,
+                            yMax: 100,
+                            seriesName: '精确覆盖率'
                         });
-                    category.push(cityStat.city);
-                    precise.push(cityStat.preciseRate);
-                    chart.xAxis.categories = category;
-                    chart.xAxis.title.text = '区域';
-                    chart.setDefaultYAxis({
-                        title: '精确覆盖率',
-                        min: 70,
-                        max: 100
-                    });
-                    var series = {
-                        name: '精确覆盖率',
-                        data: precise
-                    };
-                    chart.asignSeries(series);
-                    return chart.options;
                 },
                 generateDownSwitchOptions: function(districtStats, city, cityDownSwitch) {
                     var chart = new BarChart();
@@ -1897,48 +1887,6 @@ angular.module('kpi.college.work', ['myApp.url', 'myApp.region', "ui.bootstrap",
             };
         });
 angular.module('kpi.college.flow', ['myApp.url', 'myApp.region', "ui.bootstrap", 'topic.basic'])
-    .controller("college.flow",
-        function($scope, $uibModalInstance, dialogTitle, year, collegeQueryService, parametersChartService) {
-            $scope.dialogTitle = dialogTitle;
-            $scope.collegeStatCount = 0;
-            $scope.query = function() {
-                angular.forEach($scope.collegeList,
-                    function(college) {
-                        collegeQueryService.queryCollegeFlow(college.name, $scope.beginDate.value, $scope.endDate.value)
-                            .then(function(stat) {
-                                angular.extend(college, stat);
-                                $scope.collegeStatCount += 1;
-                            });
-                    });
-            };
-            $scope.$watch('collegeStatCount',
-                function(count) {
-                    if ($scope.collegeList && count === $scope.collegeList.length && count > 0) {
-                        $("#downloadFlowConfig").highcharts(parametersChartService
-                            .getCollegeDistributionForDownlinkFlow($scope.collegeList));
-                        $("#uploadFlowConfig").highcharts(parametersChartService
-                            .getCollegeDistributionForUplinkFlow($scope.collegeList));
-                        $("#averageUsersConfig").highcharts(parametersChartService
-                            .getCollegeDistributionForAverageUsers($scope.collegeList));
-                        $("#activeUsersConfig").highcharts(parametersChartService
-                            .getCollegeDistributionForActiveUsers($scope.collegeList));
-                        $scope.collegeStatCount = 0;
-                    }
-                });
-            collegeQueryService.queryYearList(year).then(function(colleges) {
-                $scope.collegeList = colleges;
-                $scope.query();
-            });
-
-            $scope.ok = function() {
-                $uibModalInstance.close($scope.cell);
-            };
-
-            $scope.cancel = function() {
-                $uibModalInstance.dismiss('cancel');
-            };
-
-        })
     .controller("hotSpot.flow",
         function($scope,
             $uibModalInstance,
@@ -1976,6 +1924,47 @@ angular.module('kpi.college.flow', ['myApp.url', 'myApp.region', "ui.bootstrap",
                     }
                 });
             $scope.query();
+
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.cell);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
+    .controller("college.flow",
+        function($scope, $uibModalInstance, dialogTitle, year, collegeQueryService, parametersChartService) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.collegeStatCount = 0;
+            $scope.query = function() {
+                angular.forEach($scope.collegeList,
+                    function(college) {
+                        collegeQueryService.queryCollegeFlow(college.name, $scope.beginDate.value, $scope.endDate.value)
+                            .then(function(stat) {
+                                angular.extend(college, stat);
+                                $scope.collegeStatCount += 1;
+                            });
+                    });
+            };
+            $scope.$watch('collegeStatCount',
+                function(count) {
+                    if ($scope.collegeList && count === $scope.collegeList.length && count > 0) {
+                        $("#downloadFlowConfig").highcharts(parametersChartService
+                            .getCollegeDistributionForDownlinkFlow($scope.collegeList));
+                        $("#uploadFlowConfig").highcharts(parametersChartService
+                            .getCollegeDistributionForUplinkFlow($scope.collegeList));
+                        $("#averageUsersConfig").highcharts(parametersChartService
+                            .getCollegeDistributionForAverageUsers($scope.collegeList));
+                        $("#activeUsersConfig").highcharts(parametersChartService
+                            .getCollegeDistributionForActiveUsers($scope.collegeList));
+                        $scope.collegeStatCount = 0;
+                    }
+                });
+            collegeQueryService.queryYearList(year).then(function(colleges) {
+                $scope.collegeList = colleges;
+                $scope.query();
+            });
 
             $scope.ok = function() {
                 $uibModalInstance.close($scope.cell);

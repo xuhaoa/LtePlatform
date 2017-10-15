@@ -7,32 +7,22 @@
             chartCalculateService,
             generalChartService) {
             return {
-                generatePreciseBarOptions: function(districtStats, cityStat) {
-                    var chart = new BarChart();
-                    chart.title.text = cityStat.city + "精确覆盖率统计";
-                    chart.legend.enabled = false;
-                    var category = [];
-                    var precise = [];
-                    angular.forEach(districtStats,
-                        function(stat) {
-                            category.push(stat.district);
-                            precise.push(stat.preciseRate);
+                generatePreciseBarOptions: function (districtStats, cityStat) {
+                    return chartCalculateService.generateSingleSeriesBarOptions(districtStats,
+                        'district',
+                        'preciseRate',
+                        {
+                            title: cityStat.city + "精确覆盖率统计",
+                            summaryStat: {
+                                district: cityStat.city,
+                                preciseRate: cityStat.preciseRate
+                            },
+                            xTitle: '区域',
+                            yTitle: '精确覆盖率',
+                            yMin: 70,
+                            yMax: 100,
+                            seriesName: '精确覆盖率'
                         });
-                    category.push(cityStat.city);
-                    precise.push(cityStat.preciseRate);
-                    chart.xAxis.categories = category;
-                    chart.xAxis.title.text = '区域';
-                    chart.setDefaultYAxis({
-                        title: '精确覆盖率',
-                        min: 70,
-                        max: 100
-                    });
-                    var series = {
-                        name: '精确覆盖率',
-                        data: precise
-                    };
-                    chart.asignSeries(series);
-                    return chart.options;
                 },
                 generateDownSwitchOptions: function(districtStats, city, cityDownSwitch) {
                     var chart = new BarChart();

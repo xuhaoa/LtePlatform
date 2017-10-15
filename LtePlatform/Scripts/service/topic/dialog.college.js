@@ -202,6 +202,9 @@
                         });
                     });
             };
+            $scope.showChart = function(items) {
+                
+            };
 
             $scope.query();
 

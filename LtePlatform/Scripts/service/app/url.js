@@ -2149,6 +2149,31 @@ angular.module('app.chart', ['app.format', 'app.calculation'])
                         });
                     return chart.options;
                 },
+                generateSingleSeriesBarOptions: function(stats, categoryKey, dataKey, settings) {
+                    var chart = new BarChart();
+                    chart.title.text = settings.title;
+                    chart.legend.enabled = false;
+                    var category = _.map(stats,
+                        function(stat) {
+                            return stat[categoryKey];
+                        });
+                    var precise = _.map(stats,
+                        function(stat) {
+                            return stat[dataKey];
+                        });
+                    category.push(settings.summaryStat[categoryKey]);
+                    precise.push(settings.summaryStat[dataKey]);
+                    chart.xAxis.categories = category;
+                    chart.xAxis.title.text = settings.xTitle;
+                    var yAxisConfig = basicCalculationService.generateYAxisConfig(settings);
+                    chart.setDefaultYAxis(yAxisConfig);
+                    var series = {
+                        name: settings.seriesName,
+                        data: precise
+                    };
+                    chart.asignSeries(series);
+                    return chart.options;
+                },
                 calculateMemberSum: function(array, memberList, categoryFunc) {
                     var result = basicCalculationService.calculateArraySum(array, memberList);
                     categoryFunc(result);
@@ -4481,6 +4506,24 @@ angular.module('app.calculation', ['app.format'])
                     beginDate.setDate(beginDate.getDate() + 1);
                 }
                 return result;
+            },
+            generateYAxisConfig: function(settings) {
+                var yAxisConfig = {
+                    title: settings.yTitle
+                };
+                if (settings.yMin !== undefined) {
+                    angular.extend(yAxisConfig,
+                        {
+                            min: settings.yMin
+                        });
+                }
+                if (settings.yMax !== undefined) {
+                    angular.extend(yAxisConfig,
+                        {
+                            max: settings.yMax
+                        });
+                }
+                return yAxisConfig;
             }
         };
     })

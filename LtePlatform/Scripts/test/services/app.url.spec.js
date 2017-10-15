@@ -310,6 +310,23 @@ describe('app.calculation service tests',
                                 expect(result[6].date).toEqual(new Date(2017,1,7));
                             });
                     });
+
+                describe('test generateYAxisConfig function',
+                    function() {
+                        it('test settings with yMin and yMax',
+                            function() {
+                                var config = basicCalculationService.generateYAxisConfig({
+                                    yTitle: 'abc',
+                                    yMin: 0,
+                                    yMax: 1
+                                });
+                                expect(config).toEqual({
+                                    title: 'abc',
+                                    min: 0,
+                                    max: 1
+                                });
+                            });
+                    });
             });
 
         describe('test neGeometryService',

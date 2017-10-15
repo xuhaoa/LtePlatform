@@ -2872,6 +2872,9 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
                         });
                     });
             };
+            $scope.showChart = function(items) {
+                
+            };
 
             $scope.query();
 

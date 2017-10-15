@@ -36,6 +36,24 @@
                     beginDate.setDate(beginDate.getDate() + 1);
                 }
                 return result;
+            },
+            generateYAxisConfig: function(settings) {
+                var yAxisConfig = {
+                    title: settings.yTitle
+                };
+                if (settings.yMin !== undefined) {
+                    angular.extend(yAxisConfig,
+                        {
+                            min: settings.yMin
+                        });
+                }
+                if (settings.yMax !== undefined) {
+                    angular.extend(yAxisConfig,
+                        {
+                            max: settings.yMax
+                        });
+                }
+                return yAxisConfig;
             }
         };
     })
