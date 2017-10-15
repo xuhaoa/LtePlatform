@@ -82,13 +82,7 @@ namespace Lte.MySqlFramework.Abstract
     {
         
     }
-
-    public interface IDownSwitchFlowRepository : IRepository<DownSwitchFlow>,
-        IMatchRepository<DownSwitchFlow, DownSwitchFlowExcel>, ISaveChanges
-    {
-        List<DownSwitchFlow> GetAllList(DateTime begin, DateTime end);
-    }
-
+    
     public interface IPlanningSiteRepository : IRepository<PlanningSite>,
         IMatchRepository<PlanningSite, PlanningSiteExcel>, ISaveChanges
     {

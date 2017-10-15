@@ -13,50 +13,6 @@ using Lte.Domain.Regular;
 
 namespace Lte.MySqlFramework.Entities
 {
-    public class DownSwitchFlow : Entity, IStatDate
-    {
-        public DateTime StatDate { get; set; }
-
-        public string City { get; set; }
-
-        public string Region { get; set; }
-
-        public double Flow4G { get; set; }
-
-        public double DownSwitchFlow3G { get; set; }
-    }
-
-    [AutoMapFrom(typeof(DownSwitchFlow))]
-    public class DownSwitchFlowView
-    {
-        public string Region { get; set; }
-
-        public double Flow4G { get; set; }
-
-        public double DownSwitchFlow3G { get; set; }
-
-        public double DownSwitchRate => 100 * DownSwitchFlow3G / Flow4G;
-    }
-
-    [AutoMapTo(typeof(DownSwitchFlow))]
-    public class DownSwitchFlowExcel
-    {
-        [ExcelColumn("日期")]
-        public DateTime StatDate { get; set; }
-
-        [ExcelColumn("地市")]
-        public string City { get; set; }
-
-        [ExcelColumn("片区")]
-        public string Region { get; set; }
-
-        [ExcelColumn("4G用户3G流量比分母")]
-        public double Flow4G { get; set; }
-
-        [ExcelColumn("4G用户3G流量比分子")]
-        public double DownSwitchFlow3G { get; set; }
-    }
-
     [TypeDoc("AGPS数据点数据结构")]
     public class AgisDtPoint : Entity, IStatDate, IGeoGridPoint<double>
     {

@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Update_Town_Qci_Long : IMigrationMetadata
+    public sealed partial class Remove_Old_DownSwitch : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Update_Town_Qci_Long));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Remove_Old_DownSwitch));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709160927047_Update_Town_Qci_Long"; }
+            get { return "201710150832107_Remove_Old_DownSwitch"; }
         }
         
         string IMigrationMetadata.Source

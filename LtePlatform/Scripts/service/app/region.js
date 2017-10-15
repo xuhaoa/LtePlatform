@@ -652,13 +652,6 @@ angular.module('region.basic', ['app.core'])
     .factory('downSwitchService',
         function(generalHttpService, appUrlService) {
             return {
-                getRecentKpi: function(city, initialDate) {
-                    return generalHttpService.getApiData('DownSwitchFlow',
-                    {
-                        city: city,
-                        statDate: initialDate
-                    });
-                },
                 getStationByName: function (name, type, page, pageSize) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +

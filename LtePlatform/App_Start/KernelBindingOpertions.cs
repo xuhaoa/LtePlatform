@@ -139,9 +139,7 @@ namespace LtePlatform
             ninjectKernel.Bind<ICellPowerService>().To<CellPowerService>();
 
             ninjectKernel.Bind<IEmergencyCommunicationRepository>().To<EmergencyCommunicationRepository>();
-
-            ninjectKernel.Bind<IDownSwitchFlowRepository>().To<DownSwitchFlowRepository>();
-
+            
             ninjectKernel.Bind<IVipDemandRepository>().To<VipDemandRepository>();
 
             ninjectKernel.Bind<ICollegeYearRepository>().To<CollegeYearRepository>();

@@ -281,31 +281,15 @@ namespace Lte.Evaluations.DataService.Kpi
 
     public class DownSwitchFlowService
     {
-        private readonly IDownSwitchFlowRepository _repository;
-
         private readonly IAppStreamRepository _streamRepository;
         private readonly IWebBrowsingRepository _browsingRepository;
 
-        public DownSwitchFlowService(IDownSwitchFlowRepository repository,
-            IAppStreamRepository streamRepository, IWebBrowsingRepository browsingRepository)
+        public DownSwitchFlowService(IAppStreamRepository streamRepository, IWebBrowsingRepository browsingRepository)
         {
-            _repository = repository;
             _streamRepository = streamRepository;
             _browsingRepository = browsingRepository;
         }
-
-        public DownSwitchFlowDateView QueryLastDateStat(DateTime initialDate, string city)
-        {
-            var stats = _repository.QueryDate(initialDate,
-                (repository, beginDate, endDate) => repository.GetAllList(beginDate, endDate)).ToList();
-            return new DownSwitchFlowDateView
-            {
-                StatDate = stats.Any() ? stats.First().StatDate : initialDate,
-                City = city,
-                DownSwitchFlowViews = stats.MapTo<IEnumerable<DownSwitchFlowView>>()
-            };
-        }
-
+        
         public IEnumerable<AppSteam> QueryAppSteams(DateTime initialDate)
         {
             return

@@ -24,33 +24,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                             seriesName: '精确覆盖率'
                         });
                 },
-                generateDownSwitchOptions: function(districtStats, city, cityDownSwitch) {
-                    var chart = new BarChart();
-                    chart.title.text = city + "4G用户3G流量比统计";
-                    chart.legend.enabled = false;
-                    var category = [];
-                    var precise = [];
-                    angular.forEach(districtStats,
-                        function(stat) {
-                            category.push(stat.region);
-                            precise.push(stat.downSwitchRate);
-                        });
-                    category.push(city);
-                    precise.push(cityDownSwitch);
-                    chart.xAxis.categories = category;
-                    chart.xAxis.title.text = '区域';
-                    chart.setDefaultYAxis({
-                        title: '4G用户3G流量比',
-                        min: 0,
-                        max: 10
-                    });
-                    var series = {
-                        name: '4G用户3G流量比',
-                        data: precise
-                    };
-                    chart.asignSeries(series);
-                    return chart.options;
-                },
                 generateComboChartOptions: function(data, name) {
                     var setting = {
                         title: name,
@@ -408,7 +381,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
     .constant('kpiRatingDivisionDefs',
     {
         precise: [94.6, 83.6, 72.6, 61.6, 50],
-        downSwitch: [3, 5, 8, 10, 15],
         drop: [0.2, 0.3, 0.35, 0.4, 0.5]
     })
     .factory('appKpiService',
@@ -421,16 +393,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
             appFormatService,
             preciseChartService) {
             return {
-                getDownSwitchRate: function(stats) {
-                    var flow3G = 0;
-                    var flow4G = 0;
-                    angular.forEach(stats,
-                        function(stat) {
-                            flow3G += stat.downSwitchFlow3G;
-                            flow4G += stat.flow4G;
-                        });
-                    return 100 * flow3G / flow4G;
-                },
                 getCityStat: function(districtStats, currentCity) {
                     var stat = calculateService.initializePreciseCityStat(currentCity);
                     angular.forEach(districtStats,
@@ -465,9 +427,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                 },
                 calculatePreciseRating: function(precise) {
                     return calculateService.getValueFromDivisionAbove(kpiRatingDivisionDefs.precise, precise);
-                },
-                calculateDownSwitchRating: function(rate) {
-                    return calculateService.getValueFromDivisionBelow(kpiRatingDivisionDefs.downSwitch, rate);
                 },
                 calculateDropStar: function(drop) {
                     return calculateService.getValueFromDivisionBelow(kpiRatingDivisionDefs.drop, drop);
@@ -5675,18 +5634,6 @@ angular.module('kpi.work.chart', ['myApp.url', 'myApp.region', "ui.bootstrap", "
                         $scope.connectionRate = stat.connectionRate * 100;
                     });
             };
-            $scope.queryDownSwitch = function() {
-                downSwitchService.getRecentKpi(city, $scope.flowDate.value)
-                    .then(function(result) {
-                        $scope.flowDate.value = appFormatService.getDate(result.statDate);
-                        $scope.flowStat = appKpiService.getDownSwitchRate(result.downSwitchFlowViews);
-                        $scope.downRate = appKpiService.calculateDownSwitchRating($scope.flowStat);
-                        var options = kpiDisplayService.generateDownSwitchOptions(result.downSwitchFlowViews,
-                            city,
-                            $scope.flowStat);
-                        $("#downSwitchConfig").highcharts(options);
-                    });
-            };
             $scope.queryWorkItem = function() {
                 workitemService.queryCurrentMonth().then(function(result) {
                     $scope.totalItems = result.item1;
@@ -5721,7 +5668,6 @@ angular.module('kpi.work.chart', ['myApp.url', 'myApp.region', "ui.bootstrap", "
 
             $scope.queryKpi4G();
             $scope.queryKpi2G();
-            $scope.queryDownSwitch();
             $scope.queryWorkItem();
 
             $scope.ok = function() {

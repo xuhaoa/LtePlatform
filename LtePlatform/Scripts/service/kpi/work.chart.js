@@ -185,18 +185,6 @@
                         $scope.connectionRate = stat.connectionRate * 100;
                     });
             };
-            $scope.queryDownSwitch = function() {
-                downSwitchService.getRecentKpi(city, $scope.flowDate.value)
-                    .then(function(result) {
-                        $scope.flowDate.value = appFormatService.getDate(result.statDate);
-                        $scope.flowStat = appKpiService.getDownSwitchRate(result.downSwitchFlowViews);
-                        $scope.downRate = appKpiService.calculateDownSwitchRating($scope.flowStat);
-                        var options = kpiDisplayService.generateDownSwitchOptions(result.downSwitchFlowViews,
-                            city,
-                            $scope.flowStat);
-                        $("#downSwitchConfig").highcharts(options);
-                    });
-            };
             $scope.queryWorkItem = function() {
                 workitemService.queryCurrentMonth().then(function(result) {
                     $scope.totalItems = result.item1;
@@ -231,7 +219,6 @@
 
             $scope.queryKpi4G();
             $scope.queryKpi2G();
-            $scope.queryDownSwitch();
             $scope.queryWorkItem();
 
             $scope.ok = function() {

@@ -42,16 +42,7 @@ namespace Lte.Evaluations.ViewModels.RegionKpi
 
         public IEnumerable<TownFlowView> TownViews { get; set; }
     }
-
-    public class DownSwitchFlowDateView : IStatDate
-    {
-        public DateTime StatDate { get; set; }
-
-        public string City { get; set; }
-
-        public IEnumerable<DownSwitchFlowView> DownSwitchFlowViews { get; set; }
-    }
-
+    
     public class DistrictComplainView
     {
         public string District { get; set; }

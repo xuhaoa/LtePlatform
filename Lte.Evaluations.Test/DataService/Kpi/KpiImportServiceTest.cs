@@ -44,7 +44,7 @@ namespace Lte.Evaluations.DataService.Kpi
             _regionRepository.MockOperation();
             _dropRepository.MockOperation();
             _service = new KpiImportService(_regionRepository.Object, _dropRepository.Object,
-                _connectionRepository.Object, null, null, null, null, null, null, null, null, 
+                _connectionRepository.Object, null, null, null, null, null, null, null, 
                 _townRepository.Object, null, null, null);
         }
         
