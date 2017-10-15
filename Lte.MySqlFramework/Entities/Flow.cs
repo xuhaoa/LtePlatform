@@ -820,7 +820,7 @@ namespace Lte.MySqlFramework.Entities
 
     }
 
-    [AutoMapFrom(typeof(FlowView))]
+    [AutoMapFrom(typeof(FlowView), typeof(TownFlowStat))]
     [TypeDoc("聚合流量统计视图")]
     public class AggregateFlowView
     {

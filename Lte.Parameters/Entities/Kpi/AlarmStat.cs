@@ -199,5 +199,7 @@ namespace Lte.Parameters.Entities.Kpi
         public int TownRrcs { get; set; }
 
         public int TownQcis { get; set; }
+
+        public int TownPrbs { get; set; }
     }
 }

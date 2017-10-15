@@ -32,6 +32,7 @@ namespace Lte.Evaluations.DataService.Kpi
         private readonly ICellRepository _cellRepository;
         private readonly IPrbHuaweiRepository _prbHuaweiRepository;
         private readonly IPrbZteRepository _prbZteRepository;
+        private readonly ITownPrbRepository _townPrbRepository;
 
         private static Stack<Tuple<FlowHuawei, RrcHuawei, QciHuawei, PrbHuawei>> FlowHuaweis { get; set; }
 
@@ -47,7 +48,7 @@ namespace Lte.Evaluations.DataService.Kpi
             ITownFlowRepository townFlowRepository, IENodebRepository eNodebRepository,
             ITownRrcRepository townRrcRepository, ITownQciRepository townQciRepository, 
             ICellRepository cellRepository, IPrbHuaweiRepository prbHuaweiRepository,
-            IPrbZteRepository prbZteRepository)
+            IPrbZteRepository prbZteRepository, ITownPrbRepository townPrbRepository)
         {
             _huaweiRepository = huaweiRepositroy;
             _zteRepository = zteRepository;
@@ -62,6 +63,7 @@ namespace Lte.Evaluations.DataService.Kpi
             _cellRepository = cellRepository;
             _prbHuaweiRepository = prbHuaweiRepository;
             _prbZteRepository = prbZteRepository;
+            _townPrbRepository = townPrbRepository;
             if (FlowHuaweis == null) FlowHuaweis = new Stack<Tuple<FlowHuawei, RrcHuawei, QciHuawei, PrbHuawei>>();
             if (FlowZtes == null) FlowZtes = new Stack<Tuple<FlowZte, RrcZte, QciZte, PrbZte>>();
         }
@@ -191,6 +193,7 @@ namespace Lte.Evaluations.DataService.Kpi
                             x.FrequencyBandType == FrequencyBandType.Band800VoLte);
                 var townRrcs = await _townRrcRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
                 var townQcis = await _townQciRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
+                var townPrbs = await _townPrbRepository.CountAsync(x => x.StatTime >= beginDate && x.StatTime < endDate);
                 results.Add(new FlowHistory
                 {
                     DateString = begin.ToShortDateString(),
@@ -203,14 +206,15 @@ namespace Lte.Evaluations.DataService.Kpi
                     TownStats1800 = townItems1800,
                     TownStats800VoLte = townItems800,
                     TownRrcs = townRrcs,
-                    TownQcis = townQcis
+                    TownQcis = townQcis,
+                    TownPrbs = townPrbs
                 });
                 begin = begin.AddDays(1);
             }
             return results;
         }
 
-        public async Task<Tuple<int, int, int, int, int, int>> GenerateTownStats(DateTime statDate)
+        public async Task<Tuple<int, int, int, int, int, int, int>> GenerateTownStats(DateTime statDate)
         {
             var end = statDate.AddDays(1);
             var item1 =
@@ -284,7 +288,17 @@ namespace Lte.Evaluations.DataService.Kpi
                 }
                 item6 = _townQciRepository.SaveChanges();
             }
-            return new Tuple<int, int, int, int, int, int>(item1, item2, item3, item4, item5, item6);
+            var item7 = _townPrbRepository.Count(x => x.StatTime >= statDate && x.StatTime < end);
+            if (item7 == 0)
+            {
+                var townPrbList = GetTownPrbStats(statDate);
+                foreach (var stat in townPrbList.GetPositionMergeStats(statDate))
+                {
+                    await _townPrbRepository.InsertAsync(stat);
+                }
+                item7 = _townPrbRepository.SaveChanges();
+            }
+            return new Tuple<int, int, int, int, int, int, int>(item1, item2, item3, item4, item5, item6, item7);
         }
 
         private List<TownFlowStat> GetTownFlowStats(DateTime statDate,
@@ -371,6 +385,17 @@ namespace Lte.Evaluations.DataService.Kpi
             townStatList.AddRange(huaweiQcis.GetTownStats<QciHuawei, TownQciStat>(_eNodebRepository));
             var zteQcis = _qciZteRepository.GetAllList(x => x.StatTime >= statDate && x.StatTime < end);
             townStatList.AddRange(zteQcis.GetTownStats<QciZte, TownQciStat>(_eNodebRepository));
+            return townStatList;
+        }
+
+        private List<TownPrbStat> GetTownPrbStats(DateTime statDate)
+        {
+            var end = statDate.AddDays(1);
+            var townStatList = new List<TownPrbStat>();
+            var huaweiPrbs = _prbHuaweiRepository.GetAllList(x => x.StatTime >= statDate && x.StatTime < end);
+            townStatList.AddRange(huaweiPrbs.GetTownStats<PrbHuawei, TownPrbStat>(_eNodebRepository));
+            var ztePrbs = _prbZteRepository.GetAllList(x => x.StatTime >= statDate && x.StatTime < end);
+            townStatList.AddRange(ztePrbs.GetTownStats<PrbZte, TownPrbStat>(_eNodebRepository));
             return townStatList;
         }
 

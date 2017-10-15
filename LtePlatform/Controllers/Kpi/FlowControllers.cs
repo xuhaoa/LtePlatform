@@ -260,13 +260,15 @@ namespace LtePlatform.Controllers.Kpi
         private readonly FlowQueryService _service;
         private readonly CollegeCellViewService _collegeCellViewService;
         private readonly CollegeStatService _collegeService;
+        private readonly TownFlowService _townFlowService;
 
         public CollegeFlowController(FlowQueryService service, CollegeCellViewService collegeCellViewService,
-            CollegeStatService collegeService)
+            CollegeStatService collegeService, TownFlowService townFlowService)
         {
             _service = service;
             _collegeCellViewService = collegeCellViewService;
             _collegeService = collegeService;
+            _townFlowService = townFlowService;
         }
 
         [HttpGet]
@@ -277,15 +279,14 @@ namespace LtePlatform.Controllers.Kpi
         [ApiResponse("天平均流量统计")]
         public AggregateFlowView Get(string collegeName, DateTime begin, DateTime end)
         {
-            var cells = _collegeCellViewService.GetCollegeViews(collegeName);
-            var stats =
-                cells.Select(cell => _service.QueryAverageView(cell.ENodebId, cell.SectorId, begin, end))
-                    .Where(view => view != null)
-                    .ToList();
+            var college = _collegeService.QueryInfo(collegeName);
+            var cells = _collegeCellViewService.QueryCollegeSectors(collegeName);
+            if (college == null) return null;
+            var stats = _townFlowService.QueryTownFlowViews(begin, end, college.Id, FrequencyBandType.College);
             var result = stats.Any()
                 ? stats.ArraySum().MapTo<AggregateFlowView>()
                 : new AggregateFlowView();
-            result.CellCount = stats.Count;
+            result.CellCount = cells.Count();
             return result;
         }
 
@@ -433,7 +434,7 @@ namespace LtePlatform.Controllers.Kpi
         }
 
         [HttpGet]
-        public async Task<Tuple<int, int, int, int, int, int>> Get(DateTime statDate)
+        public async Task<Tuple<int, int, int, int, int, int, int>> Get(DateTime statDate)
         {
             return await _service.GenerateTownStats(statDate);
         }

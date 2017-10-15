@@ -399,10 +399,12 @@ namespace Lte.MySqlFramework.Entities
 
         public double PdschPrbs { get; set; }
 
+        [AutoMapPropertyResolve("DownlinkDtchPrbs", typeof(PrbZte))]
         public double DownlinkDtchPrbNumber { get; set; }
 
         public double PuschPrbs { get; set; }
 
+        [AutoMapPropertyResolve("UplinkDtchPrbs", typeof(PrbZte))]
         public double UplinkDtchPrbNumber { get; set; }
 
         public int DownlinkPrbSubframe { get; set; }
