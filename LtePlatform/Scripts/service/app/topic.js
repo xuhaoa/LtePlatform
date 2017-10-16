@@ -2849,7 +2849,8 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
             endDate,
             basicCalculationService,
             appRegionService,
-            collegeQueryService) {
+            collegeQueryService,
+            kpiDisplayService) {
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
             $scope.dialogTitle = "校园网流量导入";
@@ -2867,13 +2868,24 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
                                         function(item) {
                                             appRegionService.updateTownFlowStat(item).then(function(result) {});
                                         });
+                                    $scope.updateCollegeNames(newItems);
                                 });
+                            } else {
+                                $scope.updateCollegeNames(items);
                             }
                         });
                     });
             };
-            $scope.showChart = function(items) {
-                
+            $scope.updateCollegeNames = function(items) {
+                angular.forEach(items,
+                    function(item) {
+                        collegeQueryService.queryCollegeById(item.townId).then(function(college) {
+                            item.name = college.name;
+                        });
+                    });
+            };
+            $scope.showChart = function (items) {
+                $("#collegeFlowChart").highcharts(kpiDisplayService.generateCollegeFlowBarOptions(items));
             };
 
             $scope.query();

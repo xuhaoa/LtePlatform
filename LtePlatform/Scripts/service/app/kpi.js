@@ -72,6 +72,28 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                             yMax: 100
                         });
                 },
+                generateCollegeFlowBarOptions: function(stats) {
+                    return chartCalculateService.generateMultiSeriesFuncBarOptions(stats,
+                        'name',
+                        [
+                            {
+                                dataFunc: function (stat) {
+                                    return stat.pdcpDownlinkFlow / 1024 / 8;
+                                },
+                                seriesName: 'PDCP下行流量'
+                            }, {
+                                dataFunc: function (stat) {
+                                    return stat.pdcpUplinkFlow / 1024 / 8;
+                                },
+                                seriesName: 'PDCP上行流量'
+                            }
+                        ],
+                        {
+                            title: "校园网流量统计",
+                            xTitle: '校园名称',
+                            yTitle: '流量（GB）'
+                        });
+                },
                 generateComboChartOptions: function(data, name) {
                     var setting = {
                         title: name,

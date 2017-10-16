@@ -1968,6 +1968,12 @@ angular.module('region.college', ['app.core'])
                     name: name
                 });
             },
+            queryCollegeById: function(id) {
+                return generalHttpService.getApiData('CollegeQuery',
+                {
+                    id: id
+                });
+            },
             queryByNameAndYear: function(name, year) {
                 return generalHttpService.getApiData('CollegeQuery', {
                     name: name,

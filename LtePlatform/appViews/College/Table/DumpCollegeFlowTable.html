@@ -25,7 +25,7 @@
                     <td>{{stat.date | date: 'yyyy-MM-dd'}}</td>
                     <td>{{stat.items.length}}</td>
                     <td>
-                        <button class="btn btn-default" ng-disabled="stat.items.length" 
+                        <button class="btn btn-default" ng-disabled="!stat.items.length" 
                                 ng-click="showChart(stat.items)">流量分布</button>
                     </td>
                 </tr>
