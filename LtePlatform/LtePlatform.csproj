@@ -485,9 +485,9 @@
     <Content Include="appViews\Home\GeneralTableDetails.html" />
     <Content Include="appViews\Home\IndoorFilter.html" />
     <Content Include="appViews\Home\Kpi.html" />
-    <Content Include="appViews\Home\Kpi2G.html" />
-    <Content Include="appViews\Home\Kpi4G.html" />
-    <Content Include="appViews\Home\KpiDownSwitch.html" />
+    <Content Include="appViews\Home\Details\Kpi2G.html" />
+    <Content Include="appViews\Home\Details\Kpi4G.html" />
+    <Content Include="appViews\Home\Details\KpiDownSwitch.html" />
     <Content Include="appViews\Home\Menu\Cdma.html" />
     <Content Include="appViews\Home\Micro.html" />
     <Content Include="appViews\Home\Mr.html" />
@@ -504,7 +504,7 @@
     <Content Include="appViews\Home\StationFilter.html" />
     <Content Include="appViews\Home\StationListDialog.html" />
     <Content Include="appViews\Home\StationSearchMenu.html" />
-    <Content Include="appViews\Home\WorkItem.html" />
+    <Content Include="appViews\Home\Details\WorkItem.html" />
     <Content Include="appViews\Import\ImportProgress.html" />
     <Content Include="appViews\Import\Precise\WorkItem.html" />
     <Content Include="appViews\Import\ResoureDetails.html" />

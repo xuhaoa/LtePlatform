@@ -129,19 +129,19 @@
             $scope.areaItems = [
                 {
                     title: "4G指标",
-                    comments: '/appViews/Home/Kpi4G.html',
+                    comments: '/appViews/Home/Details/Kpi4G.html',
                     width: 6
                 }, {
                     title: "4G用户3G流量比",
-                    comments: '/appViews/Home/KpiDownSwitch.html',
+                    comments: '/appViews/Home/Details/KpiDownSwitch.html',
                     width: 6
                 }, {
                     title: "传统指标",
-                    comments: '/appViews/Home/Kpi2G.html',
+                    comments: '/appViews/Home/Details/Kpi2G.html',
                     width: 6
                 }, {
                     title: "工单监控",
-                    comments: '/appViews/Home/WorkItem.html',
+                    comments: '/appViews/Home/Details/WorkItem.html',
                     width: 6
                 }
             ];
@@ -183,6 +183,10 @@
                         $scope.dropRate = stat.drop2GRate * 100;
                         $scope.dropStar = appKpiService.calculateDropStar($scope.dropRate);
                         $scope.connectionRate = stat.connectionRate * 100;
+                        $("#dropConfig").highcharts(kpiDisplayService
+                            .generateDropRateBarOptions(result.statViews, city));
+                        $("#connectionConfig").highcharts(kpiDisplayService
+                            .generateConnectionRateBarOptions(result.statViews, city));
                     });
             };
             $scope.queryWorkItem = function() {

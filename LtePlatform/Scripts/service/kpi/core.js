@@ -24,6 +24,54 @@
                             seriesName: '精确覆盖率'
                         });
                 },
+                generateDropRateBarOptions: function(stats, city) {
+                    return chartCalculateService.generateMultiSeriesFuncBarOptions(stats,
+                        'region',
+                        [
+                            {
+                                dataFunc: function(stat) {
+                                    return stat.drop2GRate * 100;
+                                },
+                                seriesName: '2G掉话率（%）'
+                            }, {
+                                dataFunc: function(stat) {
+                                    return stat.drop3GRate * 100;
+                                },
+                                seriesName: '3G掉话率（%）'
+                            }
+                        ],
+                        {
+                            title: city + "掉话率统计",
+                            xTitle: '区域',
+                            yTitle: '掉话率',
+                            yMin: 0,
+                            yMax: 1
+                        });
+                },
+                generateConnectionRateBarOptions: function (stats, city) {
+                    return chartCalculateService.generateMultiSeriesFuncBarOptions(stats,
+                        'region',
+                        [
+                            {
+                                dataFunc: function (stat) {
+                                    return stat.callSetupRate * 100;
+                                },
+                                seriesName: '2G呼叫建立成功率（%）'
+                            }, {
+                                dataFunc: function (stat) {
+                                    return stat.connectionRate * 100;
+                                },
+                                seriesName: '3G连接成功率率（%）'
+                            }
+                        ],
+                        {
+                            title: city + "建立成功率统计",
+                            xTitle: '区域',
+                            yTitle: '建立成功率',
+                            yMin: 98,
+                            yMax: 100
+                        });
+                },
                 generateComboChartOptions: function(data, name) {
                     var setting = {
                         title: name,

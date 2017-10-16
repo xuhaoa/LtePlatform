@@ -103,6 +103,33 @@
                     chart.asignSeries(series);
                     return chart.options;
                 },
+                generateMultiSeriesFuncBarOptions: function (stats, categoryKey, seriesDefs, settings) {
+                    var chart = new BarChart();
+                    chart.title.text = settings.title;
+                    chart.legend.enabled = false;
+                    var category = _.map(stats,
+                        function(stat) {
+                            return stat[categoryKey];
+                        });
+                    chart.xAxis.categories = category;
+                    chart.xAxis.title.text = settings.xTitle;
+                    var yAxisConfig = basicCalculationService.generateYAxisConfig(settings);
+                    chart.setDefaultYAxis(yAxisConfig);
+                    angular.forEach(seriesDefs,
+                        function(def) {
+                            var precise = _.map(stats,
+                                function(stat) {
+                                    return def.dataFunc(stat);
+                                });
+                            var series = {
+                                name: def.seriesName,
+                                data: precise
+                            };
+                            chart.addSeries(series, 'bar');
+                        });
+                    
+                    return chart.options;
+                },
                 calculateMemberSum: function(array, memberList, categoryFunc) {
                     var result = basicCalculationService.calculateArraySum(array, memberList);
                     categoryFunc(result);
