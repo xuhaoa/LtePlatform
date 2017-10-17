@@ -659,6 +659,10 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(InfrastructureType.CdmaIndoor, "CDMA室内分布"),
                     new Tuple<object, string>(InfrastructureType.HotSpot, "热点"),
                     new Tuple<object, string>(InfrastructureType.Unknown, "未知"),   
+                    new Tuple<object, string>(InfrastructureType.DenseCity, "密集城区"),//8
+                    new Tuple<object, string>(InfrastructureType.City, "一般城区"),
+                    new Tuple<object, string>(InfrastructureType.Suburb, "郊区"),
+                    new Tuple<object, string>(InfrastructureType.Rural, "农村开阔地"), 
                 }
             },
             {
@@ -675,6 +679,7 @@ namespace Lte.Domain.Common.Wireless
                     new Tuple<object, string>(HotspotType.Railway, "高速铁路"), 
                     new Tuple<object, string>(HotspotType.Downtown, "高价值区域"),  
                     new Tuple<object, string>(HotspotType.Subway, "地铁"), 
+                    new Tuple<object, string>(HotspotType.AreaDef, "区域定义"), //11
                 }
             }
         };

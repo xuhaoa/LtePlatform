@@ -158,7 +158,11 @@ namespace Lte.Evaluations.DataService
         public IEnumerable<AreaTestInfo> QueryRoadTestInfos(int fileId)
         {
             var townIds =
-                   _boundaryRepository.GetAllList(x => x.AreaName != null).Select(x => x.TownId).Distinct().ToList();
+                _boundaryRepository.GetAllList(
+                        x => x.AreaName != null && (x.AreaName.StartsWith("S") || x.AreaName.StartsWith("G")))
+                    .Select(x => x.TownId)
+                    .Distinct()
+                    .ToList();
             return from info in _areaTestInfoRepository.GetAllList(x => x.FileId == fileId)
                    join id in townIds on info.TownId equals id
                    select info;
@@ -213,7 +217,11 @@ namespace Lte.Evaluations.DataService
             var file = _fileInfoRepository.FirstOrDefault(x => x.CsvFileName == csvFileName + ".csv");
             if (file == null) return new List<AreaTestInfo>();
             var townIds =
-                _boundaryRepository.GetAllList(x => x.AreaName != null).Select(x => x.TownId).Distinct().ToList();
+                _boundaryRepository.GetAllList(
+                        x => x.AreaName != null && (x.AreaName.StartsWith("S") || x.AreaName.StartsWith("G")))
+                    .Select(x => x.TownId)
+                    .Distinct()
+                    .ToList();
             
             AreaTestInfoQuery query;
             switch (type)
