@@ -35,6 +35,11 @@ namespace Lte.Domain.Common.Geo
         }
     }
 
+    public interface IGeoPointList
+    {
+        List<GeoPoint> BoundaryGeoPoints { get; set; }
+    }
+
     public class GeoGridPoint : IGeoGridPoint<double>
     {
         public int X { get; set; }
