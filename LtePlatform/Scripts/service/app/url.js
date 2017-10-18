@@ -250,7 +250,21 @@ angular.module('app.core', [])
                 { value: 'CC', name: '禅城' },
                 { value: 'SS', name: '三水' },
                 { value: 'GM', name: '高明' }
-            ]
+            ],
+            getAreaTypeColor: function(areaType) {
+                switch(areaType) {
+                    case '农村开阔地':
+                        return 'green';
+                    case '郊区':
+                        return 'yellow';
+                    case '一般城区':
+                        return 'blue';
+                    case '密集城区':
+                        return 'red';
+                    default:
+                        return 'gray';
+                }
+            }
         };
     })
     .controller('header.menu', function($scope, appUrlService) {

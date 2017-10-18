@@ -235,7 +235,7 @@ namespace Lte.Evaluations.DataService.Basic
                     AreaType = area.InfrastructureType.GetEnumDescription(),
                     BoundaryGeoPoints = coor.CoorList()
                 };
-            });
+            }).Where(x => x != null);
         }
 
         public bool IsInTownBoundaries(double longtitute, double lattitute, string city, string district, string town)

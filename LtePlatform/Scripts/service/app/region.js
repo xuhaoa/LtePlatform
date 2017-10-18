@@ -2414,6 +2414,9 @@ angular.module('region.precise', ['app.core'])
                         town: town
                     });
                 },
+                queryAreaBoundaries: function() {
+                    return generalHttpService.getApiData('AreaBoundary', {});
+                },
                 queryENodebTown: function(eNodebId) {
                     return generalHttpService.getApiData('Town',
                     {

@@ -169,6 +169,15 @@
                 { strokeColor: color, strokeWeight: 2, strokeOpacity: 0.2 });
                 map.addOverlay(polygon);
             },
+            addFilledBoundary: function (coors, color, xOffset, yOffset) {
+                var points = [];
+                angular.forEach(coors, function (coor) {
+                    points.push(new BMap.Point(coor.longtitute + xOffset, coor.lattitute + yOffset));
+                });
+                var polygon = new BMap.Polygon(points,
+                    { strokeColor: color, fillColor: color, strokeWeight: 0 });
+                map.addOverlay(polygon);
+            },
             addDistrictBoundary: function(district, color) {
                 var bdary = new BMap.Boundary();
                 bdary.get(district, function(rs) { //获取行政区域
