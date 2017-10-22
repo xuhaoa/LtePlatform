@@ -648,6 +648,14 @@ angular.module('region.basic', ['app.core'])
                         district: district
                     });
                 },
+                queryDateSpanDistrictComplains: function (beginDate, endDate, district) {
+                    return generalHttpService.getApiData('ComplainQuery',
+                        {
+                            beginDate: beginDate,
+                            endDate: endDate,
+                            district: district
+                        });
+                },
                 queryHotSpotCells: function(name) {
                     return generalHttpService.getApiData('HotSpotCells',
                     {
