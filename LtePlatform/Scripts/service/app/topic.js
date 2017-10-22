@@ -2462,6 +2462,33 @@ angular.module('topic.dialog.customer', ['myApp.url', 'myApp.region', 'myApp.kpi
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
+    })
+    .controller("customer.recent",
+        function ($scope,
+            $uibModalInstance,
+            city,
+            beginDate,
+            endDate,
+            complainService) {
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.city = city;
+            $scope.data = {
+                complainList: []
+            };
+            $scope.query = function () {
+                complainService.queryDateSpanComplainStats($scope.beginDate.value, $scope.endDate.value).then(function (result) {
+                    $scope.districtStats = result;
+                });
+            };
+            $scope.query();
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.building);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
         })
     .controller("complain.details",
         function($scope, $uibModalInstance, item, appFormatService) {
@@ -4377,6 +4404,19 @@ angular.module('topic.dialog',[ 'app.menu', 'app.core' ])
                                 return city;
                             }
                         }
+                    });
+                },
+                showRecentComplainItems: function (city, beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Customer/Dialog/Recent.html',
+                        controller: 'customer.recent',
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                city: function() {
+                                    return city;
+                                }
+                            },
+                            beginDate,
+                            endDate)
                     });
                 },
                 adjustComplainItems: function () {

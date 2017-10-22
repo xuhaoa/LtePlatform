@@ -523,6 +523,19 @@
                         }
                     });
                 },
+                showRecentComplainItems: function (city, beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Customer/Dialog/Recent.html',
+                        controller: 'customer.recent',
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                city: function() {
+                                    return city;
+                                }
+                            },
+                            beginDate,
+                            endDate)
+                    });
+                },
                 adjustComplainItems: function () {
                     menuItemService.showGeneralDialog({
                         templateUrl: "/appViews/Customer/Complain/Adjust.html",

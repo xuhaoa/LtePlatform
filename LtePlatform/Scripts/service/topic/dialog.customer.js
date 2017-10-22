@@ -178,6 +178,33 @@
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
+    })
+    .controller("customer.recent",
+        function ($scope,
+            $uibModalInstance,
+            city,
+            beginDate,
+            endDate,
+            complainService) {
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.city = city;
+            $scope.data = {
+                complainList: []
+            };
+            $scope.query = function () {
+                complainService.queryDateSpanComplainStats($scope.beginDate.value, $scope.endDate.value).then(function (result) {
+                    $scope.districtStats = result;
+                });
+            };
+            $scope.query();
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.building);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
         })
     .controller("complain.details",
         function($scope, $uibModalInstance, item, appFormatService) {

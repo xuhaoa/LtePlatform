@@ -634,6 +634,13 @@ angular.module('region.basic', ['app.core'])
                         initialDate: date
                     });
                 },
+                queryDateSpanComplainStats: function (begin, end) {
+                    return generalHttpService.getApiData("ComplainDate",
+                        {
+                            begin: begin,
+                            end: end
+                        });
+                },
                 queryLastDateDistrictComplains: function(date, district) {
                     return generalHttpService.getApiData('ComplainQuery',
                     {

@@ -515,87 +515,14 @@ namespace Lte.Evaluations.DataService.College
                     StatDate = initialDate.Date,
                     DistrictComplainViews = new List<DistrictComplainView>()
                 };
-            var results = _townRepository.GetFoshanDistricts().Select(x => new DistrictComplainView
-            {
-                District = x,
-                Complain2G =
-                    stats.Count(
-                        s =>
-                            s.District == x && s.NetworkType == NetworkType.With2G &&
-                            s.ServiceCategory == ComplainCategory.NetworkQuality),
-                Complain3G =
-                    stats.Count(
-                        s =>
-                            s.District == x &&
-                            (s.NetworkType == NetworkType.With3G || s.NetworkType == NetworkType.With2G3G) &&
-                            s.ServiceCategory == ComplainCategory.NetworkQuality),
-                Complain4G =
-                    stats.Count(
-                        s =>
-                            s.District == x &&
-                            (s.NetworkType == NetworkType.With4G || s.NetworkType == NetworkType.With2G3G4G ||
-                             s.NetworkType == NetworkType.With2G3G4G4GPlus) &&
-                            s.ServiceCategory == ComplainCategory.NetworkQuality),
-                Demand2G =
-                    stats.Count(
-                        s =>
-                            s.District == x && s.NetworkType == NetworkType.With2G &&
-                            s.ServiceCategory == ComplainCategory.Appliance),
-                Demand3G =
-                    stats.Count(
-                        s =>
-                            s.District == x &&
-                            (s.NetworkType == NetworkType.With3G || s.NetworkType == NetworkType.With2G3G) &&
-                            s.ServiceCategory == ComplainCategory.Appliance),
-                Demand4G =
-                    stats.Count(
-                        s =>
-                            s.District == x &&
-                            (s.NetworkType == NetworkType.With4G || s.NetworkType == NetworkType.With2G3G4G ||
-                             s.NetworkType == NetworkType.With2G3G4G4GPlus) &&
-                            s.ServiceCategory == ComplainCategory.Appliance)
-            }).ToList();
-            results.Add(new DistrictComplainView
-            {
-                District = "佛山",
-                Complain2G =
-                    stats.Count(
-                        s =>
-                            s.NetworkType == NetworkType.With2G &&
-                            s.ServiceCategory == ComplainCategory.NetworkQuality),
-                Complain3G =
-                    stats.Count(
-                        s =>
-                            (s.NetworkType == NetworkType.With3G || s.NetworkType == NetworkType.With2G3G) &&
-                            s.ServiceCategory == ComplainCategory.NetworkQuality),
-                Complain4G =
-                    stats.Count(
-                        s =>
-                            (s.NetworkType == NetworkType.With4G || s.NetworkType == NetworkType.With2G3G4G ||
-                             s.NetworkType == NetworkType.With2G3G4G4GPlus) &&
-                            s.ServiceCategory == ComplainCategory.NetworkQuality),
-                Demand2G =
-                    stats.Count(
-                        s =>
-                            s.NetworkType == NetworkType.With2G &&
-                            s.ServiceCategory == ComplainCategory.Appliance),
-                Demand3G =
-                    stats.Count(
-                        s =>
-                            (s.NetworkType == NetworkType.With3G || s.NetworkType == NetworkType.With2G3G) &&
-                            s.ServiceCategory == ComplainCategory.Appliance),
-                Demand4G =
-                    stats.Count(
-                        s =>
-                            (s.NetworkType == NetworkType.With4G || s.NetworkType == NetworkType.With2G3G4G ||
-                             s.NetworkType == NetworkType.With2G3G4G4GPlus) &&
-                            s.ServiceCategory == ComplainCategory.Appliance)
-            });
-            return new DistrictComplainDateView
-            {
-                StatDate = stats.First().BeginDate.Date,
-                DistrictComplainViews = results
-            };
+            return DistrictComplainDateView.GenerateDistrictComplainDateView(stats, _townRepository.GetFoshanDistricts());
+        }
+
+        public List<DistrictComplainView> QueryDateSpanStats(DateTime begin, DateTime end)
+        {
+            var stats = _repository.GetAllList(begin, end);
+            if (!stats.Any()) return new List<DistrictComplainView>();
+            return DistrictComplainDateView.GenerateDistrictComplainList(stats, _townRepository.GetFoshanDistricts());
         }
     }
 

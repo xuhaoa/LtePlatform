@@ -401,6 +401,12 @@ namespace LtePlatform.Controllers.College
         {
             return _service.QueryLastDateStat(initialDate);
         }
+
+        [HttpGet]
+        public List<DistrictComplainView> Get(DateTime begin, DateTime end)
+        {
+            return _service.QueryDateSpanStats(begin.Date, end.Date);
+        }
     }
 
     [ApiControl("分公司需求查询控制器")]
