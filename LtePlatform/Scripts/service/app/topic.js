@@ -2224,6 +2224,9 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                                         var yOffset = coors.y - boundary.boundaryGeoPoints[0].lattitute;
                                         baiduMapService
                                             .addFilledBoundary(boundary.boundaryGeoPoints, color, xOffset, yOffset);
+                                        baiduMapService.drawLabel(boundary.areaName,
+                                            boundary.boundaryGeoPoints[0].longtitute + xOffset,
+                                            boundary.boundaryGeoPoints[0].lattitute + yOffset);
                                     });
                             });
                     });
