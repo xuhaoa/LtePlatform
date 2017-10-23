@@ -29,7 +29,7 @@
 #### 采用北向接口直接下载（中兴）
 从2017年9月开始，中兴的MR文件（包括MRO和MRS文件）直接从北向接口FTP服务器下载。
 详细过程参见
-[MR数据文件下载流程](https://github.com/WirelessFoshan/LtePlatform/blob/master/MrDownload.md)
+[MR数据文件下载流程](https://github.com/WirelessFoshan/LtePlatform/blob/master/Lte.Auxilary/ftp_modules/README.md)
 
 #### 主要说明
 下载遵循以下原则：    

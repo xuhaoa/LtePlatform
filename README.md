@@ -76,6 +76,6 @@ AngularJS架构的Javascript脚本详见
 MR数据（包括MRO、MRS和MRE三部分）存放在FTP服务器上，以压缩的XML文件形式存在，最终需要存放在Mongo数据库中。
 因此该模块需要完成数据的定期下载、解压、数据解析和入库功能。
 该模块主要是一些Python脚本，详细说明详见
-[这里](https://github.com/WirelessFoshan/LtePlatform/blob/master/MrPython.md)。
+[这里](https://github.com/WirelessFoshan/LtePlatform/blob/master/Lte.Auxilary/README.md)。
 ### 信令解析模块
 对4G信令数据进行解析，分华为、中兴和爱立信三个厂家。
