@@ -380,9 +380,6 @@
     <Content Include="huawei_download\huawei_download_mrs_delay3.sh">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="mr\MroProcess.md" />
-    <Content Include="mr\MrsProcess.md" />
-    <Content Include="mr\README.md" />
     <Content Include="php\Action\AlarmAction.class.php" />
     <Content Include="php\Action\AlarmhistoryAction.class.php" />
     <Content Include="php\Action\AssessmentAction.class.php" />

@@ -108,9 +108,7 @@
     <measurement>...</measurement>
   </eNB>
 </bulkPmMrDataFile>
-```
-    各节具体内容及解析过程详见
-[MRO数据文件格式及处理](https://github.com/WirelessFoshan/LtePlatform/blob/master/Lte.Auxilary/mr/MroProcess.md)    
+```   
 #### 中兴数据文件格式（2016年）
     中兴的MRO文件格式基本与华为相同，只是eNB节属性有所简化。
 ```xml
@@ -124,8 +122,9 @@
   </eNB>
 </bulkPmMrDataFile>
 ```
+#### 详细说明
 各节具体内容及解析过程详见
-[MRO数据文件格式及处理](https://github.com/WirelessFoshan/LtePlatform/blob/master/Lte.Auxilary/MroProcess.md)
+[MRO数据文件格式及处理](https://github.com/WirelessFoshan/LtePlatform/blob/master/Lte.Auxilary/mro/README.md)
 ## MRS数据解析
 ### 华为数据文件格式
 ```xml
@@ -155,5 +154,6 @@
 ```
 ### 重要测量数据节解析
 各节具体内容及解析过程详见
-[MRS数据文件格式及处理](https://github.com/WirelessFoshan/LtePlatform/blob/master/Lte.Auxilary/MrsProcess.md)
+[MRS数据文件格式及处理](https://github.com/WirelessFoshan/LtePlatform/blob/master/Lte.Auxilary/mrs/README.md)
 ## MRE数据解析
+待开发
