@@ -1,7 +1,7 @@
-#MRO数据文件格式及处理
-##数据文件细节
-###邻区测量节
-####华为格式
+# MRO数据文件格式及处理
+## 数据文件细节
+### 邻区测量节
+#### 华为格式
     该节由多个object对象组合而成，每个object对象对应一次测量信息
 ```xml
     <measurement>
@@ -22,7 +22,7 @@
       ...
     </measurement>
 ```
-####中兴格式
+#### 中兴格式
     与华为格式一样，该节由多个object对象组合而成，每个object对象对应一次测量信息，不同之处是字段更多，且字段的顺序有些不一样
 ```xml
     <measurement>
@@ -43,8 +43,8 @@
       ...
     </measurement>
 ```
-###服务小区上下行丢包率节
-####华为格式
+### 服务小区上下行丢包率节
+#### 华为格式
     该数据目前应用较少，且一般不打开测量，因此数值基本为0.
 ```xml
     <measurement>
@@ -58,7 +58,7 @@
       ...
     </measurement>
 ```
-####中兴格式
+#### 中兴格式
     与华为格式一致，数据目前应用较少，且一般不打开测量，因此数值基本为0.
 ```xml
     <measurement>
@@ -78,8 +78,8 @@
       ...
     </measurement>
 ```
-###上行接收干扰功率节
-####华为格式
+### 上行接收干扰功率节
+#### 华为格式
 
 ```xml
 <measurement>
@@ -120,7 +120,7 @@
       ...
     </measurement>
 ```
-####中兴格式
+#### 中兴格式
     与华为格式一致
 ```xml
 <measurement>
@@ -159,12 +159,12 @@
     </measurement>
 ```
 
-##数据文件处理过程
-###总体流程
+## 数据文件处理过程
+### 总体流程
 1. 读取字段名称列表
 1. 生成小区小区相邻关系数据结构
 1. 数据结构映射到数据表，以便写入Mongo数据库
-####华为总体代码
+#### 华为总体代码
 ```python
       for name in files:
         if not name.endswith('0000.xml.gz'):
@@ -196,7 +196,7 @@
         os.remove(currrent_dir + name)
 ```
 
-####中兴总体代码
+#### 中兴总体代码
 ```python
       for name in files:
         if not name.endswith('0000.zip'):
@@ -227,8 +227,8 @@
         print('insert from ', currrent_dir + name)
         os.remove(currrent_dir + name)
 ```
-###邻区数据结构生成
-####华为处理代码
+### 邻区数据结构生成
+#### 华为处理代码
 ```python
       def read(self, item_measurement, item_id):
         for item_element in item_measurement:
@@ -259,7 +259,7 @@
                     item_dict.update({'NeighborList': neighbor_list})
                     self.item_dicts.append(item_dict)
 ```
-####中兴处理代码
+#### 中兴处理代码
 ```python
       def read_zte(self, item_measurement, item_id):
         for item_element in item_measurement:
@@ -290,9 +290,9 @@
                     item_dict.update({'NeighborList': neighbor_list})
                     self.item_dicts.append(item_dict)
 ```
-###中心小区数据生成
+### 中心小区数据生成
     其实，这又分成基本字段生成和经纬度数据生成两部分，且两者最终写入的数据表是不一样的。
-####华为代码
+#### 华为代码
 ```python
                         item_dict.update(item_element.attrib)
                         item_dict.update({'Rsrp': _item_sub_dict['LteScRSRP']})
@@ -308,7 +308,7 @@
                             item_position.update({'Lattitute': _item_sub_dict['Latitude']})
                             self.item_positions.append(item_position)
 ```
-####中兴代码
+#### 中兴代码
 ```python
                         item_dict.update({'id': item_id+'-'+item_element.attrib['MR.objectId']})                        
                         item_dict.update({'Rsrp': _item_sub_dict['LteScRSRP']})                        
@@ -328,8 +328,8 @@
                                 item_position.update({'Lattitute': _item_sub_dict['Latitude']})
                             self.item_positions.append(item_position)
 ```
-###数据结构映射
-####华为处理代码
+### 数据结构映射
+#### 华为处理代码
 ```python
       def map_rsrp_diff(self, eNodebId):
         diff_list=list(map(lambda index: self._map_neighbor_rsrp_diff(index+1), list(range(6))))
@@ -377,7 +377,7 @@
         stat=df.groupby(['CellId','Pci','NeighborPci', 'Earfcn', 'NeighborEarfcn']).sum().reset_index()
         return json.loads(stat.T.to_json()).values()
 ```
-####中兴处理代码
+#### 中兴处理代码
 ```python
       diff_list=list(map(lambda index: self._map_neighbor_rsrp_diff(index+1), list(range(6))))
         combined_list=reduce(lambda first,second: first+second,diff_list,[])
@@ -424,7 +424,7 @@
         stat=df.groupby(['CellId','Pci','NeighborPci', 'Earfcn', 'NeighborEarfcn']).sum().reset_index()
         return json.loads(stat.T.to_json()).values()
 ```
-####通用子函数
+#### 通用子函数
 
 ```python
       def _map_neighbor_rsrp_diff(self, index):

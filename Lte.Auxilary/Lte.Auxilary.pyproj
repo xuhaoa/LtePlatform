@@ -208,6 +208,8 @@
     <Folder Include="ftp_modules\" />
     <Folder Include="huawei_download\" />
     <Folder Include="mr\backup\" />
+    <Folder Include="mr\mro\" />
+    <Folder Include="mr\mrs\" />
     <Folder Include="mr\test\" />
     <Folder Include="phpApi\" />
     <Folder Include="php\Api\" />
