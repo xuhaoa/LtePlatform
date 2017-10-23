@@ -265,6 +265,7 @@
     <Content Include="Db\SQLQuery1.sql" />
     <Content Include="Db\SQLQuery2.sql" />
     <Content Include="Db\SQLQuery3.sql" />
+    <Content Include="ftp_modules\README.md" />
     <Content Include="huawei_download\huawei_download_mro_112_216.sh">
       <SubType>Code</SubType>
     </Content>
@@ -379,6 +380,9 @@
     <Content Include="huawei_download\huawei_download_mrs_delay3.sh">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="mr\MroProcess.md" />
+    <Content Include="mr\MrsProcess.md" />
+    <Content Include="mr\README.md" />
     <Content Include="php\Action\AlarmAction.class.php" />
     <Content Include="php\Action\AlarmhistoryAction.class.php" />
     <Content Include="php\Action\AssessmentAction.class.php" />
@@ -486,6 +490,7 @@
     <Content Include="phpApi\wandonglouyu.php" />
     <Content Include="phpApi\zonghexinxiConnection.php" />
     <Content Include="Practise\ftp_test.sh" />
+    <Content Include="README.md" />
     <Content Include="zte_download\zte_download_north.sh">
       <SubType>Code</SubType>
     </Content>
