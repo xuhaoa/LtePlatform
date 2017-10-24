@@ -1,5 +1,5 @@
-from lxml import etree
 import unittest
+from lxml import etree
 
 class ReadXmlUnitTest(unittest.TestCase):
     def setUp(self):
