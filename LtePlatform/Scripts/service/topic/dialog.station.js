@@ -167,7 +167,7 @@
                 parametersDialogService.showCommonStationEdit(stationId);
             }
             $scope.addStation = function() {
-                parametersDialogService.showCommonStationAdd();
+                parametersDialogService.showCommonStationAdd(type);
             }
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');

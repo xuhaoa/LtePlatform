@@ -90,6 +90,20 @@
                         }
                     });
                 },
+                showAddStationList: function (type) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Home/StationAddListDialog.html',
+                        controller: 'map.stationAddList.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "待录入站点列表";
+                            },
+                            type: function () {
+                                return type;
+                            }
+                        }
+                    });
+                },
                 showStationEdit: function(stationId) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Home/StationEdit.html',
@@ -157,13 +171,24 @@
                         }
                     });
                 },
-                showAssessmentDialog: function () {
+                showAssessmentAdd: function () {
                     menuItemService.showGeneralDialog({
-                        templateUrl: '/appViews/Evaluation/Dialog/AssessmentDialog.html',
-                        controller: 'map.assessment.dialog',
+                        templateUrl: '/appViews/Evaluation/Dialog/AssessmentAddDialog.html',
+                        controller: 'map.assessmentAdd.dialog',
                         resolve: {
                             dialogTitle: function () {
                                 return "考核评分";
+                            }
+                        }
+                    });
+                },
+                showAssessmentListDialog: function () {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Evaluation/Dialog/AssessmentListDialog.html',
+                        controller: 'map.assessmentList.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "考核列表";
                             }
                         }
                     });

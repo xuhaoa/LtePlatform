@@ -399,7 +399,9 @@
     <Content Include="appViews\BasicKpi\Construction.html" />
     <Content Include="appViews\BasicKpi\CsvDtDialog.html" />
     <Content Include="appViews\BasicKpi\HotspotDtDialog.html" />
+    <Content Include="appViews\Evaluation\Dialog\AssessmentAddDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\AssessmentDialog.html" />
+    <Content Include="appViews\Evaluation\Dialog\AssessmentListDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\CheckDetails.html" />
     <Content Include="appViews\Evaluation\Dialog\CheckIndoorDetails.html" />
     <Content Include="appViews\Evaluation\Dialog\ResoureDetails.html" />
@@ -499,6 +501,7 @@
     <Content Include="appViews\Home\Station.html" />
     <Content Include="appViews\Home\StationAdd.html" />
     <Content Include="appViews\Home\Details\StationDetails.html" />
+    <Content Include="appViews\Home\StationAddListDialog.html" />
     <Content Include="appViews\Home\StationEdit.html" />
     <Content Include="appViews\Home\StationFilter.html" />
     <Content Include="appViews\Home\StationListDialog.html" />

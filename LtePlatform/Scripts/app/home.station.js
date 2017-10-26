@@ -195,6 +195,9 @@
         generalMapService) {
         $scope.distinct = $scope.distincts[0];
         baiduMapService.initializeMap("map", 13);
+        downSwitchService.getStationCntToBeAdd().then(function (response) {
+            $scope.toAddCnt = response.result;
+        });
 
         $scope.getStations = function (areaName, index) {
             downSwitchService.getStationByFilter(areaName,
@@ -239,8 +242,11 @@
         $scope.showStationList = function () {
             parametersDialogService.showStationList();
         };
+        $scope.showAddStationList = function () {
+            parametersDialogService.showAddStationList('JZ');
+        }
         $scope.assessment = function () {
-            parametersDialogService.showAssessmentDialog();
+            parametersDialogService.showAssessmentListDialog();
         };
         $scope.outportData = function () {
             location.href = appUrlService.getPhpHost() + "LtePlatForm/lte/index.php/Station/download";
@@ -286,6 +292,9 @@
         $scope.distinct = $scope.distincts[0];
         baiduMapService.initializeMap("map", 13);
 
+        downSwitchService.getIndoorCntToBeAdd().then(function (response) {
+            $scope.toAddCnt = response.result;
+        });
         //获取站点
         $scope.getStations = function (areaName, index) {
             areaName = areaName.replace('FS', '');
@@ -308,6 +317,9 @@
                     }
                 });
         };
+        $scope.showAddStationList = function () {
+            parametersDialogService.showAddStationList('SF');
+        }
         $scope.reflashMap = function (areaNameIndex) {
             baiduMapService.clearOverlays();
             $scope.initializeLegend();
