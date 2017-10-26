@@ -36,6 +36,10 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
+        [ApiDoc("获得指定时间区间内的可以导入的告警统计列表")]
+        [ApiParameterDoc("begin", "开始日期")]
+        [ApiParameterDoc("end", "结束日期")]
+        [ApiResponse("可以导入的告警统计列表")]
         public IEnumerable<AlarmStat> Get(int begin, int range)
         {
             return _service.GetAlarmsToBeDump(begin, range);

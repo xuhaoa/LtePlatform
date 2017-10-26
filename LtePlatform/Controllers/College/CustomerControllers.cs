@@ -284,6 +284,10 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
+        [ApiDoc("抱怨信息位置相关信息查询")]
+        [ApiParameterDoc("begin", "开始时间")]
+        [ApiParameterDoc("end", "结束时间")]
+        [ApiResponse("抱怨信息位置相关信息")]
         public IEnumerable<ComplainPositionDto> Get(DateTime begin, DateTime end)
         {
             return _service.QueryPositionDtos(begin, end);

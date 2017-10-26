@@ -169,10 +169,13 @@ namespace Lte.Parameters.Entities.Kpi
         public string Details { get; set; }
     }
 
+    [TypeDoc("告警历史记录")]
     public class AlarmHistory
     {
+        [MemberDoc("日期字符串")]
         public string DateString { get; set; }
 
+        [MemberDoc("当日告警数")]
         public int Alarms { get; set; }
     }
 
