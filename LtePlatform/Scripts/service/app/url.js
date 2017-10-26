@@ -2018,6 +2018,62 @@ angular.module('app.format', [])
                         }
                     ];
                 },
+                generateComplainPositionGroups: function(item) {
+                    return [
+                        {
+                            items: [
+                                {
+                                    key: '工单编号',
+                                    value: item.serialNumber
+                                }, {
+                                    key: '经度',
+                                    value: item.longtitute
+                                }, {
+                                    key: '纬度',
+                                    value: item.lattitute
+                                }
+                            ]
+                        }, {
+                            items: [
+                                {
+                                    key: '城市',
+                                    value: item.city
+                                }, {
+                                    key: '区域',
+                                    value: item.district
+                                }, {
+                                    key: '镇区',
+                                    value: item.town
+                                }
+                            ]
+                        }, {
+                            items: [
+                                {
+                                    key: '楼宇名称',
+                                    value: item.buildingName
+                                }, {
+                                    key: '道路名称',
+                                    value: item.roadName
+                                }, {
+                                    key: '匹配站点',
+                                    value: item.sitePosition
+                                }
+                            ]
+                        }, {
+                            items: [
+                                {
+                                    key: '联系地址',
+                                    value: item.contactAddress,
+                                    span: 2
+                                }, {
+                                    key: '投诉内容',
+                                    value: item.complainContents,
+                                    span: 2
+                                }
+                            ]
+                        }
+                    ];
+                },
 
                 generateDistrictButtonTemplate: function() {
                     return '<button class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ' +

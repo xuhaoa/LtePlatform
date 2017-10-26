@@ -240,7 +240,7 @@
             item) {
             $scope.dialogTitle = item.serialNumber + "工单信息补充";
 
-            $scope.item = item;
+            $scope.itemGroups = appFormatService.generateComplainPositionGroups(item);
             appRegionService.initializeCities().then(function(cities) {
                 $scope.city.options = cities;
                 $scope.city.selected = cities[0];
