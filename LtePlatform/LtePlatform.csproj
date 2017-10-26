@@ -1029,7 +1029,9 @@
     <Content Include="Scripts\service\kpi\coverage.js" />
     <Content Include="Scripts\service\kpi\coverage.mr.js" />
     <Content Include="Scripts\service\kpi\coverage.stats.js" />
+    <Content Include="Scripts\service\kpi\customer.complain.js" />
     <Content Include="Scripts\service\kpi\customer.js" />
+    <Content Include="Scripts\service\kpi\customer.sustain.js" />
     <Content Include="Scripts\service\kpi\parameter.dump.js" />
     <Content Include="Scripts\service\kpi\parameter.js" />
     <Content Include="Scripts\service\kpi\parameter.query.js" />
