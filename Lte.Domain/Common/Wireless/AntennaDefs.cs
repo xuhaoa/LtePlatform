@@ -86,7 +86,8 @@ namespace Lte.Domain.Common.Wireless
         Highway,
         Railway,
         Subway,
-        Downtown
+        Downtown,
+        AreaDef
     }
 
     public class HotspotTypeDescriptionTransform : DescriptionTransform<HotspotType>
@@ -111,7 +112,11 @@ namespace Lte.Domain.Common.Wireless
         LteIndoor,
         CdmaIndoor,
         HotSpot,
-        Unknown
+        Unknown,
+        DenseCity,
+        City,
+        Suburb,
+        Rural
     }
 
     public enum RegionType : byte

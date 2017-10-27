@@ -21,9 +21,7 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<PreciseWorkItemCell> PreciseWorkItemCells { get; set; }
 
         public DbSet<EmergencyCommunication> EmergencyCommunications { get; set; }
-
-        public DbSet<DownSwitchFlow> DownSwitchFlows { get; set; }
-
+        
         public DbSet<VipDemand> VipDemands { get; set; }
 
         public DbSet<EmergencyProcess> EmergencyProcesses { get; set; }
@@ -151,5 +149,11 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<QciZte> QciZtes { get; set; }
 
         public DbSet<TownQciStat> TownQciStats { get; set; }
+
+        public DbSet<PrbHuawei> PrbHuaweis { get; set; }
+
+        public DbSet<PrbZte> PrbZtes { get; set; }
+
+        public DbSet<TownPrbStat> TownPrbStats { get; set; }
     }
 }

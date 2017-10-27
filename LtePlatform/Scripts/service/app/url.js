@@ -250,7 +250,21 @@ angular.module('app.core', [])
                 { value: 'CC', name: '禅城' },
                 { value: 'SS', name: '三水' },
                 { value: 'GM', name: '高明' }
-            ]
+            ],
+            getAreaTypeColor: function(areaType) {
+                switch(areaType) {
+                    case '农村开阔地':
+                        return 'green';
+                    case '郊区':
+                        return 'yellow';
+                    case '一般城区':
+                        return 'blue';
+                    case '密集城区':
+                        return 'red';
+                    default:
+                        return 'gray';
+                }
+            }
         };
     })
     .controller('header.menu', function($scope, appUrlService) {
@@ -2004,6 +2018,62 @@ angular.module('app.format', [])
                         }
                     ];
                 },
+                generateComplainPositionGroups: function(item) {
+                    return [
+                        {
+                            items: [
+                                {
+                                    key: '工单编号',
+                                    value: item.serialNumber
+                                }, {
+                                    key: '经度',
+                                    value: item.longtitute
+                                }, {
+                                    key: '纬度',
+                                    value: item.lattitute
+                                }
+                            ]
+                        }, {
+                            items: [
+                                {
+                                    key: '城市',
+                                    value: item.city
+                                }, {
+                                    key: '区域',
+                                    value: item.district
+                                }, {
+                                    key: '镇区',
+                                    value: item.town
+                                }
+                            ]
+                        }, {
+                            items: [
+                                {
+                                    key: '楼宇名称',
+                                    value: item.buildingName
+                                }, {
+                                    key: '道路名称',
+                                    value: item.roadName
+                                }, {
+                                    key: '匹配站点',
+                                    value: item.sitePosition
+                                }
+                            ]
+                        }, {
+                            items: [
+                                {
+                                    key: '联系地址',
+                                    value: item.contactAddress,
+                                    span: 2
+                                }, {
+                                    key: '投诉内容',
+                                    value: item.complainContents,
+                                    span: 2
+                                }
+                            ]
+                        }
+                    ];
+                },
 
                 generateDistrictButtonTemplate: function() {
                     return '<button class="btn btn-sm btn-default" ng-hide="row.entity.district===grid.appScope.cityFlag" ' +
@@ -2147,6 +2217,58 @@ angular.module('app.chart', ['app.format', 'app.calculation'])
                                 data: result.districtStats[index]
                             });
                         });
+                    return chart.options;
+                },
+                generateSingleSeriesBarOptions: function(stats, categoryKey, dataKey, settings) {
+                    var chart = new BarChart();
+                    chart.title.text = settings.title;
+                    chart.legend.enabled = false;
+                    var category = _.map(stats,
+                        function(stat) {
+                            return stat[categoryKey];
+                        });
+                    var precise = _.map(stats,
+                        function(stat) {
+                            return stat[dataKey];
+                        });
+                    category.push(settings.summaryStat[categoryKey]);
+                    precise.push(settings.summaryStat[dataKey]);
+                    chart.xAxis.categories = category;
+                    chart.xAxis.title.text = settings.xTitle;
+                    var yAxisConfig = basicCalculationService.generateYAxisConfig(settings);
+                    chart.setDefaultYAxis(yAxisConfig);
+                    var series = {
+                        name: settings.seriesName,
+                        data: precise
+                    };
+                    chart.asignSeries(series);
+                    return chart.options;
+                },
+                generateMultiSeriesFuncBarOptions: function (stats, categoryKey, seriesDefs, settings) {
+                    var chart = new BarChart();
+                    chart.title.text = settings.title;
+                    chart.legend.enabled = false;
+                    var category = _.map(stats,
+                        function(stat) {
+                            return stat[categoryKey];
+                        });
+                    chart.xAxis.categories = category;
+                    chart.xAxis.title.text = settings.xTitle;
+                    var yAxisConfig = basicCalculationService.generateYAxisConfig(settings);
+                    chart.setDefaultYAxis(yAxisConfig);
+                    angular.forEach(seriesDefs,
+                        function(def) {
+                            var precise = _.map(stats,
+                                function(stat) {
+                                    return def.dataFunc(stat);
+                                });
+                            var series = {
+                                name: def.seriesName,
+                                data: precise
+                            };
+                            chart.addSeries(series, 'bar');
+                        });
+                    
                     return chart.options;
                 },
                 calculateMemberSum: function(array, memberList, categoryFunc) {
@@ -4443,8 +4565,8 @@ angular.module('app.geometry', [])
             constructionStateOptions: ['全部', '审计会审', '天馈施工', '整体完工', '基站开通', '其他']
         };
     });
-angular.module('app.calculation', [])
-    .factory('basicCalculationService', function() {
+angular.module('app.calculation', ['app.format'])
+    .factory('basicCalculationService', function (appFormatService) {
         var isLongtituteValid = function(longtitute) {
             return (!isNaN(longtitute)) && longtitute > 112 && longtitute < 114;
         };
@@ -4470,6 +4592,35 @@ angular.module('app.calculation', [])
             mapLonLat: function(source, destination) {
                 source.longtitute = destination.longtitute;
                 source.lattitute = destination.lattitute;
+            },
+            generateDateSpanSeries: function(begin, end) {
+                var result = [];
+                var beginDate = new Date(begin.getYear() + 1900, begin.getMonth(), begin.getDate());
+                while (beginDate < end) {
+                    result.push({
+                        date: new Date(beginDate.getYear() + 1900, beginDate.getMonth(), beginDate.getDate())
+                    });
+                    beginDate.setDate(beginDate.getDate() + 1);
+                }
+                return result;
+            },
+            generateYAxisConfig: function(settings) {
+                var yAxisConfig = {
+                    title: settings.yTitle
+                };
+                if (settings.yMin !== undefined) {
+                    angular.extend(yAxisConfig,
+                        {
+                            min: settings.yMin
+                        });
+                }
+                if (settings.yMax !== undefined) {
+                    angular.extend(yAxisConfig,
+                        {
+                            max: settings.yMax
+                        });
+                }
+                return yAxisConfig;
             }
         };
     })

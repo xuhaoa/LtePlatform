@@ -454,12 +454,21 @@ namespace Lte.MySqlFramework.Entities
     }
     
     [TypeDoc("镇区边界视图")]
-    public class TownBoundaryView
+    public class TownBoundaryView : IGeoPointList
     {
         [MemberDoc("镇的名称")]
         public string Town { get; set; }
 
         [MemberDoc("边界经纬度序列")]
+        public List<GeoPoint> BoundaryGeoPoints { get; set; }
+    }
+
+    public class AreaBoundaryView : IGeoPointList
+    {
+        public string AreaName { get; set; }
+
+        public string AreaType { get; set; }
+
         public List<GeoPoint> BoundaryGeoPoints { get; set; }
     }
 

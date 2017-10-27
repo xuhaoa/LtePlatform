@@ -44,6 +44,24 @@ namespace Lte.Domain.Regular.Attributes
 
     }
 
+    [AttributeUsage(AttributeTargets.Property)]
+    public sealed class ArrayAverageAttribute : Attribute
+    {
+        
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public sealed class ArrayMaxAttribute : Attribute
+    {
+
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public sealed class ArrayMinAttribute : Attribute
+    {
+
+    }
+
     [AttributeUsage(AttributeTargets.Delegate | AttributeTargets.Parameter
                     | AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method)]
     public sealed class CanBeNullAttribute : Attribute

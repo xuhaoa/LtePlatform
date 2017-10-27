@@ -284,6 +284,9 @@
                         town: town
                     });
                 },
+                queryAreaBoundaries: function() {
+                    return generalHttpService.getApiData('AreaBoundary', {});
+                },
                 queryENodebTown: function(eNodebId) {
                     return generalHttpService.getApiData('Town',
                     {
@@ -315,6 +318,16 @@
                         statDate: statDate,
                         frequency: frequency
                     });
+                },
+                getCurrentDateTownFlowStats: function (statDate, frequency) {
+                    return generalHttpService.getApiData('TownFlow',
+                        {
+                            currentDate: statDate,
+                            frequency: frequency
+                        });
+                },
+                updateTownFlowStat: function(stat) {
+                    return generalHttpService.postApiData('TownFlow', stat);
                 }
             };
         });

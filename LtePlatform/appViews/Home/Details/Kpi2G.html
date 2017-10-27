@@ -5,7 +5,9 @@
         <div uib-rating aria-labelledby="default-rating" ng-model="dropStar" max="5" read-only="true"
              uib-tooltip-template="'dropTooltipTemplate.html'" tooltip-class="customClass" tooltip-placement="bottom"></div>
     </p>
+    <div id="dropConfig"></div>
     <p>连接成功率：{{connectionRate | number: 2}}%</p>
+    <div id="connectionConfig"></div>
     <script type="text/ng-template" id="dropTooltipTemplate.html">
         <h6>掉话率星级定义</h6>
         <ul>

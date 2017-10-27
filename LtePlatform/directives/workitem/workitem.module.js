@@ -117,7 +117,8 @@ angular.module('workitem.module.feedback', ['ui.grid', 'myApp.kpi'])
                     { field: 'townStats1800', name: '镇区统计-1.8G' },
                     { field: 'townStats800VoLte', name: '镇区统计-800M' },
                     { field: 'townRrcs', name: '镇区RRC统计' },
-                    { field: 'townQcis', name: '镇区CQI统计' }
+                    { field: 'townQcis', name: '镇区CQI统计' },
+                    { field: 'townPrbs', name: '镇区PRB统计' }
                 ],
                 data: []
             };

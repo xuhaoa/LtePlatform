@@ -54,7 +54,17 @@ namespace Lte.MySqlFramework.Abstract
         
     }
 
-    public interface ITownFlowRepository : IRepository<TownFlowStat>, ISaveChanges
+    public interface IPrbHuaweiRepository : IRepository<PrbHuawei>, ISaveChanges, IMatchRepository<PrbHuawei>
+    {
+        
+    }
+
+    public interface IPrbZteRepository : IRepository<PrbZte>, ISaveChanges, IMatchRepository<PrbZte>
+    {
+        
+    }
+
+    public interface ITownFlowRepository : IRepository<TownFlowStat>, ISaveChanges, IMatchRepository<TownFlowStat>
     {
     }
 
@@ -68,12 +78,11 @@ namespace Lte.MySqlFramework.Abstract
         
     }
 
-    public interface IDownSwitchFlowRepository : IRepository<DownSwitchFlow>,
-        IMatchRepository<DownSwitchFlow, DownSwitchFlowExcel>, ISaveChanges
+    public interface ITownPrbRepository : IRepository<TownPrbStat>, ISaveChanges
     {
-        List<DownSwitchFlow> GetAllList(DateTime begin, DateTime end);
+        
     }
-
+    
     public interface IPlanningSiteRepository : IRepository<PlanningSite>,
         IMatchRepository<PlanningSite, PlanningSiteExcel>, ISaveChanges
     {

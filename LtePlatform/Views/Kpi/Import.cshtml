@@ -17,11 +17,6 @@
                 {
                     <div dump-file-selector file-title="每日KPI Excel文件选择：" tag="dailyKpi" file-type=".xls, .xlsx"></div>
                 }
-                @using (Html.BeginForm("SwitchImport", "Kpi",
-                    FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal", role = "form"}))
-                {
-                    <div dump-file-selector file-title="4G用户3G流量比文件选择：" tag="downSwitch" file-type=".xls, .xlsx"></div>
-                }
                 @using (Html.BeginForm("PlanningImport", "Kpi",
                     FormMethod.Post, new {enctype = "multipart/form-data", @class = "form-horizontal", role = "form"}))
                 {

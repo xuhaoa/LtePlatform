@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Aspose.Diagram;
+using Lte.Domain.Common;
 using Lte.Domain.Regular.Attributes;
 
 namespace Lte.Domain.Regular
@@ -58,7 +59,7 @@ namespace Lte.Domain.Regular
         public static void Increase<T>(this T source, T increment)
         {
             var properties = (typeof(T)).GetProperties();
-            foreach (var property in from property in properties.Where(property => property.CanWrite)
+            foreach (var property in from property in properties.Where(property => property.CanWrite  && property.CanRead)
                 let attribute = property.GetCustomAttribute<ArraySumProtectionAttribute>()
                 where attribute == null
                 select property)
@@ -138,6 +139,104 @@ namespace Lte.Domain.Regular
             foreach (var item in enumerable)
             {
                 result.Increase(item);
+            }
+            return result;
+        }
+
+        public static T ArrayAggration<T>(this IEnumerable<T> sourceList, Action<T> setDefaultValues) 
+            where T : class, new()
+        {
+            var result = new T();
+            setDefaultValues(result);
+            var properties = (typeof(T)).GetProperties();
+            var enumerable = sourceList as T[] ?? sourceList.ToArray();
+
+            foreach (var property in from property in properties.Where(property => property.CanWrite)
+                let attribute = property.GetCustomAttribute<ArraySumProtectionAttribute>()
+                where attribute == null
+                select property)
+            {
+                var averageAttribute = property.GetCustomAttribute<ArrayAverageAttribute>();
+                var maxAttribute = property.GetCustomAttribute<ArrayMaxAttribute>();
+                var minAttribute = property.GetCustomAttribute<ArrayMinAttribute>();
+                switch (property.PropertyType.Name)
+                {
+                    case "Int16":
+                        if (averageAttribute != null)
+                        {
+                            property.SetValue(result, (short)enumerable.Average(x => (short) property.GetValue(x)));
+                        }
+                        else if (maxAttribute != null)
+                        {
+                            property.SetValue(result, enumerable.Max(x => (short) property.GetValue(x)));
+                        }
+                        else if (minAttribute != null)
+                        {
+                            property.SetValue(result, enumerable.Min(x => (short) property.GetValue(x)));
+                        }
+                        else
+                        {
+                            property.SetValue(result, (short) enumerable.Sum(x => (short) property.GetValue(x)));
+                        }
+                        break;
+                    case "Int32":
+                        if (averageAttribute != null)
+                        {
+                            property.SetValue(result, (int)enumerable.Average(x => (int)property.GetValue(x)));
+                        }
+                        else if (maxAttribute != null)
+                        {
+                            property.SetValue(result, enumerable.Max(x => (int)property.GetValue(x)));
+                        }
+                        else if (minAttribute != null)
+                        {
+                            property.SetValue(result, enumerable.Min(x => (int)property.GetValue(x)));
+                        }
+                        else
+                        {
+                            property.SetValue(result, enumerable.Sum(x => (int)property.GetValue(x)));
+                        }
+                        break;
+                    case "Int64":
+                        if (averageAttribute != null)
+                        {
+                            property.SetValue(result, (long)enumerable.Average(x => (long)property.GetValue(x)));
+                        }
+                        else if (maxAttribute != null)
+                        {
+                            property.SetValue(result, enumerable.Max(x => (long)property.GetValue(x)));
+                        }
+                        else if (minAttribute != null)
+                        {
+                            property.SetValue(result, enumerable.Min(x => (long)property.GetValue(x)));
+                        }
+                        else
+                        {
+                            property.SetValue(result, enumerable.Sum(x => (long)property.GetValue(x)));
+                        }
+                        break;
+                    case "Double":
+                        if (averageAttribute != null)
+                        {
+                            property.SetValue(result, enumerable.Average(x => (double)property.GetValue(x)));
+                        }
+                        else if (maxAttribute != null)
+                        {
+                            property.SetValue(result, enumerable.Max(x => (double)property.GetValue(x)));
+                        }
+                        else if (minAttribute != null)
+                        {
+                            property.SetValue(result, enumerable.Min(x => (double)property.GetValue(x)));
+                        }
+                        else
+                        {
+                            property.SetValue(result, enumerable.Sum(x => (double)property.GetValue(x)));
+                        }
+                        break;
+                    case "String":
+                        property.SetValue(result, property.GetValue(enumerable[0])?.ToString());
+                        break;
+                }
             }
             return result;
         }

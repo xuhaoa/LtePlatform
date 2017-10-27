@@ -56,6 +56,8 @@ namespace Lte.Domain.Common.Wireless
                     return FrequencyBandType.Band2100;
                 case "1800":
                     return FrequencyBandType.Band1800;
+                case "college":
+                    return FrequencyBandType.College;
                 default:
                     return FrequencyBandType.Band800VoLte;
             }

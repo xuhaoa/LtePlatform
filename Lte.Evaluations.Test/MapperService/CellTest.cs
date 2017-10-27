@@ -673,7 +673,6 @@ namespace Lte.Evaluations.MapperService
             var item = new FlowHuawei
             {
                 AverageActiveUsers = 1,
-                DownlinkAveragePrbs = 2.3,
                 StatTime = new DateTime(2016, 7, 7),
                 ButLastDownlinkDuration = 2.33,
                 DownlinkDciCceRate = 2.77,
@@ -788,26 +787,7 @@ namespace Lte.Evaluations.MapperService
             item.ButLastUplinkDuration.ShouldBe(78);
             item.ButLastDownlinkDuration.ShouldBe(95);
         }
-
-        [Test]
-        public void Test_FlowHuaweiCsv_Prb()
-        {
-            var csv = new FlowHuaweiCsv
-            {
-                DownlinkAveragePrbs = 1,
-                UplinkAveragePrbs = 2,
-                DownlinkDrbPbs = 3,
-                UplinkDrbPbs = 4,
-                PucchPrbsString = "5"
-            };
-            var item = csv.MapTo<FlowHuawei>();
-            item.DownlinkAveragePrbs.ShouldBe(1);
-            item.UplinkAveragePrbs.ShouldBe(2);
-            item.PucchPrbs.ShouldBe(5);
-            item.DownlinkDrbPbs.ShouldBe(3);
-            item.UplinkDrbPbs.ShouldBe(4);
-        }
-
+        
         [Test]
         public void Test_FlowHuaweiCsv_Preamble()
         {

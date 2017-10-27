@@ -270,6 +270,48 @@ namespace Lte.MySqlFramework.Entities
         public int Cqi15Times { get; set; }
     }
 
+    [AutoMapFrom(typeof(FlowZteCsv))]
+    public class PrbZte : Entity, ILteCellQuery, IStatTime
+    {
+        public int ENodebId { get; set; }
+
+        public byte SectorId { get; set; }
+
+        public DateTime StatTime { get; set; }
+
+        public double PuschPrbs { get; set; }
+
+        public int UplinkPrbSubframe { get; set; }
+
+        public double PdschPrbs { get; set; }
+        
+        public int DownlinkPrbSubframe { get; set; }
+
+        public double UplinkDtchPrbs { get; set; }
+
+        public double DownlinkDtchPrbs { get; set; }
+
+        public double PuschUsageInterval0Seconds { get; set; }
+
+        public double PuschUsageInterval20Seconds { get; set; }
+
+        public double PuschUsageInterval40Seconds { get; set; }
+
+        public double PuschUsageInterval60Seconds { get; set; }
+
+        public double PuschUsageInterval80Seconds { get; set; }
+        
+        public double PdschUsageInterval0Seconds { get; set; }
+        
+        public double PdschUsageInterval20Seconds { get; set; }
+
+        public double PdschUsageInterval40Seconds { get; set; }
+
+        public double PdschUsageInterval60Seconds { get; set; }
+
+        public double PdschUsageInterval80Seconds { get; set; }
+    }
+
     [AutoMapFrom(typeof(FlowHuaweiCsv))]
     public class FlowHuawei : Entity, ILocalCellQuery
     {
@@ -309,14 +351,6 @@ namespace Lte.MySqlFramework.Entities
 
         [AutoMapPropertyResolve("PagingUsersString", typeof(FlowHuaweiCsv), typeof(StringToIntTransform))]
         public int PagingUsers { get; set; }
-
-        public double DownlinkAveragePrbs { get; set; }
-
-        public double DownlinkDrbPbs { get; set; }
-
-        public double UplinkAveragePrbs { get; set; }
-
-        public double UplinkDrbPbs { get; set; }
 
         public int GroupAPreambles { get; set; }
 
@@ -486,6 +520,70 @@ namespace Lte.MySqlFramework.Entities
         public int Cqi14Times { get; set; }
 
         public int Cqi15Times { get; set; }
+    }
+
+    [AutoMapFrom(typeof(FlowHuaweiCsv))]
+    public class PrbHuawei : Entity, ILocalCellQuery, IStatTime, ILteCellQuery
+    {
+        public int ENodebId { get; set; }
+
+        public byte LocalCellId { get; set; }
+
+        public byte SectorId { get; set; }
+
+        public DateTime StatTime { get; set; }
+
+        public double PdschPrbs { get; set; }
+
+        public double DownlinkDtchPrbNumber { get; set; }
+
+        public double PuschPrbs { get; set; }
+
+        public double UplinkDtchPrbNumber { get; set; }
+
+        public int DownlinkPrbSubframe { get; set; }
+
+        public int UplinkPrbSubframe { get; set; }
+
+        public double PdschUsageInterval0Seconds { get; set; }
+        
+        public double PdschUsageInterval10Seconds { get; set; }
+
+        public double PdschUsageInterval20Seconds { get; set; }
+        
+        public double PdschUsageInterval30Seconds { get; set; }
+
+        public double PdschUsageInterval40Seconds { get; set; }
+
+        public double PdschUsageInterval50Seconds { get; set; }
+        
+        public double PdschUsageInterval60Seconds { get; set; }
+        
+        public double PdschUsageInterval70Seconds { get; set; }
+
+        public double PdschUsageInterval80Seconds { get; set; }
+        
+        public double PdschUsageInterval90Seconds { get; set; }
+
+        public double PuschUsageInterval0Seconds { get; set; }
+        
+        public double PuschUsageInterval10Seconds { get; set; }
+        
+        public double PuschUsageInterval20Seconds { get; set; }
+        
+        public double PuschUsageInterval30Seconds { get; set; }
+        
+        public double PuschUsageInterval40Seconds { get; set; }
+        
+        public double PuschUsageInterval50Seconds { get; set; }
+        
+        public double PuschUsageInterval60Seconds { get; set; }
+        
+        public double PuschUsageInterval70Seconds { get; set; }
+        
+        public double PuschUsageInterval80Seconds { get; set; }
+        
+        public double PuschUsageInterval90Seconds { get; set; }
     }
 
     [AutoMapFrom(typeof(FlowHuawei), typeof(FlowZte))]
@@ -722,7 +820,7 @@ namespace Lte.MySqlFramework.Entities
 
     }
 
-    [AutoMapFrom(typeof(FlowView))]
+    [AutoMapFrom(typeof(FlowView), typeof(TownFlowStat))]
     [TypeDoc("聚合流量统计视图")]
     public class AggregateFlowView
     {

@@ -634,12 +634,27 @@
                         initialDate: date
                     });
                 },
+                queryDateSpanComplainStats: function (begin, end) {
+                    return generalHttpService.getApiData("ComplainDate",
+                        {
+                            begin: begin,
+                            end: end
+                        });
+                },
                 queryLastDateDistrictComplains: function(date, district) {
                     return generalHttpService.getApiData('ComplainQuery',
                     {
                         statDate: date,
                         district: district
                     });
+                },
+                queryDateSpanDistrictComplains: function (beginDate, endDate, district) {
+                    return generalHttpService.getApiData('ComplainQuery',
+                        {
+                            beginDate: beginDate,
+                            endDate: endDate,
+                            district: district
+                        });
                 },
                 queryHotSpotCells: function(name) {
                     return generalHttpService.getApiData('HotSpotCells',
@@ -652,13 +667,6 @@
     .factory('downSwitchService',
         function(generalHttpService, appUrlService) {
             return {
-                getRecentKpi: function(city, initialDate) {
-                    return generalHttpService.getApiData('DownSwitchFlow',
-                    {
-                        city: city,
-                        statDate: initialDate
-                    });
-                },
                 getStationByName: function (name, type, page, pageSize) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +

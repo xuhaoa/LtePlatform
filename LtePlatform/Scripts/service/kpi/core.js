@@ -7,59 +7,92 @@
             chartCalculateService,
             generalChartService) {
             return {
-                generatePreciseBarOptions: function(districtStats, cityStat) {
-                    var chart = new BarChart();
-                    chart.title.text = cityStat.city + "精确覆盖率统计";
-                    chart.legend.enabled = false;
-                    var category = [];
-                    var precise = [];
-                    angular.forEach(districtStats,
-                        function(stat) {
-                            category.push(stat.district);
-                            precise.push(stat.preciseRate);
+                generatePreciseBarOptions: function (districtStats, cityStat) {
+                    return chartCalculateService.generateSingleSeriesBarOptions(districtStats,
+                        'district',
+                        'preciseRate',
+                        {
+                            title: cityStat.city + "精确覆盖率统计",
+                            summaryStat: {
+                                district: cityStat.city,
+                                preciseRate: cityStat.preciseRate
+                            },
+                            xTitle: '区域',
+                            yTitle: '精确覆盖率',
+                            yMin: 70,
+                            yMax: 100,
+                            seriesName: '精确覆盖率'
                         });
-                    category.push(cityStat.city);
-                    precise.push(cityStat.preciseRate);
-                    chart.xAxis.categories = category;
-                    chart.xAxis.title.text = '区域';
-                    chart.setDefaultYAxis({
-                        title: '精确覆盖率',
-                        min: 70,
-                        max: 100
-                    });
-                    var series = {
-                        name: '精确覆盖率',
-                        data: precise
-                    };
-                    chart.asignSeries(series);
-                    return chart.options;
                 },
-                generateDownSwitchOptions: function(districtStats, city, cityDownSwitch) {
-                    var chart = new BarChart();
-                    chart.title.text = city + "4G用户3G流量比统计";
-                    chart.legend.enabled = false;
-                    var category = [];
-                    var precise = [];
-                    angular.forEach(districtStats,
-                        function(stat) {
-                            category.push(stat.region);
-                            precise.push(stat.downSwitchRate);
+                generateDropRateBarOptions: function(stats, city) {
+                    return chartCalculateService.generateMultiSeriesFuncBarOptions(stats,
+                        'region',
+                        [
+                            {
+                                dataFunc: function(stat) {
+                                    return stat.drop2GRate * 100;
+                                },
+                                seriesName: '2G掉话率（%）'
+                            }, {
+                                dataFunc: function(stat) {
+                                    return stat.drop3GRate * 100;
+                                },
+                                seriesName: '3G掉话率（%）'
+                            }
+                        ],
+                        {
+                            title: city + "掉话率统计",
+                            xTitle: '区域',
+                            yTitle: '掉话率',
+                            yMin: 0,
+                            yMax: 1
                         });
-                    category.push(city);
-                    precise.push(cityDownSwitch);
-                    chart.xAxis.categories = category;
-                    chart.xAxis.title.text = '区域';
-                    chart.setDefaultYAxis({
-                        title: '4G用户3G流量比',
-                        min: 0,
-                        max: 10
-                    });
-                    var series = {
-                        name: '4G用户3G流量比',
-                        data: precise
-                    };
-                    chart.asignSeries(series);
-                    return chart.options;
+                },
+                generateConnectionRateBarOptions: function (stats, city) {
+                    return chartCalculateService.generateMultiSeriesFuncBarOptions(stats,
+                        'region',
+                        [
+                            {
+                                dataFunc: function (stat) {
+                                    return stat.callSetupRate * 100;
+                                },
+                                seriesName: '2G呼叫建立成功率（%）'
+                            }, {
+                                dataFunc: function (stat) {
+                                    return stat.connectionRate * 100;
+                                },
+                                seriesName: '3G连接成功率率（%）'
+                            }
+                        ],
+                        {
+                            title: city + "建立成功率统计",
+                            xTitle: '区域',
+                            yTitle: '建立成功率',
+                            yMin: 98,
+                            yMax: 100
+                        });
+                },
+                generateCollegeFlowBarOptions: function(stats) {
+                    return chartCalculateService.generateMultiSeriesFuncBarOptions(stats,
+                        'name',
+                        [
+                            {
+                                dataFunc: function (stat) {
+                                    return stat.pdcpDownlinkFlow / 1024 / 8;
+                                },
+                                seriesName: 'PDCP下行流量'
+                            }, {
+                                dataFunc: function (stat) {
+                                    return stat.pdcpUplinkFlow / 1024 / 8;
+                                },
+                                seriesName: 'PDCP上行流量'
+                            }
+                        ],
+                        {
+                            title: "校园网流量统计",
+                            xTitle: '校园名称',
+                            yTitle: '流量（GB）'
+                        });
                 },
                 generateComboChartOptions: function(data, name) {
                     var setting = {
@@ -418,7 +451,6 @@
     .constant('kpiRatingDivisionDefs',
     {
         precise: [94.6, 83.6, 72.6, 61.6, 50],
-        downSwitch: [3, 5, 8, 10, 15],
         drop: [0.2, 0.3, 0.35, 0.4, 0.5]
     })
     .factory('appKpiService',
@@ -431,16 +463,6 @@
             appFormatService,
             preciseChartService) {
             return {
-                getDownSwitchRate: function(stats) {
-                    var flow3G = 0;
-                    var flow4G = 0;
-                    angular.forEach(stats,
-                        function(stat) {
-                            flow3G += stat.downSwitchFlow3G;
-                            flow4G += stat.flow4G;
-                        });
-                    return 100 * flow3G / flow4G;
-                },
                 getCityStat: function(districtStats, currentCity) {
                     var stat = calculateService.initializePreciseCityStat(currentCity);
                     angular.forEach(districtStats,
@@ -475,9 +497,6 @@
                 },
                 calculatePreciseRating: function(precise) {
                     return calculateService.getValueFromDivisionAbove(kpiRatingDivisionDefs.precise, precise);
-                },
-                calculateDownSwitchRating: function(rate) {
-                    return calculateService.getValueFromDivisionBelow(kpiRatingDivisionDefs.downSwitch, rate);
                 },
                 calculateDropStar: function(drop) {
                     return calculateService.getValueFromDivisionBelow(kpiRatingDivisionDefs.drop, drop);

@@ -169,6 +169,15 @@ angular.module('topic.basic', ['myApp.url', 'myApp.region'])
                 { strokeColor: color, strokeWeight: 2, strokeOpacity: 0.2 });
                 map.addOverlay(polygon);
             },
+            addFilledBoundary: function (coors, color, xOffset, yOffset) {
+                var points = [];
+                angular.forEach(coors, function (coor) {
+                    points.push(new BMap.Point(coor.longtitute + xOffset, coor.lattitute + yOffset));
+                });
+                var polygon = new BMap.Polygon(points,
+                    { strokeColor: color, fillColor: color, strokeWeight: 0 });
+                map.addOverlay(polygon);
+            },
             addDistrictBoundary: function(district, color) {
                 var bdary = new BMap.Boundary();
                 bdary.get(district, function(rs) { //获取行政区域
@@ -1811,7 +1820,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
     });
 angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
     .factory('parametersDialogService',
-    function (menuItemService, baiduMapService, stationFormatService) {
+        function(menuItemService, baiduMapService, stationFormatService) {
             return {
                 showENodebInfo: function(eNodeb, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
@@ -1940,43 +1949,43 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                         }
                     });
                 },
-                showCommonStationAdd: function (type) {
+                showCommonStationAdd: function(type) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/BasicKpi/CommonStationAdd.html',
                         controller: 'map.common-stationAdd.dialog',
                         resolve: {
-                            dialogTitle: function () {
+                            dialogTitle: function() {
                                 return "站点添加";
                             },
-                            type: function () {
+                            type: function() {
                                 return type;
                             }
                         }
                     });
                 },
-                showCheckingStationInfo: function (station) {
+                showCheckingStationInfo: function(station) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Evaluation/Dialog/CheckDetails.html',
                         controller: 'map.checkingStation.dialog',
                         resolve: {
-                            dialogTitle: function () {
+                            dialogTitle: function() {
                                 return "巡检信息:" + station.name;
                             },
-                            station: function () {
+                            station: function() {
                                 return station;
                             }
                         }
                     });
                 },
-                showCheckingIndoorInfo: function (station) {
+                showCheckingIndoorInfo: function(station) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Evaluation/Dialog/CheckIndoorDetails.html',
                         controller: 'map.checkingStation.dialog',
                         resolve: {
-                            dialogTitle: function () {
+                            dialogTitle: function() {
                                 return "巡检信息:" + station.name;
                             },
-                            station: function () {
+                            station: function() {
                                 return station;
                             }
                         }
@@ -1987,7 +1996,7 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                         templateUrl: '/appViews/Evaluation/Dialog/AssessmentAddDialog.html',
                         controller: 'map.assessmentAdd.dialog',
                         resolve: {
-                            dialogTitle: function () {
+                            dialogTitle: function() {
                                 return "考核评分";
                             }
                         }
@@ -2065,7 +2074,7 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                             endDate)
                     });
                 },
-                showHighwayDtInfos: function (beginDate, endDate, name) {
+                showHighwayDtInfos: function(beginDate, endDate, name) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/BasicKpi/HotspotDtDialog.html',
                         controller: 'highway.dt.dialog',
@@ -2083,17 +2092,8 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                 }
             }
         })
-    .factory('parametersMapService',
-        function(baiduMapService,
-            networkElementService,
-            baiduQueryService,
-            workItemDialog,
-            neGeometryService,
-            collegeQueryService,
-            appRegionService,
-            parametersDialogService,
-            collegeService,
-            alarmsService) {
+    .factory('parametersDisplayMapService',
+        function(baiduMapService, parametersDialogService, baiduQueryService, networkElementService) {
             var showCellSectors = function(cells, xOffset, yOffset, beginDate, endDate, cellOverlays) {
                 angular.forEach(cells,
                     function(cell) {
@@ -2110,100 +2110,104 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                             cell);
                     });
             };
-            var showENodebsElements =
-                function(eNodebs, beginDate, endDate, shouldShowCells, siteOverlays, cellOverlays) {
-                    baiduQueryService.transformToBaidu(eNodebs[0].longtitute, eNodebs[0].lattitute)
-                        .then(function(coors) {
-                            var xOffset = coors.x - eNodebs[0].longtitute;
-                            var yOffset = coors.y - eNodebs[0].lattitute;
-                            angular.forEach(eNodebs,
-                                function(eNodeb) {
-                                    eNodeb.longtitute += xOffset;
-                                    eNodeb.lattitute += yOffset;
-                                    var marker = baiduMapService.generateIconMarker(eNodeb.longtitute,
-                                        eNodeb.lattitute,
-                                        "/Content/Images/Hotmap/site_or.png");
-                                    if (siteOverlays) {
-                                        siteOverlays.push(marker);
-                                    }
-                                    baiduMapService.addOneMarkerToScope(marker,
-                                        function(item) {
-                                            parametersDialogService.showENodebInfo(item, beginDate, endDate);
-                                        },
-                                        eNodeb);
-                                    if (shouldShowCells) {
-                                        networkElementService.queryCellInfosInOneENodebUse(eNodeb.eNodebId)
-                                            .then(function(cells) {
-                                                showCellSectors(cells,
-                                                    xOffset,
-                                                    yOffset,
-                                                    beginDate,
-                                                    endDate,
-                                                    cellOverlays);
-                                            });
-                                    }
-
-                                });
-                        });
-                };
-            var showPhpElements = function(elements, showElementInfo) {
-                baiduQueryService.transformToBaidu(elements[0].longtitute, elements[0].lattitute).then(function(coors) {
-                    var xOffset = coors.x - parseFloat(elements[0].longtitute);
-                    var yOffset = coors.y - parseFloat(elements[0].lattitute);
-                    angular.forEach(elements,
-                        function(element) {
-                            element.longtitute = xOffset + parseFloat(element.longtitute);
-                            element.lattitute = yOffset + parseFloat(element.lattitute);
-                            var marker = baiduMapService.generateIconMarker(element.longtitute,
-                                element.lattitute,
-                                "/Content/Images/Hotmap/site_or.png");
-                            baiduMapService.addOneMarkerToScope(marker, showElementInfo, element);
-                        });
-                });
-            };
-            var showCdmaElements = function(btss) {
-                baiduQueryService.transformToBaidu(btss[0].longtitute, btss[0].lattitute).then(function(coors) {
-                    var xOffset = coors.x - btss[0].longtitute;
-                    var yOffset = coors.y - btss[0].lattitute;
-                    angular.forEach(btss,
-                        function(bts) {
-                            bts.longtitute += xOffset;
-                            bts.lattitute += yOffset;
-                            var marker = baiduMapService.generateIconMarker(bts.longtitute,
-                                bts.lattitute,
-                                "/Content/Images/Hotmap/site_bl.png");
-                            baiduMapService.addOneMarkerToScope(marker,
-                                function(item) {
-                                    parametersDialogService.showBtsInfo(item);
-                                },
-                                bts);
-                            networkElementService.queryCdmaCellInfosInOneBts(bts.btsId).then(function(cells) {
-                                angular.forEach(cells,
-                                    function(cell) {
-                                        cell.longtitute += xOffset;
-                                        cell.lattitute += yOffset;
-                                        cell.btsId = bts.btsId;
-                                        var cellSector = baiduMapService.generateSector(cell);
-                                        baiduMapService.addOneSectorToScope(cellSector,
+            return {
+                showENodebsElements:
+                    function(eNodebs, beginDate, endDate, shouldShowCells, siteOverlays, cellOverlays) {
+                        baiduQueryService.transformToBaidu(eNodebs[0].longtitute, eNodebs[0].lattitute)
+                            .then(function(coors) {
+                                var xOffset = coors.x - eNodebs[0].longtitute;
+                                var yOffset = coors.y - eNodebs[0].lattitute;
+                                angular.forEach(eNodebs,
+                                    function(eNodeb) {
+                                        eNodeb.longtitute += xOffset;
+                                        eNodeb.lattitute += yOffset;
+                                        var marker = baiduMapService.generateIconMarker(eNodeb.longtitute,
+                                            eNodeb.lattitute,
+                                            "/Content/Images/Hotmap/site_or.png");
+                                        if (siteOverlays) {
+                                            siteOverlays.push(marker);
+                                        }
+                                        baiduMapService.addOneMarkerToScope(marker,
                                             function(item) {
-                                                parametersDialogService.showCdmaCellInfo(item);
+                                                parametersDialogService.showENodebInfo(item, beginDate, endDate);
                                             },
-                                            cell);
+                                            eNodeb);
+                                        if (shouldShowCells) {
+                                            networkElementService.queryCellInfosInOneENodebUse(eNodeb.eNodebId)
+                                                .then(function(cells) {
+                                                    showCellSectors(cells,
+                                                        xOffset,
+                                                        yOffset,
+                                                        beginDate,
+                                                        endDate,
+                                                        cellOverlays);
+                                                });
+                                        }
+
                                     });
                             });
-                        });
-                });
+                    },
+                showCdmaElements: function(btss) {
+                    baiduQueryService.transformToBaidu(btss[0].longtitute, btss[0].lattitute).then(function(coors) {
+                        var xOffset = coors.x - btss[0].longtitute;
+                        var yOffset = coors.y - btss[0].lattitute;
+                        angular.forEach(btss,
+                            function(bts) {
+                                bts.longtitute += xOffset;
+                                bts.lattitute += yOffset;
+                                var marker = baiduMapService.generateIconMarker(bts.longtitute,
+                                    bts.lattitute,
+                                    "/Content/Images/Hotmap/site_bl.png");
+                                baiduMapService.addOneMarkerToScope(marker,
+                                    function(item) {
+                                        parametersDialogService.showBtsInfo(item);
+                                    },
+                                    bts);
+                                networkElementService.queryCdmaCellInfosInOneBts(bts.btsId).then(function(cells) {
+                                    angular.forEach(cells,
+                                        function(cell) {
+                                            cell.longtitute += xOffset;
+                                            cell.lattitute += yOffset;
+                                            cell.btsId = bts.btsId;
+                                            var cellSector = baiduMapService.generateSector(cell);
+                                            baiduMapService.addOneSectorToScope(cellSector,
+                                                function(item) {
+                                                    parametersDialogService.showCdmaCellInfo(item);
+                                                },
+                                                cell);
+                                        });
+                                });
+                            });
+                    });
+                }
             };
+        })
+    .factory('parametersMapService',
+        function(baiduMapService,
+            networkElementService,
+            baiduQueryService,
+            workItemDialog,
+            neGeometryService,
+            collegeQueryService,
+            appRegionService,
+            parametersDialogService,
+            collegeService,
+            alarmsService,
+            parametersDisplayMapService,
+            stationFactory) {
+
             return {
                 showElementsInOneTown: function(city, district, town, beginDate, endDate, siteOverlays, cellOverlays) {
                     networkElementService.queryENodebsInOneTownUse(city, district, town).then(function(eNodebs) {
-                        showENodebsElements(eNodebs, beginDate, endDate, true, siteOverlays, cellOverlays);
+                        parametersDisplayMapService
+                            .showENodebsElements(eNodebs, beginDate, endDate, true, siteOverlays, cellOverlays);
                     });
                 },
                 showElementsInRange:
                     function(west, east, south, north, beginDate, endDate, siteOverlays, cellOverlays) {
                         networkElementService.queryInRangeENodebs(west, east, south, north).then(function(eNodebs) {
-                            showENodebsElements(eNodebs, beginDate, endDate, true, siteOverlays, cellOverlays);
+                            parametersDisplayMapService
+                                .showENodebsElements(eNodebs, beginDate, endDate, true, siteOverlays, cellOverlays);
                         });
                     },
                 showHotSpotCellSectors: function(hotSpotName, beginDate, endDate) {
@@ -2212,37 +2216,37 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                             .then(function(coors) {
                                 var xOffset = coors.x - sectors[0].longtitute;
                                 var yOffset = coors.y - sectors[0].lattitute;
-                                showCellSectors(sectors, xOffset, yOffset, beginDate, endDate);
+                                parametersDisplayMapService.showCellSectors(sectors, xOffset, yOffset, beginDate, endDate);
                             });
                     });
                 },
                 showCollegeENodebs: function(name, beginDate, endDate) {
                     collegeService.queryENodebs(name).then(function(eNodebs) {
-                        showENodebsElements(eNodebs, beginDate, endDate);
+                        parametersDisplayMapService.showENodebsElements(eNodebs, beginDate, endDate);
                     });
                 },
                 showElementsWithGeneralName: function(name, beginDate, endDate) {
                     networkElementService.queryENodebsByGeneralNameInUse(name).then(function(eNodebs) {
                         if (eNodebs.length === 0) return;
-                        showENodebsElements(eNodebs, beginDate, endDate, true);
+                        parametersDisplayMapService.showENodebsElements(eNodebs, beginDate, endDate, true);
                     });
                 },
                 showCdmaInOneTown: function(city, district, town) {
                     networkElementService.queryBtssInOneTown(city, district, town).then(function(btss) {
-                        showCdmaElements(btss);
+                        parametersDisplayMapService.showCdmaElements(btss);
                     });
                 },
                 showCdmaWithGeneralName: function(name) {
                     networkElementService.queryBtssByGeneralName(name).then(function(btss) {
                         if (btss.length === 0) return;
-                        showCdmaElements(btss);
+                        parametersDisplayMapService.showCdmaElements(btss);
                     });
                 },
                 showENodebs: function(eNodebs, beginDate, endDate) {
-                    showENodebsElements(eNodebs, beginDate, endDate, false);
+                    parametersDisplayMapService.showENodebsElements(eNodebs, beginDate, endDate, false);
                 },
                 showBtssElements: function(btss) {
-                    return showCdmaElements(btss);
+                    return parametersDisplayMapService.showCdmaElements(btss);
                 },
                 showCellSectors: function(cells, showCellInfo) {
                     baiduQueryService.transformToBaidu(cells[0].longtitute, cells[0].lattitute).then(function(coors) {
@@ -2263,9 +2267,22 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                     });
                 },
                 showPhpElements: function(elements, showElementInfo) {
-                    return showPhpElements(elements, showElementInfo);
+                    baiduQueryService.transformToBaidu(elements[0].longtitute, elements[0].lattitute)
+                        .then(function(coors) {
+                            var xOffset = coors.x - parseFloat(elements[0].longtitute);
+                            var yOffset = coors.y - parseFloat(elements[0].lattitute);
+                            angular.forEach(elements,
+                                function(element) {
+                                    element.longtitute = xOffset + parseFloat(element.longtitute);
+                                    element.lattitute = yOffset + parseFloat(element.lattitute);
+                                    var marker = baiduMapService.generateIconMarker(element.longtitute,
+                                        element.lattitute,
+                                        "/Content/Images/Hotmap/site_or.png");
+                                    baiduMapService.addOneMarkerToScope(marker, showElementInfo, element);
+                                });
+                        });
                 },
-                showIntervalPoints: function (intervals, coverageOverlays) {
+                showIntervalPoints: function(intervals, coverageOverlays) {
                     angular.forEach(intervals,
                         function(interval) {
                             var coors = interval.coors;
@@ -2346,6 +2363,25 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                                         var yOffset = coors.y - boundary.boundaryGeoPoints[0].lattitute;
                                         baiduMapService
                                             .addBoundary(boundary.boundaryGeoPoints, color, xOffset, yOffset);
+                                    });
+                            });
+                    });
+                },
+                showAreaBoundaries: function() {
+                    appRegionService.queryAreaBoundaries().then(function(boundaries) {
+                        angular.forEach(boundaries,
+                            function(boundary) {
+                                var color = stationFactory.getAreaTypeColor(boundary.areaType);
+                                baiduQueryService
+                                    .transformToBaidu(boundary.boundaryGeoPoints[0].longtitute,
+                                    boundary.boundaryGeoPoints[0].lattitute).then(function (coors) {
+                                        var xOffset = coors.x - boundary.boundaryGeoPoints[0].longtitute;
+                                        var yOffset = coors.y - boundary.boundaryGeoPoints[0].lattitute;
+                                        baiduMapService
+                                            .addFilledBoundary(boundary.boundaryGeoPoints, color, xOffset, yOffset);
+                                        baiduMapService.drawLabel(boundary.areaName,
+                                            boundary.boundaryGeoPoints[0].longtitute + xOffset,
+                                            boundary.boundaryGeoPoints[0].lattitute + yOffset);
                                     });
                             });
                     });
@@ -2579,6 +2615,33 @@ angular.module('topic.dialog.customer', ['myApp.url', 'myApp.region', 'myApp.kpi
             };
 
             $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+    })
+    .controller("customer.recent",
+        function ($scope,
+            $uibModalInstance,
+            city,
+            beginDate,
+            endDate,
+            complainService) {
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.city = city;
+            $scope.data = {
+                complainList: []
+            };
+            $scope.query = function () {
+                complainService.queryDateSpanComplainStats($scope.beginDate.value, $scope.endDate.value).then(function (result) {
+                    $scope.districtStats = result;
+                });
+            };
+            $scope.query();
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.building);
+            };
+
+            $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
         })
@@ -2824,8 +2887,8 @@ angular.module('topic.dialog.parameters', ['myApp.url', 'myApp.region', 'myApp.k
             };
         });
 angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', "ui.bootstrap"])
-    .run(function ($rootScope) {
-        $rootScope.closeAlert = function (messages, index) {
+    .run(function($rootScope) {
+        $rootScope.closeAlert = function(messages, index) {
             messages.splice(index, 1);
         };
     })
@@ -2865,9 +2928,9 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
-    })
+        })
     .controller("hotSpot.flow.name",
-        function ($scope,
+        function($scope,
             $uibModalInstance,
             name,
             beginDate,
@@ -2880,31 +2943,31 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
             $scope.endDate = endDate;
             $scope.flowStats = [];
             $scope.mergeStats = [];
-            $scope.query = function () {
+            $scope.query = function() {
                 appKpiService.calculateFlowStats($scope.cellList,
                     $scope.flowStats,
                     $scope.mergeStats,
                     $scope.beginDate,
                     $scope.endDate);
             };
-            $scope.showCharts = function () {
+            $scope.showCharts = function() {
                 kpiChartService.showFlowCharts($scope.flowStats, name, $scope.mergeStats);
             };
-            complainService.queryHotSpotCells(name).then(function (cells) {
+            complainService.queryHotSpotCells(name).then(function(cells) {
                 $scope.cellList = cells;
                 $scope.query();
             });
 
-            $scope.ok = function () {
+            $scope.ok = function() {
                 $uibModalInstance.close($scope.eNodeb);
             };
 
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
         })
     .controller("college.feeling.name",
-        function ($scope,
+        function($scope,
             $uibModalInstance,
             name,
             beginDate,
@@ -2917,31 +2980,31 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
             $scope.endDate = endDate;
             $scope.flowStats = [];
             $scope.mergeStats = [];
-            $scope.query = function () {
+            $scope.query = function() {
                 appKpiService.calculateFeelingStats($scope.cellList,
                     $scope.flowStats,
                     $scope.mergeStats,
                     $scope.beginDate,
                     $scope.endDate);
             };
-            $scope.showCharts = function () {
+            $scope.showCharts = function() {
                 kpiChartService.showFeelingCharts($scope.flowStats, name, $scope.mergeStats);
             };
-            collegeService.queryCells(name).then(function (cells) {
+            collegeService.queryCells(name).then(function(cells) {
                 $scope.cellList = cells;
                 $scope.query();
             });
 
-            $scope.ok = function () {
+            $scope.ok = function() {
                 $uibModalInstance.close($scope.eNodeb);
             };
 
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
-    })
+        })
     .controller("hotSpot.feeling.name",
-        function ($scope,
+        function($scope,
             $uibModalInstance,
             name,
             beginDate,
@@ -2954,26 +3017,26 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
             $scope.endDate = endDate;
             $scope.flowStats = [];
             $scope.mergeStats = [];
-            $scope.query = function () {
+            $scope.query = function() {
                 appKpiService.calculateFeelingStats($scope.cellList,
                     $scope.flowStats,
                     $scope.mergeStats,
                     $scope.beginDate,
                     $scope.endDate);
             };
-            $scope.showCharts = function () {
+            $scope.showCharts = function() {
                 kpiChartService.showFeelingCharts($scope.flowStats, name, $scope.mergeStats);
             };
-            complainService.queryHotSpotCells(name).then(function (cells) {
+            complainService.queryHotSpotCells(name).then(function(cells) {
                 $scope.cellList = cells;
                 $scope.query();
             });
 
-            $scope.ok = function () {
+            $scope.ok = function() {
                 $uibModalInstance.close($scope.eNodeb);
             };
 
-            $scope.cancel = function () {
+            $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
         })
@@ -2989,6 +3052,62 @@ angular.module("topic.dialog.college", ['myApp.url', 'myApp.region', 'myApp.kpi'
             $scope.query = function() {
                 collegeMapService.showDtInfos($scope.dtInfos, beginDate.value, endDate.value);
             };
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.building);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
+    .controller('college.flow.dump',
+        function($scope,
+            $uibModalInstance,
+            beginDate,
+            endDate,
+            basicCalculationService,
+            appRegionService,
+            collegeQueryService,
+            kpiDisplayService) {
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.dialogTitle = "校园网流量导入";
+            $scope.query = function() {
+                $scope.stats = basicCalculationService
+                    .generateDateSpanSeries($scope.beginDate.value, $scope.endDate.value);
+                angular.forEach($scope.stats,
+                    function(stat) {
+                        appRegionService.getCurrentDateTownFlowStats(stat.date, 'college').then(function(items) {
+                            stat.items = items;
+                            if (!items.length) {
+                                collegeQueryService.retrieveDateCollegeFlowStats(stat.date).then(function(newItems) {
+                                    stat.items = newItems;
+                                    angular.forEach(newItems,
+                                        function(item) {
+                                            appRegionService.updateTownFlowStat(item).then(function(result) {});
+                                        });
+                                    $scope.updateCollegeNames(newItems);
+                                });
+                            } else {
+                                $scope.updateCollegeNames(items);
+                            }
+                        });
+                    });
+            };
+            $scope.updateCollegeNames = function(items) {
+                angular.forEach(items,
+                    function(item) {
+                        collegeQueryService.queryCollegeById(item.townId).then(function(college) {
+                            item.name = college.name;
+                        });
+                    });
+            };
+            $scope.showChart = function (items) {
+                $("#collegeFlowChart").highcharts(kpiDisplayService.generateCollegeFlowBarOptions(items));
+            };
+
+            $scope.query();
+
             $scope.ok = function() {
                 $uibModalInstance.close($scope.building);
             };
@@ -4319,40 +4438,32 @@ angular.module('topic.dialog',[ 'app.menu', 'app.core' ])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Trend.html',
                         controller: 'cqi.trend',
-                        resolve: {
-                            dialogTitle: function () {
-                                return "CQI优良比变化趋势";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return "CQI优良比变化趋势";
+                                },
+                                city: function() {
+                                    return city;
+                                }
                             },
-                            city: function () {
-                                return city;
-                            },
-                            beginDate: function () {
-                                return beginDate;
-                            },
-                            endDate: function () {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showDownSwitchTrendDialog: function (city, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Trend.html',
                         controller: 'down.switch.trend',
-                        resolve: {
-                            dialogTitle: function () {
-                                return "4G下切3G变化趋势";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return "4G下切3G变化趋势";
+                                },
+                                city: function() {
+                                    return city;
+                                }
                             },
-                            city: function () {
-                                return city;
-                            },
-                            beginDate: function () {
-                                return beginDate;
-                            },
-                            endDate: function () {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showPreciseWorkItem: function(endDate) {
@@ -4397,17 +4508,13 @@ angular.module('topic.dialog',[ 'app.menu', 'app.core' ])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Top.html',
                         controller: 'down.switch.top',
-                        resolve: {
-                            dialogTitle: function () {
-                                return "全市4G下切3GTOP统计";
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                dialogTitle: function() {
+                                    return "全市4G下切3GTOP统计";
+                                }
                             },
-                            beginDate: function () {
-                                return beginDate;
-                            },
-                            endDate: function () {
-                                return endDate;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showPreciseTopDistrict: function(beginDate, endDate, district) {
@@ -4454,6 +4561,19 @@ angular.module('topic.dialog',[ 'app.menu', 'app.core' ])
                         }
                     });
                 },
+                showRecentComplainItems: function (city, beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Customer/Dialog/Recent.html',
+                        controller: 'customer.recent',
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                city: function() {
+                                    return city;
+                                }
+                            },
+                            beginDate,
+                            endDate)
+                    });
+                },
                 adjustComplainItems: function () {
                     menuItemService.showGeneralDialog({
                         templateUrl: "/appViews/Customer/Complain/Adjust.html",
@@ -4496,51 +4616,48 @@ angular.module('topic.dialog',[ 'app.menu', 'app.core' ])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/College/Test/CollegeFlow.html',
                         controller: 'hotSpot.flow.name',
-                        resolve: {
-                            beginDate: function () {
-                                return beginDate;
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                name: function() {
+                                    return name;
+                                }
                             },
-                            endDate: function () {
-                                return endDate;
-                            },
-                            name: function () {
-                                return name;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showCollegeFeelingTrend: function (beginDate, endDate, name) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/College/Test/CollegeFlow.html',
                         controller: 'college.feeling.name',
-                        resolve: {
-                            beginDate: function () {
-                                return beginDate;
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                name: function() {
+                                    return name;
+                                }
                             },
-                            endDate: function () {
-                                return endDate;
-                            },
-                            name: function () {
-                                return name;
-                            }
-                        }
+                            beginDate,
+                            endDate)
                     });
                 },
                 showHotSpotFeelingTrend: function (beginDate, endDate, name) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/College/Test/CollegeFlow.html',
                         controller: 'hotSpot.feeling.name',
-                        resolve: {
-                            beginDate: function () {
-                                return beginDate;
+                        resolve: stationFormatService.dateSpanDateResolve({
+                                name: function() {
+                                    return name;
+                                }
                             },
-                            endDate: function () {
-                                return endDate;
-                            },
-                            name: function () {
-                                return name;
-                            }
-                        }
+                            beginDate,
+                            endDate)
+                    });
+                },
+                showCollegeFlowDumpDialog: function(beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/College/Table/DumpCollegeFlowTable.html',
+                        controller: 'college.flow.dump',
+                        resolve: stationFormatService.dateSpanDateResolve({},
+                            beginDate,
+                            endDate)
                     });
                 }
             };

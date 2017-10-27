@@ -82,6 +82,9 @@
             $scope.showMonthlyTrend = function() {
                 mapDialogService.showMonthComplainItems();
             };
+            $scope.showRecentTrend = function() {
+                mapDialogService.showRecentComplainItems($scope.city.selected, $scope.beginDate, $scope.endDate);
+            };
             $scope.positionModify = function() {
                 mapDialogService.adjustComplainItems();
             };

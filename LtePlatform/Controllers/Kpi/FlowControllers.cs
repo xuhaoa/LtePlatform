@@ -226,6 +226,16 @@ namespace LtePlatform.Controllers.Kpi
         }
 
         [HttpGet]
+        [ApiDoc("查询指定日期有记录的镇级天流量")]
+        [ApiParameterDoc("currentDate", "统计日期")]
+        [ApiParameterDoc("frequency", "频段描述")]
+        [ApiResponse("镇级天流量，每个镇一条记录")]
+        public IEnumerable<TownFlowStat> GetCurrentDate(DateTime currentDate, string frequency)
+        {
+            return _service.QueryCurrentDateStats(currentDate, frequency.GetBandFromFcn());
+        }
+
+        [HttpGet]
         [ApiDoc("查询时间段内区域天流量统计")]
         [ApiParameterDoc("begin", "开始日期")]
         [ApiParameterDoc("end", "结束日期")]
@@ -235,22 +245,30 @@ namespace LtePlatform.Controllers.Kpi
         public IEnumerable<FlowRegionDateView> Get(DateTime begin, DateTime end, string city, string frequency)
         {
             return _service.QueryDateSpanStats(begin, end, city, frequency.GetBandFromFcn());
-        } 
-    }
+        }
 
+        [HttpPost]
+        public TownFlowStat Post(TownFlowStat stat)
+        {
+            return _service.Update(stat);
+        }
+    }
+    
     [ApiControl("校园网流量查询控制器")]
     public class CollegeFlowController : ApiController
     {
         private readonly FlowQueryService _service;
         private readonly CollegeCellViewService _collegeCellViewService;
         private readonly CollegeStatService _collegeService;
+        private readonly TownFlowService _townFlowService;
 
         public CollegeFlowController(FlowQueryService service, CollegeCellViewService collegeCellViewService,
-            CollegeStatService collegeService)
+            CollegeStatService collegeService, TownFlowService townFlowService)
         {
             _service = service;
             _collegeCellViewService = collegeCellViewService;
             _collegeService = collegeService;
+            _townFlowService = townFlowService;
         }
 
         [HttpGet]
@@ -261,15 +279,14 @@ namespace LtePlatform.Controllers.Kpi
         [ApiResponse("天平均流量统计")]
         public AggregateFlowView Get(string collegeName, DateTime begin, DateTime end)
         {
-            var cells = _collegeCellViewService.GetCollegeViews(collegeName);
-            var stats =
-                cells.Select(cell => _service.QueryAverageView(cell.ENodebId, cell.SectorId, begin, end))
-                    .Where(view => view != null)
-                    .ToList();
+            var college = _collegeService.QueryInfo(collegeName);
+            var cells = _collegeCellViewService.QueryCollegeSectors(collegeName);
+            if (college == null) return null;
+            var stats = _townFlowService.QueryTownFlowViews(begin, end, college.Id, FrequencyBandType.College);
             var result = stats.Any()
                 ? stats.ArraySum().MapTo<AggregateFlowView>()
                 : new AggregateFlowView();
-            result.CellCount = stats.Count;
+            result.CellCount = cells.Count();
             return result;
         }
 
@@ -294,23 +311,28 @@ namespace LtePlatform.Controllers.Kpi
             }).OrderBy(x=>x.StatTime);
         }
 
+        [HttpGet]
+        [ApiDoc("抽取查询单日所有校园网的流量统计")]
+        [ApiParameterDoc("statDate", "统计日期")]
+        [ApiResponse("所有校园网的流量统计")]
         public IEnumerable<TownFlowStat> GetDateFlowView(DateTime statDate)
         {
-            var beginDate = statDate;
-            var endDate = statDate.AddDays(1);
+            var beginDate = statDate.Date;
+            var endDate = beginDate.AddDays(1);
             var colleges = _collegeService.QueryInfos();
             return colleges.Select(college =>
             {
                 var cells = _collegeCellViewService.GetCollegeViews(college.Name);
-                var viewList = cells.Select(cell => _service.Query(cell.ENodebId, cell.SectorId, beginDate, endDate))
-                    .Where(views => views != null && views.Any())
-                    .Aggregate((x, y) => x.Concat(y).ToList());
+                var viewListList = cells.Select(cell => _service.Query(cell.ENodebId, cell.SectorId, beginDate, endDate))
+                    .Where(views => views != null && views.Any()).ToList();
+                if (!viewListList.Any()) return null;
+                var viewList = viewListList.Aggregate((x, y) => x.Concat(y).ToList());
                 if (!viewList.Any()) return null;
                 var stat = viewList.ArraySum().MapTo<TownFlowStat>();
                 stat.FrequencyBandType = FrequencyBandType.College;
                 stat.TownId = college.Id;
                 return stat;
-            });
+            }).Where(x => x != null);
 
         }
     }
@@ -412,7 +434,7 @@ namespace LtePlatform.Controllers.Kpi
         }
 
         [HttpGet]
-        public async Task<Tuple<int, int, int, int, int, int>> Get(DateTime statDate)
+        public async Task<Tuple<int, int, int, int, int, int, int>> Get(DateTime statDate)
         {
             return await _service.GenerateTownStats(statDate);
         }
@@ -489,27 +511,6 @@ namespace LtePlatform.Controllers.Kpi
         public void Delete()
         {
             _service.ClearZteStats();
-        }
-    }
-    
-    [ApiControl("区域4G用户3G流量比查询控制器")]
-    public class DownSwitchFlowController : ApiController
-    {
-        private readonly DownSwitchFlowService _service;
-
-        public DownSwitchFlowController(DownSwitchFlowService service)
-        {
-            _service = service;
-        }
-
-        [HttpGet]
-        [ApiDoc("查询指定城市单个日期的区域4G用户3G流量比")]
-        [ApiParameterDoc("city", "城市")]
-        [ApiParameterDoc("statDate", "日期")]
-        [ApiResponse("区域4G用户3G流量比")]
-        public DownSwitchFlowDateView Get(string city, DateTime statDate)
-        {
-            return _service.QueryLastDateStat(statDate, city);
         }
     }
 }

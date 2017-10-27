@@ -45,9 +45,6 @@
     <Compile Include="Db\position_combined.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Db\position_combine_106.sh">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Db\precise_combined.py">
       <SubType>Code</SubType>
     </Compile>
@@ -90,9 +87,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="mr\test\gzip_test.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="huawei_download\huawei_download_mro_112.sh">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="mr\huawei_test_ftp.py">
@@ -208,6 +202,8 @@
     <Folder Include="ftp_modules\" />
     <Folder Include="huawei_download\" />
     <Folder Include="mr\backup\" />
+    <Folder Include="mr\mro\" />
+    <Folder Include="mr\mrs\" />
     <Folder Include="mr\test\" />
     <Folder Include="phpApi\" />
     <Folder Include="php\Api\" />
@@ -222,31 +218,6 @@
     <Folder Include="php\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Db\mro_combined.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Db\mro_combined2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Db\mro_combined3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Db\mro_combined4.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Db\mro_combined5.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Db\mrs_combined2.sh" />
-    <Content Include="Db\mrs_combined.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Db\position_combine_111.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Db\precise_combined.sh">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Db\rasterQuery.sql">
       <SubType>Code</SubType>
     </Content>
@@ -265,120 +236,6 @@
     <Content Include="Db\SQLQuery1.sql" />
     <Content Include="Db\SQLQuery2.sql" />
     <Content Include="Db\SQLQuery3.sql" />
-    <Content Include="huawei_download\huawei_download_mro_112_216.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mro_112_216_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mro_112_216_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mro_112_216_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mro_112_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mro_112_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mro_112_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mro_124.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mro_124_215.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mro_124_215_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mro_124_215_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mro_124_215_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mro_124_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mro_124_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mro_124_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mro_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mro_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mro_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_112.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_112_216.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_112_216_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_112_216_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_112_216_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_112_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_112_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_112_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_124.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_124_215.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_124_215_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_124_215_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_124_215_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_124_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_124_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_124_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_delay1.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_delay2.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="huawei_download\huawei_download_mrs_delay3.sh">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="php\Action\AlarmAction.class.php" />
     <Content Include="php\Action\AlarmhistoryAction.class.php" />
     <Content Include="php\Action\AssessmentAction.class.php" />
@@ -398,100 +255,11 @@
     <Content Include="php\Api\test.php" />
     <Content Include="php\Api\wandonglouyu.php" />
     <Content Include="php\Api\zonghexinxiConnection.php" />
-    <Content Include="process_huawei\process_huawei_mro.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="process_huawei\process_huawei_mro_15.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="process_huawei\process_huawei_mro_30.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="process_huawei\process_huawei_mro_45.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="process_huawei\process_huawei_mrs.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="process_huawei\process_huawei_mrs_15.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="process_huawei\process_huawei_mrs_30.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="process_huawei\process_huawei_mrs_45.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="process_zte2\process_zte_mro.sh" />
-    <Content Include="process_zte2\process_zte_mro_00_0.sh" />
-    <Content Include="process_zte2\process_zte_mro_00_1.sh" />
-    <Content Include="process_zte2\process_zte_mro_00_2.sh" />
-    <Content Include="process_zte2\process_zte_mro_00_3.sh" />
-    <Content Include="process_zte2\process_zte_mro_15.sh" />
-    <Content Include="process_zte2\process_zte_mro_15_0.sh" />
-    <Content Include="process_zte2\process_zte_mro_15_1.sh" />
-    <Content Include="process_zte2\process_zte_mro_15_2.sh" />
-    <Content Include="process_zte2\process_zte_mro_15_3.sh" />
-    <Content Include="process_zte2\process_zte_mro_30.sh" />
-    <Content Include="process_zte2\process_zte_mro_30_0.sh" />
-    <Content Include="process_zte2\process_zte_mro_30_1.sh" />
-    <Content Include="process_zte2\process_zte_mro_30_2.sh" />
-    <Content Include="process_zte2\process_zte_mro_30_3.sh" />
-    <Content Include="process_zte2\process_zte_mro_45.sh" />
-    <Content Include="process_zte2\process_zte_mro_45_0.sh" />
-    <Content Include="process_zte2\process_zte_mro_45_1.sh" />
-    <Content Include="process_zte2\process_zte_mro_45_2.sh" />
-    <Content Include="process_zte2\process_zte_mro_45_3.sh" />
-    <Content Include="process_zte\process_zte_mro_00_3.sh" />
-    <Content Include="process_zte\process_zte_mro_00_2.sh" />
-    <Content Include="process_zte\process_zte_mro_00_1.sh" />
-    <Content Include="process_zte\process_zte_mro_00_0.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="process_zte\process_zte_mro_15_3.sh" />
-    <Content Include="process_zte\process_zte_mro_15_2.sh" />
-    <Content Include="process_zte\process_zte_mro_15_1.sh" />
-    <Content Include="process_zte\process_zte_mro_15_0.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="process_zte\process_zte_mro_30_3.sh" />
-    <Content Include="process_zte\process_zte_mro_30_2.sh" />
-    <Content Include="process_zte\process_zte_mro_30_1.sh" />
-    <Content Include="process_zte\process_zte_mro_30_0.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="process_zte\process_zte_mro_45_3.sh" />
-    <Content Include="process_zte\process_zte_mro_45_2.sh" />
-    <Content Include="process_zte\process_zte_mro_45_1.sh" />
-    <Content Include="process_zte\process_zte_mro_45_0.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="process_zte\process_zte_mrs.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="process_zte\process_zte_mrs_15.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="process_zte\process_zte_mrs_30.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="process_zte\process_zte_mrs_45.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="para\zx.sh" />
     <Content Include="Practise\ftp_test.py" />
-    <Content Include="huawei_download\huawei_download_mro.sh" />
     <Content Include="phpApi\encode_json.php" />
     <Content Include="phpApi\test.php" />
     <Content Include="phpApi\wandonglouyu.php" />
     <Content Include="phpApi\zonghexinxiConnection.php" />
-    <Content Include="Practise\ftp_test.sh" />
-    <Content Include="zte_download\zte_download_north.sh">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="zte_download\zte_download_north_main.sh">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="php\Api\encode_json.php">
       <SubType>Code</SubType>
     </Content>

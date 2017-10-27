@@ -151,7 +151,7 @@
                         index: index
                     });
                 },
-                queryDumpHistory: function(begin, end) {
+                queryFlowDumpHistory: function(begin, end) {
                     return generalHttpService.getApiData('DumpFlow',
                     {
                         begin: begin,

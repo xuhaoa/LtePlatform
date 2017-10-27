@@ -7,59 +7,92 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
             chartCalculateService,
             generalChartService) {
             return {
-                generatePreciseBarOptions: function(districtStats, cityStat) {
-                    var chart = new BarChart();
-                    chart.title.text = cityStat.city + "精确覆盖率统计";
-                    chart.legend.enabled = false;
-                    var category = [];
-                    var precise = [];
-                    angular.forEach(districtStats,
-                        function(stat) {
-                            category.push(stat.district);
-                            precise.push(stat.preciseRate);
+                generatePreciseBarOptions: function (districtStats, cityStat) {
+                    return chartCalculateService.generateSingleSeriesBarOptions(districtStats,
+                        'district',
+                        'preciseRate',
+                        {
+                            title: cityStat.city + "精确覆盖率统计",
+                            summaryStat: {
+                                district: cityStat.city,
+                                preciseRate: cityStat.preciseRate
+                            },
+                            xTitle: '区域',
+                            yTitle: '精确覆盖率',
+                            yMin: 70,
+                            yMax: 100,
+                            seriesName: '精确覆盖率'
                         });
-                    category.push(cityStat.city);
-                    precise.push(cityStat.preciseRate);
-                    chart.xAxis.categories = category;
-                    chart.xAxis.title.text = '区域';
-                    chart.setDefaultYAxis({
-                        title: '精确覆盖率',
-                        min: 70,
-                        max: 100
-                    });
-                    var series = {
-                        name: '精确覆盖率',
-                        data: precise
-                    };
-                    chart.asignSeries(series);
-                    return chart.options;
                 },
-                generateDownSwitchOptions: function(districtStats, city, cityDownSwitch) {
-                    var chart = new BarChart();
-                    chart.title.text = city + "4G用户3G流量比统计";
-                    chart.legend.enabled = false;
-                    var category = [];
-                    var precise = [];
-                    angular.forEach(districtStats,
-                        function(stat) {
-                            category.push(stat.region);
-                            precise.push(stat.downSwitchRate);
+                generateDropRateBarOptions: function(stats, city) {
+                    return chartCalculateService.generateMultiSeriesFuncBarOptions(stats,
+                        'region',
+                        [
+                            {
+                                dataFunc: function(stat) {
+                                    return stat.drop2GRate * 100;
+                                },
+                                seriesName: '2G掉话率（%）'
+                            }, {
+                                dataFunc: function(stat) {
+                                    return stat.drop3GRate * 100;
+                                },
+                                seriesName: '3G掉话率（%）'
+                            }
+                        ],
+                        {
+                            title: city + "掉话率统计",
+                            xTitle: '区域',
+                            yTitle: '掉话率',
+                            yMin: 0,
+                            yMax: 1
                         });
-                    category.push(city);
-                    precise.push(cityDownSwitch);
-                    chart.xAxis.categories = category;
-                    chart.xAxis.title.text = '区域';
-                    chart.setDefaultYAxis({
-                        title: '4G用户3G流量比',
-                        min: 0,
-                        max: 10
-                    });
-                    var series = {
-                        name: '4G用户3G流量比',
-                        data: precise
-                    };
-                    chart.asignSeries(series);
-                    return chart.options;
+                },
+                generateConnectionRateBarOptions: function (stats, city) {
+                    return chartCalculateService.generateMultiSeriesFuncBarOptions(stats,
+                        'region',
+                        [
+                            {
+                                dataFunc: function (stat) {
+                                    return stat.callSetupRate * 100;
+                                },
+                                seriesName: '2G呼叫建立成功率（%）'
+                            }, {
+                                dataFunc: function (stat) {
+                                    return stat.connectionRate * 100;
+                                },
+                                seriesName: '3G连接成功率率（%）'
+                            }
+                        ],
+                        {
+                            title: city + "建立成功率统计",
+                            xTitle: '区域',
+                            yTitle: '建立成功率',
+                            yMin: 98,
+                            yMax: 100
+                        });
+                },
+                generateCollegeFlowBarOptions: function(stats) {
+                    return chartCalculateService.generateMultiSeriesFuncBarOptions(stats,
+                        'name',
+                        [
+                            {
+                                dataFunc: function (stat) {
+                                    return stat.pdcpDownlinkFlow / 1024 / 8;
+                                },
+                                seriesName: 'PDCP下行流量'
+                            }, {
+                                dataFunc: function (stat) {
+                                    return stat.pdcpUplinkFlow / 1024 / 8;
+                                },
+                                seriesName: 'PDCP上行流量'
+                            }
+                        ],
+                        {
+                            title: "校园网流量统计",
+                            xTitle: '校园名称',
+                            yTitle: '流量（GB）'
+                        });
                 },
                 generateComboChartOptions: function(data, name) {
                     var setting = {
@@ -418,7 +451,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
     .constant('kpiRatingDivisionDefs',
     {
         precise: [94.6, 83.6, 72.6, 61.6, 50],
-        downSwitch: [3, 5, 8, 10, 15],
         drop: [0.2, 0.3, 0.35, 0.4, 0.5]
     })
     .factory('appKpiService',
@@ -431,16 +463,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
             appFormatService,
             preciseChartService) {
             return {
-                getDownSwitchRate: function(stats) {
-                    var flow3G = 0;
-                    var flow4G = 0;
-                    angular.forEach(stats,
-                        function(stat) {
-                            flow3G += stat.downSwitchFlow3G;
-                            flow4G += stat.flow4G;
-                        });
-                    return 100 * flow3G / flow4G;
-                },
                 getCityStat: function(districtStats, currentCity) {
                     var stat = calculateService.initializePreciseCityStat(currentCity);
                     angular.forEach(districtStats,
@@ -475,9 +497,6 @@ angular.module('kpi.core', ['myApp.url', 'myApp.region'])
                 },
                 calculatePreciseRating: function(precise) {
                     return calculateService.getValueFromDivisionAbove(kpiRatingDivisionDefs.precise, precise);
-                },
-                calculateDownSwitchRating: function(rate) {
-                    return calculateService.getValueFromDivisionBelow(kpiRatingDivisionDefs.downSwitch, rate);
                 },
                 calculateDropStar: function(drop) {
                     return calculateService.getValueFromDivisionBelow(kpiRatingDivisionDefs.drop, drop);
@@ -1897,48 +1916,6 @@ angular.module('kpi.college.work', ['myApp.url', 'myApp.region', "ui.bootstrap",
             };
         });
 angular.module('kpi.college.flow', ['myApp.url', 'myApp.region', "ui.bootstrap", 'topic.basic'])
-    .controller("college.flow",
-        function($scope, $uibModalInstance, dialogTitle, year, collegeQueryService, parametersChartService) {
-            $scope.dialogTitle = dialogTitle;
-            $scope.collegeStatCount = 0;
-            $scope.query = function() {
-                angular.forEach($scope.collegeList,
-                    function(college) {
-                        collegeQueryService.queryCollegeFlow(college.name, $scope.beginDate.value, $scope.endDate.value)
-                            .then(function(stat) {
-                                angular.extend(college, stat);
-                                $scope.collegeStatCount += 1;
-                            });
-                    });
-            };
-            $scope.$watch('collegeStatCount',
-                function(count) {
-                    if ($scope.collegeList && count === $scope.collegeList.length && count > 0) {
-                        $("#downloadFlowConfig").highcharts(parametersChartService
-                            .getCollegeDistributionForDownlinkFlow($scope.collegeList));
-                        $("#uploadFlowConfig").highcharts(parametersChartService
-                            .getCollegeDistributionForUplinkFlow($scope.collegeList));
-                        $("#averageUsersConfig").highcharts(parametersChartService
-                            .getCollegeDistributionForAverageUsers($scope.collegeList));
-                        $("#activeUsersConfig").highcharts(parametersChartService
-                            .getCollegeDistributionForActiveUsers($scope.collegeList));
-                        $scope.collegeStatCount = 0;
-                    }
-                });
-            collegeQueryService.queryYearList(year).then(function(colleges) {
-                $scope.collegeList = colleges;
-                $scope.query();
-            });
-
-            $scope.ok = function() {
-                $uibModalInstance.close($scope.cell);
-            };
-
-            $scope.cancel = function() {
-                $uibModalInstance.dismiss('cancel');
-            };
-
-        })
     .controller("hotSpot.flow",
         function($scope,
             $uibModalInstance,
@@ -1976,6 +1953,47 @@ angular.module('kpi.college.flow', ['myApp.url', 'myApp.region', "ui.bootstrap",
                     }
                 });
             $scope.query();
+
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.cell);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
+    .controller("college.flow",
+        function($scope, $uibModalInstance, dialogTitle, year, collegeQueryService, parametersChartService) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.collegeStatCount = 0;
+            $scope.query = function() {
+                angular.forEach($scope.collegeList,
+                    function(college) {
+                        collegeQueryService.queryCollegeFlow(college.name, $scope.beginDate.value, $scope.endDate.value)
+                            .then(function(stat) {
+                                angular.extend(college, stat);
+                                $scope.collegeStatCount += 1;
+                            });
+                    });
+            };
+            $scope.$watch('collegeStatCount',
+                function(count) {
+                    if ($scope.collegeList && count === $scope.collegeList.length && count > 0) {
+                        $("#downloadFlowConfig").highcharts(parametersChartService
+                            .getCollegeDistributionForDownlinkFlow($scope.collegeList));
+                        $("#uploadFlowConfig").highcharts(parametersChartService
+                            .getCollegeDistributionForUplinkFlow($scope.collegeList));
+                        $("#averageUsersConfig").highcharts(parametersChartService
+                            .getCollegeDistributionForAverageUsers($scope.collegeList));
+                        $("#activeUsersConfig").highcharts(parametersChartService
+                            .getCollegeDistributionForActiveUsers($scope.collegeList));
+                        $scope.collegeStatCount = 0;
+                    }
+                });
+            collegeQueryService.queryYearList(year).then(function(colleges) {
+                $scope.collegeList = colleges;
+                $scope.query();
+            });
 
             $scope.ok = function() {
                 $uibModalInstance.close($scope.cell);
@@ -3452,593 +3470,668 @@ angular.module('kpi.coverage', ['app.menu', 'app.core'])
         }
     })
 
-angular.module('kpi.customer', ['myApp.url', 'myApp.region', "ui.bootstrap"])
-    .controller('emergency.new.dialog', function ($scope, $uibModalInstance, customerQueryService,
-        dialogTitle, city, district, vehicularType) {
-        $scope.dialogTitle = dialogTitle;
-        $scope.message = "";
-        $scope.city = city;
-        $scope.district = district;
-        $scope.vehicularType = vehicularType;
+angular.module('kpi.customer', ['myApp.url', 'myApp.region'])
+    .factory('customerDialogService',
+        function(menuItemService, customerQueryService, emergencyService, complainService, basicImportService) {
+            return {
+                constructEmergencyCommunication: function(city, district, type, messages, callback) {
+                    menuItemService.showGeneralDialogWithAction({
+                            templateUrl: '/appViews/Customer/Dialog/Emergency.html',
+                            controller: 'emergency.new.dialog',
+                            resolve: {
+                                dialogTitle: function() {
+                                    return "新增应急通信需求";
+                                },
+                                city: function() {
+                                    return city;
+                                },
+                                district: function() {
+                                    return district;
+                                },
+                                vehicularType: function() {
+                                    return type;
+                                }
+                            }
+                        },
+                        function(dto) {
+                            customerQueryService.postDto(dto).then(function(result) {
+                                if (result > 0) {
+                                    messages.push({
+                                        type: 'success',
+                                        contents: '完成应急通信需求：' + dto.projectName + '的导入'
+                                    });
+                                    callback();
+                                } else {
+                                    messages.push({
+                                        type: 'warning',
+                                        contents: '最近已经有该需求，请不要重复导入'
+                                    });
+                                }
+                            });
+                        });
+                },
+                constructEmergencyCollege: function(serialNumber, collegeName, callback) {
+                    menuItemService.showGeneralDialogWithAction({
+                            templateUrl: '/appViews/Customer/Dialog/Emergency.html',
+                            controller: 'emergency.college.dialog',
+                            resolve: {
+                                serialNumber: function() {
+                                    return serialNumber;
+                                },
+                                collegeName: function() {
+                                    return collegeName;
+                                }
+                            }
+                        },
+                        function(dto) {
+                            customerQueryService.postDto(dto).then(function(result) {
+                                callback();
+                            });
+                        });
+                },
+                constructHotSpot: function(callback, callback2) {
+                    menuItemService.showGeneralDialogWithDoubleAction({
+                            templateUrl: '/appViews/Parameters/Import/HotSpot.html',
+                            controller: 'hot.spot.dialog',
+                            resolve: {
+                                dialogTitle: function() {
+                                    return '新增热点信息';
+                                }
+                            }
+                        },
+                        function(dto) {
+                            basicImportService.dumpOneHotSpot(dto).then(function(result) {
+                                callback();
+                            });
+                        },
+                        callback2);
+                },
+                modifyHotSpot: function(item, callback, callback2) {
+                    menuItemService.showGeneralDialogWithDoubleAction({
+                            templateUrl: '/appViews/Parameters/Import/HotSpot.html',
+                            controller: 'hot.spot.modify',
+                            resolve: {
+                                dialogTitle: function() {
+                                    return '修改热点信息-' + item.hotspotName;
+                                },
+                                dto: function() {
+                                    return item;
+                                }
+                            }
+                        },
+                        function(dto) {
+                            basicImportService.dumpOneHotSpot(dto).then(function(result) {
+                                callback();
+                            });
+                        },
+                        callback2);
+                },
+                manageHotSpotCells: function(hotSpot, callback) {
+                    menuItemService.showGeneralDialogWithAction({
+                            templateUrl: '/appViews/Parameters/Import/HotSpotCell.html',
+                            controller: 'hot.spot.cell.dialog',
+                            resolve: {
+                                dialogTitle: function() {
+                                    return hotSpot.hotspotName + '热点小区管理';
+                                },
+                                name: function() {
+                                    return hotSpot.hotspotName;
+                                },
+                                address: function() {
+                                    return hotSpot.address;
+                                },
+                                center: function() {
+                                    return {
+                                        longtitute: hotSpot.longtitute,
+                                        lattitute: hotSpot.lattitute
+                                    }
+                                }
+                            }
+                        },
+                        function(dto) {
+                            callback(dto);
+                        });
+                },
+                supplementVipDemandInfo: function(view, city, district, messages, callback) {
+                    menuItemService.showGeneralDialogWithAction({
+                            templateUrl: '/appViews/Customer/Dialog/VipSupplement.html',
+                            controller: 'vip.supplement.dialog',
+                            resolve: {
+                                dialogTitle: function() {
+                                    return "补充政企客户支撑需求信息";
+                                },
+                                view: function() {
+                                    return view;
+                                },
+                                city: function() {
+                                    return city;
+                                },
+                                district: function() {
+                                    return district;
+                                }
+                            }
+                        },
+                        function(dto) {
+                            customerQueryService.updateVip(dto).then(function() {
+                                messages.push({
+                                    type: 'success',
+                                    contents: '完成政企客户支撑需求：' + dto.serialNumber + '的补充'
+                                });
+                                callback();
+                            });
+                        });
+                },
+                supplementCollegeDemandInfo: function(view, messages) {
+                    menuItemService.showGeneralDialogWithAction({
+                            templateUrl: '/appViews/Customer/Dialog/CollegeSupplement.html',
+                            controller: 'college.supplement.dialog',
+                            resolve: {
+                                dialogTitle: function() {
+                                    return "补充校园网支撑需求信息";
+                                },
+                                view: function() {
+                                    return view;
+                                }
+                            }
+                        },
+                        function(dto) {
+                            customerQueryService.updateVip(dto).then(function() {
+                                messages.push({
+                                    type: 'success',
+                                    contents: '完成校园网支撑需求：' + dto.serialNumber + '的补充'
+                                });
+                            });
+                        });
+                },
+                constructFiberItem: function(id, num, callback, messages) {
+                    menuItemService.showGeneralDialogWithAction({
+                            templateUrl: '/appViews/Customer/Dialog/Fiber.html',
+                            controller: 'fiber.new.dialog',
+                            resolve: {
+                                dialogTitle: function() {
+                                    return "新增光纤工单信息";
+                                },
+                                id: function() {
+                                    return id;
+                                },
+                                num: function() {
+                                    return num;
+                                }
+                            }
+                        },
+                        function(item) {
+                            emergencyService.createFiberItem(item).then(function(result) {
+                                if (result) {
+                                    messages.push({
+                                        type: 'success',
+                                        contents: '完成光纤工单：' + item.workItemNumber + '的导入'
+                                    });
+                                    callback(result);
+                                } else {
+                                    messages.push({
+                                        type: 'warning',
+                                        contents: '最近已经有该工单，请不要重复导入'
+                                    });
+                                }
+                            });
+                        });
+                },
+                supplementComplainInfo: function(item, callback) {
+                    menuItemService.showGeneralDialogWithAction({
+                            templateUrl: '/appViews/Customer/Dialog/Complain.html',
+                            controller: 'complain.supplement.dialog',
+                            resolve: {
+                                item: function() {
+                                    return item;
+                                }
+                            }
+                        },
+                        function(info) {
+                            complainService.postPosition(info).then(function() {
+                                callback();
+                            });
+                        });
+                }
+            };
+        });
+angular.module('kpi.customer.complain', ['myApp.url', 'myApp.region', "ui.bootstrap"])
+    .controller('emergency.new.dialog',
+        function($scope,
+            $uibModalInstance,
+            customerQueryService,
+            dialogTitle,
+            city,
+            district,
+            vehicularType) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.message = "";
+            $scope.city = city;
+            $scope.district = district;
+            $scope.vehicularType = vehicularType;
 
-        var firstDay = new Date();
-        firstDay.setDate(firstDay.getDate() + 7);
-        var nextDay = new Date();
-        nextDay.setDate(nextDay.getDate() + 14);
-        $scope.itemBeginDate = {
-            value: firstDay,
-            opened: false
-        };
-        $scope.itemEndDate = {
-            value: nextDay,
-            opened: false
-        };
-        customerQueryService.queryDemandLevelOptions().then(function (options) {
-            $scope.demandLevel = {
-                options: options,
-                selected: options[0]
-            };
-        });
-        var transmitOptions = customerQueryService.queryTransmitFunctionOptions();
-        $scope.transmitFunction = {
-            options: transmitOptions,
-            selected: transmitOptions[0]
-        };
-        var electrictOptions = customerQueryService.queryElectricSupplyOptions();
-        $scope.electricSupply = {
-            options: electrictOptions,
-            selected: electrictOptions[0]
-        };
-        $scope.dto = {
-            projectName: "和顺梦里水乡百合花文化节",
-            expectedPeople: 500000,
-            vehicles: 1,
-            area: "万顷洋园艺世界",
-            department: "南海区分公司客响维护部",
-            person: "刘文清",
-            phone: "13392293722",
-            vehicleLocation: "门口东边100米处",
-            otherDescription: "此次活动为佛山市南海区政府组织的一次大型文化活动，是宣传天翼品牌的重要场合。",
-            townId: 1
-        };
-
-        $scope.ok = function () {
-            $scope.dto.demandLevelDescription = $scope.demandLevel.selected;
-            $scope.dto.beginDate = $scope.itemBeginDate.value;
-            $scope.dto.endDate = $scope.itemEndDate.value;
-            $scope.dto.vehicularTypeDescription = $scope.vehicularType.selected;
-            $scope.dto.transmitFunction = $scope.transmitFunction.selected;
-            $scope.dto.district = $scope.district.selected;
-            $scope.dto.town = $scope.town.selected;
-            $scope.dto.electricSupply = $scope.electricSupply.selected;
-            $uibModalInstance.close($scope.dto);
-        };
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-    })
-    .controller('emergency.college.dialog', function ($scope, $uibModalInstance, serialNumber, collegeName,
-        collegeQueryService, appFormatService, customerQueryService, appRegionService) {
-        $scope.dialogTitle = collegeName + "应急通信车申请-" + serialNumber;
-        $scope.dto = {
-            projectName: collegeName + "应急通信车申请",
-            expectedPeople: 500000,
-            vehicles: 1,
-            area: collegeName,
-            department: "南海区分公司客响维护部",
-            person: "刘文清",
-            phone: "13392293722",
-            vehicleLocation: "门口东边100米处",
-            otherDescription: "应急通信车申请。",
-            townId: 1
-        };
-        customerQueryService.queryDemandLevelOptions().then(function (options) {
-            $scope.demandLevel = {
-                options: options,
-                selected: options[0]
-            };
-        });
-        customerQueryService.queryVehicleTypeOptions().then(function (options) {
-            $scope.vehicularType = {
-                options: options,
-                selected: options[17]
-            };
-        });
-        var transmitOptions = customerQueryService.queryTransmitFunctionOptions();
-        $scope.transmitFunction = {
-            options: transmitOptions,
-            selected: transmitOptions[0]
-        };
-        var electrictOptions = customerQueryService.queryElectricSupplyOptions();
-        $scope.electricSupply = {
-            options: electrictOptions,
-            selected: electrictOptions[0]
-        };
-        collegeQueryService.queryByNameAndYear(collegeName, $scope.collegeInfo.year.selected).then(function (item) {
+            var firstDay = new Date();
+            firstDay.setDate(firstDay.getDate() + 7);
+            var nextDay = new Date();
+            nextDay.setDate(nextDay.getDate() + 14);
             $scope.itemBeginDate = {
-                value: appFormatService.getDate(item.oldOpenDate),
+                value: firstDay,
                 opened: false
             };
             $scope.itemEndDate = {
-                value: appFormatService.getDate(item.newOpenDate),
+                value: nextDay,
                 opened: false
             };
-            $scope.dto.expectedPeople = item.expectedSubscribers;
-        });
-        customerQueryService.queryOneVip(serialNumber).then(function (item) {
-            angular.forEach($scope.district.options, function (district) {
-                if (district === item.district) {
-                    $scope.district.selected = item.district;
-                }
+            customerQueryService.queryDemandLevelOptions().then(function(options) {
+                $scope.demandLevel = {
+                    options: options,
+                    selected: options[0]
+                };
             });
-            appRegionService.queryTowns($scope.city.selected, $scope.district.selected).then(function (towns) {
-                $scope.town.options = towns;
-                $scope.town.selected = towns[0];
-                angular.forEach(towns, function (town) {
-                    if (town === item.town) {
-                        $scope.town.selected = town;
-                    }
-                });
-            });
-        });
-
-        $scope.ok = function () {
-            $scope.dto.demandLevelDescription = $scope.demandLevel.selected;
-            $scope.dto.beginDate = $scope.itemBeginDate.value;
-            $scope.dto.endDate = $scope.itemEndDate.value;
-            $scope.dto.vehicularTypeDescription = $scope.vehicularType.selected;
-            $scope.dto.transmitFunction = $scope.transmitFunction.selected;
-            $scope.dto.district = $scope.district.selected;
-            $scope.dto.town = $scope.town.selected;
-            $scope.dto.electricSupply = $scope.electricSupply.selected;
-            $uibModalInstance.close($scope.dto);
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-    })
-
-    .controller('hot.spot.dialog', function ($scope, dialogTitle, $uibModalInstance, kpiPreciseService, baiduMapService) {
-        $scope.dialogTitle = dialogTitle;
-        $scope.dto = {
-            longtitute: 112.99,
-            lattitute: 22.98
-        };
-
-        kpiPreciseService.getHotSpotTypeSelection().then(function (result) {
-            $scope.spotType = {
-                options: result,
-                selected: result[0]
+            var transmitOptions = customerQueryService.queryTransmitFunctionOptions();
+            $scope.transmitFunction = {
+                options: transmitOptions,
+                selected: transmitOptions[0]
             };
-            baiduMapService.switchSubMap();
-            baiduMapService.initializeMap("hot-map", 15);
-            baiduMapService.addClickListener(function (e) {
-                $scope.dto.longtitute = e.point.lng;
-                $scope.dto.lattitute = e.point.lat;
-                baiduMapService.clearOverlays();
-                baiduMapService.addOneMarker(baiduMapService.generateMarker($scope.dto.longtitute, $scope.dto.lattitute));
-            });
-        });
-        $scope.ok = function () {
-            $scope.dto.typeDescription = $scope.spotType.selected;
-            $uibModalInstance.close($scope.dto);
-        };
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-    })
-    .controller('hot.spot.modify', function ($scope, dialogTitle, dto, $uibModalInstance, kpiPreciseService, baiduMapService) {
-        $scope.dialogTitle = dialogTitle;
-        $scope.dto = dto;
-        $scope.modify = true;
-
-        kpiPreciseService.getHotSpotTypeSelection().then(function (result) {
-            $scope.spotType = {
-                options: result,
-                selected: $scope.dto.typeDescription
+            var electrictOptions = customerQueryService.queryElectricSupplyOptions();
+            $scope.electricSupply = {
+                options: electrictOptions,
+                selected: electrictOptions[0]
             };
-            baiduMapService.switchSubMap();
-            baiduMapService.initializeMap("hot-map", 15);
-            baiduMapService.addOneMarker(baiduMapService.generateMarker($scope.dto.longtitute, $scope.dto.lattitute));
-            baiduMapService.setCellFocus($scope.dto.longtitute, $scope.dto.lattitute);
-            baiduMapService.addClickListener(function (e) {
-                $scope.dto.longtitute = e.point.lng;
-                $scope.dto.lattitute = e.point.lat;
-                baiduMapService.clearOverlays();
-                baiduMapService.addOneMarker(baiduMapService.generateMarker($scope.dto.longtitute, $scope.dto.lattitute));
+            $scope.dto = {
+                projectName: "和顺梦里水乡百合花文化节",
+                expectedPeople: 500000,
+                vehicles: 1,
+                area: "万顷洋园艺世界",
+                department: "南海区分公司客响维护部",
+                person: "刘文清",
+                phone: "13392293722",
+                vehicleLocation: "门口东边100米处",
+                otherDescription: "此次活动为佛山市南海区政府组织的一次大型文化活动，是宣传天翼品牌的重要场合。",
+                townId: 1
+            };
+
+            $scope.ok = function() {
+                $scope.dto.demandLevelDescription = $scope.demandLevel.selected;
+                $scope.dto.beginDate = $scope.itemBeginDate.value;
+                $scope.dto.endDate = $scope.itemEndDate.value;
+                $scope.dto.vehicularTypeDescription = $scope.vehicularType.selected;
+                $scope.dto.transmitFunction = $scope.transmitFunction.selected;
+                $scope.dto.district = $scope.district.selected;
+                $scope.dto.town = $scope.town.selected;
+                $scope.dto.electricSupply = $scope.electricSupply.selected;
+                $uibModalInstance.close($scope.dto);
+            };
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
+    .controller('emergency.college.dialog',
+        function($scope,
+            $uibModalInstance,
+            serialNumber,
+            collegeName,
+            collegeQueryService,
+            appFormatService,
+            customerQueryService,
+            appRegionService) {
+            $scope.dialogTitle = collegeName + "应急通信车申请-" + serialNumber;
+            $scope.dto = {
+                projectName: collegeName + "应急通信车申请",
+                expectedPeople: 500000,
+                vehicles: 1,
+                area: collegeName,
+                department: "南海区分公司客响维护部",
+                person: "刘文清",
+                phone: "13392293722",
+                vehicleLocation: "门口东边100米处",
+                otherDescription: "应急通信车申请。",
+                townId: 1
+            };
+            customerQueryService.queryDemandLevelOptions().then(function(options) {
+                $scope.demandLevel = {
+                    options: options,
+                    selected: options[0]
+                };
             });
-        });
-        $scope.ok = function () {
-            $scope.dto.typeDescription = $scope.spotType.selected;
-            $uibModalInstance.close($scope.dto);
-        };
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-    })
-    .controller('hot.spot.cell.dialog', function ($scope, dialogTitle, address, name, center, $uibModalInstance,
-        basicImportService, collegeQueryService, networkElementService, neighborImportService, complainService) {
-        $scope.dialogTitle = dialogTitle;
-        $scope.address = address;
-        $scope.gridApi = {};
-        $scope.gridApi2 = {};
-        $scope.query = function () {
-            basicImportService.queryHotSpotCells(name).then(function (result) {
-                $scope.candidateIndoorCells = result;
+            customerQueryService.queryVehicleTypeOptions().then(function(options) {
+                $scope.vehicularType = {
+                    options: options,
+                    selected: options[17]
+                };
             });
-            complainService.queryHotSpotCells(name).then(function (existedCells) {
-                $scope.existedCells = existedCells;
-                $scope.positionCells = [];
-                networkElementService.queryRangeCells({
-                    west: center.longtitute - 0.003,
-                    east: center.longtitute + 0.003,
-                    south: center.lattitute - 0.003,
-                    north: center.lattitute + 0.003
-                }).then(function (positions) {
-                    neighborImportService.updateENodebRruInfo($scope.positionCells, {
-                        dstCells: positions,
-                        cells: existedCells,
-                        longtitute: center.longtitute,
-                        lattitute: center.lattitute
-                    });
-                });
+            var transmitOptions = customerQueryService.queryTransmitFunctionOptions();
+            $scope.transmitFunction = {
+                options: transmitOptions,
+                selected: transmitOptions[0]
+            };
+            var electrictOptions = customerQueryService.queryElectricSupplyOptions();
+            $scope.electricSupply = {
+                options: electrictOptions,
+                selected: electrictOptions[0]
+            };
+            collegeQueryService.queryByNameAndYear(collegeName, $scope.collegeInfo.year.selected).then(function(item) {
+                $scope.itemBeginDate = {
+                    value: appFormatService.getDate(item.oldOpenDate),
+                    opened: false
+                };
+                $scope.itemEndDate = {
+                    value: appFormatService.getDate(item.newOpenDate),
+                    opened: false
+                };
+                $scope.dto.expectedPeople = item.expectedSubscribers;
             });
-        };
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.dto);
-        };
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-        $scope.importCells = function () {
-            var cellNames = [];
-            angular.forEach($scope.gridApi.selection.getSelectedRows(), function (cell) {
-                cellNames.push(cell.cellName);
-            });
-            angular.forEach($scope.gridApi2.selection.getSelectedRows(), function (cell) {
-                cellNames.push(cell.cellName);
-            });
-            collegeQueryService.saveCollegeCells({
-                collegeName: name,
-                cellNames: cellNames
-            }).then(function () {
-                $scope.query();
-            });
-        }
-        $scope.query();
-    })
-
-    .controller('vip.supplement.dialog', function ($scope, $uibModalInstance,
-        customerQueryService, appFormatService,
-        dialogTitle, view, city, district) {
-        $scope.dialogTitle = dialogTitle;
-        $scope.view = view;
-        $scope.city = city;
-        $scope.district = district;
-        $scope.matchFunction = function (text) {
-            return $scope.view.projectName.indexOf(text) >= 0 || $scope.view.projectContents.indexOf(text) >= 0;
-        };
-        $scope.matchDistrictTown = function () {
-            var districtOption = appFormatService.searchText($scope.district.options, $scope.matchFunction);
-            if (districtOption) {
-                $scope.district.selected = districtOption;
-            }
-        };
-        $scope.$watch('town.selected', function () {
-            var townOption = appFormatService.searchText($scope.town.options, $scope.matchFunction);
-            if (townOption) {
-                $scope.town.selected = townOption;
-            }
-        });
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-        $scope.ok = function () {
-            $scope.view.district = $scope.district.selected;
-            $scope.view.town = $scope.town.selected;
-            $uibModalInstance.close($scope.view);
-        };
-    })
-    .controller('college.supplement.dialog', function ($scope, $uibModalInstance,
-        customerQueryService, appFormatService, dialogTitle, view) {
-        $scope.dialogTitle = dialogTitle;
-        $scope.view = view;
-
-        $scope.ok = function () {
-            $scope.view.district = $scope.district.selected;
-            $scope.view.town = $scope.town.selected;
-            $uibModalInstance.close($scope.view);
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-    })
-    .controller('fiber.new.dialog', function ($scope, $uibModalInstance,
-        dialogTitle, id, num) {
-        $scope.dialogTitle = dialogTitle;
-
-        $scope.item = {
-            id: 0,
-            emergencyId: id,
-            workItemNumber: "FS-Fiber-" + new Date().getYear() + "-" + new Date().getMonth() + "-" + new Date().getDate() + "-" + num,
-            person: "",
-            beginDate: new Date(),
-            finishDate: null
-        };
-
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.item);
-        };
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-    })
-    .controller('complain.supplement.dialog', function ($scope, $uibModalInstance,
-        appRegionService, appFormatService, baiduMapService, parametersMapService, parametersDialogService, item) {
-        $scope.dialogTitle = item.serialNumber + "工单信息补充";
-
-        $scope.item = item;
-        appRegionService.initializeCities().then(function (cities) {
-            $scope.city.options = cities;
-            $scope.city.selected = cities[0];
-            appRegionService.queryDistricts($scope.city.selected).then(function (districts) {
-                $scope.district.options = districts;
-                $scope.district.selected = (item.district) ? item.district.replace('区', '') : districts[0];
-                baiduMapService.initializeMap("map", 11);
-                baiduMapService.addCityBoundary("佛山");
-                if (item.longtitute && item.lattitute) {
-                    var marker = baiduMapService.generateMarker(item.longtitute, item.lattitute);
-                    baiduMapService.addOneMarker(marker);
-                    baiduMapService.setCellFocus(item.longtitute, item.lattitute, 15);
-                }
-                if (item.sitePosition) {
-                    parametersMapService.showElementsWithGeneralName(item.sitePosition,
-                        parametersDialogService.showENodebInfo, parametersDialogService.showCellInfo);
-                }
-            });
-        });
-
-        $scope.matchTown = function () {
-            var town = appFormatService.searchPattern($scope.town.options, item.sitePosition);
-            if (town) {
-                $scope.town.selected = town;
-                return;
-            }
-            town = appFormatService.searchPattern($scope.town.options, item.buildingName);
-            if (town) {
-                $scope.town.selected = town;
-                return;
-            }
-            town = appFormatService.searchPattern($scope.town.options, item.roadName);
-            if (town) {
-                $scope.town.selected = town;
-            }
-        };
-
-        $scope.ok = function () {
-            $scope.item.district = $scope.district.selected;
-            $scope.item.town = $scope.town.selected;
-            $uibModalInstance.close($scope.item);
-        };
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-    })
-
-    .factory('customerDialogService', function(menuItemService, customerQueryService, emergencyService, complainService, basicImportService) {
-        return {
-            constructEmergencyCommunication: function(city, district, type, messages, callback) {
-                menuItemService.showGeneralDialogWithAction({
-                    templateUrl: '/appViews/Customer/Dialog/Emergency.html',
-                    controller: 'emergency.new.dialog',
-                    resolve: {
-                        dialogTitle: function() {
-                            return "新增应急通信需求";
-                        },
-                        city: function() {
-                            return city;
-                        },
-                        district: function() {
-                            return district;
-                        },
-                        vehicularType: function() {
-                            return type;
-                        }
-                    }
-                }, function(dto) {
-                    customerQueryService.postDto(dto).then(function(result) {
-                        if (result > 0) {
-                            messages.push({
-                                type: 'success',
-                                contents: '完成应急通信需求：' + dto.projectName + '的导入'
-                            });
-                            callback();
-                        } else {
-                            messages.push({
-                                type: 'warning',
-                                contents: '最近已经有该需求，请不要重复导入'
-                            });
+            customerQueryService.queryOneVip(serialNumber).then(function(item) {
+                angular.forEach($scope.district.options,
+                    function(district) {
+                        if (district === item.district) {
+                            $scope.district.selected = item.district;
                         }
                     });
-                });
-            },
-            constructEmergencyCollege: function(serialNumber, collegeName, callback) {
-                menuItemService.showGeneralDialogWithAction({
-                    templateUrl: '/appViews/Customer/Dialog/Emergency.html',
-                    controller: 'emergency.college.dialog',
-                    resolve: {
-                        serialNumber: function() {
-                            return serialNumber;
-                        },
-                        collegeName: function() {
-                            return collegeName;
-                        }
-                    }
-                }, function(dto) {
-                    customerQueryService.postDto(dto).then(function(result) {
-                        callback();
-                    });
-                });
-            },
-            constructHotSpot: function(callback, callback2) {
-                menuItemService.showGeneralDialogWithDoubleAction({
-                    templateUrl: '/appViews/Parameters/Import/HotSpot.html',
-                    controller: 'hot.spot.dialog',
-                    resolve: {
-                        dialogTitle: function() {
-                            return '新增热点信息';
-                        }
-                    }
-                }, function(dto) {
-                    basicImportService.dumpOneHotSpot(dto).then(function(result) {
-                        callback();
-                    });
-                }, callback2);
-            },
-            modifyHotSpot: function(item, callback, callback2) {
-                menuItemService.showGeneralDialogWithDoubleAction({
-                    templateUrl: '/appViews/Parameters/Import/HotSpot.html',
-                    controller: 'hot.spot.modify',
-                    resolve: {
-                        dialogTitle: function() {
-                            return '修改热点信息-' + item.hotspotName;
-                        },
-                        dto: function() {
-                            return item;
-                        }
-                    }
-                }, function(dto) {
-                    basicImportService.dumpOneHotSpot(dto).then(function(result) {
-                        callback();
-                    });
-                }, callback2);
-            },
-            manageHotSpotCells: function(hotSpot, callback) {
-                menuItemService.showGeneralDialogWithAction({
-                    templateUrl: '/appViews/Parameters/Import/HotSpotCell.html',
-                    controller: 'hot.spot.cell.dialog',
-                    resolve: {
-                        dialogTitle: function() {
-                            return hotSpot.hotspotName + '热点小区管理';
-                        },
-                        name: function() {
-                            return hotSpot.hotspotName;
-                        },
-                        address: function() {
-                            return hotSpot.address;
-                        },
-                        center: function() {
-                            return {
-                                longtitute: hotSpot.longtitute,
-                                lattitute: hotSpot.lattitute
+                appRegionService.queryTowns($scope.city.selected, $scope.district.selected).then(function(towns) {
+                    $scope.town.options = towns;
+                    $scope.town.selected = towns[0];
+                    angular.forEach(towns,
+                        function(town) {
+                            if (town === item.town) {
+                                $scope.town.selected = town;
                             }
-                        }
-                    }
-                }, function(dto) {
-                    callback(dto);
-                });
-            },
-            supplementVipDemandInfo: function(view, city, district, messages, callback) {
-                menuItemService.showGeneralDialogWithAction({
-                    templateUrl: '/appViews/Customer/Dialog/VipSupplement.html',
-                    controller: 'vip.supplement.dialog',
-                    resolve: {
-                        dialogTitle: function() {
-                            return "补充政企客户支撑需求信息";
-                        },
-                        view: function() {
-                            return view;
-                        },
-                        city: function() {
-                            return city;
-                        },
-                        district: function() {
-                            return district;
-                        }
-                    }
-                }, function(dto) {
-                    customerQueryService.updateVip(dto).then(function() {
-                        messages.push({
-                            type: 'success',
-                            contents: '完成政企客户支撑需求：' + dto.serialNumber + '的补充'
                         });
-                        callback();
-                    });
                 });
-            },
-            supplementCollegeDemandInfo: function(view, messages) {
-                menuItemService.showGeneralDialogWithAction({
-                    templateUrl: '/appViews/Customer/Dialog/CollegeSupplement.html',
-                    controller: 'college.supplement.dialog',
-                    resolve: {
-                        dialogTitle: function() {
-                            return "补充校园网支撑需求信息";
-                        },
-                        view: function() {
-                            return view;
-                        }
+            });
+
+            $scope.ok = function() {
+                $scope.dto.demandLevelDescription = $scope.demandLevel.selected;
+                $scope.dto.beginDate = $scope.itemBeginDate.value;
+                $scope.dto.endDate = $scope.itemEndDate.value;
+                $scope.dto.vehicularTypeDescription = $scope.vehicularType.selected;
+                $scope.dto.transmitFunction = $scope.transmitFunction.selected;
+                $scope.dto.district = $scope.district.selected;
+                $scope.dto.town = $scope.town.selected;
+                $scope.dto.electricSupply = $scope.electricSupply.selected;
+                $uibModalInstance.close($scope.dto);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
+    .controller('vip.supplement.dialog',
+        function($scope,
+            $uibModalInstance,
+            customerQueryService,
+            appFormatService,
+            dialogTitle,
+            view,
+            city,
+            district) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.view = view;
+            $scope.city = city;
+            $scope.district = district;
+            $scope.matchFunction = function(text) {
+                return $scope.view.projectName.indexOf(text) >= 0 || $scope.view.projectContents.indexOf(text) >= 0;
+            };
+            $scope.matchDistrictTown = function() {
+                var districtOption = appFormatService.searchText($scope.district.options, $scope.matchFunction);
+                if (districtOption) {
+                    $scope.district.selected = districtOption;
+                }
+            };
+            $scope.$watch('town.selected',
+                function() {
+                    var townOption = appFormatService.searchText($scope.town.options, $scope.matchFunction);
+                    if (townOption) {
+                        $scope.town.selected = townOption;
                     }
-                }, function(dto) {
-                    customerQueryService.updateVip(dto).then(function() {
-                        messages.push({
-                            type: 'success',
-                            contents: '完成校园网支撑需求：' + dto.serialNumber + '的补充'
+                });
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+            $scope.ok = function() {
+                $scope.view.district = $scope.district.selected;
+                $scope.view.town = $scope.town.selected;
+                $uibModalInstance.close($scope.view);
+            };
+        })
+    .controller('fiber.new.dialog',
+        function($scope,
+            $uibModalInstance,
+            dialogTitle,
+            id,
+            num) {
+            $scope.dialogTitle = dialogTitle;
+
+            $scope.item = {
+                id: 0,
+                emergencyId: id,
+                workItemNumber: "FS-Fiber-" +
+                    new Date().getYear() +
+                    "-" +
+                    new Date().getMonth() +
+                    "-" +
+                    new Date().getDate() +
+                    "-" +
+                    num,
+                person: "",
+                beginDate: new Date(),
+                finishDate: null
+            };
+
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.item);
+            };
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
+    .controller('complain.supplement.dialog',
+        function($scope,
+            $uibModalInstance,
+            appRegionService,
+            appFormatService,
+            baiduMapService,
+            parametersMapService,
+            parametersDialogService,
+            item) {
+            $scope.dialogTitle = item.serialNumber + "工单信息补充";
+
+            $scope.itemGroups = appFormatService.generateComplainPositionGroups(item);
+            appRegionService.initializeCities().then(function(cities) {
+                $scope.city.options = cities;
+                $scope.city.selected = cities[0];
+                appRegionService.queryDistricts($scope.city.selected).then(function(districts) {
+                    $scope.district.options = districts;
+                    $scope.district.selected = (item.district) ? item.district.replace('区', '') : districts[0];
+                    baiduMapService.initializeMap("map", 11);
+                    baiduMapService.addCityBoundary("佛山");
+                    if (item.longtitute && item.lattitute) {
+                        var marker = baiduMapService.generateMarker(item.longtitute, item.lattitute);
+                        baiduMapService.addOneMarker(marker);
+                        baiduMapService.setCellFocus(item.longtitute, item.lattitute, 15);
+                    }
+                    if (item.sitePosition) {
+                        parametersMapService.showElementsWithGeneralName(item.sitePosition,
+                            parametersDialogService.showENodebInfo,
+                            parametersDialogService.showCellInfo);
+                    }
+                });
+            });
+
+            $scope.matchTown = function() {
+                var town = appFormatService.searchPattern($scope.town.options, item.sitePosition);
+                if (town) {
+                    $scope.town.selected = town;
+                    return;
+                }
+                town = appFormatService.searchPattern($scope.town.options, item.buildingName);
+                if (town) {
+                    $scope.town.selected = town;
+                    return;
+                }
+                town = appFormatService.searchPattern($scope.town.options, item.roadName);
+                if (town) {
+                    $scope.town.selected = town;
+                }
+            };
+
+            $scope.ok = function() {
+                $scope.item.district = $scope.district.selected;
+                $scope.item.town = $scope.town.selected;
+                $uibModalInstance.close($scope.item);
+            };
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        });
+angular.module('kpi.customer.sustain', ['myApp.url', 'myApp.region', "ui.bootstrap"])
+    .controller('hot.spot.dialog',
+        function($scope, dialogTitle, $uibModalInstance, kpiPreciseService, baiduMapService) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.dto = {
+                longtitute: 112.99,
+                lattitute: 22.98
+            };
+
+            kpiPreciseService.getHotSpotTypeSelection().then(function(result) {
+                $scope.spotType = {
+                    options: result,
+                    selected: result[0]
+                };
+                baiduMapService.switchSubMap();
+                baiduMapService.initializeMap("hot-map", 15);
+                baiduMapService.addClickListener(function(e) {
+                    $scope.dto.longtitute = e.point.lng;
+                    $scope.dto.lattitute = e.point.lat;
+                    baiduMapService.clearOverlays();
+                    baiduMapService.addOneMarker(baiduMapService
+                        .generateMarker($scope.dto.longtitute, $scope.dto.lattitute));
+                });
+            });
+            $scope.ok = function() {
+                $scope.dto.typeDescription = $scope.spotType.selected;
+                $uibModalInstance.close($scope.dto);
+            };
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
+    .controller('hot.spot.modify',
+        function($scope, dialogTitle, dto, $uibModalInstance, kpiPreciseService, baiduMapService) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.dto = dto;
+            $scope.modify = true;
+
+            kpiPreciseService.getHotSpotTypeSelection().then(function(result) {
+                $scope.spotType = {
+                    options: result,
+                    selected: $scope.dto.typeDescription
+                };
+                baiduMapService.switchSubMap();
+                baiduMapService.initializeMap("hot-map", 15);
+                baiduMapService.addOneMarker(baiduMapService
+                    .generateMarker($scope.dto.longtitute, $scope.dto.lattitute));
+                baiduMapService.setCellFocus($scope.dto.longtitute, $scope.dto.lattitute);
+                baiduMapService.addClickListener(function(e) {
+                    $scope.dto.longtitute = e.point.lng;
+                    $scope.dto.lattitute = e.point.lat;
+                    baiduMapService.clearOverlays();
+                    baiduMapService.addOneMarker(baiduMapService
+                        .generateMarker($scope.dto.longtitute, $scope.dto.lattitute));
+                });
+            });
+            $scope.ok = function() {
+                $scope.dto.typeDescription = $scope.spotType.selected;
+                $uibModalInstance.close($scope.dto);
+            };
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        })
+    .controller('hot.spot.cell.dialog',
+        function($scope,
+            dialogTitle,
+            address,
+            name,
+            center,
+            $uibModalInstance,
+            basicImportService,
+            collegeQueryService,
+            networkElementService,
+            neighborImportService,
+            complainService) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.address = address;
+            $scope.gridApi = {};
+            $scope.gridApi2 = {};
+            $scope.query = function() {
+                basicImportService.queryHotSpotCells(name).then(function(result) {
+                    $scope.candidateIndoorCells = result;
+                });
+                complainService.queryHotSpotCells(name).then(function(existedCells) {
+                    $scope.existedCells = existedCells;
+                    $scope.positionCells = [];
+                    networkElementService.queryRangeCells({
+                        west: center.longtitute - 0.003,
+                        east: center.longtitute + 0.003,
+                        south: center.lattitute - 0.003,
+                        north: center.lattitute + 0.003
+                    }).then(function(positions) {
+                        neighborImportService.updateENodebRruInfo($scope.positionCells,
+                        {
+                            dstCells: positions,
+                            cells: existedCells,
+                            longtitute: center.longtitute,
+                            lattitute: center.lattitute
                         });
                     });
                 });
-            },
-            constructFiberItem: function(id, num, callback, messages) {
-                menuItemService.showGeneralDialogWithAction({
-                    templateUrl: '/appViews/Customer/Dialog/Fiber.html',
-                    controller: 'fiber.new.dialog',
-                    resolve: {
-                        dialogTitle: function() {
-                            return "新增光纤工单信息";
-                        },
-                        id: function() {
-                            return id;
-                        },
-                        num: function() {
-                            return num;
-                        }
-                    }
-                }, function(item) {
-                    emergencyService.createFiberItem(item).then(function(result) {
-                        if (result) {
-                            messages.push({
-                                type: 'success',
-                                contents: '完成光纤工单：' + item.workItemNumber + '的导入'
-                            });
-                            callback(result);
-                        } else {
-                            messages.push({
-                                type: 'warning',
-                                contents: '最近已经有该工单，请不要重复导入'
-                            });
-                        }
+            };
+            $scope.ok = function() {
+                $uibModalInstance.close($scope.dto);
+            };
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+            $scope.importCells = function() {
+                var cellNames = [];
+                angular.forEach($scope.gridApi.selection.getSelectedRows(),
+                    function(cell) {
+                        cellNames.push(cell.cellName);
                     });
-                });
-            },
-            supplementComplainInfo: function(item, callback) {
-                menuItemService.showGeneralDialogWithAction({
-                    templateUrl: '/appViews/Customer/Dialog/Complain.html',
-                    controller: 'complain.supplement.dialog',
-                    resolve: {
-                        item: function() {
-                            return item;
-                        }
-                    }
-                }, function(info) {
-                    complainService.postPosition(info).then(function() {
-                        callback();
+                angular.forEach($scope.gridApi2.selection.getSelectedRows(),
+                    function(cell) {
+                        cellNames.push(cell.cellName);
                     });
+                collegeQueryService.saveCollegeCells({
+                    collegeName: name,
+                    cellNames: cellNames
+                }).then(function() {
+                    $scope.query();
                 });
             }
-        };
-    });
+            $scope.query();
+        })
+    .controller('college.supplement.dialog',
+        function($scope,
+            $uibModalInstance,
+            customerQueryService,
+            appFormatService,
+            dialogTitle,
+            view) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.view = view;
+
+            $scope.ok = function() {
+                $scope.view.district = $scope.district.selected;
+                $scope.view.town = $scope.town.selected;
+                $uibModalInstance.close($scope.view);
+            };
+
+            $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+        });
 angular.module('kpi.parameter.dump', ['myApp.url', 'myApp.region', "ui.bootstrap"])
     .controller('dump.cell.mongo',
         function($scope,
@@ -5630,19 +5723,19 @@ angular.module('kpi.work.chart', ['myApp.url', 'myApp.region', "ui.bootstrap", "
             $scope.areaItems = [
                 {
                     title: "4G指标",
-                    comments: '/appViews/Home/Kpi4G.html',
+                    comments: '/appViews/Home/Details/Kpi4G.html',
                     width: 6
                 }, {
                     title: "4G用户3G流量比",
-                    comments: '/appViews/Home/KpiDownSwitch.html',
+                    comments: '/appViews/Home/Details/KpiDownSwitch.html',
                     width: 6
                 }, {
                     title: "传统指标",
-                    comments: '/appViews/Home/Kpi2G.html',
+                    comments: '/appViews/Home/Details/Kpi2G.html',
                     width: 6
                 }, {
                     title: "工单监控",
-                    comments: '/appViews/Home/WorkItem.html',
+                    comments: '/appViews/Home/Details/WorkItem.html',
                     width: 6
                 }
             ];
@@ -5684,18 +5777,10 @@ angular.module('kpi.work.chart', ['myApp.url', 'myApp.region', "ui.bootstrap", "
                         $scope.dropRate = stat.drop2GRate * 100;
                         $scope.dropStar = appKpiService.calculateDropStar($scope.dropRate);
                         $scope.connectionRate = stat.connectionRate * 100;
-                    });
-            };
-            $scope.queryDownSwitch = function() {
-                downSwitchService.getRecentKpi(city, $scope.flowDate.value)
-                    .then(function(result) {
-                        $scope.flowDate.value = appFormatService.getDate(result.statDate);
-                        $scope.flowStat = appKpiService.getDownSwitchRate(result.downSwitchFlowViews);
-                        $scope.downRate = appKpiService.calculateDownSwitchRating($scope.flowStat);
-                        var options = kpiDisplayService.generateDownSwitchOptions(result.downSwitchFlowViews,
-                            city,
-                            $scope.flowStat);
-                        $("#downSwitchConfig").highcharts(options);
+                        $("#dropConfig").highcharts(kpiDisplayService
+                            .generateDropRateBarOptions(result.statViews, city));
+                        $("#connectionConfig").highcharts(kpiDisplayService
+                            .generateConnectionRateBarOptions(result.statViews, city));
                     });
             };
             $scope.queryWorkItem = function() {
@@ -5732,7 +5817,6 @@ angular.module('kpi.work.chart', ['myApp.url', 'myApp.region', "ui.bootstrap", "
 
             $scope.queryKpi4G();
             $scope.queryKpi2G();
-            $scope.queryDownSwitch();
             $scope.queryWorkItem();
 
             $scope.ok = function() {
@@ -6542,6 +6626,6 @@ angular.module('myApp.kpi', ['kpi.core',
     'kpi.college.infrastructure', 'kpi.college.basic', 'kpi.college.maintain',
     'kpi.college.work', 'kpi.college.flow', 'kpi.college', 
     'kpi.coverage.interference', 'kpi.coverage.mr', 'kpi.coverage.stats', 'kpi.coverage.flow',
-    "kpi.coverage", 'kpi.customer',
+    "kpi.coverage", 'kpi.customer', 'kpi.customer.complain', 'kpi.customer.sustain',
     'kpi.parameter.dump', 'kpi.parameter.rutrace', 'kpi.parameter.query', 'kpi.parameter', 
     'kpi.work.dialog', 'kpi.work.flow', 'kpi.work.chart', 'kpi.work.trend', 'kpi.work']);

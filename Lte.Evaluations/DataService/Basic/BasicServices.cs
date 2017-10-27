@@ -198,11 +198,14 @@ namespace Lte.Evaluations.DataService.Basic
     {
         private readonly ITownBoundaryRepository _boundaryRepository;
         private readonly ITownRepository _repository;
+        private readonly IInfrastructureRepository _infrastructureRepository;
 
-        public TownBoundaryService(ITownRepository repository, ITownBoundaryRepository boundaryRepository)
+        public TownBoundaryService(ITownRepository repository, ITownBoundaryRepository boundaryRepository,
+            IInfrastructureRepository infrastructureRepository)
         {
             _repository = repository;
             _boundaryRepository = boundaryRepository;
+            _infrastructureRepository = infrastructureRepository;
         }
 
         public IEnumerable<TownBoundaryView> GetTownBoundaryViews(string city, string district, string town)
@@ -212,16 +215,27 @@ namespace Lte.Evaluations.DataService.Basic
                     .FirstOrDefault(x => x.CityName == city && x.DistrictName == district && x.TownName == town);
             if (item == null) return new List<TownBoundaryView>();
             var coors = _boundaryRepository.GetAllList(x => x.TownId == item.Id);
-            var boundaries = new List<TownBoundaryView>();
-            foreach (var coor in coors)
+            return coors.Select(coor => new TownBoundaryView
             {
-                boundaries.Add(new TownBoundaryView
+                Town = town,
+                BoundaryGeoPoints = coor.CoorList()
+            }).ToList();
+        }
+
+        public IEnumerable<AreaBoundaryView> GetAreaBoundaryViews()
+        {
+            var areaDefs = _infrastructureRepository.GetAllList(x => x.HotspotType == HotspotType.AreaDef);
+            return areaDefs.Select(area =>
+            {
+                var coor = _boundaryRepository.FirstOrDefault(x => x.TownId == area.Id);
+                if (coor == null) return null;
+                return new AreaBoundaryView
                 {
-                    Town = town,
+                    AreaName = area.HotspotName,
+                    AreaType = area.InfrastructureType.GetEnumDescription(),
                     BoundaryGeoPoints = coor.CoorList()
-                });
-            }
-            return boundaries;
+                };
+            }).Where(x => x != null);
         }
 
         public bool IsInTownBoundaries(double longtitute, double lattitute, string city, string district, string town)
@@ -233,7 +247,7 @@ namespace Lte.Evaluations.DataService.Basic
             return _boundaryRepository.GetAllList(x => x.TownId == item.Id).IsInTownRange(point);
         }
     }
-
+    
     public class TownQueryService
     {
         private readonly ITownRepository _repository;

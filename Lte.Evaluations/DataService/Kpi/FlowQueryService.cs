@@ -9,6 +9,7 @@ using Abp.EntityFramework.AutoMapper;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Abp.EntityFramework.Dependency;
 using Abp.EntityFramework.Extensions;
+using Abp.EntityFramework.Repositories;
 using Lte.Domain.Common.Wireless;
 
 namespace Lte.Evaluations.DataService.Kpi
@@ -85,12 +86,12 @@ namespace Lte.Evaluations.DataService.Kpi
         {
         }
 
-        protected override IDateSpanQuery<List<FlowView>> GenerateHuaweiQuery(int eNodebId, byte sectorId)
+        protected override Switch.IDateSpanQuery<List<FlowView>> GenerateHuaweiQuery(int eNodebId, byte sectorId)
         {
             return new HuaweiFlowQuery(HuaweiRepository, HuaweiCellRepository, eNodebId, sectorId);
         }
 
-        protected override IDateSpanQuery<List<FlowView>> GenerateZteQuery(int eNodebId, byte sectorId)
+        protected override Switch.IDateSpanQuery<List<FlowView>> GenerateZteQuery(int eNodebId, byte sectorId)
         {
             return new ZteFlowQuery(ZteRepository, eNodebId, sectorId);
         }
@@ -131,12 +132,12 @@ namespace Lte.Evaluations.DataService.Kpi
         {
         }
 
-        protected override IDateSpanQuery<List<RrcView>> GenerateHuaweiQuery(int eNodebId, byte sectorId)
+        protected override Switch.IDateSpanQuery<List<RrcView>> GenerateHuaweiQuery(int eNodebId, byte sectorId)
         {
             return new HuaweiRrcQuery(HuaweiRepository, HuaweiCellRepository, eNodebId, sectorId);
         }
 
-        protected override IDateSpanQuery<List<RrcView>> GenerateZteQuery(int eNodebId, byte sectorId)
+        protected override Switch.IDateSpanQuery<List<RrcView>> GenerateZteQuery(int eNodebId, byte sectorId)
         {
             return new ZteRrcQuery(ZteRepository, eNodebId, sectorId);
         }
@@ -213,6 +214,15 @@ namespace Lte.Evaluations.DataService.Kpi
             return stats.Select(x => x.ConstructView<TownFlowStat, TownFlowView>(_townRepository));
         }
 
+        public IEnumerable<TownFlowStat> QueryCurrentDateStats(DateTime currentDate, FrequencyBandType frequency)
+        {
+            var beginDate = currentDate.Date;
+            var endDate = beginDate.AddDays(1);
+            return
+                _repository.GetAllList(
+                    x => x.StatTime >= beginDate && x.StatTime < endDate && x.FrequencyBandType == frequency);
+        }
+
         public FlowRegionDateView QueryLastDateStat(DateTime initialDate, string city)
         {
             var stats = _repository.QueryLastDate(initialDate, (repository, beginDate, endDate) =>
@@ -229,12 +239,7 @@ namespace Lte.Evaluations.DataService.Kpi
         public IEnumerable<FlowRegionDateView> QueryDateSpanStats(DateTime begin, DateTime end, string city,
             FrequencyBandType frequency = FrequencyBandType.All)
         {
-            var query =
-                _repository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.FrequencyBandType == frequency)
-                    .OrderBy(x => x.StatTime)
-                    .ToList();
-            var result = query.QueryTownStat(_townRepository, city);
-            var townViews = result.Select(x => x.ConstructView<TownFlowStat, TownFlowView>(_townRepository)).ToList();
+            var townViews = QueryTownFlowViews(begin, end, city, frequency);
             return from view in townViews
                    group view by view.StatTime into g
                    select new FlowRegionDateView
@@ -243,36 +248,48 @@ namespace Lte.Evaluations.DataService.Kpi
                        TownViews = g.Select(x => x),
                        DistrictViews = g.Select(x => x).Merge(v =>v.MapTo<DistrictFlowView>())
                    };
-        } 
+        }
+
+        public List<TownFlowView> QueryTownFlowViews(DateTime begin, DateTime end, string city, FrequencyBandType frequency)
+        {
+            var query =
+                _repository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.FrequencyBandType == frequency)
+                    .OrderBy(x => x.StatTime)
+                    .ToList();
+            var result = query.QueryTownStat(_townRepository, city);
+            var townViews = result.Select(x => x.ConstructView<TownFlowStat, TownFlowView>(_townRepository)).ToList();
+            return townViews;
+        }
+
+        public List<TownFlowStat> QueryTownFlowViews(DateTime begin, DateTime end, int townId, FrequencyBandType frequency)
+        {
+            var query =
+                _repository.GetAllList(
+                        x =>
+                            x.StatTime >= begin && x.StatTime < end && x.FrequencyBandType == frequency &&
+                            x.TownId == townId)
+                    .OrderBy(x => x.StatTime)
+                    .ToList();
+            return query;
+        }
+
+        public TownFlowStat Update(TownFlowStat stat)
+        {
+            return _repository.ImportOne(stat);
+        }
     }
 
     public class DownSwitchFlowService
     {
-        private readonly IDownSwitchFlowRepository _repository;
-
         private readonly IAppStreamRepository _streamRepository;
         private readonly IWebBrowsingRepository _browsingRepository;
 
-        public DownSwitchFlowService(IDownSwitchFlowRepository repository,
-            IAppStreamRepository streamRepository, IWebBrowsingRepository browsingRepository)
+        public DownSwitchFlowService(IAppStreamRepository streamRepository, IWebBrowsingRepository browsingRepository)
         {
-            _repository = repository;
             _streamRepository = streamRepository;
             _browsingRepository = browsingRepository;
         }
-
-        public DownSwitchFlowDateView QueryLastDateStat(DateTime initialDate, string city)
-        {
-            var stats = _repository.QueryDate(initialDate,
-                (repository, beginDate, endDate) => repository.GetAllList(beginDate, endDate)).ToList();
-            return new DownSwitchFlowDateView
-            {
-                StatDate = stats.Any() ? stats.First().StatDate : initialDate,
-                City = city,
-                DownSwitchFlowViews = stats.MapTo<IEnumerable<DownSwitchFlowView>>()
-            };
-        }
-
+        
         public IEnumerable<AppSteam> QueryAppSteams(DateTime initialDate)
         {
             return

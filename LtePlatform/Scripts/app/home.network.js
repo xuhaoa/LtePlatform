@@ -515,6 +515,12 @@
                         $scope.showDistrictTownStat(district, $scope.colors[$index]);
                     });
             };
+            $scope.showAreaDivision = function() {
+                baiduMapService.clearOverlays();
+                baiduMapService.addCityBoundary("佛山");
+                $scope.currentView = "区域划分";
+                parametersMapService.showAreaBoundaries();
+            };
             $scope.districts = [];
             $scope.$watch('city.selected',
                 function(city) {

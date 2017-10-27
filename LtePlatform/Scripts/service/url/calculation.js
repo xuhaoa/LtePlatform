@@ -1,5 +1,5 @@
-﻿angular.module('app.calculation', [])
-    .factory('basicCalculationService', function() {
+﻿angular.module('app.calculation', ['app.format'])
+    .factory('basicCalculationService', function (appFormatService) {
         var isLongtituteValid = function(longtitute) {
             return (!isNaN(longtitute)) && longtitute > 112 && longtitute < 114;
         };
@@ -25,6 +25,35 @@
             mapLonLat: function(source, destination) {
                 source.longtitute = destination.longtitute;
                 source.lattitute = destination.lattitute;
+            },
+            generateDateSpanSeries: function(begin, end) {
+                var result = [];
+                var beginDate = new Date(begin.getYear() + 1900, begin.getMonth(), begin.getDate());
+                while (beginDate < end) {
+                    result.push({
+                        date: new Date(beginDate.getYear() + 1900, beginDate.getMonth(), beginDate.getDate())
+                    });
+                    beginDate.setDate(beginDate.getDate() + 1);
+                }
+                return result;
+            },
+            generateYAxisConfig: function(settings) {
+                var yAxisConfig = {
+                    title: settings.yTitle
+                };
+                if (settings.yMin !== undefined) {
+                    angular.extend(yAxisConfig,
+                        {
+                            min: settings.yMin
+                        });
+                }
+                if (settings.yMax !== undefined) {
+                    angular.extend(yAxisConfig,
+                        {
+                            max: settings.yMax
+                        });
+                }
+                return yAxisConfig;
             }
         };
     })

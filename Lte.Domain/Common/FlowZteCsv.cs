@@ -394,6 +394,86 @@ namespace Lte.Domain.Common
         [CsvColumn(Name = "CQI15下行调度次数")]
         public int Cqi15Times { get; set; }
 
+        [CsvColumn(Name = "小区载频PUSCH实际使用PRB个数")]
+        public long PuschPrbNumber { get; set; }
+
+        public double PuschPrbs => (double)PuschPrbNumber / 3600000;
+
+        [CsvColumn(Name = "小区载频PUSCH可用的PRB个数")]
+        public long PuschPrbCapacity { get; set; }
+
+        public int UplinkPrbSubframe => (int) (PuschPrbCapacity / 3600000);
+
+        [CsvColumn(Name = "小区载频PDSCH实际使用PRB个数")]
+        public long PdschPrbNumber { get; set; }
+
+        public double PdschPrbs => (double)PdschPrbNumber / 3600000;
+
+        [CsvColumn(Name = "小区载频PDSCH可用的PRB个数")]
+        public long PdschPrbCapacity { get; set; }
+
+        public int DownlinkPrbSubframe => (int)(PdschPrbCapacity / 3600000);
+
+        [CsvColumn(Name = "上行DTCH占用RB数")]
+        public double UplinkDtchPrbNumber { get; set; }
+
+        public double UplinkDtchPrbs => UplinkDtchPrbNumber / 3600000;
+
+        [CsvColumn(Name = "下行DTCH占用RB数")]
+        public double DownlinkDtchPrbNumber { get; set; }
+
+        public double DownlinkDtchPrbs => DownlinkDtchPrbNumber / 3600000;
+
+        [CsvColumn(Name = "小区PUSCH PRB利用率在范围[0,20%]的次数")]
+        public long PuschUsageInterval0Number { get; set; }
+
+        public double PuschUsageInterval0Seconds => (double) PuschUsageInterval0Number / 1000;
+
+        [CsvColumn(Name = "小区PUSCH PRB利用率在范围[21%,40%]的次数")]
+        public long PuschUsageInterval20Number { get; set; }
+
+        public double PuschUsageInterval20Seconds => (double)PuschUsageInterval20Number / 1000;
+
+        [CsvColumn(Name = "小区PUSCH PRB利用率在范围[41%,60%]的次数")]
+        public long PuschUsageInterval40Number { get; set; }
+
+        public double PuschUsageInterval40Seconds => (double)PuschUsageInterval40Number / 1000;
+
+        [CsvColumn(Name = "小区PUSCH PRB利用率在范围[61%,80%]的次数")]
+        public long PuschUsageInterval60Number { get; set; }
+
+        public double PuschUsageInterval60Seconds => (double)PuschUsageInterval60Number / 1000;
+
+        [CsvColumn(Name = "小区PUSCH PRB利用率在范围[81%,100%]的次数")]
+        public long PuschUsageInterval80Number { get; set; }
+
+        public double PuschUsageInterval80Seconds => (double)PuschUsageInterval80Number / 1000;
+
+        [CsvColumn(Name = "小区PDSCH PRB利用率在范围[0,20%]的次数")]
+        public long PdschUsageInterval0Number { get; set; }
+
+        public double PdschUsageInterval0Seconds => (double)PdschUsageInterval0Number / 1000;
+
+        [CsvColumn(Name = "小区PDSCH PRB利用率在范围[21%,40%]的次数")]
+        public long PdschUsageInterval20Number { get; set; }
+
+        public double PdschUsageInterval20Seconds => (double)PdschUsageInterval20Number / 1000;
+
+        [CsvColumn(Name = "小区PDSCH PRB利用率在范围[41%,60%]的次数")]
+        public long PdschUsageInterval40Number { get; set; }
+
+        public double PdschUsageInterval40Seconds => (double)PdschUsageInterval40Number / 1000;
+
+        [CsvColumn(Name = "小区PDSCH PRB利用率在范围[61%,80%]的次数")]
+        public long PdschUsageInterval60Number { get; set; }
+
+        public double PdschUsageInterval60Seconds => (double)PdschUsageInterval60Number / 1000;
+
+        [CsvColumn(Name = "小区PDSCH PRB利用率在范围[81%,100%]的次数")]
+        public long PdschUsageInterval80Number { get; set; }
+
+        public double PdschUsageInterval80Seconds => (double)PdschUsageInterval80Number / 1000;
+
         public static List<FlowZteCsv> ReadFlowZteCsvs(StreamReader reader)
         {
             return

@@ -1,6 +1,6 @@
 ﻿angular.module("myApp", ['app.common'])
     .controller("neighbor.import",
-        function($scope, basicImportService, neighborImportService, flowImportService) {
+    function ($scope, basicImportService, neighborImportService, flowImportService, mapDialogService) {
             var lastWeek = new Date();
             lastWeek.setDate(lastWeek.getDate() - 7);
             $scope.beginDate = {
@@ -59,7 +59,7 @@
                 flowImportService.queryZteFlows().then(function(result) {
                     $scope.zteInfo.totalDumpItems = result;
                 });
-                flowImportService.queryDumpHistory($scope.beginDate.value, $scope.endDate.value).then(function(result) {
+                flowImportService.queryFlowDumpHistory($scope.beginDate.value, $scope.endDate.value).then(function(result) {
                     $scope.dumpHistory = result;
                     angular.forEach(result,
                         function(record) {
@@ -68,6 +68,7 @@
                                 (record.townStats === 0 ||
                                     record.townRrcs === 0 ||
                                     record.townQcis === 0 ||
+                                    record.townPrbs === 0 ||
                                     record.townStats2100 === 0 ||
                                     record.townStats1800 === 0 ||
                                     record.townStats800VoLte === 0)) {
@@ -78,11 +79,14 @@
                                     record.townStats1800 = count.item4;
                                     record.townStats800VoLte = count.item5;
                                     record.townQcis = count.item6;
+                                    record.townPrbs = count.item7;
                                 });
                             }
                         });
                 });
             };
-
+            $scope.dumpCollegeFlows = function() {
+                mapDialogService.showCollegeFlowDumpDialog($scope.beginDate, $scope.endDate);
+            };
             $scope.updateDumpHistory();
         });

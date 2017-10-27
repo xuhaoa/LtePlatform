@@ -111,4 +111,20 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
             return _service.IsInTownBoundaries(longtitute, lattitute, city, district, town);
         }
     }
+
+    public class AreaBoundaryController : ApiController
+    {
+        private readonly TownBoundaryService _service;
+
+        public AreaBoundaryController(TownBoundaryService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public IEnumerable<AreaBoundaryView> Get()
+        {
+            return _service.GetAreaBoundaryViews();
+        }
+    }
 }

@@ -15,7 +15,6 @@ using Lte.Domain.Regular;
 using Lte.Evaluations.DataService.Dump;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Entities.Basic;
 
 namespace LtePlatform.Controllers.Parameters
 {

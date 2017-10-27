@@ -634,12 +634,27 @@ angular.module('region.basic', ['app.core'])
                         initialDate: date
                     });
                 },
+                queryDateSpanComplainStats: function (begin, end) {
+                    return generalHttpService.getApiData("ComplainDate",
+                        {
+                            begin: begin,
+                            end: end
+                        });
+                },
                 queryLastDateDistrictComplains: function(date, district) {
                     return generalHttpService.getApiData('ComplainQuery',
                     {
                         statDate: date,
                         district: district
                     });
+                },
+                queryDateSpanDistrictComplains: function (beginDate, endDate, district) {
+                    return generalHttpService.getApiData('ComplainQuery',
+                        {
+                            beginDate: beginDate,
+                            endDate: endDate,
+                            district: district
+                        });
                 },
                 queryHotSpotCells: function(name) {
                     return generalHttpService.getApiData('HotSpotCells',
@@ -652,13 +667,6 @@ angular.module('region.basic', ['app.core'])
     .factory('downSwitchService',
         function(generalHttpService, appUrlService) {
             return {
-                getRecentKpi: function(city, initialDate) {
-                    return generalHttpService.getApiData('DownSwitchFlow',
-                    {
-                        city: city,
-                        statDate: initialDate
-                    });
-                },
                 getStationByName: function (name, type, page, pageSize) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +
@@ -1597,7 +1605,7 @@ angular.module('region.import', ['app.core'])
                         index: index
                     });
                 },
-                queryDumpHistory: function(begin, end) {
+                queryFlowDumpHistory: function(begin, end) {
                     return generalHttpService.getApiData('DumpFlow',
                     {
                         begin: begin,
@@ -2011,6 +2019,12 @@ angular.module('region.college', ['app.core'])
                     name: name
                 });
             },
+            queryCollegeById: function(id) {
+                return generalHttpService.getApiData('CollegeQuery',
+                {
+                    id: id
+                });
+            },
             queryByNameAndYear: function(name, year) {
                 return generalHttpService.getApiData('CollegeQuery', {
                     name: name,
@@ -2098,6 +2112,12 @@ angular.module('region.college', ['app.core'])
                     beginDate: begin,
                     endDate: end
                 });
+            },
+            retrieveDateCollegeFlowStats: function (statDate) {
+                return generalHttpService.getApiData('CollegeFlow',
+                    {
+                        statDate: statDate
+                    })
             }
         };
     })
@@ -2445,6 +2465,9 @@ angular.module('region.precise', ['app.core'])
                         town: town
                     });
                 },
+                queryAreaBoundaries: function() {
+                    return generalHttpService.getApiData('AreaBoundary', {});
+                },
                 queryENodebTown: function(eNodebId) {
                     return generalHttpService.getApiData('Town',
                     {
@@ -2476,6 +2499,16 @@ angular.module('region.precise', ['app.core'])
                         statDate: statDate,
                         frequency: frequency
                     });
+                },
+                getCurrentDateTownFlowStats: function (statDate, frequency) {
+                    return generalHttpService.getApiData('TownFlow',
+                        {
+                            currentDate: statDate,
+                            frequency: frequency
+                        });
+                },
+                updateTownFlowStat: function(stat) {
+                    return generalHttpService.postApiData('TownFlow', stat);
                 }
             };
         });

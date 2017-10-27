@@ -284,6 +284,10 @@ namespace LtePlatform.Controllers.College
         }
 
         [HttpGet]
+        [ApiDoc("抱怨信息位置相关信息查询")]
+        [ApiParameterDoc("begin", "开始时间")]
+        [ApiParameterDoc("end", "结束时间")]
+        [ApiResponse("抱怨信息位置相关信息")]
         public IEnumerable<ComplainPositionDto> Get(DateTime begin, DateTime end)
         {
             return _service.QueryPositionDtos(begin, end);
@@ -324,6 +328,12 @@ namespace LtePlatform.Controllers.College
         {
             var end = statDate.AddDays(1);
             return _service.QueryDate(statDate, end, district);
+        }
+
+        [HttpGet]
+        public List<ComplainDto> Get(DateTime beginDate, DateTime endDate, string district)
+        {
+            return _service.QueryDate(beginDate.Date, endDate.Date, district);
         }
 
         [HttpGet]
@@ -400,6 +410,12 @@ namespace LtePlatform.Controllers.College
         public DistrictComplainDateView Get(DateTime initialDate)
         {
             return _service.QueryLastDateStat(initialDate);
+        }
+
+        [HttpGet]
+        public List<DistrictComplainView> Get(DateTime begin, DateTime end)
+        {
+            return _service.QueryDateSpanStats(begin.Date, end.Date);
         }
     }
 

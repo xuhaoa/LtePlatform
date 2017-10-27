@@ -3290,6 +3290,12 @@ angular.module('home.network', ['app.common'])
                         $scope.showDistrictTownStat(district, $scope.colors[$index]);
                     });
             };
+            $scope.showAreaDivision = function() {
+                baiduMapService.clearOverlays();
+                baiduMapService.addCityBoundary("佛山");
+                $scope.currentView = "区域划分";
+                parametersMapService.showAreaBoundaries();
+            };
             $scope.districts = [];
             $scope.$watch('city.selected',
                 function(city) {
@@ -3683,6 +3689,9 @@ angular.module('home.complain', ['app.common'])
             };
             $scope.showMonthlyTrend = function() {
                 mapDialogService.showMonthComplainItems();
+            };
+            $scope.showRecentTrend = function() {
+                mapDialogService.showRecentComplainItems($scope.city.selected, $scope.beginDate, $scope.endDate);
             };
             $scope.positionModify = function() {
                 mapDialogService.adjustComplainItems();

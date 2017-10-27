@@ -147,7 +147,7 @@
 
             $scope.showTodayKpi = function() {
                 workItemDialog.showTodayOverallKpi($scope.city.selected);
-            }
+            };
 
             $scope.showPreciseStats = function() {
                 mapDialogService.showPreciseTrendDialog($scope.city, $scope.beginDate, $scope.endDate);

@@ -135,7 +135,6 @@
     <Compile Include="DataService\Kpi\FlowQueryService.cs" />
     <Compile Include="DataService\Kpi\FlowService.cs" />
     <Compile Include="DataService\Mr\InterferenceMatrixService.cs" />
-    <Compile Include="DataService\Kpi\TopConnection3GService.cs" />
     <Compile Include="DataService\Mr\MrsService.cs" />
     <Compile Include="DataService\Mr\NeighborCellMongoService.cs" />
     <Compile Include="DataService\Mr\PreciseWorkItemService.cs" />
@@ -155,7 +154,7 @@
     <Compile Include="DataService\Kpi\PreciseImportService.cs" />
     <Compile Include="DataService\Kpi\PreciseRegionStatService.cs" />
     <Compile Include="DataService\Kpi\PreciseStatService.cs" />
-    <Compile Include="DataService\Kpi\TopDrop2GService.cs" />
+    <Compile Include="DataService\Kpi\Top2GServices.cs" />
     <Compile Include="DataService\WorkItemService.cs" />
     <Compile Include="MapperSerive\EvalutaionMapperProfile.cs" />
     <Compile Include="Policy\FilterWorkItemService.cs" />

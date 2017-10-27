@@ -31,24 +31,7 @@ namespace Lte.MySqlFramework.Concrete
                 FirstOrDefault(x => x.WorkItemNumber == serialNumber && x.ENodebId == eNodebId && x.SectorId == sectorId);
         }
     }
-
-    public class DownSwitchFlowRepository : EfRepositorySave<MySqlContext, DownSwitchFlow>, IDownSwitchFlowRepository
-    {
-        public DownSwitchFlowRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
-        {
-        }
-
-        public DownSwitchFlow Match(DownSwitchFlowExcel stat)
-        {
-            return FirstOrDefault(x => x.City == stat.City && x.Region == stat.Region && x.StatDate == stat.StatDate);
-        }
-
-        public List<DownSwitchFlow> GetAllList(DateTime begin, DateTime end)
-        {
-            return GetAllList(x => x.StatDate >= begin && x.StatDate < end);
-        }
-    }
-
+    
     public class PlanningSiteRepository : EfRepositorySave<MySqlContext, PlanningSite>, IPlanningSiteRepository
     {
         public PlanningSiteRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
