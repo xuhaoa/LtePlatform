@@ -810,7 +810,7 @@ angular.module('region.basic', ['app.core'])
                 getStationCntToBeAdd: function(type) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +
-                        'LtePlatForm/lte/index.php/Station/toAdd', {
+                        'LtePlatForm/lte/index.php/StationCommon/toAddCnt', {
                             "type": type
                         });
                 },
