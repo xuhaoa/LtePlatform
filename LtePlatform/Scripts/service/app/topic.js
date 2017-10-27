@@ -1496,8 +1496,8 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
         $scope.edit = function (stationId) {
             parametersDialogService.showStationEdit(stationId);
         }
-        $scope.addStation = function (id,name,type) {
-            parametersDialogService.showStationAdd(id,name,type);
+        $scope.addStation = function (id,name) {
+            parametersDialogService.showStationAdd(id,name,$scope.type);
         }
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
@@ -1527,11 +1527,12 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
         $scope.jumpPage = function (page) {
             if (page >= $scope.totolPage)
                 page = $scope.totolPage;
-            downSwitchService.getStationAddListByName($scope.stationName, $scope.selectDistinct, page, 10)
+            downSwitchService.getStationAddListByName($scope.selectDistinct, $scope.stationName,$scope.type, page, 10)
                 .then(function (result) {
                     $scope.stationList = result.result.rows;
                     $scope.totolPage = result.result.total_pages;
                     $scope.page = result.result.curr_page;
+                    $scope.records = result.result.records;
                 });
         };
         $scope.jumpPage(1);

@@ -799,15 +799,24 @@
                         "endtime": endDate
                     });
                 },
-                getStationCntToBeAdd: function() {
+                getStationCntToBeAdd: function(type) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +
-                        'LtePlatForm/lte/index.php/Station/toAdd');
+                        'LtePlatForm/lte/index.php/Station/toAdd', {
+                            "type": type
+                        });
                 },
-                getIndoorCntToBeAdd: function () {
+                getStationAddListByName: function (areaName, stationName, type, page, pageSize) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +
-                        'LtePlatForm/lte/index.php/Indoor/toAdd');
+                        'LtePlatForm/lte/index.php/StationCommon/addList',
+                        {
+                            "curr_page": page,
+                            "page_size": pageSize,
+                            "stationName": stationName,
+                            "areaName": areaName,
+                            "type": type
+                        });
                 },
                 addCommonStation: function (station) {
                     return generalHttpService
@@ -937,18 +946,7 @@
                             "type": type
                         });
                 },
-                getStationAddListByName: function (areaName, stationName, type, page, pageSize) {
-                    return generalHttpService
-                        .postPhpUrlData(appUrlService.getPhpHost() +
-                        'LtePlatForm/lte/index.php/StationCommon/addList',
-                        {
-                            "curr_page": page,
-                            "page_size": pageSize,
-                            "stationName": stationName,
-                            "areaName": areaName,
-                            "type": type
-                        });
-                },
+                
                 getCommonStations: function (name, type, areaName, page, pageSize) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +

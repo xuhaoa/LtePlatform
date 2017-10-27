@@ -913,7 +913,7 @@ angular.module('home.station', ['app.common'])
         generalMapService) {
         $scope.distinct = $scope.distincts[0];
         baiduMapService.initializeMap("map", 13);
-        downSwitchService.getStationCntToBeAdd().then(function (response) {
+        downSwitchService.getStationCntToBeAdd('JZ').then(function (response) {
             $scope.toAddCnt = response.result;
         });
 
@@ -1010,7 +1010,7 @@ angular.module('home.station', ['app.common'])
         $scope.distinct = $scope.distincts[0];
         baiduMapService.initializeMap("map", 13);
 
-        downSwitchService.getIndoorCntToBeAdd().then(function (response) {
+        downSwitchService.getStationCntToBeAdd('SF').then(function (response) {
             $scope.toAddCnt = response.result;
         });
         //获取站点
