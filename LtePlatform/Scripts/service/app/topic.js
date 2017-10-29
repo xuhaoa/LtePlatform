@@ -1485,7 +1485,67 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                     });
             };
             $scope.jumpPage(1);
-        })
+    })
+    .controller('map.stationAddList.dialog',
+    function ($scope,
+        dialogTitle,
+        type,
+        $uibModalInstance,
+        workItemDialog,
+        downSwitchService,
+        parametersDialogService) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.distincts = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
+        $scope.stationList = [];
+        $scope.page = 1;
+        $scope.stationName = '';
+        $scope.totolPage = 1;
+        $scope.type = type;
+
+        $scope.edit = function (stationId) {
+            parametersDialogService.showStationEdit(stationId);
+        }
+        $scope.addStation = function (id,name) {
+            parametersDialogService.showStationAdd(id,name,$scope.type);
+        }
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        }
+        $scope.search = function () {
+            $scope.page = 1;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.firstPage = function () {
+            $scope.page = 1;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.lastPage = function () {
+            $scope.page = $scope.totolPage;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.prevPage = function () {
+            if ($scope.page !== 1)
+                $scope.page--;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.nextPage = function () {
+            if ($scope.page !== $scope.totolPage)
+                $scope.page++;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.jumpPage = function (page) {
+            if (page >= $scope.totolPage)
+                page = $scope.totolPage;
+            downSwitchService.getStationAddListByName($scope.selectDistinct, $scope.stationName,$scope.type, page, 10)
+                .then(function (result) {
+                    $scope.stationList = result.result.rows;
+                    $scope.totolPage = result.result.total_pages;
+                    $scope.page = result.result.curr_page;
+                    $scope.records = result.result.records;
+                });
+        };
+        $scope.jumpPage(1);
+    })
     .controller('map.stationEdit.dialog',
         function($scope, stationId, dialogTitle, $uibModalInstance, downSwitchService) {
             $scope.dialogTitle = dialogTitle;
@@ -1507,7 +1567,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
     .controller('map.stationAdd.dialog',
         function($scope, dialogTitle, $uibModalInstance, downSwitchService) {
             $scope.dialogTitle = dialogTitle;
-            $scope.station = '';
+            $scope.station = {};
             $scope.ok = function() {
                 downSwitchService.addStation({
                     "Station": JSON.stringify($scope.station)
@@ -1528,7 +1588,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             downSwitchService,
             stationFactory) {
             $scope.dialogTitle = dialogTitle;
-            $scope.station = [];
+            $scope.station = {};
             $scope.distincts = stationFactory.stationDistincts;
 
             $scope.change = function() {
@@ -1536,7 +1596,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                     $scope.station.id = result.result;
                 });
             };
-
+            
             $scope.ok = function() {
                 downSwitchService.addCommonStation({
                     "Station": JSON.stringify($scope.station)
@@ -1544,6 +1604,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                     alert(result.description);
                 });
             }
+
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             }
@@ -1614,45 +1675,62 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                 $uibModalInstance.dismiss('cancel');
             };
         })
-    .controller('map.assessment.dialog',
+    .controller('map.assessmentAdd.dialog',
         function($scope,
             $http,
             dialogTitle,
             downSwitchService,
-            parametersDialogService,
             mapDialogService,
             $uibModalInstance) {
             $scope.dialogTitle = dialogTitle;
+
+            $scope.assessment = {};
+
             $scope.tab = 1;
             $scope.jqf = 0;
             $scope.xcccd = 100;
             $scope.kpid = 100;
+            $scope.test = 1;
+
+            $scope.distincts = new Array('顺德', '南海', '禅城', '三水', '高明');
+            $scope.cycles = new Array('2017年5月', '2017年6月', '2017年7月', '2017年8月', '2017年9月');
+
             $scope.getAssessment = function(areaName) {
                 downSwitchService.getAssessment(areaName, cycle).then(function(result) {
                     mapDialogService.showCommonStationInfo(result.result[0]);
                 });
             };
+
+            
+
             $scope.changejqf = function () {
-                $scope.jqf = $scope.jqf1 + $scope.jqf2 + $scope.jqf3 + $scope.jqf4 + $scope.jqf5;
-                alert($scope.jqf);
+                $scope.jqf = 0 + $scope.assessment.jqf1 + $scope.assessment.jqf2 + $scope.assessment.jqf3 + $scope.assessment.jqf4 + $scope.assessment.jqf5;
+                $scope.zf = $scope.jqf + $scope.kpid * 0.3 + $scope.xcccd * 0.7;
             };
+            
             $scope.changecxcc = function() {
                 $scope.xcccd = 100 +
-                    $scope.xccc1 +
-                    $scope.xccc2 +
-                    $scope.xccc3 +
-                    $scope.xccc4 +
-                    $scope.xccc5 +
-                    $scope.xccc6 +
-                    $scope.xccc7 +
-                    $scope.xccc8;
+                    $scope.assessment.xccc1 +
+                    $scope.assessment.xccc2 +
+                    $scope.assessment.xccc3 +
+                    $scope.assessment.xccc4 +
+                    $scope.assessment.xccc5 +
+                    $scope.assessment.xccc6 +
+                    $scope.assessment.xccc7 +
+                    $scope.assessment.xccc8;
+                $scope.zf = $scope.jqf + $scope.kpid * 0.3 + $scope.xcccd * 0.7;
             };
             $scope.changekpi = function() {
-                $scope.kpi = $scope.kpi1 + $scope.kpi2 + $scope.kpi3;
+                $scope.kpi = 0 + $scope.assessment.kpi1 + $scope.assessment.kpi2 + $scope.assessment.kpi3;
                 $scope.kpid = 100 + $scope.kpi;
+                $scope.zf = $scope.jqf + $scope.kpid * 0.3 + $scope.xcccd * 0.7;
             };
-            $scope.ok = function() {
-                $uibModalInstance.close($scope.bts);
+            $scope.ok = function () {
+                downSwitchService.addAssessment({
+                    "Assessment": JSON.stringify($scope.assessment)
+                }).then(function (result) {
+                    alert(result.description);
+                });
             };
 
             $scope.cancel = function() {
@@ -1660,34 +1738,86 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             };
             $scope.selectTab = function (setTab) {
                 $scope.tab = setTab;
-                if (0 == setTab) {
-                    $scope.zf = $scope.jqf + $scope.kpid * 0.3 + $scope.xcccd * 0.7;
-                } else if (1 == setTab) {
-                    $scope.xccc1 = 0;
-                    $scope.xccc2 = 0;
-                    $scope.xccc3 = 0;
-                    $scope.xccc4 = 0;
-                    $scope.xccc5 = 0;
-                    $scope.xccc6 = 0;
-                    $scope.xccc7 = 0;
-                    $scope.xccc8 = 0;
-                    $scope.changecxcc();
-                } else if (2 == setTab) {
-                    $scope.kpi1 = 0;
-                    $scope.kpi2 = 0;
-                    $scope.kpi3 = 0;
-                    $scope.changekpi();
-                } else if (3 == setTab) {
-                    $scope.jqf1 = 0;
-                    $scope.jqf2 = 0;
-                    $scope.jqf3 = 0;
-                    $scope.jqf4 = 0;
-                    $scope.jqf5 = 0;
-                    $scope.changejqf();
-                } 
+            }
+            $scope.isSelectTab = function (checkTab) {
+                return $scope.tab === checkTab
             }
             $scope.selectTab(0);
-        });
+    })
+    .controller('map.assessmentList.dialog',
+    function ($scope,
+        $http,
+        dialogTitle,
+        downSwitchService,
+        mapDialogService,
+        parametersDialogService,
+        $uibModalInstance) {
+
+        $scope.dialogTitle = dialogTitle;
+        $scope.distincts = new Array('全市', '顺德', '南海', '禅城', '三水', '高明');
+        $scope.assessmentList = [];
+        $scope.page = 1;
+        $scope.cycle = '';
+        $scope.totolPage = 1;
+
+        $scope.details = function (stationId) {
+            downSwitchService.getCommonStationById(stationId).then(function (result) {
+                workItemDialog.showStationInfoDialog(result.result[0]);
+            });
+        }
+
+        $scope.delete = function (stationId) {
+            if (confirm("你确定删除该条记录？")) {
+                downSwitchService.deleteStationById(stationId).then(function (result) {
+                    alert(result.description);
+                    $scope.jumpPage($scope.page);
+                });
+            }
+        }
+        $scope.edit = function (stationId) {
+            parametersDialogService.showStationEdit(stationId);
+        }
+        $scope.addAssessment = function () {
+            parametersDialogService.showAssessmentAdd();
+        }
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        }
+        $scope.search = function () {
+            $scope.page = 1;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.firstPage = function () {
+            $scope.page = 1;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.lastPage = function () {
+            $scope.page = $scope.totolPage;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.prevPage = function () {
+            if ($scope.page !== 1)
+                $scope.page--;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.nextPage = function () {
+            if ($scope.page !== $scope.totolPage)
+                $scope.page++;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.jumpPage = function (page) {
+            if (page >= $scope.totolPage)
+                page = $scope.totolPage;
+            downSwitchService.getAssessmentListByAreaName($scope.cycle, $scope.selectDistinct, page, 10)
+                .then(function (result) {
+                    $scope.assessmentList = result.result.rows;
+                    $scope.totolPage = result.result.total_pages;
+                    $scope.page = result.result.curr_page;
+                });
+        };
+        $scope.jumpPage(1);
+       
+    });
 angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
     .factory('parametersDialogService',
         function(menuItemService, baiduMapService, stationFormatService) {
@@ -1780,6 +1910,20 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                         }
                     });
                 },
+                showAddStationList: function (type) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Home/StationAddListDialog.html',
+                        controller: 'map.stationAddList.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "待录入站点列表";
+                            },
+                            type: function () {
+                                return type;
+                            }
+                        }
+                    });
+                },
                 showStationEdit: function(stationId) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Home/StationEdit.html',
@@ -1847,13 +1991,24 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                         }
                     });
                 },
-                showAssessmentDialog: function() {
+                showAssessmentAdd: function () {
                     menuItemService.showGeneralDialog({
-                        templateUrl: '/appViews/Evaluation/Dialog/AssessmentDialog.html',
-                        controller: 'map.assessment.dialog',
+                        templateUrl: '/appViews/Evaluation/Dialog/AssessmentAddDialog.html',
+                        controller: 'map.assessmentAdd.dialog',
                         resolve: {
                             dialogTitle: function() {
                                 return "考核评分";
+                            }
+                        }
+                    });
+                },
+                showAssessmentListDialog: function () {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Evaluation/Dialog/AssessmentListDialog.html',
+                        controller: 'map.assessmentList.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "考核列表";
                             }
                         }
                     });
@@ -3673,7 +3828,7 @@ angular.module('topic.dialog.station', ['myApp.url', 'myApp.region', 'myApp.kpi'
                 parametersDialogService.showCommonStationEdit(stationId);
             }
             $scope.addStation = function() {
-                parametersDialogService.showCommonStationAdd();
+                parametersDialogService.showCommonStationAdd(type);
             }
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');

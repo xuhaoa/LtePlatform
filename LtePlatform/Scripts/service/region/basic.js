@@ -807,8 +807,28 @@
                         "endtime": endDate
                     });
                 },
-                addCommonStation: function(station) {
-                    return postPhpUrlData(appUrlService.getPhpHost() +
+                getStationCntToBeAdd: function(type) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/StationCommon/toAddCnt', {
+                            "type": type
+                        });
+                },
+                getStationAddListByName: function (areaName, stationName, type, page, pageSize) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/StationCommon/addList',
+                        {
+                            "curr_page": page,
+                            "page_size": pageSize,
+                            "stationName": stationName,
+                            "areaName": areaName,
+                            "type": type
+                        });
+                },
+                addCommonStation: function (station) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() +
                         'LtePlatForm/lte/index.php/StationCommon/add',
                         station);
                 },
@@ -934,6 +954,7 @@
                             "type": type
                         });
                 },
+                
                 getCommonStations: function (name, type, areaName, page, pageSize) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +
@@ -1071,6 +1092,21 @@
                         {
                             "id": id
                         });
+                },
+                getAssessmentListByAreaName: function (cycle, distinct, page, pageSize) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Assessment/search',
+                        {
+                            "cycle": cycle,
+                            "areaName": distinct,
+                            "curr_page": page,
+                            "page_size": pageSize
+                        });
+                },
+                addAssessment: function (assessment) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/Assessment/add', assessment);
                 },
                 queryDwgList: function(btsId) {
                     return generalHttpService.getApiData('DwgQuery',
