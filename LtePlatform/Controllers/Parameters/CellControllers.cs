@@ -1,6 +1,5 @@
 ﻿using Lte.Evaluations.DataService.Basic;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Entities.Basic;
 using LtePlatform.Models;
 using System.Collections.Generic;
 using System.Web.Http;
