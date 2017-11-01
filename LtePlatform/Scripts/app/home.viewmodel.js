@@ -3904,7 +3904,7 @@ angular.module('home.kpi', ['app.common'])
                 workItemDialog.showRrcTrendDialog($scope.city, $scope.beginDate, $scope.endDate);
             };
             $scope.showCqiStats = function() {
-                mapDialogService.showCqiTrend($scope.city, $scope.beginDate, $scope.endDate);
+                mapDialogService.showCityCqiTrend($scope.city, $scope.beginDate, $scope.endDate);
             };
             $scope.showDownSwitchStats = function() {
                 mapDialogService.showDownSwitchTrendDialog($scope.city, $scope.beginDate, $scope.endDate);

@@ -96,6 +96,48 @@
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
+    })
+    .controller("cqi.top",
+        function ($scope,
+            $uibModalInstance,
+            dialogTitle,
+            preciseInterferenceService,
+            kpiPreciseService,
+            workitemService,
+            beginDate,
+            endDate) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.topCells = [];
+            $scope.updateMessages = [];
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.kpiType = 'cqi';
+
+            $scope.query = function () {
+                $scope.topCells = [];
+                kpiPreciseService.queryTopDownSwitchByPolicy(beginDate.value,
+                    endDate.value,
+                    $scope.topCount.selected,
+                    $scope.orderPolicy.selected).then(function (result) {
+                        $scope.topCells = result;
+                    });
+            };
+            $scope.initializeDownSwitchOrderPolicy();
+            $scope.$watch('orderPolicy.selected',
+                function (selection) {
+                    if (selection) {
+                        $scope.query();
+                    }
+                });
+
+
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.building);
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
         })
     .controller("rutrace.top.district",
         function($scope,

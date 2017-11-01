@@ -396,7 +396,7 @@
                                 endDate)
                     });
                 },
-                showCqiTrend: function (city, beginDate, endDate) {
+                showCityCqiTrend: function (city, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Trend.html',
                         controller: 'cqi.trend',
@@ -475,6 +475,19 @@
                                     return "全市4G下切3GTOP统计";
                                 }
                             },
+                            beginDate,
+                            endDate)
+                    });
+                },
+                showCqiTop: function (beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Rutrace/Top.html',
+                        controller: 'cqi.top',
+                        resolve: stationFormatService.dateSpanDateResolve({
+                            dialogTitle: function () {
+                                return "全市CQI优良比TOP统计";
+                            }
+                        },
                             beginDate,
                             endDate)
                     });

@@ -174,6 +174,7 @@
             appRegionService,
             appKpiService,
             kpiPreciseService,
+            mapDialogService,
             appFormatService) {
 
             appRegionService.queryDistricts(city.selected)
@@ -200,6 +201,9 @@
                     $scope.trendStat.districts));
                 $("#rate-column").highcharts(appKpiService.getCqiRateDistrictOptions($scope.trendStat.stats,
                     $scope.trendStat.districts));
+            };
+            $scope.showTopKpi = function () {
+                mapDialogService.showCqiTop($scope.beginDate, $scope.endDate);
             };
             $scope.ok = function () {
                 $uibModalInstance.close($scope.trendStat);

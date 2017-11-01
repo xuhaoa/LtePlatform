@@ -22,7 +22,7 @@ namespace LtePlatform
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class CorsAttribute : Attribute
     {
-        public Uri[] AllowOrigins { get; private set; }
+        public Uri[] AllowOrigins { get; }
 
         public string ErrorMessage { get; private set; }
 
