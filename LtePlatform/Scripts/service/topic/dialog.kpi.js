@@ -154,6 +154,7 @@
             appFormatService,
             appKpiService,
             workItemDialog,
+            mapDialogService,
             dialogTitle,
             city,
             beginDate,
@@ -189,6 +190,9 @@
             };
             $scope.showTrend = function() {
                 workItemDialog.showCqiTrend(city, $scope.beginDate, $scope.endDate);
+            };
+            $scope.showTopKpi = function () {
+                mapDialogService.showCqiTop($scope.beginDate, $scope.endDate);
             };
             $scope.showKpi();
             $scope.ok = function() {

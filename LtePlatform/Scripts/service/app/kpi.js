@@ -6072,6 +6072,7 @@ angular.module('kpi.work.trend', ['myApp.url', 'myApp.region', "ui.bootstrap", "
             appRegionService,
             appKpiService,
             kpiPreciseService,
+            mapDialogService,
             appFormatService) {
 
             appRegionService.queryDistricts(city.selected)
@@ -6098,6 +6099,9 @@ angular.module('kpi.work.trend', ['myApp.url', 'myApp.region', "ui.bootstrap", "
                     $scope.trendStat.districts));
                 $("#rate-column").highcharts(appKpiService.getCqiRateDistrictOptions($scope.trendStat.stats,
                     $scope.trendStat.districts));
+            };
+            $scope.showTopKpi = function () {
+                mapDialogService.showCqiTop($scope.beginDate, $scope.endDate);
             };
             $scope.ok = function () {
                 $uibModalInstance.close($scope.trendStat);

@@ -3272,6 +3272,7 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             appFormatService,
             appKpiService,
             workItemDialog,
+            mapDialogService,
             dialogTitle,
             city,
             beginDate,
@@ -3307,6 +3308,9 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
             };
             $scope.showTrend = function() {
                 workItemDialog.showCqiTrend(city, $scope.beginDate, $scope.endDate);
+            };
+            $scope.showTopKpi = function () {
+                mapDialogService.showCqiTop($scope.beginDate, $scope.endDate);
             };
             $scope.showKpi();
             $scope.ok = function() {
@@ -3506,6 +3510,48 @@ angular.module('topic.dialog.top',
             };
 
             $scope.cancel = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
+    })
+    .controller("cqi.top",
+        function ($scope,
+            $uibModalInstance,
+            dialogTitle,
+            preciseInterferenceService,
+            kpiPreciseService,
+            workitemService,
+            beginDate,
+            endDate) {
+            $scope.dialogTitle = dialogTitle;
+            $scope.topCells = [];
+            $scope.updateMessages = [];
+            $scope.beginDate = beginDate;
+            $scope.endDate = endDate;
+            $scope.kpiType = 'cqi';
+
+            $scope.query = function () {
+                $scope.topCells = [];
+                kpiPreciseService.queryTopDownSwitchByPolicy(beginDate.value,
+                    endDate.value,
+                    $scope.topCount.selected,
+                    $scope.orderPolicy.selected).then(function (result) {
+                        $scope.topCells = result;
+                    });
+            };
+            $scope.initializeDownSwitchOrderPolicy();
+            $scope.$watch('orderPolicy.selected',
+                function (selection) {
+                    if (selection) {
+                        $scope.query();
+                    }
+                });
+
+
+            $scope.ok = function () {
+                $uibModalInstance.close($scope.building);
+            };
+
+            $scope.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
             };
         })
@@ -4434,7 +4480,7 @@ angular.module('topic.dialog',[ 'app.menu', 'app.core' ])
                                 endDate)
                     });
                 },
-                showCqiTrend: function (city, beginDate, endDate) {
+                showCityCqiTrend: function (city, beginDate, endDate) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Rutrace/Trend.html',
                         controller: 'cqi.trend',
@@ -4513,6 +4559,19 @@ angular.module('topic.dialog',[ 'app.menu', 'app.core' ])
                                     return "全市4G下切3GTOP统计";
                                 }
                             },
+                            beginDate,
+                            endDate)
+                    });
+                },
+                showCqiTop: function (beginDate, endDate) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Rutrace/Top.html',
+                        controller: 'cqi.top',
+                        resolve: stationFormatService.dateSpanDateResolve({
+                            dialogTitle: function () {
+                                return "全市CQI优良比TOP统计";
+                            }
+                        },
                             beginDate,
                             endDate)
                     });
