@@ -1300,6 +1300,12 @@ angular.module('region.kpi', ['app.core'])
                             key: "OrderDownSwitchPolicy"
                         });
                 },
+                getCqiOrderSelection: function () {
+                    return generalHttpService.getApiData('KpiOptions',
+                        {
+                            key: "OrderCqiPolicy"
+                        });
+                },
                 getHotSpotTypeSelection: function() {
                     return generalHttpService.getApiData('KpiOptions',
                     {

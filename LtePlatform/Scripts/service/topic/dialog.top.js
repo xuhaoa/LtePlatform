@@ -122,7 +122,7 @@
                         $scope.topCells = result;
                     });
             };
-            $scope.initializeDownSwitchOrderPolicy();
+            $scope.initializeCqiOrderPolicy();
             $scope.$watch('orderPolicy.selected',
                 function (selection) {
                     if (selection) {

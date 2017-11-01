@@ -697,6 +697,18 @@ namespace Lte.Domain.Common.Wireless
         
     }
 
+    [EnumTypeDescription(typeof(OrderCqiPolicy), OrderByCqiRate)]
+    public enum OrderCqiPolicy : byte
+    {
+        OrderByCqiRate,
+        OrderByPoorCqiDescending
+    }
+
+    public class OrderCqiPolicyDescriptionTransform : DescriptionTransform<OrderCqiPolicy>
+    {
+        
+    }
+
     public class OrderDownSwitchPolicyTransform : EnumTransform<OrderDownSwitchPolicy>
     {
         public OrderDownSwitchPolicyTransform() : base(OrderDownSwitchPolicy.OrderByDownSwitchCountsDescendings)

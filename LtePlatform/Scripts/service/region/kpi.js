@@ -75,6 +75,12 @@
                             key: "OrderDownSwitchPolicy"
                         });
                 },
+                getCqiOrderSelection: function () {
+                    return generalHttpService.getApiData('KpiOptions',
+                        {
+                            key: "OrderCqiPolicy"
+                        });
+                },
                 getHotSpotTypeSelection: function() {
                     return generalHttpService.getApiData('KpiOptions',
                     {
