@@ -118,13 +118,30 @@
                         }
                     });
                 },
-                showStationAdd: function() {
+                showStationAdd: function(station) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Home/StationAdd.html',
                         controller: 'map.stationAdd.dialog',
                         resolve: {
                             dialogTitle: function() {
                                 return "站点添加";
+                            },
+                            station: function () {
+                                return station;
+                            }
+                        }
+                    });
+                },
+                showIndoorAdd: function (station) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Home/IndoorAdd.html',
+                        controller: 'map.indoorAdd.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "室分添加";
+                            },
+                            station: function () {
+                                return station;
                             }
                         }
                     });

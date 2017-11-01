@@ -817,18 +817,37 @@ angular.module('topic.college',
                             mapDialogService.showCommonStationInfo(station);
                         });
                 },
-                showCheckingStations: function(stations, color, status) {
+                showCheckingStations: function (stations, color, status, type) {
+                    if (status === '已巡检') {
+                        if (type === 'JZ') {
+                            generalMapService
+                                .showPointWithClusterer(stations, color, function (station) {
+                                    parametersDialogService.showCheckingStationInfo(station);
+                                });
+                        } else {
+                            generalMapService
+                                .showPointWithClusterer(stations, color, function (station) {
+                                    parametersDialogService.showCheckingIndoorInfo(station);
+                                });
+                        }
+                    } else {
+                        generalMapService
+                            .showPointWithClusterer(stations, color, function (station) {
+                                mapDialogService.showCommonStationInfo(station);
+                            });
+                    }
+                    /*
                     generalMapService
                         .showPointWithClusterer(stations, color, function (station) {
                             if (status === '已巡检') {
-                                if (station.id.indexOf('JZ')>0)
+                                if (type === 'JZ')
                                     parametersDialogService.showCheckingStationInfo(station);
                                 else
                                     parametersDialogService.showCheckingIndoorInfo(station);
                             } else {
                                 mapDialogService.showCommonStationInfo(station);
                             }
-                        });
+                        });*/
                 },
                 showFixingStations: function(stations, color) {
                     generalMapService
@@ -1505,8 +1524,12 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
         $scope.edit = function (stationId) {
             parametersDialogService.showStationEdit(stationId);
         }
-        $scope.addStation = function (id,name) {
-            parametersDialogService.showStationAdd(id,name,$scope.type);
+        $scope.addStation = function (station) {
+            if (type == 'JZ') {
+                parametersDialogService.showStationAdd(station);
+            } else if (type == 'SF') {
+                parametersDialogService.showIndoorAdd(station);
+            }
         }
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
@@ -1565,10 +1588,46 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             }
         })
     .controller('map.stationAdd.dialog',
-        function($scope, dialogTitle, $uibModalInstance, downSwitchService) {
+        function($scope, dialogTitle, $uibModalInstance, downSwitchService,station) {
             $scope.dialogTitle = dialogTitle;
             $scope.station = {};
-            $scope.ok = function() {
+            var areaMap = {
+                'SD':'顺德',
+                'NH':'南海',
+                'CC':'禅城',
+                'SS':'三水',
+                'GM':'高明'
+            };
+            $scope.grades = new Array('A', 'B', 'C', 'D');
+            $scope.stationTypes = new Array('包含固网设备的无线机房', '电信机楼内无线机房', '一体化机柜', '拉远', '安装点', '微基站', '微峰窝', '接入网机房', '综合机房','其它无线机房');
+            $scope.roomAttributions = new Array('电信', '联通', '铁塔');
+            $scope.isNewRooms = new Array('新建', '存量');
+            $scope.towerTypes = new Array('楼面抱杆', '普通楼面塔', '普通地面塔', '景观塔', '单管塔', '增高架', '楼面支撑杆', '屋顶抱杆',
+                '支撑杆', '通信杆', '落地塔', '楼面塔', '角钢塔', '美化杆', '路灯杆塔', '楼面增高架',
+                '铁塔', '美化天线', '抱杆', '抱杆天线', '排气管型', '楼面美化天线', '管型天线', '美化桶',
+                '方柱型天线', '地面通信杆', '楼面角钢塔', '楼面美化方柱', '楼面排气管', '射灯型', '楼面美化集束杆',
+                '地面美化树', '楼面美化水罐', '楼面笼架', '单杆塔', '租赁机房', '小灵通杆', '排气管');
+            $scope.towerAttributions = new Array('电信', '联通', '铁塔');
+            $scope.isNewTowers = new Array('新建', '存量');
+            $scope.attributionNatures = new Array('城市', '市区', '乡镇', '镇区', '农村');
+            $scope.isSimples = new Array('是', '否');
+            $scope.isDangerouss = new Array('是', '否');
+            $scope.isShares = new Array('是', '否');
+            $scope.isPowers = new Array('是', '否');
+            $scope.isBBUs = new Array('是', '否');
+            $scope.netTypes = new Array('C', 'L', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL','C+FL+TL+VL');
+      
+            var areaCode = station.id.substr(0, 2);
+            var areaName = areaMap[areaCode];
+            $scope.station.StationId = station.id;
+            $scope.station.StationName = station.name;
+            $scope.station.InstallAddr = station.address;
+            $scope.station.longtitute = station.longtitute;
+            $scope.station.lattitute = station.lattitute;
+            $scope.station.AreaName = areaName;
+            $scope.station.TowerHeight = 0;
+
+            $scope.ok = function () {
                 downSwitchService.addStation({
                     "Station": JSON.stringify($scope.station)
                 }).then(function(result) {
@@ -1578,7 +1637,48 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             }
-        })
+    })
+    .controller('map.indoorAdd.dialog',
+    function ($scope, dialogTitle, $uibModalInstance, downSwitchService, station) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.station = {};
+        var areaMap = {
+            'SD': '顺德',
+            'NH': '南海',
+            'CC': '禅城',
+            'SS': '三水',
+            'GM': '高明'
+        };
+        $scope.grades = new Array('A', 'B', 'C', 'D');
+        $scope.indoortypes = new Array('住宅，公寓', '机关企业', '餐饮娱乐', '居民住宅', '商业市场', '教育医疗', '工业区', '室内', '公共医院', '大型办公楼',
+            '公寓', '住宅小区', '商场公寓', '商品楼', '政府机关', '商务酒店', '写字楼', '商业小区', '交通枢纽', '商业营业部',
+            '综合办公楼', '商业店铺', '商场办公综合体', '学校', '企业办公楼', '商场', '综合楼宇', '厂区办公楼', '营业厅', '商务办公');
+        $scope.isNews = new Array('电信新建站点', '联通原有站点（改造）', '联通原有站点', '小灵通改造', '联通原有站点（新建）', '联通原有站点（电信新建站点）', '联通划归站点（改造）',
+            '联通划归站点（新建）', '新建', '电信整改站点', '电信站点', '联通划归', '电信扩容站点', '电信合路铁塔站点');
+        $scope.deviceTypes = new Array('RPT', 'CRRU', 'LRRU', 'CRRU+RPT', 'LRRU+RPT', 'CRRU+LRRU','CRRU+LRRU+RPT');
+        $scope.netTypes = new Array('C', 'L', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL', 'C+FL+TL+VL');
+
+        var areaCode = station.id.substr(0, 2);
+        var areaName = areaMap[areaCode];
+        $scope.station.stationId = station.id;
+        $scope.station.name = station.name;
+        $scope.station.address = station.address;
+        $scope.longtitute = station.longtitute;
+        $scope.lattitute = station.lattitute;
+        $scope.station.areaName = areaName;
+        $scope.station.deviceNum = 1;
+
+        $scope.ok = function () {
+            downSwitchService.addIndoor({
+                "Indoor": JSON.stringify($scope.station)
+            }).then(function (result) {
+                alert(result.description);
+            });
+        }
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        }
+    })
     .controller('map.common-stationAdd.dialog',
         function($scope,
             $http,
@@ -1938,13 +2038,30 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                         }
                     });
                 },
-                showStationAdd: function() {
+                showStationAdd: function(station) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Home/StationAdd.html',
                         controller: 'map.stationAdd.dialog',
                         resolve: {
                             dialogTitle: function() {
                                 return "站点添加";
+                            },
+                            station: function () {
+                                return station;
+                            }
+                        }
+                    });
+                },
+                showIndoorAdd: function (station) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Home/IndoorAdd.html',
+                        controller: 'map.indoorAdd.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "室分添加";
+                            },
+                            station: function () {
+                                return station;
                             }
                         }
                     });
@@ -3916,11 +4033,11 @@ angular.module('topic.dialog.alarm', ['myApp.url', 'myApp.region', 'myApp.kpi', 
                 $scope.alarmStations = response.result;
             });
             $scope.showHistory = function () {
-                mapDialogService.showAlarmHistoryList(station.StationId);
+                mapDialogService.showAlarmHistoryList(station);
             };
             $scope.showStationInfo = function() {
                 downSwitchService.getStationById(station.StationId).then(function(result) {
-                    workItemDialog.showStationInfo(result.result[0], beginDate, endDate);
+                    workItemDialog.showStationInfoDialog(result.result[0], beginDate, endDate);
                 });
             };
 
@@ -3942,9 +4059,8 @@ angular.module('topic.dialog.alarm', ['myApp.url', 'myApp.region', 'myApp.kpi', 
             downSwitchService) {
             $scope.levels = [
                 { value: '', name: '全部' },
-                { value: '0', name: '紧急' },
-                { value: '1', name: '重要' },
-                { value: '2', name: '一般' }
+                { value: 'C', name: 'C' },
+                { value: 'D', name: 'D' }
             ];
             $scope.alarmStation = alarmStation;
             $scope.dialogTitle = dialogTitle;
@@ -3981,7 +4097,7 @@ angular.module('topic.dialog.alarm', ['myApp.url', 'myApp.region', 'myApp.kpi', 
             $scope.jumpPage = function(page) {
                 if (page >= $scope.totolPage)
                     page = $scope.totolPage;
-                downSwitchService.getAlarmHistorybyId($scope.alarmStation.NetAdminId,
+                downSwitchService.getAlarmHistorybyId($scope.alarmStation.StationId,
                     page,
                     10,
                     $scope.selectLevel.value).then(function(response) {
@@ -4192,7 +4308,7 @@ angular.module('topic.dialog',[ 'app.menu', 'app.core' ])
                         controller: 'map.alarmHistoryList.dialog',
                         resolve: {
                             dialogTitle: function() {
-                                return "告警历史：" + alarmStation.NetAdminName;
+                                return "告警历史：" + alarmStation.name;
                             },
                             alarmStation: function() {
                                 return alarmStation;

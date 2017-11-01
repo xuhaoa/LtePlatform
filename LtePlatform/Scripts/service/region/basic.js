@@ -787,6 +787,11 @@
                         .postPhpUrlData(appUrlService.getPhpHost() +
                         'LtePlatForm/lte/index.php/Station/add', station);
                 },
+                addIndoor: function (indoor) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/Indoor/add', indoor);
+                },
                 getIndoorById: function (id) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +

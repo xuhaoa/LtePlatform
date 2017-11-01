@@ -1660,7 +1660,7 @@ angular.module('station.checking', ['app.common', 'home.station'])
                 downSwitchService.getCheckingStation(areaName, status, 'JZ', 0, 10000).then(function(response) {
                     var stations = response.result.rows;
                     if (stations.length) {
-                        collegeMapService.showCheckingStations(stations, color, status);
+                        collegeMapService.showCheckingStations(stations, color, status,'JZ');
                     }
                 });
             };
@@ -1683,17 +1683,17 @@ angular.module('station.checking', ['app.common', 'home.station'])
                 baiduMapService.clearOverlays();
                 baiduMapService.setCenter($scope.distinctIndex);
                 if ($scope.distinctIndex !== 0) {
-                    if ($scope.statusIndex !== 3) {
+                    if ($scope.statusIndex !== 2) {
                         $scope.getStations($scope.distinctIndex,
                             $scope.statusNames[$scope.statusIndex],
                             $scope.colors[$scope.statusIndex]);
                     } else {
-                        for (var i = 0; i < 3; ++i) {
+                        for (var i = 0; i < 2; ++i) {
                             $scope.getStations($scope.distinctIndex, $scope.statusNames[i], $scope.colors[i]);
                         }
                     }
                 } else {
-                    if ($scope.statusIndex !== 3) {
+                    if ($scope.statusIndex !== 2) {
                         for (var i = 1; i < 6; ++i) {
                             $scope.getStations(i,
                                 $scope.statusNames[$scope.statusIndex],
@@ -1701,7 +1701,7 @@ angular.module('station.checking', ['app.common', 'home.station'])
                         }
                     } else {
                         for (var i = 1; i < 6; ++i) {
-                            for (var j = 0; j < 3; ++j)
+                            for (var j = 0; j < 2; ++j)
                                 $scope.getStations(i, $scope.statusNames[j], $scope.colors[j]);
                         }
                     }
@@ -1754,7 +1754,7 @@ angular.module('station.checking', ['app.common', 'home.station'])
                 downSwitchService.getCheckingStation(areaName, status, 'SF', 0, 10000).then(function(response) {
                     var stations = response.result.rows;
                     if (stations.length) {
-                        collegeMapService.showCheckingStations(stations, color, status);
+                        collegeMapService.showCheckingStations(stations, color, status,'SF');
                     }
                 });
             };
@@ -1777,17 +1777,17 @@ angular.module('station.checking', ['app.common', 'home.station'])
                 baiduMapService.clearOverlays();
                 baiduMapService.setCenter($scope.distinctIndex);
                 if ($scope.distinctIndex !== 0) {
-                    if ($scope.statusIndex !== 3) {
+                    if ($scope.statusIndex !== 2) {
                         $scope.getStations($scope.distinctIndex,
                             $scope.statusNames[$scope.statusIndex],
                             $scope.colors[$scope.statusIndex]);
                     } else {
-                        for (var i = 0; i < 3; ++i) {
+                        for (var i = 0; i < 2; ++i) {
                             $scope.getStations($scope.distinctIndex, $scope.statusNames[i], $scope.colors[i]);
                         }
                     }
                 } else {
-                    if ($scope.statusIndex !== 3) {
+                    if ($scope.statusIndex !== 2) {
                         for (var i = 1; i < 6; ++i) {
                             $scope.getStations(i,
                                 $scope.statusNames[$scope.statusIndex],
@@ -1795,7 +1795,7 @@ angular.module('station.checking', ['app.common', 'home.station'])
                         }
                     } else {
                         for (var i = 1; i < 6; ++i) {
-                            for (var j = 0; j < 3; ++j)
+                            for (var j = 0; j < 2; ++j)
                                 $scope.getStations(i, $scope.statusNames[j], $scope.colors[j]);
                         }
                     }
@@ -3895,7 +3895,7 @@ angular.module('home.kpi', ['app.common'])
 
             $scope.showTodayKpi = function() {
                 workItemDialog.showTodayOverallKpi($scope.city.selected);
-            }
+            };
 
             $scope.showPreciseStats = function() {
                 mapDialogService.showPreciseTrendDialog($scope.city, $scope.beginDate, $scope.endDate);

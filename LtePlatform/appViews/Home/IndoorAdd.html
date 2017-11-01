@@ -1,0 +1,87 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
+    <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
+</div>
+<div class="modal-body form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">站址ID</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.stationId" readonly />
+        </div>
+        <label class="col-sm-3 control-label">站址名称</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.name" readonly />
+        </div>
+    </div>
+    <div class="form-group">    
+        <label class="col-sm-3 control-label">区域</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.areaName" readonly />
+        </div>
+        <label class="col-sm-3 control-label">镇区</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.town" />
+        </div>
+    </div>
+    <div class="form-group"> 
+        <label class="col-sm-3 control-label">安装地址</label>
+        <div class="col-sm-9">
+            <input class="form-control" ng-model="station.address" readonly />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">经度</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="longtitute" readonly />
+        </div>
+        <label class="col-sm-3 control-label">纬度</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="lattitute" readonly />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">站点等级</label>
+        <div class="col-sm-3">
+            <select class="form-control" ng-init="station.grade=grades[0]" ng-model="station.grade" ng-options="grade for grade in grades"></select>
+        </div>
+        <label class="col-sm-3 control-label">是否新建站点</label>
+        <div class="col-sm-3">
+            <select class="form-control" ng-init="station.isNew=isNews[0]" ng-model="station.isNew" ng-options="isNew for isNew in isNews"></select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">站点类型</label>
+        <div class="col-sm-3">
+            <select class="form-control" ng-init="station.indoortype=indoortypes[0]" ng-model="station.indoortype" ng-options="indoortype for indoortype in indoortypes"></select>
+        </div>
+        <label class="col-sm-3 control-label">覆盖范围</label>
+        <div class="col-sm-3">           
+            <input class="form-control" ng-model="station.coverage"  />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">设备类型</label>
+        <div class="col-sm-3">
+            <select class="form-control" ng-init="station.deviceType=deviceTypes[0]" ng-model="station.deviceType" ng-options="deviceType for deviceType in deviceTypes"></select>
+        </div>
+        <label class="col-sm-3 control-label">设备数目</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.deviceNum" type="number" min="0" max="1000" step="1" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">网络类型</label>
+        <div class="col-sm-3">
+            <select class="form-control" ng-init="station.netType=netTypes[0]" ng-model="station.netType" ng-options="netType for netType in netTypes"></select>
+        </div>
+        <label class="col-sm-3 control-label">备注</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.remark" required="required" />
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="ok()">确定添加</button>
+    <button class="btn btn-default" type="button" ng-click="cancel()">关闭窗口</button>
+</div>
+

@@ -47,11 +47,11 @@
                 $scope.alarmStations = response.result;
             });
             $scope.showHistory = function () {
-                mapDialogService.showAlarmHistoryList(station.StationId);
+                mapDialogService.showAlarmHistoryList(station);
             };
             $scope.showStationInfo = function() {
                 downSwitchService.getStationById(station.StationId).then(function(result) {
-                    workItemDialog.showStationInfo(result.result[0], beginDate, endDate);
+                    workItemDialog.showStationInfoDialog(result.result[0], beginDate, endDate);
                 });
             };
 
@@ -73,9 +73,8 @@
             downSwitchService) {
             $scope.levels = [
                 { value: '', name: '全部' },
-                { value: '0', name: '紧急' },
-                { value: '1', name: '重要' },
-                { value: '2', name: '一般' }
+                { value: 'C', name: 'C' },
+                { value: 'D', name: 'D' }
             ];
             $scope.alarmStation = alarmStation;
             $scope.dialogTitle = dialogTitle;
@@ -112,7 +111,7 @@
             $scope.jumpPage = function(page) {
                 if (page >= $scope.totolPage)
                     page = $scope.totolPage;
-                downSwitchService.getAlarmHistorybyId($scope.alarmStation.NetAdminId,
+                downSwitchService.getAlarmHistorybyId($scope.alarmStation.StationId,
                     page,
                     10,
                     $scope.selectLevel.value).then(function(response) {

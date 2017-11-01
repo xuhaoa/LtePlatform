@@ -255,18 +255,37 @@
                             mapDialogService.showCommonStationInfo(station);
                         });
                 },
-                showCheckingStations: function(stations, color, status) {
+                showCheckingStations: function (stations, color, status, type) {
+                    if (status === '已巡检') {
+                        if (type === 'JZ') {
+                            generalMapService
+                                .showPointWithClusterer(stations, color, function (station) {
+                                    parametersDialogService.showCheckingStationInfo(station);
+                                });
+                        } else {
+                            generalMapService
+                                .showPointWithClusterer(stations, color, function (station) {
+                                    parametersDialogService.showCheckingIndoorInfo(station);
+                                });
+                        }
+                    } else {
+                        generalMapService
+                            .showPointWithClusterer(stations, color, function (station) {
+                                mapDialogService.showCommonStationInfo(station);
+                            });
+                    }
+                    /*
                     generalMapService
                         .showPointWithClusterer(stations, color, function (station) {
                             if (status === '已巡检') {
-                                if (station.id.indexOf('JZ')>0)
+                                if (type === 'JZ')
                                     parametersDialogService.showCheckingStationInfo(station);
                                 else
                                     parametersDialogService.showCheckingIndoorInfo(station);
                             } else {
                                 mapDialogService.showCommonStationInfo(station);
                             }
-                        });
+                        });*/
                 },
                 showFixingStations: function(stations, color) {
                     generalMapService

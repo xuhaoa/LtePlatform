@@ -154,7 +154,7 @@
                         controller: 'map.alarmHistoryList.dialog',
                         resolve: {
                             dialogTitle: function() {
-                                return "告警历史：" + alarmStation.NetAdminName;
+                                return "告警历史：" + alarmStation.name;
                             },
                             alarmStation: function() {
                                 return alarmStation;

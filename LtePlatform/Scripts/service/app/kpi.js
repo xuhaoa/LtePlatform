@@ -5371,7 +5371,7 @@ angular.module('kpi.work.dialog', ['myApp.url', 'myApp.region', "ui.bootstrap", 
             $scope.beginDate = beginDate;
             $scope.endDate = endDate;
             $scope.cellList = [];
-            downSwitchService.getStationById(station.id).then(function (stationDetails) {
+            downSwitchService.getStationById(station.StationId).then(function (stationDetails) {
                 var item = stationDetails.result[0];
                 $scope.itemGroups = appFormatService.generateStationGroups(item);
                 networkElementService.queryENodebStationInfo(item.SysStationId).then(function(eNodeb) {
