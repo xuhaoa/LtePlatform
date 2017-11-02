@@ -3259,6 +3259,12 @@ angular.module('topic.dialog.kpi', ['myApp.url', 'myApp.region', 'myApp.kpi', 't
                 $rootScope.orderPolicy.selected = result[1];
             });
         };
+        $rootScope.initializeCqiOrderPolicy = function () {
+            kpiPreciseService.getCqiOrderSelection().then(function (result) {
+                $rootScope.orderPolicy.options = result;
+                $rootScope.orderPolicy.selected = result[1];
+            });
+        };
 
         $rootScope.closeAlert = function(messages, index) {
             messages.splice(index, 1);
@@ -3652,14 +3658,14 @@ angular.module('topic.dialog.top',
 
             $scope.query = function () {
                 $scope.topCells = [];
-                kpiPreciseService.queryTopDownSwitchByPolicy(beginDate.value,
+                kpiPreciseService.queryTopCqiByPolicy(beginDate.value,
                     endDate.value,
                     $scope.topCount.selected,
                     $scope.orderPolicy.selected).then(function (result) {
                         $scope.topCells = result;
                     });
             };
-            $scope.initializeDownSwitchOrderPolicy();
+            $scope.initializeCqiOrderPolicy();
             $scope.$watch('orderPolicy.selected',
                 function (selection) {
                     if (selection) {

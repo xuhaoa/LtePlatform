@@ -255,6 +255,31 @@ describe('app.format service tests', function () {
                         expect(appFormatService.prefixInteger(412, 3)).toEqual('412');
                     });
             });
+
+        describe('test generateCqiTimesDef function',
+            function() {
+                it('test the result',
+                    function() {
+                        var result = appFormatService.generateCqiTimesDef();
+                        expect(result).toEqual([
+                            Object({ field: 'cqi0times', name: 'CQI=0次数' }),
+                            Object({ field: 'cqi1times', name: 'CQI=1次数' }),
+                            Object({ field: 'cqi2times', name: 'CQI=2次数' }),
+                            Object({ field: 'cqi3times', name: 'CQI=3次数' }),
+                            Object({ field: 'cqi4times', name: 'CQI=4次数' }),
+                            Object({ field: 'cqi5times', name: 'CQI=5次数' }),
+                            Object({ field: 'cqi6times', name: 'CQI=6次数' }),
+                            Object({ field: 'cqi7times', name: 'CQI=7次数' }),
+                            Object({ field: 'cqi8times', name: 'CQI=8次数' }),
+                            Object({ field: 'cqi9times', name: 'CQI=9次数' }),
+                            Object({ field: 'cqi10times', name: 'CQI=10次数' }),
+                            Object({ field: 'cqi11times', name: 'CQI=11次数' }),
+                            Object({ field: 'cqi12times', name: 'CQI=12次数' }),
+                            Object({ field: 'cqi13times', name: 'CQI=13次数' }),
+                            Object({ field: 'cqi14times', name: 'CQI=14次数' }),
+                            Object({ field: 'cqi15times', name: 'CQI=15次数' })]);
+                    });
+            });
     });
 
 });

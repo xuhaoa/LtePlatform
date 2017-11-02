@@ -115,14 +115,14 @@
 
             $scope.query = function () {
                 $scope.topCells = [];
-                kpiPreciseService.queryTopDownSwitchByPolicy(beginDate.value,
+                kpiPreciseService.queryTopCqiByPolicy(beginDate.value,
                     endDate.value,
                     $scope.topCount.selected,
                     $scope.orderPolicy.selected).then(function (result) {
                         $scope.topCells = result;
                     });
             };
-            $scope.initializeDownSwitchOrderPolicy();
+            $scope.initializeCqiOrderPolicy();
             $scope.$watch('orderPolicy.selected',
                 function (selection) {
                     if (selection) {

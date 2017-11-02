@@ -191,6 +191,13 @@ namespace Lte.Domain.Common.Wireless
                 }
             },
             {
+                "OrderCqiPolicy", new []
+                {
+                    new Tuple<object, string>(OrderCqiPolicy.OrderByCqiRate, "按照CQI优良比升序"),
+                    new Tuple<object, string>(OrderCqiPolicy.OrderByPoorCqiDescending, "按照弱CQI次数降序")
+                }
+            },
+            {
                 "OrderTopConnection3GPolicy", new[]
                 {
                     new Tuple<object, string>(OrderTopConnection3GPolicy.OrderByConnectionFailsDescending,

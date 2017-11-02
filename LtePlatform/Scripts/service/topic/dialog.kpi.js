@@ -20,6 +20,12 @@
                 $rootScope.orderPolicy.selected = result[1];
             });
         };
+        $rootScope.initializeCqiOrderPolicy = function () {
+            kpiPreciseService.getCqiOrderSelection().then(function (result) {
+                $rootScope.orderPolicy.options = result;
+                $rootScope.orderPolicy.selected = result[1];
+            });
+        };
 
         $rootScope.closeAlert = function(messages, index) {
             messages.splice(index, 1);
