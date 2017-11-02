@@ -137,6 +137,36 @@
                             orderSelection: policy
                         });
                 },
+                queryTopCqiInDistrict: function (begin, end, topCount, city, district) {
+                    return generalHttpService.getApiData('TopCqi',
+                        {
+                            begin: begin,
+                            end: end,
+                            topCount: topCount,
+                            city: city,
+                            district: district
+                        });
+                },
+                queryTopCqiByPolicyInDistrict: function (begin, end, topCount, policy, city, district) {
+                    return generalHttpService.getApiData('TopCqi',
+                        {
+                            begin: begin,
+                            end: end,
+                            topCount: topCount,
+                            orderSelection: policy,
+                            city: city,
+                            district: district
+                        });
+                },
+                queryTopCqiByPolicy: function (begin, end, topCount, policy) {
+                    return generalHttpService.getApiData('TopCqi',
+                        {
+                            begin: begin,
+                            end: end,
+                            topCount: topCount,
+                            orderSelection: policy
+                        });
+                },
                 queryTopRank2InDistrict: function(begin, end, topCount, city, district) {
                     return generalHttpService.getApiData('TopRank2',
                     {

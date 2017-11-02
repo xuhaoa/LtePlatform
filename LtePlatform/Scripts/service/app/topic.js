@@ -3654,7 +3654,7 @@ angular.module('topic.dialog.top',
 
             $scope.query = function () {
                 $scope.topCells = [];
-                kpiPreciseService.queryTopDownSwitchByPolicy(beginDate.value,
+                kpiPreciseService.queryTopCqiByPolicy(beginDate.value,
                     endDate.value,
                     $scope.topCount.selected,
                     $scope.orderPolicy.selected).then(function (result) {

@@ -383,6 +383,8 @@ namespace LtePlatform
             ninjectKernel.Bind<RrcRegionStatService>().ToSelf();
 
             ninjectKernel.Bind<TownBoundaryService>().ToSelf();
+
+            ninjectKernel.Bind<CqiQueryService>().ToSelf();
         }
     }
 }
