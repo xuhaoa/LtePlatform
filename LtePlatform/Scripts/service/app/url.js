@@ -2115,6 +2115,16 @@ angular.module('app.format', [])
                         }
                     }
                 },
+                generateCqiTimesDef: function() {
+                    var result = [];
+                    for (var index = 0; index < 16; index++) {
+                        result.push({
+                            field: 'cqi' + index + 'times',
+                            name: 'CQI=' + index + '次数'
+                        });
+                    }
+                    return result;
+                },
                 generateDistrictPieNameValueFuncs: function() {
                     return {
                         nameFunc: function(stat) {

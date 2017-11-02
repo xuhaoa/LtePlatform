@@ -255,13 +255,13 @@ namespace Lte.Evaluations.DataService.Kpi
                     x => x.StatTime >= begin && x.StatTime < end
                     && x.Cqi0Times + x.Cqi1Times + x.Cqi2Times + x.Cqi3Times + x.Cqi4Times
                     + x.Cqi5Times + x.Cqi6Times + x.Cqi7Times + x.Cqi8Times + x.Cqi9Times
-                    + x.Cqi10Times + x.Cqi11Times + x.Cqi12Times + x.Cqi13Times + x.Cqi14Times + x.Cqi15Times > 2000)
+                    + x.Cqi10Times + x.Cqi11Times + x.Cqi12Times + x.Cqi13Times + x.Cqi14Times + x.Cqi15Times > 200000)
                     .MapTo<IEnumerable<QciView>>();
             var huaweiViews =
                 HuaweiRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end
                     && x.Cqi0Times + x.Cqi1Times + x.Cqi2Times + x.Cqi3Times + x.Cqi4Times
                     + x.Cqi5Times + x.Cqi6Times + x.Cqi7Times + x.Cqi8Times + x.Cqi9Times
-                    + x.Cqi10Times + x.Cqi11Times + x.Cqi12Times + x.Cqi13Times + x.Cqi14Times + x.Cqi15Times > 2000)
+                    + x.Cqi10Times + x.Cqi11Times + x.Cqi12Times + x.Cqi13Times + x.Cqi14Times + x.Cqi15Times > 200000)
                     .MapTo<IEnumerable<QciView>>();
             var joinViews = zteViews.Concat(huaweiViews);
             return QueryTopViewsByPolicy(joinViews, topCount, policy);

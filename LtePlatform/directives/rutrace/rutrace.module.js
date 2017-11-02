@@ -228,6 +228,66 @@ angular.module('rutrace.top.cell', ['app.format', 'myApp.kpi', 'myApp.region', '
                 $compile);
         })
 
+    .controller('topCqiController', function ($scope, appFormatService, workItemDialog, neighborDialogService) {
+            $scope.gridOptions = {
+                columnDefs: [
+                    appFormatService.generateLteCellNameDef(),
+                    {
+                        field: 'cqiCounts.item1',
+                        name: 'CQI总调度次数'
+                    },
+                    {
+                        field: 'cqiCounts.item2',
+                        name: 'CQI优良次数'
+                    },
+                    {
+                        field: 'cqiRate',
+                        name: 'CQI优良比（%）',
+                        cellFilter: 'number: 2'
+                    },
+                    {
+                        name: '分析',
+                        width: 150,
+                        cellTemplate: '<div class="btn-group-xs">\
+                            <button class="btn btn-default btn-xs" ng-click="grid.appScope.showCellTrend(row.entity)">\
+                                <i class="glyphicon glyphicon-stats" title="单小区按日期的变化趋势"></i>\
+                                趋势\
+                            </button>\
+                            <button class="btn btn-success btn-xs" ng-click="grid.appScope.showCoverage(row.entity)">\
+                                <i class="glyphicon glyphicon-tree-conifer" title="覆盖信息"></i>\
+                                覆盖\
+                            </button>\
+                        </div>'
+                    }
+                ]
+            };
+
+            $scope.showCellTrend = function (cell) {
+                workItemDialog.showDownSwitchCellTrend(cell.eNodebName + "-" + cell.sectorId, cell.eNodebId, cell.sectorId);
+            };
+            $scope.showCoverage = function (cell) {
+                neighborDialogService.showGeneralCoverage({
+                    cellId: cell.eNodebId,
+                    sectorId: cell.sectorId,
+                    name: cell.eNodebName
+                },
+                    $scope.beginDate.value,
+                    $scope.endDate.value);
+            };
+    })
+    .directive('topCqi', function ($compile, calculateService) {
+            return calculateService.generateGridDirective({
+                    controllerName: 'topCqiController',
+                    scope: {
+                        topCells: '=',
+                        beginDate: '=',
+                        endDate: '=',
+                        updateMessages: '='
+                    },
+                    argumentName: 'topCells'
+                },
+                $compile);
+        })
     .controller('DistrictStatController', function ($scope, mapDialogService, calculateService) {
         $scope.cityFlag = '全网';
         $scope.gridOptions = {
