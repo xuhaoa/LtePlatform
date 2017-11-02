@@ -77,7 +77,8 @@
         $uibModalInstance,
         workItemDialog,
         downSwitchService,
-        parametersDialogService) {
+        parametersDialogService,
+        appUrlService) {
         $scope.dialogTitle = dialogTitle;
         $scope.distincts = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
         $scope.stationList = [];
@@ -102,6 +103,9 @@
         $scope.search = function () {
             $scope.page = 1;
             $scope.jumpPage($scope.page);
+        }
+        $scope.download = function () {
+            location.href = appUrlService.getPhpHost() + "LtePlatForm/lte/index.php/StationCommon/toAddStationDownload/type/" + type + "/areaName/" + $scope.selectDistinct;      
         }
         $scope.firstPage = function () {
             $scope.page = 1;

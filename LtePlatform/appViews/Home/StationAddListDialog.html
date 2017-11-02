@@ -10,6 +10,7 @@
         <input type="text" ng-model="stationName" placeholder="站点名称">
         <select ng-init="selectDistinct=distincts[0]" ng-model="selectDistinct" ng-options="distinct for distinct in distincts"></select>
         <button ng-click="search()">查询</button>
+        <button ng-click="download()">导出</button>
         <br>
 
         <table class="table table-striped">
