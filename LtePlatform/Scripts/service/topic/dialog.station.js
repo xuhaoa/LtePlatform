@@ -62,6 +62,13 @@
         appFormatService, networkElementService) {
         $scope.station = station;
         $scope.dialogTitle = dialogTitle;
+        $scope.bool = {};
+        $scope.bool.crru = false;
+        $scope.bool.cjz = false;
+        $scope.bool.csf = false;
+        $scope.bool.czf = false;
+        $scope.bool.lrru = false;
+        $scope.bool.ljz = false;
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
@@ -73,6 +80,35 @@
             if (0 == setTab) {
                 downSwitchService.getResourceCounter(station.id).then(function (response) {
                     $scope.counter = response.result;
+                    if ($scope.counter.crru == '0')
+                        $scope.bool.crru = true;
+                    else
+                        $scope.bool.crru = false;
+
+                    if ($scope.counter.cjz == '0')
+                        $scope.bool.cjz = true;
+                    else
+                        $scope.bool.cjz = false;
+
+                    if ($scope.counter.csf == '0')
+                        $scope.bool.csf = true;
+                    else
+                        $scope.bool.csf = false;
+
+                    if ($scope.counter.czf == '0')
+                        $scope.bool.czf = true;
+                    else
+                        $scope.bool.czf = false;
+
+                    if ($scope.counter.lrru == '0')
+                        $scope.bool.lrru = true;
+                    else
+                        $scope.bool.lrru = false;
+
+                    if ($scope.counter.ljz == '0')
+                        $scope.bool.ljz = true;
+                    else
+                        $scope.bool.ljz = false;
                 });
             } else if (1 == setTab) {
                 $scope.table = "crru";
