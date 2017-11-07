@@ -31,6 +31,7 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
         [ApiDoc("获得指定城市下属的区域列表")]
         [ApiParameterDoc("city", "指定城市")]
         [ApiResponse("区域列表")]
+        [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
         public List<string> Get(string city)
         {
             return _service.GetDistricts(city);
