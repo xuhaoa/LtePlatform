@@ -10,6 +10,7 @@ namespace LtePlatform.Controllers.Account
 {
     [ApiControl("应用程序用户管理控制器")]
     [Authorize]
+    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class ApplicationUsersController : ApiController
     {
         private readonly ApplicationUserManager _userManager;
@@ -46,30 +47,6 @@ namespace LtePlatform.Controllers.Account
             var user = _userManager.FindByName(userName);
             if (user == null) return new List<string>();
             return _roleManager.Roles.ToList().Where(x => _userManager.IsInRole(user.Id, x.Name)).Select(x => x.Name);
-        }
-    }
-
-    [Authorize(Roles = "管理员")]
-    [ApiControl("")]
-    public class ManageUsersController : ApiController
-    {
-        private readonly ApplicationUserManager _userManager;
-        private readonly ApplicationRoleManager _roleManager;
-
-        public ManageUsersController()
-        {
-            var context = ApplicationDbContext.Create();
-            _userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
-            _roleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(context));
-        }
-
-        [HttpGet]
-        [ApiDoc("获得指定用户不具有的角色列表")]
-        public IEnumerable<string> Get(string userName)
-        {
-            var user = _userManager.FindByName(userName);
-            if (user == null) return new List<string>();
-            return _roleManager.Roles.ToList().Where(x => !_userManager.IsInRole(user.Id, x.Name)).Select(x => x.Name);
         }
     }
 }
