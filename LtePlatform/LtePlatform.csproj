@@ -995,6 +995,7 @@
     <Content Include="Scripts\locales\vi.js" />
     <Content Include="Scripts\locales\zh-TW.js" />
     <Content Include="Scripts\locales\zh.js" />
+    <Content Include="Scripts\MarkerClusterer.js" />
     <Content Include="Scripts\mycharts\combo-examples.js" />
     <Content Include="Scripts\parameters\import\index.controller.js" />
     <Content Include="Scripts\parameters\neighbor\import.controller.js" />

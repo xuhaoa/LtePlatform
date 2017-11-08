@@ -63,10 +63,12 @@
             currentCityBounday: {}
         };
         var map = mapStructure.mainMap;
+
         var getCellCenter = function(cell, rCell) {
             return geometryService.getPositionLonLat(cell, rCell, cell.azimuth);
         };
         var drawingManager = {};
+        var markerClusterer = {};
         return {
             getMap: function() {
                 return map;
@@ -93,6 +95,7 @@
 
                 map.addControl(topLeftControl);
                 map.addControl(topLeftNavigation);
+                markerClusterer = new BMapLib.MarkerClusterer(map, { minClusterSize:5});
             },
             switchSubMap: function() {
                 map = mapStructure.subMap;
@@ -208,7 +211,8 @@
                     map.addOverlay(overlay);
                 });
             },
-            clearOverlays: function() {
+            clearOverlays: function () {
+                markerClusterer.clearMarkers();
                 map.clearOverlays();
             },
             generateNeighborLines: function(lines, settings) {
@@ -537,6 +541,7 @@
             drawPointWithClusterer: function (coors, index, xoffset, yoffset, callback) {
                 var MAX = 10;
                 var markers = [];
+                
                 var iconStr = '/Content/Images/BtsIcons/btsicon_' + index + '.png';
                 //alert(iconStr);
                 angular.forEach(coors, function (data) {
@@ -552,7 +557,8 @@
                     markers.push(marker);
                     //map.addOverlay(marker);
                 });
-                var markerClusterer = new BMapLib.MarkerClusterer(map, { markers: markers });
+
+                markerClusterer.addMarkers(markers);
                 return;
             },
             isPointInCurrentCity: function(longtitute, lattitute) {

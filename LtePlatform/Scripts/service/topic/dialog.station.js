@@ -80,8 +80,10 @@
             if (0 == setTab) {
                 downSwitchService.getResourceCounter(station.id).then(function (response) {
                     $scope.counter = response.result;
-                    if ($scope.counter.crru == '0')
+                    if ($scope.counter.crru == '0') {
+                        document.getElementById('crru').setAttribute('disabled','disabled')
                         $scope.bool.crru = true;
+                        }
                     else
                         $scope.bool.crru = false;
 
