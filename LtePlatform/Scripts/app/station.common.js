@@ -122,10 +122,9 @@
         $scope.showStationList = function () {
             mapDialogService.showCommonStationList('JZ');
         };
-
-        $scope.outportHref = appUrlService.getPhpHost() +
-            "LtePlatForm/lte/index.php/StationCommon/download/type/JZ";
-
+        $scope.outportData = function () {
+            location.href = appUrlService.getPhpHost() + "LtePlatForm/lte/index.php/StationCommon/download/type/JZ";
+        };
         $scope.districts = [];
         $scope.$watch('city.selected',
             function (city) {
@@ -207,9 +206,9 @@
             mapDialogService.showCommonStationList('SF');
         };
 
-        $scope.outportHref = appUrlService.getPhpHost() +
-            "LtePlatForm/lte/index.php/StationCommon/download/type/SF";
-
+        $scope.outportData = function () {
+            location.href = appUrlService.getPhpHost() + "LtePlatForm/lte/index.php/StationCommon/download/type/SF";
+        };
         $scope.districts = [];
         $scope.$watch('city.selected',
             function (city) {
