@@ -11,6 +11,7 @@ using Lte.MySqlFramework.Entities;
 namespace LtePlatform.Controllers.Kpi
 {
     [ApiControl("TOP连接失败记录查询的控制器")]
+    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class TopConnection3GController : ApiController
     {
         private readonly TopConnection3GService _service;

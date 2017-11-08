@@ -11,6 +11,7 @@ using Lte.MySqlFramework.Entities;
 namespace LtePlatform.Controllers.Kpi
 {
     [ApiControl("TOP掉话记录查询的控制器")]
+    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class TopDrop2GController : ApiController
     {
         private readonly TopDrop2GService _service;

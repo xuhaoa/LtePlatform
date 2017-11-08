@@ -1,6 +1,5 @@
 ﻿using Lte.Evaluations.DataService;
 using LtePlatform.Models;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -11,6 +10,7 @@ namespace LtePlatform.Controllers.Kpi
 {
     [ApiControl("工单查询控制器")]
     [Authorize]
+    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class WorkItemController : ApiController
     {
         private readonly WorkItemService _service;
@@ -110,53 +110,6 @@ namespace LtePlatform.Controllers.Kpi
         public bool Post(WorkItemFeedbackView view)
         {
             return _service.FeedBack(User.Identity.Name, view.Message, view.SerialNumber);
-        }
-    }
-
-    [ApiControl("本月（上个26日至下个25日）工单完成情况查询控制器")]
-    public class WorkItemCurrentMonthController : ApiController
-    {
-        private readonly WorkItemService _service;
-
-        public WorkItemCurrentMonthController(WorkItemService service)
-        {
-            _service = service;
-        }
-
-        [HttpGet]
-        [ApiDoc("查询本月（工单要求完成时间介于上个26日至下个25日）工单完成情况")]
-        [ApiResponse("本月（上个26日至下个25日）工单完成情况, 包括总数、已完成数和超时数")]
-        public async Task<Tuple<int, int, int>> Get()
-        {
-            return await _service.QueryTotalItemsThisMonth();
-        }
-    }
-
-    public class DumpWorkItemController : ApiController
-    {
-        private readonly WorkItemService _service;
-
-        public DumpWorkItemController(WorkItemService service)
-        {
-            _service = service;
-        }
-
-        [HttpPut]
-        public async Task<bool> Put()
-        {
-            return await _service.DumpOne();
-        }
-
-        [HttpDelete]
-        public void Delete()
-        {
-            _service.ClearDumpItems();
-        }
-
-        [HttpGet]
-        public int Get()
-        {
-            return _service.QueryDumpItems();
         }
     }
 }
