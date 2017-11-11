@@ -69,6 +69,17 @@ namespace LtePlatform.Models
         public bool RememberMe { get; set; }
     }
 
+    public class LoginExternalViewModel
+    {
+        public string UserName { get; set; }
+
+        public string Password { get; set; }
+
+        public bool RememberMe { get; set; }
+
+        public string PeerUrl { get; set; }
+    }
+
     public class ForgotPasswordViewModel
     {
         [Required]

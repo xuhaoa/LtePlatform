@@ -1,17 +1,24 @@
-﻿using LtePlatform.Models;
+﻿using System;
+using System.Collections.Generic;
+using LtePlatform.Models;
 using LtePlatform.Results;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace LtePlatform.Controllers
 {
     [Authorize]
+    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -62,6 +69,34 @@ namespace LtePlatform.Controllers
             AuthenticationManager.SignIn(identity);
             return new EmptyResult();
         }
+        
+        private async Task<string> GetAccessToken(LoginExternalViewModel model)
+        {
+            var parameters = new Dictionary<string, string>
+            {
+                {"grant_type", "password"},
+                {"username", model.UserName},
+                {"password", model.Password}
+            };
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri(model.PeerUrl)
+            };
+
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+                "Basic",
+                Convert.ToBase64String(Encoding.ASCII.GetBytes(model.UserName + ":" + model.Password))
+                );
+
+            var response = await httpClient.PostAsync("/token", new FormUrlEncodedContent(parameters));
+            var responseValue = await response.Content.ReadAsStringAsync();
+            return response.StatusCode == System.Net.HttpStatusCode.OK
+                ? JObject.Parse(responseValue)["access_token"].Value<string>()
+                : string.Empty;
+        }
+
+
+
 
         //
         // GET: /Account/Login
@@ -70,6 +105,46 @@ namespace LtePlatform.Controllers
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> LoginExternal(LoginExternalViewModel model)
+        {
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    var token = await GetAccessToken(model);
+                    return Json(new
+                    {
+                        Result = "Success",
+                        Token = token,
+                        Success = true
+                    }, JsonRequestBehavior.AllowGet);
+                case SignInStatus.LockedOut:
+                    return Json(new
+                    {
+                        Result = "用戶狀態異常",
+                        Token = "",
+                        Success = false
+                    }, JsonRequestBehavior.AllowGet); ;
+                case SignInStatus.RequiresVerification:
+                    return Json(new
+                    {
+                        Result = "目前版本不支持雙因素登錄",
+                        Token = "",
+                        Success = false
+                    }, JsonRequestBehavior.AllowGet);
+                case SignInStatus.Failure:
+                default:
+                    return Json(new
+                    {
+                        Result = "无效的登录尝试。",
+                        Token = "",
+                        Success = false
+                    }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         //
