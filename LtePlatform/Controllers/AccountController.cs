@@ -18,7 +18,6 @@ using Newtonsoft.Json.Linq;
 namespace LtePlatform.Controllers
 {
     [Authorize]
-    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -95,9 +94,6 @@ namespace LtePlatform.Controllers
                 : string.Empty;
         }
 
-
-
-
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -106,11 +102,19 @@ namespace LtePlatform.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-
-        [HttpPost]
+        
         [AllowAnonymous]
         public async Task<JsonResult> LoginExternal(LoginExternalViewModel model)
         {
+            if (string.IsNullOrEmpty(model.UserName) || string.IsNullOrEmpty(model.Password))
+            {
+                return Json(new
+                {
+                    Result = "无效的登录尝试。",
+                    Token = "",
+                    Success = false
+                });
+            }
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
@@ -143,7 +147,7 @@ namespace LtePlatform.Controllers
                         Result = "无效的登录尝试。",
                         Token = "",
                         Success = false
-                    }, JsonRequestBehavior.AllowGet);
+                    });
             }
         }
 

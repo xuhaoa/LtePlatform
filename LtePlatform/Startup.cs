@@ -1,5 +1,7 @@
 ﻿using Microsoft.Owin;
 using Owin;
+using System.Web.Cors;
+using System.Web.Http.Cors;
 
 [assembly: OwinStartup(typeof(LtePlatform.Startup))]
 

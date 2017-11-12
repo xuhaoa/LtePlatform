@@ -1,10 +1,10 @@
-﻿using LtePlatform.Models;
+﻿using System.Security.Principal;
+using LtePlatform.Models;
 using System.Web.Http;
 
 namespace LtePlatform.Controllers.Account
 {
     [ApiControl("查询当前用户信息")]
-    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class CurrentUserController : ApiController
     {
         [HttpGet]
@@ -13,6 +13,16 @@ namespace LtePlatform.Controllers.Account
         public IndexViewModel Get()
         {
             return UserContextConfiguration.CurrentUser;
-        } 
+        }
+        
+    }
+
+    public class UserInfoController : ApiController
+    {
+        [HttpGet]
+        public IIdentity Get()
+        {
+            return User.Identity;
+        }
     }
 }
