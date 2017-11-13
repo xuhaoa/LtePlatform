@@ -22,6 +22,7 @@ namespace LtePlatform.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private HttpClient _httpClient = new HttpClient();
 
         public AccountController()
         {
@@ -77,17 +78,14 @@ namespace LtePlatform.Controllers
                 {"username", model.UserName},
                 {"password", model.Password}
             };
-            var httpClient = new HttpClient
-            {
-                BaseAddress = new Uri(model.PeerUrl)
-            };
+            _httpClient.BaseAddress = new Uri(model.PeerUrl);
 
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
                 "Basic",
                 Convert.ToBase64String(Encoding.ASCII.GetBytes(model.UserName + ":" + model.Password))
                 );
 
-            var response = await httpClient.PostAsync("/token", new FormUrlEncodedContent(parameters));
+            var response = await _httpClient.PostAsync("/token", new FormUrlEncodedContent(parameters));
             var responseValue = await response.Content.ReadAsStringAsync();
             return response.StatusCode == System.Net.HttpStatusCode.OK
                 ? JObject.Parse(responseValue)["access_token"].Value<string>()
@@ -102,7 +100,16 @@ namespace LtePlatform.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-        
+
+        public async Task<JsonResult> AuthorizationRequest(AuthorizationRequest request)
+        {
+            _httpClient.BaseAddress = new Uri(request.PeerUrl);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", request.Token);
+            var result =
+                await (await _httpClient.GetAsync(request.RequestUrl)).Content.ReadAsAsync(Type.GetType(request.ReturnType));
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         [AllowAnonymous]
         public async Task<JsonResult> LoginExternal(LoginExternalViewModel model)
         {
@@ -120,6 +127,7 @@ namespace LtePlatform.Controllers
             {
                 case SignInStatus.Success:
                     var token = await GetAccessToken(model);
+                    
                     return Json(new
                     {
                         Result = "Success",

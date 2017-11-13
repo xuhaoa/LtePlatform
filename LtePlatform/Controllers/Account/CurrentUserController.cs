@@ -17,12 +17,13 @@ namespace LtePlatform.Controllers.Account
         
     }
 
+    [Authorize]
     public class UserInfoController : ApiController
     {
         [HttpGet]
-        public IIdentity Get()
+        public string Get()
         {
-            return User.Identity;
+            return User.Identity.Name;
         }
     }
 }

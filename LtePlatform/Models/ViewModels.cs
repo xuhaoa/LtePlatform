@@ -80,6 +80,17 @@ namespace LtePlatform.Models
         public string PeerUrl { get; set; }
     }
 
+    public class AuthorizationRequest
+    {
+        public string PeerUrl { get; set; }
+
+        public string Token { get; set; }
+
+        public string RequestUrl { get; set; }
+
+        public string ReturnType { get; set; }
+    }
+
     public class ForgotPasswordViewModel
     {
         [Required]
