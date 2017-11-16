@@ -101,13 +101,27 @@ namespace LtePlatform.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public async Task<JsonResult> AuthorizationRequest(AuthorizationRequest request)
         {
-            _httpClient.BaseAddress = new Uri(request.PeerUrl);
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", request.Token);
-            var result =
-                await (await _httpClient.GetAsync(request.RequestUrl)).Content.ReadAsAsync(Type.GetType(request.ReturnType));
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var modal = new LoginExternalViewModel
+            {
+                UserName = request.UserName,
+                Password = request.Password,
+                PeerUrl = request.PeerUrl
+            };
+            if (!string.IsNullOrEmpty(modal.UserName) && !string.IsNullOrEmpty(modal.Password) &&
+                !string.IsNullOrEmpty(modal.PeerUrl))
+            {
+                var token = await GetAccessToken(modal);
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var result =
+                    await (await _httpClient.GetAsync(request.RequestUrl)).Content.ReadAsAsync(
+                        Type.GetType(request.ReturnType));
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(null, JsonRequestBehavior.AllowGet);
         }
 
         [AllowAnonymous]

@@ -84,7 +84,9 @@ namespace LtePlatform.Models
     {
         public string PeerUrl { get; set; }
 
-        public string Token { get; set; }
+        public string UserName { get; set; }
+
+        public string Password { get; set; }
 
         public string RequestUrl { get; set; }
 

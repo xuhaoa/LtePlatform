@@ -28,5 +28,11 @@ namespace Lte.Domain.Test.Regular
         {
             Assert.AreEqual(path.GetNumberAffix(), number);
         }
+
+        [Test]
+        public void TypeTest()
+        {
+            Assert.AreEqual(typeof(string), Type.GetType("System.String"));
+        }
     }
 }
