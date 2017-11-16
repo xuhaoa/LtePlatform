@@ -768,6 +768,14 @@
                         "id": id
                     });
                 },
+               getStationCommonById: function (id) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/StationCommon/single',
+                        {
+                        "id": id
+                    });
+                },
                 getStationByStationId: function (id) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +
@@ -780,6 +788,12 @@
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +
                         'LtePlatForm/lte/index.php/Station/update',
+                            station);
+                },
+                updateStationCommon: function(station) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/StationCommon/update',
                             station);
                 },
                 addStation: function(station) {

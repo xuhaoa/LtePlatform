@@ -118,6 +118,20 @@
                         }
                     });
                 },
+                showCommonStationEdit: function(stationId) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Home/CommonStationEdit.html',
+                        controller: 'map.common-stationEdit.dialog',
+                        resolve: {
+                            dialogTitle: function() {
+                                return "编辑站点";
+                            },
+                            stationId: function() {
+                                return stationId;
+                            }
+                        }
+                    });
+                },
                 showStationAdd: function(station) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Home/StationAdd.html',

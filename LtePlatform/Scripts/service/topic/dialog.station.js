@@ -175,7 +175,8 @@
             type,
             $uibModalInstance,
             parametersDialogService,
-            downSwitchService) {
+            downSwitchService,
+            mapDialogService) {
             $scope.dialogTitle = dialogTitle;
             $scope.distincts = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
             $scope.stationList = [];

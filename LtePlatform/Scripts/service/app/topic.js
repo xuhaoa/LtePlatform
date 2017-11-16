@@ -1582,7 +1582,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
     .controller('map.stationEdit.dialog',
         function($scope, stationId, dialogTitle, $uibModalInstance, downSwitchService) {
             $scope.dialogTitle = dialogTitle;
-            $scope.station = '';
+            $scope.station = {};
             downSwitchService.getStationById(stationId).then(function(result) {
                 $scope.station = result.result[0];
             });
@@ -1597,6 +1597,26 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                 $uibModalInstance.dismiss('cancel');
             }
         })
+    .controller('map.common-stationEdit.dialog', function ($scope, stationId, dialogTitle, $uibModalInstance, downSwitchService) {
+	    $scope.dialogTitle = dialogTitle;
+	    $scope.station = {};
+        downSwitchService.getStationCommonById(stationId).then(function(result) {
+            $scope.station = result.result[0];
+            $scope.station.longtitute = result.result[0].longtitute*1;
+            $scope.station.lattitute = result.result[0].lattitute*1;
+        });
+	    
+	    $scope.ok = function() {
+                downSwitchService.updateStationCommon({
+                    "Station": JSON.stringify($scope.station)
+                }).then(function(result) {
+                    alert(result.description);
+                });
+            }
+	    $scope.cancel = function () {
+	        $uibModalInstance.dismiss('cancel');
+	    }
+	})
     .controller('map.stationAdd.dialog',
         function($scope, dialogTitle, $uibModalInstance, downSwitchService,station) {
             $scope.dialogTitle = dialogTitle;
@@ -2038,6 +2058,20 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Home/StationEdit.html',
                         controller: 'map.stationEdit.dialog',
+                        resolve: {
+                            dialogTitle: function() {
+                                return "编辑站点";
+                            },
+                            stationId: function() {
+                                return stationId;
+                            }
+                        }
+                    });
+                },
+                showCommonStationEdit: function(stationId) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Home/CommonStationEdit.html',
+                        controller: 'map.common-stationEdit.dialog',
                         resolve: {
                             dialogTitle: function() {
                                 return "编辑站点";
@@ -4015,7 +4049,8 @@ angular.module('topic.dialog.station', ['myApp.url', 'myApp.region', 'myApp.kpi'
             type,
             $uibModalInstance,
             parametersDialogService,
-            downSwitchService) {
+            downSwitchService,
+            mapDialogService) {
             $scope.dialogTitle = dialogTitle;
             $scope.distincts = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
             $scope.stationList = [];

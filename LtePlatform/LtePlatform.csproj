@@ -486,6 +486,7 @@
     <Content Include="appViews\Evaluation\Dialog\ResoureDetails.html" />
     <Content Include="appViews\Evaluation\Resource.html" />
     <Content Include="appViews\Home\Common.html" />
+    <Content Include="appViews\Home\CommonStationEdit.html" />
     <Content Include="appViews\Home\DT.html" />
     <Content Include="appViews\BasicKpi\GridApp.html" />
     <Content Include="appViews\BasicKpi\GridClusterDialog.html" />

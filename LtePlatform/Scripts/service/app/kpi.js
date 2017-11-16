@@ -6516,7 +6516,7 @@ angular.module('kpi.work', ['app.menu', 'app.core', 'myApp.region'])
 			            endDate)
 			    });
 			},
-			showStationInfoDialog: function(station, beginDate, endDate) {
+            showStationInfoDialog: function(station, beginDate, endDate) {
 			    menuItemService.showGeneralDialog({
 			        templateUrl: '/appViews/Home/Details/StationDetails.html',
 			        controller: 'map.station.dialog',
