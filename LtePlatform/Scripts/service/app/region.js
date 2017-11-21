@@ -1122,6 +1122,13 @@ angular.module('region.basic', ['app.core'])
                             "page_size": pageSize
                         });
                 },
+                getStationCnt: function (distinct) {
+                    return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/Assessment/stationCnt',
+                        {
+                            "areaName": distinct
+                        });
+                },
                 addAssessment: function (assessment) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +

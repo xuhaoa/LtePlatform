@@ -74,6 +74,12 @@
         <div class="col-sm-3">
             <select class="form-control" ng-init="station.netType=netTypes[0]" ng-model="station.netType" ng-options="netType for netType in netTypes"></select>
         </div>
+        <label class="col-sm-3 control-label">系统分类</label>
+        <div class="col-sm-3">
+            <select class="form-control" ng-init="station.systemClassify=systemClassifies[0]" ng-model="station.systemClassify" ng-options="systemClassify for systemClassify in systemClassifies"></select>
+        </div>
+    </div>
+    <div class="form-group">
         <label class="col-sm-3 control-label">备注</label>
         <div class="col-sm-3">
             <input class="form-control" ng-model="station.remark" required="required" />

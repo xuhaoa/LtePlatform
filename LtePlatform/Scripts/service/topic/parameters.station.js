@@ -204,7 +204,7 @@
             $scope.isShares = new Array('是', '否');
             $scope.isPowers = new Array('是', '否');
             $scope.isBBUs = new Array('是', '否');
-            $scope.netTypes = new Array('C', 'L', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL','C+FL+TL+VL');
+            $scope.netTypes = new Array('C', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL','C+FL+TL+VL');
       
             var areaCode = station.id.substr(0, 2);
             var areaName = areaMap[areaCode];
@@ -244,8 +244,9 @@
             '综合办公楼', '商业店铺', '商场办公综合体', '学校', '企业办公楼', '商场', '综合楼宇', '厂区办公楼', '营业厅', '商务办公');
         $scope.isNews = new Array('电信新建站点', '联通原有站点（改造）', '联通原有站点', '小灵通改造', '联通原有站点（新建）', '联通原有站点（电信新建站点）', '联通划归站点（改造）',
             '联通划归站点（新建）', '新建', '电信整改站点', '电信站点', '联通划归', '电信扩容站点', '电信合路铁塔站点');
-        $scope.deviceTypes = new Array('RPT', 'CRRU', 'LRRU', 'CRRU+RPT', 'LRRU+RPT', 'CRRU+LRRU','CRRU+LRRU+RPT');
-        $scope.netTypes = new Array('C', 'L', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL', 'C+FL+TL+VL');
+        $scope.deviceTypes = new Array('RPT', 'CRRU', 'LRRU', 'CRRU+RPT', 'LRRU+RPT', 'CRRU+LRRU', 'CRRU+LRRU+RPT');
+        $scope.systemClassifies = new Array('小型', '中型', '大型', '超大型', '五类');
+        $scope.netTypes = new Array('C', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL', 'C+FL+TL+VL');
 
         var areaCode = station.id.substr(0, 2);
         var areaName = areaMap[areaCode];
@@ -382,7 +383,15 @@
             $scope.test = 1;
 
             $scope.distincts = new Array('顺德', '南海', '禅城', '三水', '高明');
+            $scope.services = new Array('广东宜通世纪科技股份有限公司', '广东南方建设工程有限公司', '广东省电信工程有限公司');
+            //$scope.services = new Array('宜通世纪', '南方建设', '电信工程');
             $scope.cycles = new Array('2017年5月', '2017年6月', '2017年7月', '2017年8月', '2017年9月');
+
+            $scope.change = function () {
+                downSwitchService.getStationCnt($scope.selectDistinct).then(function (result) {
+                    $scope.assessment = result.result;
+                });
+            };
 
             $scope.getAssessment = function(areaName) {
                 downSwitchService.getAssessment(areaName, cycle).then(function(result) {
