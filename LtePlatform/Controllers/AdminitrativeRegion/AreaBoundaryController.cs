@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using System.Web.Http;
 using Lte.Evaluations.DataService.Basic;
 using Lte.MySqlFramework.Entities;
+using LtePlatform.Models;
 
 namespace LtePlatform.Controllers.AdminitrativeRegion
 {
-    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
+    [ApiControl("²éÔƒæ‚…^ß…½ç×ø˜Ë")]
     public class AreaBoundaryController : ApiController
     {
         private readonly TownBoundaryService _service;

@@ -1022,7 +1022,7 @@ angular.module('topic.parameters.basic', ['myApp.url', 'myApp.region', 'myApp.kp
             interFreqHoService,
             neighborDialogService,
             flowService,
-            appKpiService,
+            kpiChartCalculateService,
             neighbor,
             dialogTitle,
             beginDate,
@@ -1041,7 +1041,7 @@ angular.module('topic.parameters.basic', ['myApp.url', 'myApp.region', 'myApp.kp
             };
 
             $scope.dump = function() {
-                neighborDialogService.dumpMongo({
+                neighborDialogService.dumpCellMongo({
                         eNodebId: $scope.eNodebId,
                         sectorId: $scope.sectorId,
                         pci: neighbor.pci,
@@ -1063,8 +1063,8 @@ angular.module('topic.parameters.basic', ['myApp.url', 'myApp.region', 'myApp.kp
                     $scope.sectorId,
                     $scope.beginDate.value,
                     $scope.endDate.value).then(function(results) {
-                    $("#flowChart").highcharts(appKpiService.generateMergeFlowOptions(results, neighbor.cellName));
-                    $("#usersChart").highcharts(appKpiService.generateMergeUsersOptions(results, neighbor.cellName));
+                        $("#flowChart").highcharts(kpiChartCalculateService.generateMergeFlowOptions(results, neighbor.cellName));
+                        $("#usersChart").highcharts(kpiChartCalculateService.generateMergeUsersOptions(results, neighbor.cellName));
                 });
             };
 
@@ -1645,7 +1645,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             $scope.isShares = new Array('是', '否');
             $scope.isPowers = new Array('是', '否');
             $scope.isBBUs = new Array('是', '否');
-            $scope.netTypes = new Array('C', 'L', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL','C+FL+TL+VL');
+            $scope.netTypes = new Array('C', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL','C+FL+TL+VL');
       
             var areaCode = station.id.substr(0, 2);
             var areaName = areaMap[areaCode];
@@ -1687,7 +1687,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             '联通划归站点（新建）', '新建', '电信整改站点', '电信站点', '联通划归', '电信扩容站点', '电信合路铁塔站点');
         $scope.deviceTypes = new Array('RPT', 'CRRU', 'LRRU', 'CRRU+RPT', 'LRRU+RPT', 'CRRU+LRRU', 'CRRU+LRRU+RPT');
         $scope.systemClassifies = new Array('小型', '中型', '大型', '超大型', '五类');
-        $scope.netTypes = new Array('C', 'L', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL', 'C+FL+TL+VL');
+        $scope.netTypes = new Array('C', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL', 'C+FL+TL+VL');
 
         var areaCode = station.id.substr(0, 2);
         var areaName = areaMap[areaCode];
@@ -2349,6 +2349,9 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                                 });
                             });
                     });
+                },
+                showCellSectors: function(cells, xOffset, yOffset, beginDate, endDate, cellOverlays) {
+                    showCellSectors(cells, xOffset, yOffset, beginDate, endDate, cellOverlays);
                 }
             };
         })
