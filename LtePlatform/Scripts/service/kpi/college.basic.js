@@ -70,7 +70,7 @@
             dialogTitle,
             collegeQueryService,
             generalChartService,
-            appKpiService,
+            kpiChartCalculateService,
             emergencyService) {
             $scope.college = college;
             $scope.dialogTitle = dialogTitle;
@@ -82,9 +82,9 @@
                                 stat.pdcpDownlinkFlow /= 8;
                                 stat.pdcpUplinkFlow /= 8;
                             });
-                        $("#flowConfig").highcharts(appKpiService.generateMergeFeelingOptions(stats, college.name));
-                        $("#usersConfig").highcharts(appKpiService.generateMergeUsersOptions(stats, college.name));
-                        $("#downSwitchConfig").highcharts(appKpiService.generateMergeDownSwitchOptions(stats, college.name));
+                        $("#flowConfig").highcharts(kpiChartCalculateService.generateMergeFeelingOptions(stats, college.name));
+                        $("#usersConfig").highcharts(kpiChartCalculateService.generateMergeUsersOptions(stats, college.name));
+                        $("#downSwitchConfig").highcharts(kpiChartCalculateService.generateMergeDownSwitchOptions(stats, college.name));
                     });
             };
             $scope.query();

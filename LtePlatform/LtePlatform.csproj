@@ -479,7 +479,6 @@
     <Content Include="appViews\BasicKpi\HotspotDtDialog.html" />
     <Content Include="appViews\College\Table\DumpCollegeFlowTable.html" />
     <Content Include="appViews\Customer\Dialog\Recent.html" />
-    <Content Include="appViews\Evaluation\Dialog\AssessmentAddDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\AssessmentDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\AssessmentListDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\CheckDetails.html" />
@@ -1090,7 +1089,6 @@
     <Content Include="Scripts\rutrace\index.controller.js" />
     <Content Include="Scripts\service\app\filters.js" />
     <Content Include="Scripts\service\app\kpi.js" />
-    <Content Include="Scripts\service\app\topic.js" />
     <Content Include="Scripts\service\filters\combined.js" />
     <Content Include="Scripts\service\Gruntfile.es5.js">
       <DependentUpon>Gruntfile.js</DependentUpon>

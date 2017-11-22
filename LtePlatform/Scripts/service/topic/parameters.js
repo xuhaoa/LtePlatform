@@ -390,6 +390,9 @@
                                 });
                             });
                     });
+                },
+                showCellSectors: function(cells, xOffset, yOffset, beginDate, endDate, cellOverlays) {
+                    showCellSectors(cells, xOffset, yOffset, beginDate, endDate, cellOverlays);
                 }
             };
         })

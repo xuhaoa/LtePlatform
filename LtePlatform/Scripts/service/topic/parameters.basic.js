@@ -84,7 +84,7 @@
             interFreqHoService,
             neighborDialogService,
             flowService,
-            appKpiService,
+            kpiChartCalculateService,
             neighbor,
             dialogTitle,
             beginDate,
@@ -103,7 +103,7 @@
             };
 
             $scope.dump = function() {
-                neighborDialogService.dumpMongo({
+                neighborDialogService.dumpCellMongo({
                         eNodebId: $scope.eNodebId,
                         sectorId: $scope.sectorId,
                         pci: neighbor.pci,
@@ -125,8 +125,8 @@
                     $scope.sectorId,
                     $scope.beginDate.value,
                     $scope.endDate.value).then(function(results) {
-                    $("#flowChart").highcharts(appKpiService.generateMergeFlowOptions(results, neighbor.cellName));
-                    $("#usersChart").highcharts(appKpiService.generateMergeUsersOptions(results, neighbor.cellName));
+                        $("#flowChart").highcharts(kpiChartCalculateService.generateMergeFlowOptions(results, neighbor.cellName));
+                        $("#usersChart").highcharts(kpiChartCalculateService.generateMergeUsersOptions(results, neighbor.cellName));
                 });
             };
 
