@@ -123,7 +123,7 @@
         };
 
         $scope.dumpMongo = function (cell) {
-            neighborDialogService.dumpMongo(cell, $scope.beginDate.value, $scope.endDate.value);
+            neighborDialogService.dumpCellMongo(cell, $scope.beginDate.value, $scope.endDate.value);
         };
 
         $scope.generateDumpRecords = function (dumpRecords, startDate, endDate, eNodebId, sectorId, pci) {

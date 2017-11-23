@@ -86,7 +86,7 @@ angular.module('rutrace.top.cell', ['app.format', 'myApp.kpi', 'myApp.region', '
         };
         $scope.dump = function(cell) {
             networkElementService.queryCellInfo(cell.cellId, cell.sectorId).then(function(info) {
-                neighborDialogService.dumpMongo({
+                neighborDialogService.dumpCellMongo({
                         eNodebId: cell.cellId,
                         sectorId: cell.sectorId,
                         pci: info.pci,

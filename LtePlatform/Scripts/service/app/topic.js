@@ -1022,7 +1022,7 @@ angular.module('topic.parameters.basic', ['myApp.url', 'myApp.region', 'myApp.kp
             interFreqHoService,
             neighborDialogService,
             flowService,
-            appKpiService,
+            kpiChartCalculateService,
             neighbor,
             dialogTitle,
             beginDate,
@@ -1041,7 +1041,7 @@ angular.module('topic.parameters.basic', ['myApp.url', 'myApp.region', 'myApp.kp
             };
 
             $scope.dump = function() {
-                neighborDialogService.dumpMongo({
+                neighborDialogService.dumpCellMongo({
                         eNodebId: $scope.eNodebId,
                         sectorId: $scope.sectorId,
                         pci: neighbor.pci,
@@ -1063,8 +1063,8 @@ angular.module('topic.parameters.basic', ['myApp.url', 'myApp.region', 'myApp.kp
                     $scope.sectorId,
                     $scope.beginDate.value,
                     $scope.endDate.value).then(function(results) {
-                    $("#flowChart").highcharts(appKpiService.generateMergeFlowOptions(results, neighbor.cellName));
-                    $("#usersChart").highcharts(appKpiService.generateMergeUsersOptions(results, neighbor.cellName));
+                        $("#flowChart").highcharts(kpiChartCalculateService.generateMergeFlowOptions(results, neighbor.cellName));
+                        $("#usersChart").highcharts(kpiChartCalculateService.generateMergeUsersOptions(results, neighbor.cellName));
                 });
             };
 
@@ -2473,6 +2473,9 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                                 });
                             });
                     });
+                },
+                showCellSectors: function(cells, xOffset, yOffset, beginDate, endDate, cellOverlays) {
+                    showCellSectors(cells, xOffset, yOffset, beginDate, endDate, cellOverlays);
                 }
             };
         })

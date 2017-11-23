@@ -7,7 +7,6 @@ using System.Web.Http;
 namespace LtePlatform.Controllers.AdminitrativeRegion
 {
     [ApiControl("获取行政区域信息的控制器")]
-    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class CityListController : ApiController
     {
         private readonly TownQueryService _service;
