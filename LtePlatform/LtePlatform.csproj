@@ -566,7 +566,9 @@
     <Content Include="appViews\Home\FourChartDialog.html" />
     <Content Include="appViews\Home\GeneralTableDetails.html" />
     <Content Include="appViews\Home\IndoorAdd.html" />
+    <Content Include="appViews\Home\IndoorEdit.html" />
     <Content Include="appViews\Home\IndoorFilter.html" />
+    <Content Include="appViews\Home\IndoorListDialog.html" />
     <Content Include="appViews\Home\Kpi.html" />
     <Content Include="appViews\Home\Details\Kpi2G.html" />
     <Content Include="appViews\Home\Details\Kpi4G.html" />

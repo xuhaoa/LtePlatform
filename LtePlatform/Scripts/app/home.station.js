@@ -339,7 +339,7 @@
 
         };
         $scope.showStationList = function () {
-            parametersDialogService.showStationList();
+            parametersDialogService.showIndoorList();
         };
         $scope.outportData = function () {
             location.href = appUrlService.getPhpHost() + "LtePlatForm/lte/index.php/Indoor/download";

@@ -85,7 +85,18 @@
                         controller: 'map.stationList.dialog',
                         resolve: {
                             dialogTitle: function() {
-                                return "站点列表";
+                                return "基站列表";
+                            }
+                        }
+                    });
+                },
+                showIndoorList: function () {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Home/IndoorListDialog.html',
+                        controller: 'map.indoorList.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "室分列表";
                             }
                         }
                     });
@@ -113,6 +124,20 @@
                                 return "编辑站点";
                             },
                             stationId: function() {
+                                return stationId;
+                            }
+                        }
+                    });
+                },
+                showIndoorEdit: function (stationId) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Home/IndoorEdit.html',
+                        controller: 'map.indoorEdit.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "编辑站点";
+                            },
+                            stationId: function () {
                                 return stationId;
                             }
                         }

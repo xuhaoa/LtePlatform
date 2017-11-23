@@ -678,14 +678,26 @@
                         'type': type
                     });
                 },
-                getStationListByName: function (name, type, page, pageSize) {
+                getStationListByName: function (name, areaName, page, pageSize) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +
                         'LtePlatForm/lte/index.php/Station/llist',
                         {
                             "curr_page": page,
                             "page_size": pageSize,
-                            "stationName": name
+                            "stationName": name,
+                            "areaName": areaName
+                        });
+                },
+                getIndoorListByName: function (name, areaName, page, pageSize) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/Indoor/llist',
+                        {
+                            "curr_page": page,
+                            "page_size": pageSize,
+                            "stationName": name,
+                            "areaName": areaName
                         });
                 },
                 getIndoorByName: function (name, type, page, pageSize) {
@@ -743,6 +755,14 @@
                             "idList": stationId
                         });
                 },
+                deleteIndoorById: function (stationId) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/Indoor/delete',
+                        {
+                            "idList": stationId
+                        });
+                },
                 getStationsByAreaName: function(areaName, page, pageSize) {
                     return generalHttpService.getMvcData(appUrlService.getPhpHost() +
                         'LtePlatForm/lte/index.php/Station/search/',
@@ -789,6 +809,12 @@
                         .postPhpUrlData(appUrlService.getPhpHost() +
                         'LtePlatForm/lte/index.php/Station/update',
                             station);
+                },
+                updateIndoor: function (indoor) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/Indoor/update',
+                        indoor);
                 },
                 updateStationCommon: function(station) {
                     return generalHttpService

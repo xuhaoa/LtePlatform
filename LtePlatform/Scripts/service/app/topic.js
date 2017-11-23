@@ -1507,9 +1507,79 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                         $scope.stationList = result.result.rows;
                         $scope.totolPage = result.result.total_pages;
                         $scope.page = result.result.curr_page;
+                        $scope.records = result.result.records;
                     });
             };
             $scope.jumpPage(1);
+    })
+    .controller('map.indoorList.dialog',
+    function ($scope,
+        dialogTitle,
+        $uibModalInstance,
+        workItemDialog,
+        downSwitchService,
+        parametersDialogService) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.distincts = new Array('全市', '顺德', '南海', '禅城', '三水', '高明');
+        $scope.stationList = [];
+        $scope.page = 1;
+        $scope.stationName = '';
+        $scope.totolPage = 1;
+
+        $scope.details = function (stationId) {
+            downSwitchService.getCommonStationById(stationId).then(function (result) {
+                workItemDialog.showIndoorInfoDialog(result.result[0]);
+            });
+        }
+
+        $scope.delete = function (stationId) {
+            if (confirm("你确定删除该站点？")) {
+                downSwitchService.deleteIndoorById(stationId).then(function (result) {
+                    alert(result.description);
+                    $scope.jumpPage($scope.page);
+                });
+            }
+        }
+        $scope.edit = function (stationId) {
+            parametersDialogService.showIndoorEdit(stationId);
+        }
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        }
+        $scope.search = function () {
+            $scope.page = 1;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.firstPage = function () {
+            $scope.page = 1;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.lastPage = function () {
+            $scope.page = $scope.totolPage;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.prevPage = function () {
+            if ($scope.page !== 1)
+                $scope.page--;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.nextPage = function () {
+            if ($scope.page !== $scope.totolPage)
+                $scope.page++;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.jumpPage = function (page) {
+            if (page >= $scope.totolPage)
+                page = $scope.totolPage;
+            downSwitchService.getIndoorListByName($scope.stationName, $scope.selectDistinct, page, 10)
+                .then(function (result) {
+                    $scope.stationList = result.result.rows;
+                    $scope.totolPage = result.result.total_pages;
+                    $scope.page = result.result.curr_page;
+                    $scope.records = result.result.records;
+                });
+        };
+        $scope.jumpPage(1);
     })
     .controller('map.stationAddList.dialog',
     function ($scope,
@@ -1596,7 +1666,36 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             }
-        })
+    })
+    .controller('map.indoorEdit.dialog',
+    function ($scope, stationId, dialogTitle, $uibModalInstance, downSwitchService) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.station = {};
+        $scope.grades = new Array('A', 'B', 'C', 'D');
+        $scope.indoortypes = new Array('住宅，公寓', '机关企业', '餐饮娱乐', '居民住宅', '商业市场', '教育医疗', '工业区', '室内', '公共医院', '大型办公楼',
+            '公寓', '住宅小区', '商场公寓', '商品楼', '政府机关', '商务酒店', '写字楼', '商业小区', '交通枢纽', '商业营业部',
+            '综合办公楼', '商业店铺', '商场办公综合体', '学校', '企业办公楼', '商场', '综合楼宇', '厂区办公楼', '营业厅', '商务办公');
+        $scope.isNews = new Array('电信新建站点', '联通原有站点（改造）', '联通原有站点', '小灵通改造', '联通原有站点（新建）', '联通原有站点（电信新建站点）', '联通划归站点（改造）',
+            '联通划归站点（新建）', '新建', '电信整改站点', '电信站点', '联通划归', '电信扩容站点', '电信合路铁塔站点');
+        $scope.deviceTypes = new Array('RPT', 'CRRU', 'LRRU', 'CRRU+RPT', 'LRRU+RPT', 'CRRU+LRRU', 'CRRU+LRRU+RPT');
+        $scope.systemClassifies = new Array('小型', '中型', '大型', '超大型', '五类');
+        $scope.netTypes = new Array('C', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL', 'C+FL+TL+VL');
+
+        downSwitchService.getIndoorById(stationId).then(function (result) {
+            $scope.station = result.result[0];
+            $scope.station.deviceNum = result.result[0].deviceNum*1; 
+        });
+        $scope.ok = function () {
+            downSwitchService.updateIndoor({
+                "Indoor": JSON.stringify($scope.station)
+            }).then(function (result) {
+                alert(result.description);
+            });
+        }
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        }
+    })
     .controller('map.common-stationEdit.dialog', function ($scope, stationId, dialogTitle, $uibModalInstance, downSwitchService) {
 	    $scope.dialogTitle = dialogTitle;
 	    $scope.station = {};
@@ -1645,7 +1744,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             $scope.isShares = new Array('是', '否');
             $scope.isPowers = new Array('是', '否');
             $scope.isBBUs = new Array('是', '否');
-            $scope.netTypes = new Array('C', 'L', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL','C+FL+TL+VL');
+            $scope.netTypes = new Array('C', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL','C+FL+TL+VL');
       
             var areaCode = station.id.substr(0, 2);
             var areaName = areaMap[areaCode];
@@ -1687,7 +1786,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             '联通划归站点（新建）', '新建', '电信整改站点', '电信站点', '联通划归', '电信扩容站点', '电信合路铁塔站点');
         $scope.deviceTypes = new Array('RPT', 'CRRU', 'LRRU', 'CRRU+RPT', 'LRRU+RPT', 'CRRU+LRRU', 'CRRU+LRRU+RPT');
         $scope.systemClassifies = new Array('小型', '中型', '大型', '超大型', '五类');
-        $scope.netTypes = new Array('C', 'L', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL', 'C+FL+TL+VL');
+        $scope.netTypes = new Array('C', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL', 'C+FL+TL+VL');
 
         var areaCode = station.id.substr(0, 2);
         var areaName = areaMap[areaCode];
@@ -2044,7 +2143,18 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                         controller: 'map.stationList.dialog',
                         resolve: {
                             dialogTitle: function() {
-                                return "站点列表";
+                                return "基站列表";
+                            }
+                        }
+                    });
+                },
+                showIndoorList: function () {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Home/IndoorListDialog.html',
+                        controller: 'map.indoorList.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "室分列表";
                             }
                         }
                     });
@@ -2072,6 +2182,20 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                                 return "编辑站点";
                             },
                             stationId: function() {
+                                return stationId;
+                            }
+                        }
+                    });
+                },
+                showIndoorEdit: function (stationId) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Home/IndoorEdit.html',
+                        controller: 'map.indoorEdit.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "编辑站点";
+                            },
+                            stationId: function () {
                                 return stationId;
                             }
                         }
