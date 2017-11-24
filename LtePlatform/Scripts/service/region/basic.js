@@ -796,6 +796,14 @@
                         "id": id
                     });
                 },
+               getAssessmentById: function (id) {
+                   return generalHttpService
+                       .postPhpUrlData(appUrlService.getPhpHost() +
+                       'LtePlatForm/lte/index.php/Assessment/single',
+                       {
+                           "id": id
+                       });
+               },
                 getStationByStationId: function (id) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +

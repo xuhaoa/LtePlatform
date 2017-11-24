@@ -238,6 +238,20 @@
                         }
                     });
                 },
+                showAssessmentDialog: function (assessment) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Evaluation/Dialog/AssessmentDialog.html',
+                        controller: 'map.assessmentDetails.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "考核明细";
+                            },
+                            assessment: function () {
+                                return assessment;
+                            }
+                        }
+                    });
+                },
                 showAssessmentListDialog: function () {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Evaluation/Dialog/AssessmentListDialog.html',

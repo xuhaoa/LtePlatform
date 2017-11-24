@@ -481,6 +481,7 @@
     <Content Include="appViews\BasicKpi\HotspotDtDialog.html" />
     <Content Include="appViews\College\Table\DumpCollegeFlowTable.html" />
     <Content Include="appViews\Customer\Dialog\Recent.html" />
+    <Content Include="appViews\Evaluation\Dialog\AssessmentAddDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\AssessmentDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\AssessmentListDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\CheckDetails.html" />

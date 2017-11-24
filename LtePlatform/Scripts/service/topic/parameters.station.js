@@ -483,12 +483,25 @@
 
             $scope.distincts = new Array('顺德', '南海', '禅城', '三水', '高明');
             $scope.services = new Array('广东宜通世纪科技股份有限公司', '广东南方建设工程有限公司', '广东省电信工程有限公司');
-            //$scope.services = new Array('宜通世纪', '南方建设', '电信工程');
             $scope.cycles = new Array('2017年5月', '2017年6月', '2017年7月', '2017年8月', '2017年9月');
 
             $scope.change = function () {
-                downSwitchService.getStationCnt($scope.selectDistinct).then(function (result) {
-                    $scope.assessment = result.result;
+                downSwitchService.getStationCnt($scope.assessment.areaname).then(function (result) {
+                    $scope.assessment.jzn1 = result.result.jzn1;
+                    $scope.assessment.jzn2 = result.result.jzn2;
+                    $scope.assessment.jzn3 = result.result.jzn3;
+                    $scope.assessment.jzn4 = result.result.jzn4;
+                    $scope.assessment.jzzd = result.result.jzzd;
+                    $scope.assessment.jzw1 = result.result.jzw1;
+                    $scope.assessment.jzw2 = result.result.jzw2;
+                    $scope.assessment.jzw3 = result.result.jzw3;
+                    $scope.assessment.jzw4 = result.result.jzw4;
+                    $scope.assessment.xxnw = result.result.xxnw;
+                    $scope.assessment.zxnw = result.result.zxnw;
+                    $scope.assessment.dxnw = result.result.dxnw;
+                    $scope.assessment.cdxnw = result.result.cdxnw;
+                    $scope.assessment.snwfbxt = result.result.snwfbxt;
+                    $scope.assessment.wlxfbxt = result.result.wlxfbxt;
                 });
             };
 
@@ -541,6 +554,46 @@
             }
             $scope.selectTab(0);
     })
+    .controller('map.assessmentDetails.dialog',
+    function ($scope,
+        $http,
+        dialogTitle,
+        assessment,
+        downSwitchService,
+        mapDialogService,
+        $uibModalInstance) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.assessment = assessment;
+        $scope.tab = 1;
+        $scope.jqf = $scope.assessment.jqf1*1 + $scope.assessment.jqf2*1 + $scope.assessment.jqf3*1 + $scope.assessment.jqf4*1 + $scope.assessment.jqf5*1;
+
+            $scope.xcccd = 100 +
+                $scope.assessment.xccc1*1 +
+                $scope.assessment.xccc2*1 +
+                $scope.assessment.xccc3*1 +
+                $scope.assessment.xccc4*1 +
+                $scope.assessment.xccc5*1 +
+                $scope.assessment.xccc6*1 +
+                $scope.assessment.xccc7*1 +
+                $scope.assessment.xccc8*1;
+
+            $scope.kpi = 0 + $scope.assessment.kpi1*1 + $scope.assessment.kpi2*1 + $scope.assessment.kpi3*1;
+            $scope.kpid = 100 + $scope.kpi*1;
+
+            $scope.zf = $scope.jqf*1 + $scope.kpid * 0.3 + $scope.xcccd * 0.7;
+
+            $scope.selectTab = function (setTab) {
+                $scope.tab = setTab;
+            }
+            $scope.isSelectTab = function (checkTab) {
+                return $scope.tab === checkTab
+            }
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+
+    })
     .controller('map.assessmentList.dialog',
     function ($scope,
         $http,
@@ -557,9 +610,9 @@
         $scope.cycle = '';
         $scope.totolPage = 1;
 
-        $scope.details = function (stationId) {
-            downSwitchService.getCommonStationById(stationId).then(function (result) {
-                workItemDialog.showStationInfoDialog(result.result[0]);
+        $scope.details = function (id) {
+            downSwitchService.getAssessmentById(id).then(function (result) {
+                parametersDialogService.showAssessmentDialog(result.result[0]);
             });
         }
 
