@@ -973,9 +973,6 @@ angular.module('home.station', ['app.common'])
         $scope.showAddStationList = function () {
             parametersDialogService.showAddStationList('JZ');
         }
-        $scope.assessment = function () {
-            parametersDialogService.showAssessmentListDialog();
-        };
         $scope.outportData = function () {
             location.href = appUrlService.getPhpHost() + "LtePlatForm/lte/index.php/Station/download";
         };

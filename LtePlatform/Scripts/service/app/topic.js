@@ -1921,13 +1921,20 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             $scope.xcccd = 100;
             $scope.kpid = 100;
             $scope.test = 1;
-
+            $scope.assessment.areaname = '顺德';
             $scope.distincts = new Array('顺德', '南海', '禅城', '三水', '高明');
             $scope.services = new Array('广东宜通世纪科技股份有限公司', '广东南方建设工程有限公司', '广东省电信工程有限公司');
             $scope.cycles = new Array('2017年5月', '2017年6月', '2017年7月', '2017年8月', '2017年9月');
-
+            
             $scope.change = function () {
                 downSwitchService.getStationCnt($scope.assessment.areaname).then(function (result) {
+                    if ($scope.assessment.areaname == '顺德') {
+                        $scope.assessment.service = '广东宜通世纪科技股份有限公司';
+                    } else if ($scope.assessment.areaname == '南海') {
+                        $scope.assessment.service = '广东南方建设工程有限公司';
+                    } else {
+                        $scope.assessment.service = '广东省电信工程有限公司';
+                    }
                     $scope.assessment.jzn1 = result.result.jzn1;
                     $scope.assessment.jzn2 = result.result.jzn2;
                     $scope.assessment.jzn3 = result.result.jzn3;
@@ -1994,6 +2001,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                 return $scope.tab === checkTab
             }
             $scope.selectTab(0);
+            $scope.change();
     })
     .controller('map.assessmentDetails.dialog',
     function ($scope,
