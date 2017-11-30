@@ -686,6 +686,16 @@ angular.module('home.route', ['app.common'])
                 },
                 url: "/clear-voice"
             })
+            .state('assessment',
+            {
+                views: {                
+                    'menu': {
+                        templateUrl: "/appViews/Home/Assessment.html",
+                        controller: "menu.assessment"
+                    }
+                },
+                url: "/assessment"
+            })
             .state('construction',
             {
                 views: {
@@ -1087,6 +1097,23 @@ angular.module('home.station', ['app.common'])
                     }
                 }
             });
+
+    })
+    .controller("menu.assessment",
+    function ($scope,
+        downSwitchService,
+        myValue,
+        baiduMapService,
+        geometryService,
+        parametersDialogService,
+        collegeMapService,
+        dumpPreciseService,
+        appUrlService,
+        generalMapService) {
+        $scope.assessment = function () {
+            parametersDialogService.showAssessmentListDialog();
+        };
+        $scope.assessment();
 
     })
    

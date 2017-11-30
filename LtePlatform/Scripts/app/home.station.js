@@ -245,9 +245,6 @@
         $scope.showAddStationList = function () {
             parametersDialogService.showAddStationList('JZ');
         }
-        $scope.assessment = function () {
-            parametersDialogService.showAssessmentListDialog();
-        };
         $scope.outportData = function () {
             location.href = appUrlService.getPhpHost() + "LtePlatForm/lte/index.php/Station/download";
         };
@@ -369,6 +366,23 @@
                     }
                 }
             });
+
+    })
+    .controller("menu.assessment",
+    function ($scope,
+        downSwitchService,
+        myValue,
+        baiduMapService,
+        geometryService,
+        parametersDialogService,
+        collegeMapService,
+        dumpPreciseService,
+        appUrlService,
+        generalMapService) {
+        $scope.assessment = function () {
+            parametersDialogService.showAssessmentListDialog();
+        };
+        $scope.assessment();
 
     })
    
