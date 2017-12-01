@@ -474,16 +474,38 @@
             $scope.dialogTitle = dialogTitle;
 
             $scope.assessment = {};
-
+            var Nowdate = new Date();
+            var vYear = Nowdate.getFullYear();
+            var vMon = Nowdate.getMonth();
+            $scope.assessment.cycle = vYear + '年' + vMon + '月';
             $scope.tab = 1;
             $scope.jqf = 0;
             $scope.xcccd = 100;
             $scope.kpid = 100;
             $scope.test = 1;
+            $scope.assessment.xccc1 = 0;
+            $scope.assessment.xccc2 = 0;
+            $scope.assessment.xccc3 = 0;
+            $scope.assessment.xccc4 = 0;
+            $scope.assessment.xccc5 = 0;
+            $scope.assessment.xccc6 = 0;
+            $scope.assessment.xccc7 = 0;
+            $scope.assessment.xccc8 = 0;
+            $scope.assessment.jqf1 = 0;
+            $scope.assessment.jqf2 = 0;
+            $scope.assessment.jqf3 = 0;
+            $scope.assessment.jqf4 = 0;
+            $scope.assessment.jqf5 = 0;
+            $scope.assessment.kpi1 = 0;
+            $scope.assessment.kpi2 = 0;
+            $scope.assessment.kpi3 = 0;
+
+            
+
             $scope.assessment.areaname = '顺德';
             $scope.distincts = new Array('顺德', '南海', '禅城', '三水', '高明');
             $scope.services = new Array('广东宜通世纪科技股份有限公司', '广东南方建设工程有限公司', '广东省电信工程有限公司');
-            $scope.cycles = new Array('2017年10月', '2017年11月', '2017年12月', '2018年1月', '2019年2月');
+           
             
             $scope.change = function () {
                 downSwitchService.getStationCnt($scope.assessment.areaname).then(function (result) {

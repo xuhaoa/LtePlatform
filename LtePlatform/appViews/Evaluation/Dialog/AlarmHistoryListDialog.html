@@ -14,8 +14,8 @@
         <select style="width:50px;" ng-init="selectLevel=levels[0]" ng-model="selectLevel" ng-options="level.name for level in levels"></select>
 
         <label style="width:90px;">告警发生区间：</label>
-        <input placeholder="请输入日期" class="laydate-icon" onclick="laydate()" ng-model="starttime">-
-        <input placeholder="请输入日期" class="laydate-icon" onclick="laydate()" ng-model="endtime">
+        <input def-laydate placeholder="请输入日期" class="laydate-icon" id="starttime"  ng-model="starttime">-
+        <input def-laydate placeholder="请输入日期" class="laydate-icon" id="endtime"  ng-model="endtime">
         <button ng-click="search()">查询</button>
         <br />
 
