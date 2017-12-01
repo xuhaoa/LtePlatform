@@ -81,36 +81,64 @@
                 downSwitchService.getResourceCounter(station.id).then(function (response) {
                     $scope.counter = response.result;
                     if ($scope.counter.crru == '0') {
-                        document.getElementById('crru').setAttribute('disabled','disabled')
+                        document.getElementById('crru').style.color = 'gray';
                         $scope.bool.crru = true;
-                        }
-                    else
+                    }
+                    else {
                         $scope.bool.crru = false;
+                        document.getElementById('crru').style.color = 'blue';
+                    }
 
-                    if ($scope.counter.cjz == '0')
+                    if ($scope.counter.cjz == '0') {
                         $scope.bool.cjz = true;
-                    else
+                        document.getElementById('cjz').style.color = 'gray';
+                    }
+                    else {
                         $scope.bool.cjz = false;
+                        document.getElementById('cjz').style.color = 'blue';
+                    }
 
-                    if ($scope.counter.csf == '0')
+                    if ($scope.counter.csf == '0') {
                         $scope.bool.csf = true;
-                    else
+                        document.getElementById('csf').style.color = 'gray';
+                    }
+                    else {
                         $scope.bool.csf = false;
+                        document.getElementById('csf').style.color = 'blue';
+                    }
 
-                    if ($scope.counter.czf == '0')
+                    if ($scope.counter.czf == '0') {
                         $scope.bool.czf = true;
-                    else
+                        document.getElementById('czf').style.color = 'gray';
+                    }
+                    else {
                         $scope.bool.czf = false;
-
-                    if ($scope.counter.lrru == '0')
+                        document.getElementById('czf').style.color = 'blue';
+                    }
+                    if ($scope.counter.lrru == '0') {
                         $scope.bool.lrru = true;
-                    else
+                        document.getElementById('lrru').style.color = 'gray';
+                    }
+                    else {
                         $scope.bool.lrru = false;
-
-                    if ($scope.counter.ljz == '0')
+                        document.getElementById('lrru').style.color = 'blue';
+                    }
+                    if ($scope.counter.ljz == '0') {
                         $scope.bool.ljz = true;
-                    else
+                        document.getElementById('ljz').style.color = 'gray';
+                    }
+                    else {
                         $scope.bool.ljz = false;
+                        document.getElementById('ljz').style.color = 'blue';
+                    }
+                    if ($scope.counter.asset == '0') {
+                        $scope.bool.asset = true;
+                        document.getElementById('asset').style.color = 'gray';
+                    }
+                    else {
+                        $scope.bool.asset = false;
+                        document.getElementById('asset').style.color = 'blue';
+                    }
                 });
             } else if (1 == setTab) {
                 $scope.table = "crru";

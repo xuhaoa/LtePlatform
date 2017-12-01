@@ -12,22 +12,22 @@
                 <a id="crru" href ng-click="bool.crru||selectTab(1)" >CRRU {{counter.crru}}</a>
             </li>
             <li ng-class="{ active:isSelectTab(2)}">
-                <a href ng-click="bool.cjz||selectTab(2)" >C基站 {{counter.cjz}}</a>
+                <a href ng-click="bool.cjz||selectTab(2)" id="cjz">C基站 {{counter.cjz}}</a>
             </li>
             <li ng-class="{ active:isSelectTab(3)}">
-                <a href ng-click="bool.csf||selectTab(3)" >C室分站 {{counter.csf}}</a>
+                <a href ng-click="bool.csf||selectTab(3)" id="csf">C室分站 {{counter.csf}}</a>
             </li>
             <li ng-class="{ active:isSelectTab(4)}">
-                <a href ng-click="bool.czf||selectTab(4)" >C直放站 {{counter.czf}}</a>
+                <a href ng-click="bool.czf||selectTab(4)" id="czf">C直放站 {{counter.czf}}</a>
             </li>
             <li ng-class="{ active:isSelectTab(5)}">
-                <a href ng-click="bool.lrru||selectTab(5)" >LRRU {{counter.lrru}}</a>
+                <a href ng-click="bool.lrru||selectTab(5)" id="lrru">LRRU {{counter.lrru}}</a>
             </li>
             <li ng-class="{ active:isSelectTab(6)}">
-                <a href ng-click="bool.ljz||selectTab(6)" >L基站 {{counter.ljz}}</a>
+                <a href ng-click="bool.ljz||selectTab(6)" id="ljz">L基站 {{counter.ljz}}</a>
             </li>
             <li ng-class="{ active:isSelectTab(7)}">
-                <a href ng-click="selectTab(7)">资产</a>
+                <a href ng-click="bool.asset||selectTab(7)" id="asset">资产{{counter.asset}}</a>
             </li>
         </ul>
         <div class="panel" ng-show="isSelectTab(0)">
