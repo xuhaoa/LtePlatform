@@ -9,7 +9,6 @@ namespace LtePlatform.Controllers.Account
 {
     [Authorize(Roles = "π‹¿Ì‘±")]
     [ApiControl("")]
-    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class ManageUsersController : ApiController
     {
         private readonly ApplicationUserManager _userManager;

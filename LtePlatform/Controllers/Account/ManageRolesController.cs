@@ -9,7 +9,6 @@ namespace LtePlatform.Controllers.Account
 {
     [Authorize(Roles = "管理员")]
     [ApiControl("增加角色下用户控制器")]
-    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class ManageRolesController : ApiController
     {
         private readonly ApplicationUserManager _userManager;
