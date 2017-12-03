@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Lte.Domain.Regular.Attributes;
+using System;
 
 namespace LtePlatform.Models
 {
@@ -11,6 +12,10 @@ namespace LtePlatform.Models
     public class ApplicationUser : IdentityUser
     {
         public string Hometown { get; set; }
+
+        public int LoginTimes { get; set; }
+
+        public DateTime? LastLoginTime { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
