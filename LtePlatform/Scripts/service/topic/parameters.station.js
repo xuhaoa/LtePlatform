@@ -648,7 +648,7 @@
 
         $scope.delete = function (stationId) {
             if (confirm("你确定删除该条记录？")) {
-                downSwitchService.deleteStationById(stationId).then(function (result) {
+                downSwitchService.deleteAssessmentById(stationId).then(function (result) {
                     alert(result.description);
                     $scope.jumpPage($scope.page);
                 });
