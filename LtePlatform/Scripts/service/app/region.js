@@ -763,6 +763,14 @@ angular.module('region.basic', ['app.core'])
                             "idList": stationId
                         });
                 },
+                deleteAssessmentById: function (id) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/Assessment/delete',
+                        {
+                            "id": id
+                        });
+                },
                 getStationsByAreaName: function(areaName, page, pageSize) {
                     return generalHttpService.getMvcData(appUrlService.getPhpHost() +
                         'LtePlatForm/lte/index.php/Station/search/',
