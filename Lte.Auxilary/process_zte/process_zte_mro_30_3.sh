@@ -1,1 +1,0 @@
-/home/wireless/anaconda3/bin/python /home/wireless/Public/process_zte_mro.py 0330 0730 1130 1530 1930 2330

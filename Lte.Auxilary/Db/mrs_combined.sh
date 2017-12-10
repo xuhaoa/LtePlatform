@@ -1,1 +1,0 @@
-/home/wireless/env/py3env/bin/python /home/wireless/Public/mrs_combined.py
