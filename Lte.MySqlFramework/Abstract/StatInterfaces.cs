@@ -104,7 +104,7 @@ namespace Lte.MySqlFramework.Abstract
         
     }
 
-    public interface IAgpsTownRepository : IRepository<AgpsCoverageTown>, ISaveChanges
+    public interface IMonthKpiRepository : IRepository<MonthKpiStat>, ISaveChanges
     {
         
     }

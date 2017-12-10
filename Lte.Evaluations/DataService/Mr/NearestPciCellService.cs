@@ -41,25 +41,7 @@ namespace Lte.Evaluations.DataService.Mr
             if (townItem == null) return null;
             return _boundaryRepository.GetAllList(x => x.TownId == townItem.Id).Select(x => x.CoorList()).ToList();
         }
-
-        public IEnumerable<AgpsCoverageTown> QueryAgpsCoverageTowns(List<AgpsMongo> stats, string type, DateTime statDate)
-        {
-            return (from town in _townRepository.GetAllList()
-                let eNodebs = _eNodebRepository.GetAllList(x => x.TownId == town.Id)
-                let townStats = (from s in stats join e in eNodebs on s.ENodebId equals e.ENodebId select s).ToList()
-                
-                select new AgpsCoverageTown
-                {
-                    District = town.DistrictName,
-                    Town = town.TownName,
-                    Operator = type,
-                    StatDate = statDate,
-                    Count = townStats.Sum(x => x.Count),
-                    GoodCount = townStats.Sum(x => x.GoodCount),
-                    GoodCount105 = townStats.Sum(x => x.GoodCount105),
-                    GoodCount100 = townStats.Sum(x => x.GoodCount100)
-                }).ToList();
-        }
+        
     }
 
     public class AgpsService
@@ -68,17 +50,17 @@ namespace Lte.Evaluations.DataService.Mr
         private readonly IMobileAgpsRepository _mobileAgpsRepository;
         private readonly IUnicomAgpsRepository _unicomAgpsRepository;
         private readonly IAgisDtPointRepository _agisDtPointRepository;
-        private readonly IAgpsTownRepository _agpsTownRepository;
+        private readonly IMonthKpiRepository _monthKpiRepository;
 
         public AgpsService(ITelecomAgpsRepository telecomAgpsRepository, IMobileAgpsRepository mobileAgpsRepository,
             IUnicomAgpsRepository unicomAgpsRepository, IAgisDtPointRepository agisDtPointRepository,
-            IAgpsTownRepository agpsTownRepository)
+            IMonthKpiRepository monthKpiRepository)
         {
             _telecomAgpsRepository = telecomAgpsRepository;
             _mobileAgpsRepository = mobileAgpsRepository;
             _unicomAgpsRepository = unicomAgpsRepository;
             _agisDtPointRepository = agisDtPointRepository;
-            _agpsTownRepository = agpsTownRepository;
+            _monthKpiRepository = monthKpiRepository;
         }
 
         public IEnumerable<AgpsCoverageView> QueryTelecomCoverageViews(DateTime begin, DateTime end,
@@ -225,48 +207,7 @@ namespace Lte.Evaluations.DataService.Mr
                         x => boundaries.Any(boundary => GeoMath.IsInPolygon(new GeoPoint(x.Longtitute, x.Lattitute), boundary)));
             return filterStats.MapTo<List<AgpsCoverageView>>();
         }
-
-        public List<AgpsMongo> QueryTelecomList(DateTime statDate)
-        {
-            var begin = statDate.AddDays(-1);
-            return _telecomAgpsRepository.GetAllList(x => x.StatDate >= begin && x.StatDate < statDate
-                                                          && x.X > 0 && x.X < 10000 && x.Y > 0 && x.Y < 10000);
-        }
-
-        public List<AgpsMongo> QueryMobileList(DateTime statDate)
-        {
-            var begin = statDate.AddDays(-1);
-            return _mobileAgpsRepository.GetAllList(x => x.StatDate >= begin && x.StatDate < statDate
-                                                          && x.X > 0 && x.X < 10000 && x.Y > 0 && x.Y < 10000);
-        }
-
-        public List<AgpsMongo> QueryUnicomList(DateTime statDate)
-        {
-            var begin = statDate.AddDays(-1);
-            return _unicomAgpsRepository.GetAllList(x => x.StatDate >= begin && x.StatDate < statDate
-                                                          && x.X > 0 && x.X < 10000 && x.Y > 0 && x.Y < 10000);
-        }
-
-        public int UpdateAgpsTownStat(AgpsCoverageTown stat)
-        {
-            var item =
-                _agpsTownRepository.FirstOrDefault(
-                    x =>
-                        x.StatDate == stat.StatDate && x.District == stat.District && x.Town == stat.Town &&
-                        x.Operator == stat.Operator);
-            if (item != null)
-            {
-                item.Count = stat.Count;
-                item.GoodCount = stat.GoodCount;
-                item.GoodCount100 = stat.GoodCount100;
-                item.GoodCount105 = stat.GoodCount105;
-            }
-            else
-            {
-                _agpsTownRepository.Insert(stat);
-            }
-            return _agpsTownRepository.SaveChanges();
-        }
+        
     }
 
     public class MrGridService

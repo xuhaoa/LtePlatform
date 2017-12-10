@@ -242,7 +242,7 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IDpiGridKpiRepository>().To<DpiGridKpiRepository>();
 
-            ninjectKernel.Bind<IAgpsTownRepository>().To<AgpsTownRepository>();
+            ninjectKernel.Bind<IMonthKpiRepository>().To<MonthKpiRepository>();
 
             ninjectKernel.Bind<IDtFileInfoRepository>().To<DtFileInfoRepository>();
 
