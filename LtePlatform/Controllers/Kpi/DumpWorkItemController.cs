@@ -1,10 +1,11 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using Lte.Evaluations.DataService;
+using LtePlatform.Models;
 
 namespace LtePlatform.Controllers.Kpi
 {
-    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
+    [ApiControl("工单导入控制器")]
     public class DumpWorkItemController : ApiController
     {
         private readonly WorkItemService _service;

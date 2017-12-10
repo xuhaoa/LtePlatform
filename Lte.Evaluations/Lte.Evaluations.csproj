@@ -134,10 +134,12 @@
     <Compile Include="DataService\Basic\ENodebQueryService.cs" />
     <Compile Include="DataService\Kpi\FlowQueryService.cs" />
     <Compile Include="DataService\Kpi\FlowService.cs" />
+    <Compile Include="DataService\Mr\AgpsService.cs" />
     <Compile Include="DataService\Mr\InterferenceMatrixService.cs" />
     <Compile Include="DataService\Mr\MrsService.cs" />
     <Compile Include="DataService\Mr\NeighborCellMongoService.cs" />
     <Compile Include="DataService\Mr\PreciseWorkItemService.cs" />
+    <Compile Include="DataService\Mr\TownSupportService.cs" />
     <Compile Include="DataService\Switch\IMongoQuery.cs" />
     <Compile Include="DataService\Switch\InterFreqHoService.cs" />
     <Compile Include="DataService\Switch\IntraFreqHoService.cs" />

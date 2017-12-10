@@ -7,7 +7,6 @@ using LtePlatform.Models;
 namespace LtePlatform.Controllers.Kpi
 {
     [ApiControl("区域RRC连接成功率查询控制器")]
-    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class FlowRegionController : ApiController
     {
         private readonly TownFlowService _service;

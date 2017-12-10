@@ -410,6 +410,7 @@
     <Compile Include="Controllers\Kpi\DumpZteFlowController.cs" />
     <Compile Include="Controllers\Kpi\ENodebFlowController.cs" />
     <Compile Include="Controllers\Kpi\FlowRegionController.cs" />
+    <Compile Include="Controllers\Kpi\MonthKpiController.cs" />
     <Compile Include="Controllers\Kpi\PreciseMongoController.cs" />
     <Compile Include="Controllers\Kpi\PreciseRegionController.cs" />
     <Compile Include="Controllers\Kpi\RrcQueryController.cs" />
