@@ -167,13 +167,13 @@
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
     <Compile Include="Entities\TownFlow.cs" />
-    <Compile Include="Migrations\201710150832107_Remove_Old_DownSwitch.cs" />
-    <Compile Include="Migrations\201710150832107_Remove_Old_DownSwitch.Designer.cs">
-      <DependentUpon>201710150832107_Remove_Old_DownSwitch.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201712100042468_Change_Agps_To_Kpi.cs" />
     <Compile Include="Migrations\201712100042468_Change_Agps_To_Kpi.Designer.cs">
       <DependentUpon>201712100042468_Change_Agps_To_Kpi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712100117555_Change_Agps_To_Kpi1.cs" />
+    <Compile Include="Migrations\201712100117555_Change_Agps_To_Kpi1.Designer.cs">
+      <DependentUpon>201712100117555_Change_Agps_To_Kpi1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -184,11 +184,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201710150832107_Remove_Old_DownSwitch.resx">
-      <DependentUpon>201710150832107_Remove_Old_DownSwitch.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712100042468_Change_Agps_To_Kpi.resx">
       <DependentUpon>201712100042468_Change_Agps_To_Kpi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712100117555_Change_Agps_To_Kpi1.resx">
+      <DependentUpon>201712100117555_Change_Agps_To_Kpi1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Remove_Old_DownSwitch : IMigrationMetadata
+    public sealed partial class Change_Agps_To_Kpi1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Remove_Old_DownSwitch));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Change_Agps_To_Kpi1));
         
         string IMigrationMetadata.Id
         {
-            get { return "201710150832107_Remove_Old_DownSwitch"; }
+            get { return "201712100117555_Change_Agps_To_Kpi1"; }
         }
         
         string IMigrationMetadata.Source

@@ -33,7 +33,9 @@ namespace Lte.MySqlFramework.Entities
         public int TotalComplains { get; set; }
         
         [MemberDoc("无线公众客户越级投/申诉率")]
-        public double YuejiComplainRate { get; set; }
+        public int YuejiComplains { get; set; }
+
+        public int GongxinYuejiComplains { get; set; }
 
         [MemberDoc("4G精确覆盖率")]
         public double PreciseRate { get; set; }
