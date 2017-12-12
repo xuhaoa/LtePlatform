@@ -21,7 +21,6 @@ namespace LtePlatform.Controllers.Kpi
         [ApiParameterDoc("city", "城市")]
         [ApiParameterDoc("statDate", "日期")]
         [ApiResponse("区域天流量统计")]
-        [Cors("http://localhost:8100")]
         public FlowRegionDateView Get(string city, DateTime statDate)
         {
             return _service.QueryLastDateStat(statDate, city);

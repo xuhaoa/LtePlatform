@@ -22,7 +22,6 @@ namespace LtePlatform.Controllers.Kpi
         [ApiParameterDoc("city", "城市")]
         [ApiParameterDoc("statDate", "日期")]
         [ApiResponse("区域精确覆盖率")]
-        [Cors("http://localhost:8100")]
         public PreciseRegionDateView Get(string city, DateTime statDate)
         {
             return _service.QueryLastDateStat(statDate, city);
