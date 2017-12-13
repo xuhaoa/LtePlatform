@@ -269,7 +269,7 @@
                         $scope.stationList = response.result.rows;
                         $scope.totolPage = response.result.total_pages;
                         $scope.page = response.result.curr_page;
-                        $scope.records = response.dresult.records;
+                        $scope.records = response.result.records;
                     });
             }
         });

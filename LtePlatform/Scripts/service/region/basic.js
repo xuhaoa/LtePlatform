@@ -1164,11 +1164,12 @@
                             "page_size": pageSize
                         });
                 },
-                getStationCnt: function (distinct) {
+                getStationCnt: function (distinct,cycle) {
                     return generalHttpService.postPhpUrlData(appUrlService.getPhpHost() +
                         'LtePlatForm/lte/index.php/Assessment/stationCnt',
                         {
-                            "areaName": distinct
+                            "areaName": distinct,
+                            "cycle": cycle
                         });
                 },
                 addAssessment: function (assessment) {

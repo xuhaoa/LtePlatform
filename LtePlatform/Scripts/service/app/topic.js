@@ -1949,7 +1949,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
            
             
             $scope.change = function () {
-                downSwitchService.getStationCnt($scope.assessment.areaname).then(function (result) {
+                downSwitchService.getStationCnt($scope.assessment.areaname, $scope.assessment.cycle).then(function (result) {
                     if ($scope.assessment.areaname == '顺德') {
                         $scope.assessment.service = '广东宜通世纪科技股份有限公司';
                     } else if ($scope.assessment.areaname == '南海') {
@@ -2072,6 +2072,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
         downSwitchService,
         mapDialogService,
         parametersDialogService,
+        appUrlService,
         $uibModalInstance) {
 
         $scope.dialogTitle = dialogTitle;
@@ -2097,6 +2098,9 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
         }
         $scope.edit = function (stationId) {
             parametersDialogService.showStationEdit(stationId);
+        }
+        $scope.download = function (id) {
+            location.href = appUrlService.getPhpHost() + "LtePlatForm/lte/index.php/Assessment/download/id/" + id;
         }
         $scope.addAssessment = function () {
             parametersDialogService.showAssessmentAdd();
@@ -4376,7 +4380,7 @@ angular.module('topic.dialog.station', ['myApp.url', 'myApp.region', 'myApp.kpi'
                         $scope.stationList = response.result.rows;
                         $scope.totolPage = response.result.total_pages;
                         $scope.page = response.result.curr_page;
-                        $scope.records = response.dresult.records;
+                        $scope.records = response.result.records;
                     });
             }
         });
