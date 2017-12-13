@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using LtePlatform.Models;
 
 namespace LtePlatform.Controllers.Kpi
 {
-    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
+    [ApiControl("KPI选项控制器")]
     public class KpiOptionsController : ApiController
     {
         [HttpGet]

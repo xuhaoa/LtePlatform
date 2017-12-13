@@ -9,7 +9,6 @@ using Lte.MySqlFramework.Entities;
 namespace LtePlatform.Controllers.Kpi
 {
     [ApiControl("传统指标查询控制器")]
-    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class KpiDataListController : ApiController
     {
         private readonly CdmaRegionStatService _service;
@@ -35,10 +34,9 @@ namespace LtePlatform.Controllers.Kpi
         [ApiParameterDoc("beginDate", "开始日期")]
         [ApiParameterDoc("endDate", "结束日期")]
         [ApiResponse("指定城市的详细指标")]
-        public async Task<IHttpActionResult> Get(string city, DateTime beginDate, DateTime endDate)
+        public async Task<CdmaRegionStatDetails> Get(string city, DateTime beginDate, DateTime endDate)
         {
-            var details = await _service.QueryStatDetails(beginDate, endDate, city);
-            return details == null ? (IHttpActionResult)BadRequest("查询日期内的指标失败！") : Ok(details);
+            return await _service.QueryStatDetails(beginDate, endDate, city);
         }
 
         [HttpGet]

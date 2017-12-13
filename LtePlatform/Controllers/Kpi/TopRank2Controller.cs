@@ -8,7 +8,6 @@ using LtePlatform.Models;
 namespace LtePlatform.Controllers.Kpi
 {
     [ApiControl("TOP双流比查询控制器")]
-    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class TopRank2Controller : ApiController
     {
         private readonly FlowQueryService _service;

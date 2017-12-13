@@ -46,12 +46,6 @@ namespace LtePlatform.Controllers.Mr
         {
             return _service.QueryCompeteGridViews(statDate, district, competeDescription);
         }
-
-        [HttpPost]
-        public int Post(AgpsCoverageTown stat)
-        {
-            return _agpsService.UpdateAgpsTownStat(stat);
-        }
     }
 
     [ApiControl("镇区MR覆盖情况查询控制器")]
@@ -125,17 +119,7 @@ namespace LtePlatform.Controllers.Mr
                 ? new List<AgpsCoverageView>()
                 : _agpsService.QueryTelecomCoverageViews(begin, end, boundaries);
         }
-
-        [HttpGet]
-        [ApiDoc("查询指定日期的镇区级别电信AGPS覆盖信息列表")]
-        [ApiParameterDoc("statDate", "统计日期")]
-        [ApiResponse("镇区级别AGPS覆盖信息列表")]
-        public IEnumerable<AgpsCoverageTown> Get(DateTime statDate)
-        {
-            var stats = _agpsService.QueryTelecomList(statDate);
-            return _service.QueryAgpsCoverageTowns(stats, "电信", statDate);
-        }
-
+        
         [HttpPost]
         [ApiDoc("更新一条镇区级别电信AGPS覆盖信息")]
         [ApiParameterDoc("view", "镇区级别电信AGPS覆盖信息")]
@@ -173,17 +157,7 @@ namespace LtePlatform.Controllers.Mr
                 ? new List<AgpsCoverageView>()
                 : _agpsService.QueryMobileCoverageViews(begin, end, boundaries);
         }
-
-        [HttpGet]
-        [ApiDoc("查询指定日期的镇区级别移动AGPS覆盖信息列表")]
-        [ApiParameterDoc("statDate", "统计日期")]
-        [ApiResponse("镇区级别AGPS覆盖信息列表")]
-        public IEnumerable<AgpsCoverageTown> Get(DateTime statDate)
-        {
-            var stats = _agpsService.QueryMobileList(statDate);
-            return _service.QueryAgpsCoverageTowns(stats, "移动", statDate);
-        }
-
+        
         [HttpPost]
         [ApiDoc("更新一条镇区级别移动AGPS覆盖信息")]
         [ApiParameterDoc("view", "镇区级别移动AGPS覆盖信息")]
@@ -221,17 +195,7 @@ namespace LtePlatform.Controllers.Mr
                 ? new List<AgpsCoverageView>()
                 : _agpsService.QueryUnicomCoverageViews(begin, end, boundaries);
         }
-
-        [HttpGet]
-        [ApiDoc("查询指定日期的镇区级别联通AGPS覆盖信息列表")]
-        [ApiParameterDoc("statDate", "统计日期")]
-        [ApiResponse("镇区级别AGPS覆盖信息列表")]
-        public IEnumerable<AgpsCoverageTown> Get(DateTime statDate)
-        {
-            var stats = _agpsService.QueryUnicomList(statDate);
-            return _service.QueryAgpsCoverageTowns(stats, "联通", statDate);
-        }
-
+        
         [HttpPost]
         [ApiDoc("更新一条镇区级别联通AGPS覆盖信息")]
         [ApiParameterDoc("view", "镇区级别联通AGPS覆盖信息")]

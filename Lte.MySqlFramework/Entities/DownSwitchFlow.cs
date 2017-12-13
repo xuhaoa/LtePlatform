@@ -209,49 +209,6 @@ namespace Lte.MySqlFramework.Entities
         public string CompeteDescription { get; set; }
     }
 
-    [TypeDoc("镇区级别AGPS覆盖信息")]
-    public class AgpsCoverageTown : Entity, IStatDate, IDistrictTown
-    {
-        [MemberDoc("统计日期")]
-        public DateTime StatDate { get; set; }
-
-        [MemberDoc("区域")]
-        public string District { get; set; }
-
-        [MemberDoc("镇区")]
-        public string Town { get; set; }
-
-        [MemberDoc("专题信息，标明类别")]
-        public string Operator { get; set; }
-
-        [MemberDoc("RSRP总和，未减140")]
-        public int Rsrp { get; set; }
-
-        [MemberDoc("平均RSRP，未减140")]
-        public double AverageRsrp => (double)Rsrp / Count;
-
-        [MemberDoc("记录数量")]
-        public int Count { get; set; }
-
-        [MemberDoc("-110dBm以上覆盖数量")]
-        public int GoodCount { get; set; }
-
-        [MemberDoc("-110dBm以上覆盖率")]
-        public double CoverageRate110 => (double)GoodCount / Count;
-
-        [MemberDoc("-105dBm以上覆盖率")]
-        public double CoverageRate105 => (double)GoodCount105 / Count;
-
-        [MemberDoc("-100dBm以上覆盖率")]
-        public double CoverageRate100 => (double)GoodCount100 / Count;
-
-        [MemberDoc("-105dBm以上覆盖数量")]
-        public int GoodCount105 { get; set; }
-
-        [MemberDoc("-100dBm以上覆盖数量")]
-        public int GoodCount100 { get; set; }
-    }
-
     [TypeDoc("存储于数据库的工单信息")]
     [AutoMapFrom(typeof(WorkItemExcel))]
     public class WorkItem : Entity

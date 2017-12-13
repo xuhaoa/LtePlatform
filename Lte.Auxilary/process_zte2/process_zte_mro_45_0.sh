@@ -1,1 +1,0 @@
-/home/wireless/env/py3env/bin/python /home/wireless/Public/process_zte_mro.py 0045 0445 0845 1245 1645 2045

@@ -1,1 +1,0 @@
-/home/wireless/anaconda3/bin/python /home/wireless/Public/position_combined.py 10.17.165.111

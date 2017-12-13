@@ -8,7 +8,6 @@ using LtePlatform.Models;
 namespace LtePlatform.Controllers.Kpi
 {
     [ApiControl("区域RRC连接成功率查询控制器")]
-    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class RrcRegionController : ApiController
     {
         private readonly RrcRegionStatService _service;
@@ -23,7 +22,6 @@ namespace LtePlatform.Controllers.Kpi
         [ApiParameterDoc("city", "城市")]
         [ApiParameterDoc("statDate", "日期")]
         [ApiResponse("区域RRC连接成功率")]
-        [Cors("http://localhost:8100")]
         public RrcRegionDateView Get(string city, DateTime statDate)
         {
             return _service.QueryLastDateStat(statDate, city);

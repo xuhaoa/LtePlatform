@@ -70,9 +70,9 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
-    public class AgpsTownRepository : EfRepositorySave<MySqlContext, AgpsCoverageTown>, IAgpsTownRepository
+    public class MonthKpiRepository : EfRepositorySave<MySqlContext, MonthKpiStat>, IMonthKpiRepository
     {
-        public AgpsTownRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        public MonthKpiRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }

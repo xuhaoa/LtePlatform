@@ -7,7 +7,6 @@ using LtePlatform.Models;
 namespace LtePlatform.Controllers.Kpi
 {
     [ApiControl("本月（上个26日至下个25日）工单完成情况查询控制器")]
-    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class WorkItemCurrentMonthController : ApiController
     {
         private readonly WorkItemService _service;

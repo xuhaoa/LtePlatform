@@ -8,7 +8,6 @@ using System.Web.Http;
 namespace LtePlatform.Controllers.Kpi
 {
     [ApiControl("RRC连接查询控制器")]
-    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class RrcQueryController : ApiController
     {
         private readonly RrcQueryService _service;

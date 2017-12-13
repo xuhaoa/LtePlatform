@@ -9,7 +9,6 @@ using Lte.Evaluations.DataService.Basic;
 namespace LtePlatform.Controllers.Kpi
 {
     [ApiControl("告警查询（测试）控制器")]
-    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class AlarmCountController : ApiController
     {
         private readonly AlarmsService _service;
