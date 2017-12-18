@@ -49,5 +49,20 @@ namespace Lte.Evaluations.DataService.Mr
 
             return result;
         }
+
+        private Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<T>>>> QueryMonthTrend<T>(Func<MonthKpiStat, T> func)
+        {
+            var end = DateTime.Today;
+            var begin = DateTime.Today.AddYears(-1);
+            var result = _repository.GetAllList(x => x.StatDate >= begin && x.StatDate < end);
+            var category = result.Select(x => x.StatDate).Distinct().Select(x => x.ToString("yyyy-MM"));
+            return new Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<T>>>>(category,
+                result.GroupBy(x => x.District).Select(x => new Tuple<string, IEnumerable<T>>(x.Key, x.Select(func))));
+        }
+
+        public Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<double>>>> QureyMonthDropTrend()
+        {
+            return QueryMonthTrend(x => x.Drop2GRate);
+        }
     }
 }

@@ -23,4 +23,20 @@ namespace LtePlatform.Controllers.Kpi
             return _service.QueryLastMonthKpiStats();
         }
     }
+
+    public class MonthDropTrendController : ApiController
+    {
+        private readonly MonthKpiService _service;
+
+        public MonthDropTrendController(MonthKpiService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<double>>>> Get()
+        {
+            return _service.QureyMonthDropTrend();
+        }
+    }
 }
