@@ -64,5 +64,15 @@ namespace Lte.Evaluations.DataService.Mr
         {
             return QueryMonthTrend(x => x.Drop2GRate);
         }
+
+        public Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<double>>>> QureyMonthFlow4GTo3GTrend()
+        {
+            return QueryMonthTrend(x => x.FlowRate4GTo3G);
+        }
+
+        public Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<double>>>> QureyMonthPreciseTrend()
+        {
+            return QueryMonthTrend(x => x.PreciseRate);
+        }
     }
 }

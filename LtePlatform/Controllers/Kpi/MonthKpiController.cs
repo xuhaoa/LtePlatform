@@ -39,4 +39,36 @@ namespace LtePlatform.Controllers.Kpi
             return _service.QureyMonthDropTrend();
         }
     }
+
+    public class MonthFlow4GTo3GTrendController : ApiController
+    {
+        private readonly MonthKpiService _service;
+
+        public MonthFlow4GTo3GTrendController(MonthKpiService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<double>>>> Get()
+        {
+            return _service.QureyMonthFlow4GTo3GTrend();
+        }
+    }
+
+    public class MonthPreciseTrendController : ApiController
+    {
+        private readonly MonthKpiService _service;
+
+        public MonthPreciseTrendController(MonthKpiService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<double>>>> Get()
+        {
+            return _service.QureyMonthPreciseTrend();
+        }
+    }
 }
