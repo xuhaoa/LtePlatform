@@ -89,5 +89,25 @@ namespace Lte.Evaluations.DataService.Mr
         {
             return QueryMonthTrend(x => x.GongxinYuejiComplains);
         }
+
+        public Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<double>>>> QueryAverageAlarmsTrend()
+        {
+            return QueryMonthTrend(x => x.AverageAlarms);
+        }
+
+        public Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<double>>>> QueryAlarmWorkTrend()
+        {
+            return QueryMonthTrend(x => x.AlarmWorkItemRate);
+        }
+
+        public Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<double>>>> QueryAlarmProcessTrend()
+        {
+            return QueryMonthTrend(x => x.AlarmProcessRate);
+        }
+
+        public Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<double>>>> QueryMaintainProjectTrend()
+        {
+            return QueryMonthTrend(x => x.MaintainProjectRate);
+        }
     }
 }

@@ -119,4 +119,68 @@ namespace LtePlatform.Controllers.Kpi
             return _service.QueryGongxinComplainsTrend();
         }
     }
+
+    public class MonthAverageAlarmsTrendController : ApiController
+    {
+        private readonly MonthKpiService _service;
+
+        public MonthAverageAlarmsTrendController(MonthKpiService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<double>>>> Get()
+        {
+            return _service.QueryAverageAlarmsTrend();
+        }
+    }
+
+    public class MonthAlarmWorkTrendController : ApiController
+    {
+        private readonly MonthKpiService _service;
+
+        public MonthAlarmWorkTrendController(MonthKpiService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<double>>>> Get()
+        {
+            return _service.QueryAlarmWorkTrend();
+        }
+    }
+
+    public class MonthAlarmProcessTrendController : ApiController
+    {
+        private readonly MonthKpiService _service;
+
+        public MonthAlarmProcessTrendController(MonthKpiService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<double>>>> Get()
+        {
+            return _service.QueryAlarmProcessTrend();
+        }
+    }
+
+    public class MonthMaintainProjectTrendController : ApiController
+    {
+        private readonly MonthKpiService _service;
+
+        public MonthMaintainProjectTrendController(MonthKpiService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<double>>>> Get()
+        {
+            return _service.QueryMaintainProjectTrend();
+        }
+    }
 }
