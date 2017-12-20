@@ -71,4 +71,52 @@ namespace LtePlatform.Controllers.Kpi
             return _service.QureyMonthPreciseTrend();
         }
     }
+
+    public class MonthComplainsTrendController : ApiController
+    {
+        private readonly MonthKpiService _service;
+
+        public MonthComplainsTrendController(MonthKpiService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<int>>>> Get()
+        {
+            return _service.QueryTotalComplainsTrend();
+        }
+    }
+
+    public class MonthYuejiTrendController : ApiController
+    {
+        private readonly MonthKpiService _service;
+
+        public MonthYuejiTrendController(MonthKpiService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<int>>>> Get()
+        {
+            return _service.QueryYuejiComplainsTrend();
+        }
+    }
+
+    public class MonthGongxinTrendController : ApiController
+    {
+        private readonly MonthKpiService _service;
+
+        public MonthGongxinTrendController(MonthKpiService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public Tuple<IEnumerable<string>, IEnumerable<Tuple<string, IEnumerable<int>>>> Get()
+        {
+            return _service.QueryGongxinComplainsTrend();
+        }
+    }
 }
