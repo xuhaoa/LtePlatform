@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using System;
+using System.Threading.Tasks;
 
 namespace LtePlatform
 {
@@ -13,6 +14,18 @@ namespace LtePlatform
             : base(store)
         {
         }
+
+        public async Task UpdateLoginInfo(string userName)
+        {
+            var user = await FindByNameAsync(userName);
+            if (user != null)
+            {
+                user.LastLoginTime = DateTime.Now;
+                user.LoginTimes++;
+                await Store.UpdateAsync(user);
+            }
+        }
+
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options,
             IOwinContext context)
         {

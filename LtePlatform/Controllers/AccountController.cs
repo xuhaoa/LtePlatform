@@ -191,6 +191,7 @@ namespace LtePlatform.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    await UserManager.UpdateLoginInfo(model.UserName);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
