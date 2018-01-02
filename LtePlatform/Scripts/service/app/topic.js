@@ -4109,7 +4109,7 @@ angular.module('topic.dialog.top',
                 $uibModalInstance.dismiss('cancel');
             };
         });
-angular.module('topic.dialog.station', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', "ui.bootstrap"])
+angular.module('topic.dialog.station', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', "ui.bootstrap",'angularFileUpload'])
     .controller('map.special-station.dialog',
         function($scope,
             $uibModalInstance,
@@ -4315,13 +4315,40 @@ angular.module('topic.dialog.station', ['myApp.url', 'myApp.region', 'myApp.kpi'
             $uibModalInstance,
             parametersDialogService,
             downSwitchService,
-            mapDialogService) {
+            mapDialogService,
+            appUrlService,
+            $upload) {
             $scope.dialogTitle = dialogTitle;
             $scope.distincts = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
             $scope.stationList = [];
             $scope.page = 1;
             $scope.stationName = '';
             $scope.totolPage = 1;
+            
+            $scope.data = {
+                file: null
+            };
+            $scope.onFileSelect = function ($files) {
+                $scope.data.file = $files[0];
+            }
+            $scope.upload = function () {
+                if (!$scope.data.file) {
+                    return;
+                }
+                var url = appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/StationCommon/upload/';  //params是model传的参数，图片上传接口的url
+                var data = angular.copy($scope.data || {}); // 接口需要的额外参数，比如指定所上传的图片属于哪个用户: { UserId: 78 }
+                data.file = $scope.data.file;
+
+                $upload.upload({
+                    url: url,
+                    data: data
+                }).success(function (data) {
+                    alert('success');
+                }).error(function () {
+                    alert('error');
+                    });
+            };
+            
             downSwitchService.getAllCommonStations(type, 0, 10).then(function(response) {
                 $scope.stationList = response.result.rows;
                 $scope.totolPage = response.result.total_pages;
