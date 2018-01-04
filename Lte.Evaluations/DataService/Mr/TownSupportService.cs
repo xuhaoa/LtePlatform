@@ -45,6 +45,7 @@ namespace Lte.Evaluations.DataService.Mr
             {
                 var begin = end.AddMonths(-1);
                 result = _repository.GetAllList(x => x.StatDate >= begin && x.StatDate < end);
+                end = end.AddMonths(-1);
             }
 
             return result;
