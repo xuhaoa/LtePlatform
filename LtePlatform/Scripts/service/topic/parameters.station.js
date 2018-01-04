@@ -640,7 +640,29 @@
         $scope.page = 1;
         $scope.cycle = '';
         $scope.totolPage = 1;
+        $scope.onFileSelect = function ($files) {
+            $scope.data.file = $files[0];
+        }
+        $scope.data = {
+            file: null
+        };
+        $scope.upload = function () {
+            if (!$scope.data.file) {
+                return;
+            }
+            var url = appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/StationCommon/upload/';  //params是model传的参数，图片上传接口的url
+            var data = angular.copy($scope.data || {}); // 接口需要的额外参数，比如指定所上传的图片属于哪个用户: { UserId: 78 }
+            data.file = $scope.data.file;
 
+            $upload.upload({
+                url: url,
+                data: data
+            }).success(function (data) {
+                alert('success');
+            }).error(function () {
+                alert('error');
+            });
+        };
         $scope.details = function (id) {
             downSwitchService.getAssessmentById(id).then(function (result) {
                 parametersDialogService.showAssessmentDialog(result.result[0]);

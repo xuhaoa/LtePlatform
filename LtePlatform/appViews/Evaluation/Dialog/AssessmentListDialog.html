@@ -9,6 +9,8 @@
         <select ng-init="selectDistinct=distincts[0]" ng-model="selectDistinct" ng-options="distinct for distinct in distincts"></select>
         <button ng-click="search()">查询</button>
         <button ng-click="addAssessment()">添加评分</button>
+        <input type="file" ng-file-select="onFileSelect($files)" accept="image/*">
+        <button ng-click="upload()">上传</button>
         <br>
 
         <table class="table table-striped">
