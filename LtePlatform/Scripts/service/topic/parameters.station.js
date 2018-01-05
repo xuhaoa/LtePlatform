@@ -12,7 +12,31 @@
             $scope.page = 1;
             $scope.stationName = '';
             $scope.totolPage = 1;
-            
+
+            $scope.data = {
+                file: null
+            };
+            $scope.onFileSelect = function ($files) {
+                $scope.data.file = $files[0];
+            }
+            $scope.upload = function () {
+                if (!$scope.data.file) {
+                    return;
+                }
+                var url = appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Station/upload/';  //params是model传的参数，图片上传接口的url
+                var data = angular.copy($scope.data || {}); // 接口需要的额外参数，比如指定所上传的图片属于哪个用户: { UserId: 78 }
+                data.file = $scope.data.file;
+
+                $upload.upload({
+                    url: url,
+                    data: data
+                }).success(function (data) {
+                    alert('success');
+                }).error(function () {
+                    alert('error');
+                });
+            };
+
             $scope.details = function(stationId) {
                 downSwitchService.getCommonStationById(stationId).then(function(result) {
                     workItemDialog.showStationInfoDialog(result.result[0]);
@@ -84,6 +108,30 @@
         $scope.page = 1;
         $scope.stationName = '';
         $scope.totolPage = 1;
+
+        $scope.data = {
+            file: null
+        };
+        $scope.onFileSelect = function ($files) {
+            $scope.data.file = $files[0];
+        }
+        $scope.upload = function () {
+            if (!$scope.data.file) {
+                return;
+            }
+            var url = appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Indoor/upload/';  //params是model传的参数，图片上传接口的url
+            var data = angular.copy($scope.data || {}); // 接口需要的额外参数，比如指定所上传的图片属于哪个用户: { UserId: 78 }
+            data.file = $scope.data.file;
+
+            $upload.upload({
+                url: url,
+                data: data
+            }).success(function (data) {
+                alert('success');
+            }).error(function () {
+                alert('error');
+            });
+        };
 
         $scope.details = function (stationId) {
             downSwitchService.getCommonStationById(stationId).then(function (result) {
@@ -650,7 +698,7 @@
             if (!$scope.data.file) {
                 return;
             }
-            var url = appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/StationCommon/upload/';  //params是model传的参数，图片上传接口的url
+            var url = appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Assessment/upload/';  //params是model传的参数，图片上传接口的url
             var data = angular.copy($scope.data || {}); // 接口需要的额外参数，比如指定所上传的图片属于哪个用户: { UserId: 78 }
             data.file = $scope.data.file;
 
