@@ -1439,14 +1439,16 @@ angular.module('topic.parameters.coverage', ['myApp.url', 'myApp.region', 'myApp
                 $uibModalInstance.dismiss('cancel');
             };
         });
-angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', "ui.bootstrap"])
+angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.kpi', 'topic.basic', "ui.bootstrap", 'angularFileUpload'])
     .controller('map.stationList.dialog',
         function($scope,
             dialogTitle,
             $uibModalInstance,
             workItemDialog,
             downSwitchService,
-            parametersDialogService) {
+            parametersDialogService,
+            appUrlService,
+            $upload) {
             $scope.dialogTitle = dialogTitle;
             $scope.distincts = new Array('全市', 'FS顺德', 'FS南海', 'FS禅城', 'FS三水', 'FS高明');
             $scope.stationList = [];
@@ -1542,7 +1544,9 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
         $uibModalInstance,
         workItemDialog,
         downSwitchService,
-        parametersDialogService) {
+        parametersDialogService,
+        appUrlService,
+        $upload) {
         $scope.dialogTitle = dialogTitle;
         $scope.distincts = new Array('全市', '顺德', '南海', '禅城', '三水', '高明');
         $scope.stationList = [];
