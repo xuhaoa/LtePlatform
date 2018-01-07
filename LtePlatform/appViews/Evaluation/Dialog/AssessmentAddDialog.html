@@ -126,7 +126,7 @@
         <div class="panel" ng-show="isSelectTab(2)">
             <table class="table table-striped">
                 <tr><td colspan="7">KPI指标</td></tr>
-                <tr><td colspan="7">服务商:广东南方通信建设有限公司              考核周期：2017年5月           考核日期：2017年6月6日    </td></tr>
+                <tr><td colspan="7">服务商:{{assessment.service}}              考核周期：{{assessment.cycle}}           考核日期：{{assessment.markdate}}    </td></tr>
                 <tr><td>序号</td><td>项目</td><td>评分标准</td><td>扣分上限</td><td>扣 分</td><td>扣分说明</td><td>备注</td></tr>
                 <tr><td>1</td><td>故障工单接单及时率。</td><td>每低于达标门限0.1个百分点，扣0.3分，如此类推。</td><td>30</td><td><input type="number" min="-30" max="0" step="0.1" ng-model="assessment.kpi1" ng-change="changekpi()" value="0"></td><td></td><td></td></tr>
                 <tr><td>2</td><td>故障工单处理及时率</td><td>每低于达标门限0.1个百分点，扣0.3分，如此类推。</td><td>30</td><td><input type="number" min="-30" max="0" step="0.1" ng-model="assessment.kpi2" ng-change="changekpi()" value="0"></td><td></td><td></td></tr>
