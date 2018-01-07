@@ -136,6 +136,7 @@
     <Compile Include="DataService\Kpi\FlowService.cs" />
     <Compile Include="DataService\Mr\AgpsService.cs" />
     <Compile Include="DataService\Mr\InterferenceMatrixService.cs" />
+    <Compile Include="DataService\Mr\MonthKpiService.cs" />
     <Compile Include="DataService\Mr\MrsService.cs" />
     <Compile Include="DataService\Mr\NeighborCellMongoService.cs" />
     <Compile Include="DataService\Mr\PreciseWorkItemService.cs" />

@@ -16,9 +16,6 @@
                     }, {
                         displayName: "流量经营",
                         url: '/#/flow'
-                    }, {
-                        displayName: "万栋楼宇",
-                        url: '/#/building'
                     }
                 ]
             };
