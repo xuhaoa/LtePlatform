@@ -36,7 +36,7 @@
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.root"
+                        controller: "menu.analysis"
                     },
                     "contents": {
                         templateUrl: "/appViews/Home/Query.html",

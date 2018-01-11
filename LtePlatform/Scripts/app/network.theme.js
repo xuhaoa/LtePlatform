@@ -2,7 +2,7 @@
     .controller("menu.analysis",
         function($scope) {
             $scope.menuItem = {
-                displayName: "四高一地",
+                displayName: "五高一地两美一场",
                 subItems: [
                     {
                         displayName: "高校专题",
@@ -19,6 +19,9 @@
                     }, {
                         displayName: "地铁专题",
                         url: "/#/subway"
+                    }, {
+                        displayName: "高档楼宇",
+                        url: '/#/building'
                     }
                 ]
             };

@@ -147,7 +147,7 @@ angular.module('home.route', ['app.common'])
                 views: {
                     'menu': {
                         templateUrl: "/appViews/DropDownMenu.html",
-                        controller: "menu.root"
+                        controller: "menu.analysis"
                     },
                     "contents": {
                         templateUrl: "/appViews/Home/Query.html",
@@ -2654,9 +2654,6 @@ angular.module('home.menu', ['app.common'])
                     }, {
                         displayName: "流量经营",
                         url: '/#/flow'
-                    }, {
-                        displayName: "万栋楼宇",
-                        url: '/#/building'
                     }
                 ]
             };
@@ -4716,7 +4713,7 @@ angular.module('network.theme', ['app.common'])
     .controller("menu.analysis",
         function($scope) {
             $scope.menuItem = {
-                displayName: "四高一地",
+                displayName: "五高一地两美一场",
                 subItems: [
                     {
                         displayName: "高校专题",
@@ -4733,6 +4730,9 @@ angular.module('network.theme', ['app.common'])
                     }, {
                         displayName: "地铁专题",
                         url: "/#/subway"
+                    }, {
+                        displayName: "高档楼宇",
+                        url: '/#/building'
                     }
                 ]
             };
