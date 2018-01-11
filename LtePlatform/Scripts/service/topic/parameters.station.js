@@ -684,13 +684,15 @@
         mapDialogService,
         parametersDialogService,
         appUrlService,
-        $uibModalInstance) {
+        $uibModalInstance,
+        $upload) {
 
         $scope.dialogTitle = dialogTitle;
         $scope.distincts = new Array('全市', '顺德', '南海', '禅城', '三水', '高明');
         $scope.assessmentList = [];
         $scope.page = 1;
         $scope.cycle = '';
+        $scope.url = '';
         $scope.totolPage = 1;
         $scope.onFileSelect = function ($files) {
             $scope.data.file = $files[0];
@@ -698,14 +700,14 @@
         $scope.data = {
             file: null
         };
-        $scope.upload = function () {
+        $scope.upload = function (id) {
             if (!$scope.data.file) {
                 return;
             }
             var url = appUrlService.getPhpHost() + 'LtePlatForm/lte/index.php/Assessment/upload/';  //params是model传的参数，图片上传接口的url
-            var data = angular.copy($scope.data || {}); // 接口需要的额外参数，比如指定所上传的图片属于哪个用户: { UserId: 78 }
+            var data = angular.copy($scope.data || {i}); // 接口需要的额外参数，比如指定所上传的图片属于哪个用户: { UserId: 78 }
             data.file = $scope.data.file;
-
+            data.id = id;
             $upload.upload({
                 url: url,
                 data: data
@@ -729,6 +731,13 @@
                 });
             }
         }
+        $scope.showPic = function (url) {
+            $scope.url = url;
+            document.getElementById('oImg').style.display = "block";
+        }  
+        $scope.hidePic = function () {
+            document.getElementById('oImg').style.display = "none";
+        }  
         $scope.edit = function (stationId) {
             parametersDialogService.showStationEdit(stationId);
         }
