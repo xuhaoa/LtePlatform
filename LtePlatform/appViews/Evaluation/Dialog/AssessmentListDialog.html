@@ -6,11 +6,10 @@
 </div>
 <div class="modal-body">
     <div style="min-height: 400px" id="rightChart">
+        <img ng-click="hidePic()" id="oImg" src="{{url}}" style="display:none;position:absolute;top:10%;left:0;width:100%" />
         <select ng-init="selectDistinct=distincts[0]" ng-model="selectDistinct" ng-options="distinct for distinct in distincts"></select>
         <button ng-click="search()">查询</button>
         <button ng-click="addAssessment()">添加评分</button>
-        <input type="file" ng-file-select="onFileSelect($files)" accept="image/*">
-        <button ng-click="upload()">上传附件</button>
         <br>
 
         <table class="table table-striped">
@@ -20,7 +19,7 @@
                     <td>考核周期</td>
                     <td>考核日期</td>
                     <td>服务商</td>
-                    <td style="align-content: center">操作</td>
+                    <td coslpan ="7">操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -29,12 +28,13 @@
                     <td>{{assessment.cycle}}</td>
                     <td>{{assessment.markdate}}</td>
                     <td>{{assessment.service}}</td>
-                    <td style="align-content: center">
-                        <a href="javascript:void(0);" ng-click="details(assessment.id)">查看</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="javascript:void(0);" ng-click="edit(assessment.id)">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="javascript:void(0);" ng-click="delete(assessment.id)">删除</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="javascript:void(0);" ng-click="download(assessment.id)">下载</a>
-                    </td>
+                    <td><a href="javascript:void(0);" ng-click="details(assessment.id)">查看</a></td>
+                    <td><a href="javascript:void(0);" ng-click="edit(assessment.id)">编辑</a></td>
+                    <td><a href="javascript:void(0);" ng-click="delete(assessment.id)">删除</a></td>
+                    <td><a href="javascript:void(0);" ng-click="download(assessment.id)">下载</a></td>
+                    <td><input type="file" ng-file-select="onFileSelect($files)" accept="image/*"></td>
+                    <td><a href="javascript:void(0);" ng-click="upload(assessment.id)">上传附件</a></td>
+                    <td><a href="javascript:void(0);" ng-click="showPic(assessment.path)">查看附件</a></td>
                 </tr>
             </tbody>
         </table>

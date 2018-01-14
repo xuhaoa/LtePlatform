@@ -233,7 +233,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Abp.EntityFramework\Abp.EntityFramework.Customize.csproj">
-      <Project>{8e0c8a21-369e-4d30-8e1d-a51ec5ca934f}</Project>
+      <Project>{79F4F2B7-D8E2-4EC7-BD18-6A0741AE9A9C}</Project>
       <Name>Abp.EntityFramework.Customize</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lte.Domain\Lte.Domain.csproj">
