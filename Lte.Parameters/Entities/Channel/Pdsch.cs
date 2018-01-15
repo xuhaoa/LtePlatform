@@ -24,6 +24,8 @@ namespace Lte.Parameters.Entities.Channel
         public int PdschPaAdjSwitch { get; set; }
 
         public int PaPcOff { get; set; }
+
+        public int? NomPdschRsEpreOffset { get; set; }
     }
 
     public class PDSCHCfg : IEntity<ObjectId>, IHuaweiCellMongo
@@ -58,5 +60,7 @@ namespace Lte.Parameters.Entities.Channel
         public int? TxPowerOffsetAnt2 { get; set; }
 
         public int? TxPowerOffsetAnt3 { get; set; }
+
+        public int? TxChnPowerCfgSw { get; set; }
     }
 }

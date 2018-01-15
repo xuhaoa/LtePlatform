@@ -73,7 +73,7 @@ namespace Lte.Parameters.Entities.Switch
 
         public int? reportOnLeaveA6Swch { get; set; }
 
-        public string reportOnLeaveA6 { get; set; }
+        public BsonValue reportOnLeaveA6 { get; set; }
 
         public static int IntraFreqHoConfigId { get; set; } = -1;
     }
