@@ -1970,6 +1970,10 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             var Nowdate = new Date();
             var vYear = Nowdate.getFullYear();
             var vMon = Nowdate.getMonth();
+            if (vMon == 0) {
+                vMon = 12;
+                vYear = parseInt(vYear) - 1;
+            }
             $scope.assessment.cycle = vYear + '年' + vMon + '月';
             $scope.tab = 1;
             $scope.jqf = 0;
@@ -2134,6 +2138,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
         $scope.page = 1;
         $scope.cycle = '';
         $scope.url = '';
+        $scope.selectDistinct = '全市';
         $scope.totolPage = 1;
         $scope.onFileSelect = function ($files) {
             $scope.data.file = $files[0];
@@ -2223,7 +2228,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                     $scope.page = result.result.curr_page;
                 });
         };
-        $scope.jumpPage(1);
+        $scope.search();
        
     });
 angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
