@@ -1485,7 +1485,9 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                     workItemDialog.showStationInfoDialog(result.result[0]);
                 });
             }
-
+            $scope.addCheckPlan = function (stationId,name) {
+                parametersDialogService.addCheckPlanDialog(stationId, name);
+            }
             $scope.delete = function(stationId) {
                 if (confirm("你确定删除该站点？")) {
                     downSwitchService.deleteStationById(stationId).then(function(result) {
@@ -1592,6 +1594,9 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                 });
             }
         }
+        $scope.addCheckPlan = function (stationId, name) {
+            parametersDialogService.addCheckPlanDialog(stationId, name);
+        }
         $scope.edit = function (stationId) {
             parametersDialogService.showIndoorEdit(stationId);
         }
@@ -1624,6 +1629,65 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             if (page >= $scope.totolPage)
                 page = $scope.totolPage;
             downSwitchService.getIndoorListByName($scope.stationName, $scope.selectDistinct, page, 10)
+                .then(function (result) {
+                    $scope.stationList = result.result.rows;
+                    $scope.totolPage = result.result.total_pages;
+                    $scope.page = result.result.curr_page;
+                    $scope.records = result.result.records;
+                });
+        };
+        $scope.jumpPage(1);
+    })
+    .controller('map.checkPlanList.dialog',
+    function ($scope,
+        dialogTitle,
+        type,
+        $uibModalInstance,
+        workItemDialog,
+        downSwitchService,
+        parametersDialogService,
+        appUrlService,
+        ) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.distincts = new Array('全市', '顺德', '南海', '禅城', '三水', '高明');
+        $scope.stationList = [];
+        $scope.page = 1;
+        $scope.stationName = '';
+        $scope.totolPage = 1;
+
+        $scope.addCheckResult = function (StationId, StationName) {
+
+        }
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        }
+        $scope.search = function () {
+            $scope.page = 1;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.firstPage = function () {
+            $scope.page = 1;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.lastPage = function () {
+            $scope.page = $scope.totolPage;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.prevPage = function () {
+            if ($scope.page !== 1)
+                $scope.page--;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.nextPage = function () {
+            if ($scope.page !== $scope.totolPage)
+                $scope.page++;
+            $scope.jumpPage($scope.page);
+        }
+        $scope.jumpPage = function (page) {
+            if (page >= $scope.totolPage)
+                page = $scope.totolPage;
+            downSwitchService.getCheckPlanByName($scope.stationName, $scope.selectDistinct,type, page, 10)
                 .then(function (result) {
                     $scope.stationList = result.result.rows;
                     $scope.totolPage = result.result.total_pages;
@@ -1767,7 +1831,40 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
 	    $scope.cancel = function () {
 	        $uibModalInstance.dismiss('cancel');
 	    }
-	})
+    })
+    .controller('map.addCheckPlan.dialog',
+    function ($scope, dialogTitle, $uibModalInstance, downSwitchService, stationId, name) {
+        $scope.dialogTitle = dialogTitle;
+        $scope.station = {};
+        var areaMap = {
+            'SD': '顺德',
+            'NH': '南海',
+            'CC': '禅城',
+            'SS': '三水',
+            'GM': '高明'
+        };
+        $scope.statuss = new Array('未巡检', '已巡检');
+        $scope.services = new Array('省工程', '宜通', '南建');
+        $scope.planWeeks = new Array('第一完整周', '第二完整周', '第三完整周', '第四完整周');
+
+        var areaCode = stationId.substr(0, 2);
+        var areaName = areaMap[areaCode];
+        $scope.station.StationId = stationId;
+        $scope.station.StationName = name;
+        $scope.station.AreaName = areaName;
+
+
+        $scope.ok = function () {
+            downSwitchService.addCheckPlan({
+                "Station": JSON.stringify($scope.station)
+            }).then(function (result) {
+                alert(result.description);
+            });
+        }
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        }
+    })
     .controller('map.stationAdd.dialog',
         function($scope, dialogTitle, $uibModalInstance, downSwitchService,station) {
             $scope.dialogTitle = dialogTitle;
@@ -2323,6 +2420,20 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                         }
                     });
                 },
+                showCheckPlanList: function (type) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Evaluation/Dialog/CheckPlanListDialog.html',
+                        controller: 'map.checkPlanList.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "巡检计划列表";
+                            },
+                            type: function () {
+                                return type;
+                            }
+                        }
+                    });
+                },
                 showIndoorList: function () {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Home/IndoorListDialog.html',
@@ -2359,6 +2470,23 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                             stationId: function() {
                                 return stationId;
                             }
+                        }
+                    });
+                },
+                addCheckPlanDialog: function (stationId,name) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Home/AddCheckPlanDialog.html',
+                        controller: 'map.addCheckPlan.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "添加巡检计划";
+                            },
+                            stationId: function () {
+                                return stationId;
+                            },
+                            name: function () {
+                                return name;
+                            },
                         }
                     });
                 },

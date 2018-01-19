@@ -843,6 +843,11 @@ angular.module('region.basic', ['app.core'])
                         .postPhpUrlData(appUrlService.getPhpHost() +
                         'LtePlatForm/lte/index.php/Station/add', station);
                 },
+                addCheckPlan: function (station) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/Checking/addCheckPlan', station);
+                },
                 addIndoor: function (indoor) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +
@@ -879,6 +884,18 @@ angular.module('region.basic', ['app.core'])
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +
                         'LtePlatForm/lte/index.php/StationCommon/addList',
+                        {
+                            "curr_page": page,
+                            "page_size": pageSize,
+                            "stationName": stationName,
+                            "areaName": areaName,
+                            "type": type
+                        });
+                },
+                getCheckPlanByName: function (stationName,areaName , type, page, pageSize) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/Checking/checkPlanList',
                         {
                             "curr_page": page,
                             "page_size": pageSize,

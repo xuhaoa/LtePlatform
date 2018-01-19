@@ -15,6 +15,7 @@
                 document.getElementById("cardlist").style.display = "none";
                 mapDialogService.showCommonStationInfo($scope.stations[index - 1]);
             }
+            
             $scope.$watch('stations',
                 function() {
                     baiduMapService.clearOverlays();
@@ -76,7 +77,8 @@
             baiduMapService,
             geometryService,
             collegeMapService,
-            dumpPreciseService) {
+            dumpPreciseService,
+            parametersDialogService) {
             $scope.areaNames = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
             $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
             $scope.distinct = $scope.distincts[0];
@@ -96,7 +98,9 @@
                     }
                 });
             };
-
+            $scope.checkPlanList = function () {
+                parametersDialogService.showCheckPlanList('JZ');
+            }
             $scope.changeDistinct = function(index) {
 
                 $scope.distinctIndex = index;
@@ -170,7 +174,8 @@
             downSwitchService,
             baiduMapService,
             collegeMapService,
-            dumpPreciseService) {
+            dumpPreciseService,
+            parametersDialogService) {
             $scope.areaNames = new Array('FS', 'SD', 'NH', 'CC', 'SS', 'GM');
             $scope.distincts = new Array('佛山市', '顺德区', '南海区', '禅城区', '三水区', '高明区');
             $scope.distinct = $scope.distincts[0];
@@ -190,7 +195,9 @@
                     }
                 });
             };
-
+            $scope.checkPlanList = function () {
+                parametersDialogService.showCheckPlanList('SF');
+            }
             $scope.changeDistinct = function(index) {
 
                 $scope.distinctIndex = index;
