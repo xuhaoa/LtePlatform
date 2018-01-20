@@ -155,6 +155,11 @@
     <Compile Include="Concrete\FlowRepository.cs" />
     <Compile Include="Concrete\MySqlContext.cs" />
     <Compile Include="Concrete\StatRepositroies.cs" />
+    <Compile Include="Entities\AreaTestDate.cs" />
+    <Compile Include="Entities\AreaTestDateView.cs" />
+    <Compile Include="Entities\HotSpotView.cs" />
+    <Compile Include="Entities\IndoorDistribution.cs" />
+    <Compile Include="Entities\InfrastructureInfo.cs" />
     <Compile Include="Entities\MonthKpiStat.cs" />
     <Compile Include="Entities\BranchDemand.cs" />
     <Compile Include="Entities\RegionStats.cs" />
@@ -167,13 +172,14 @@
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
     <Compile Include="Entities\TownFlow.cs" />
-    <Compile Include="Migrations\201712100042468_Change_Agps_To_Kpi.cs" />
-    <Compile Include="Migrations\201712100042468_Change_Agps_To_Kpi.Designer.cs">
-      <DependentUpon>201712100042468_Change_Agps_To_Kpi.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Entities\TownMrsRsrp.cs" />
     <Compile Include="Migrations\201712100117555_Change_Agps_To_Kpi1.cs" />
     <Compile Include="Migrations\201712100117555_Change_Agps_To_Kpi1.Designer.cs">
       <DependentUpon>201712100117555_Change_Agps_To_Kpi1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801200636039_Add_Town_Mrs_Rsrp.cs" />
+    <Compile Include="Migrations\201801200636039_Add_Town_Mrs_Rsrp.Designer.cs">
+      <DependentUpon>201801200636039_Add_Town_Mrs_Rsrp.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -184,11 +190,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201712100042468_Change_Agps_To_Kpi.resx">
-      <DependentUpon>201712100042468_Change_Agps_To_Kpi.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712100117555_Change_Agps_To_Kpi1.resx">
       <DependentUpon>201712100117555_Change_Agps_To_Kpi1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801200636039_Add_Town_Mrs_Rsrp.resx">
+      <DependentUpon>201801200636039_Add_Town_Mrs_Rsrp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

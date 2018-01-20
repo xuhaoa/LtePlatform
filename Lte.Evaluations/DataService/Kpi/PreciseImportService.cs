@@ -2,7 +2,6 @@
 using Lte.Domain.LinqToCsv.Context;
 using Lte.Domain.LinqToCsv.Description;
 using Lte.Evaluations.ViewModels.Precise;
-using Lte.Parameters.Abstract.Basic;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Kpi;
 using System;

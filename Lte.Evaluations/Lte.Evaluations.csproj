@@ -163,7 +163,21 @@
     <Compile Include="Policy\FilterWorkItemService.cs" />
     <Compile Include="Policy\OrderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Precise\CellPreciseKpiView.cs" />
+    <Compile Include="ViewModels\Precise\CellView.cs" />
+    <Compile Include="ViewModels\Precise\IPreciseWorkItemDto.cs" />
+    <Compile Include="ViewModels\Precise\Precise4GSector.cs" />
+    <Compile Include="ViewModels\Precise\PreciseCoverageDto.cs" />
+    <Compile Include="ViewModels\Precise\PreciseCoveragesContainer.cs" />
+    <Compile Include="ViewModels\Precise\PreciseHistory.cs" />
+    <Compile Include="ViewModels\Precise\PreciseImportView.cs" />
+    <Compile Include="ViewModels\Precise\PreciseInterferenceNeighborDto.cs" />
+    <Compile Include="ViewModels\Precise\PreciseInterferenceNeighborsContainer.cs" />
+    <Compile Include="ViewModels\Precise\PreciseInterferenceVictimDto.cs" />
+    <Compile Include="ViewModels\Precise\PreciseInterferenceVictimsContainer.cs" />
     <Compile Include="ViewModels\Precise\PreciseViews.cs" />
+    <Compile Include="ViewModels\Precise\TopPreciseViewContainer.cs" />
+    <Compile Include="ViewModels\Precise\TownMrsRsrpView.cs" />
     <Compile Include="ViewModels\RegionKpi\PreciseRegion.cs" />
     <Compile Include="ViewModels\RegionKpi\StatViews.cs" />
   </ItemGroup>
