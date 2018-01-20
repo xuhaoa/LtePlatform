@@ -90,6 +90,20 @@
                         }
                     });
                 },
+                showCheckPlanList: function (type) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Evaluation/Dialog/CheckPlanListDialog.html',
+                        controller: 'map.checkPlanList.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "巡检计划列表";
+                            },
+                            type: function () {
+                                return type;
+                            }
+                        }
+                    });
+                },
                 showIndoorList: function () {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Home/IndoorListDialog.html',
@@ -126,6 +140,23 @@
                             stationId: function() {
                                 return stationId;
                             }
+                        }
+                    });
+                },
+                addCheckPlanDialog: function (stationId,name) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Home/AddCheckPlanDialog.html',
+                        controller: 'map.addCheckPlan.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "添加巡检计划";
+                            },
+                            stationId: function () {
+                                return stationId;
+                            },
+                            name: function () {
+                                return name;
+                            },
                         }
                     });
                 },

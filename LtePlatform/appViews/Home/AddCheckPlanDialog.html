@@ -1,0 +1,59 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
+    <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
+</div>
+<div class="modal-body form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">站址ID</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.StationId" readonly />
+        </div>
+        <label class="col-sm-3 control-label">站址名称</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.StationName" readonly />
+        </div>
+        
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">计划开始日期</label>
+        <div class="col-sm-3">
+            <input def-laydate placeholder="请输入日期" class="form-control" id="starttime" ng-model="station.starttime">
+        </div>
+        <label class="col-sm-3 control-label">计划结束日期</label>
+        <div class="col-sm-3">
+            <input def-laydate placeholder="请输入日期" class="form-control" id="endtime" ng-model="station.endtime">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">区域</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.AreaName" readonly />
+        </div>
+        <label class="col-sm-3 control-label">计划周</label>
+        <div class="col-sm-3">
+            <select class="form-control" ng-init="station.planWeek=planWeeks[0]" ng-model="station.planWeek" ng-options="planWeek for planWeek in planWeeks"></select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">维护单位</label>
+        <div class="col-sm-3">
+            <select class="form-control" ng-init="station.service=services[0]" ng-model="station.service" ng-options="service for service in services"></select>
+        </div>
+        <label class="col-sm-3 control-label">发起人</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.poster" required="required" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">巡检状态</label>
+        <div class="col-sm-2">
+            <select class="form-control" ng-init="station.status=statuss[0]" ng-model="station.status" ng-options="status for status in statuss"></select>
+        </div>
+    </div>
+    
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="ok()">确定添加</button>
+    <button class="btn btn-default" type="button" ng-click="cancel()">关闭窗口</button>
+</div>
+

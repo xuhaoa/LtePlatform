@@ -11,30 +11,32 @@
         <select ng-init="selectDistinct=distincts[0]" ng-model="selectDistinct" ng-options="distinct for distinct in distincts"></select>
         <button ng-click="search()">查询</button>
         <br>
-        <input type="file" ng-file-select="onFileSelect($files)" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-        <button ng-click="upload()">上传</button>
 
         <table class="table table-striped">
             <thead>
                 <tr>
                     <td>站址ID</td>
                     <td>站址名称</td>
-                    <td>所属区域</td>
-                    <td>站址类型</td>
-                    <td>室分类型</td>
-                    <td>覆盖范围</td>
+                    <td>巡检开始时间</td>
+                    <td>巡检结束时间</td>
+                    <td>区域</td>
+                    <td>服务商</td>
+                    <td>发起人</td>
+                    <td>状态</td>
                     <td align="center">操作</td>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="station in stationList">
-                    <td>{{station.stationId}}</td>
-                    <td>{{station.name}}</td>
-                    <td>{{station.areaName}}</td>
-                    <td>{{station.grade}}</td>
-                    <td>{{station.indoortype}}</td>
-                    <td>{{station.coverage}}</td>
-                    <td align="center"><a href="javascript:void(0);" ng-click="details(station.stationId)">查看</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" ng-click="edit(station.stationId)">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" ng-click="delete(station.stationId)">删除</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" ng-click="addCheckPlan(station.stationId,station.name)">添加巡检</a></td>
+                    <td>{{station.StationId}}</td>
+                    <td>{{station.StationName}}</td>
+                    <td>{{station.starttime}}</td>
+                    <td>{{station.endtime}}</td>
+                    <td>{{station.AreaName}}</td>
+                    <td>{{station.service}}</td>
+                    <td>{{station.poster}}</td>
+                    <td>{{station.status}}</td>
+                    <td align="center"><a href="javascript:void(0);" ng-click="addCheckResult(station.StationId,station.StationName)">录入巡检结果</a></td>
                 </tr>
             </tbody>
         </table>
