@@ -78,7 +78,24 @@ namespace Abp.EntityFramework.Dependency
                     DistrictViews = g.Select(x => x).Merge(generateDistrictViewFunc)
                 };
         }
-        
+
+        public static IEnumerable<TRegionDateSpanView> QueryDateDateViews<TRegionDateSpanView, TDistrictView, TTownView>
+            (this IEnumerable<TTownView> townViews, Func<TTownView, TDistrictView> generateDistrictViewFunc)
+            where TRegionDateSpanView : class, IRegionDateSpanView<TDistrictView, TTownView>, new()
+            where TDistrictView : ICityDistrict
+            where TTownView : class, ICityDistrictTown, IStatDate, new()
+        {
+            return from view in townViews
+                   group view by view.StatDate
+                into g
+                   select new TRegionDateSpanView
+                   {
+                       StatDate = g.Key,
+                       TownViews = g.Select(x => x),
+                       DistrictViews = g.Select(x => x).Merge(generateDistrictViewFunc)
+                   };
+        }
+
         public static TRegionDateView QueryRegionDateView<TRegionDateView, TDistrictView, TTownView>(
             this List<TTownView> townViews, DateTime initialDate,
             Func<TTownView, TDistrictView> generateDistrictViewFunc)
@@ -89,6 +106,21 @@ namespace Abp.EntityFramework.Dependency
             return new TRegionDateView
             {
                 StatDate = townViews.Any() ? townViews.First().StatTime : initialDate,
+                TownViews = townViews,
+                DistrictViews = townViews.Merge(generateDistrictViewFunc)
+            };
+        }
+
+        public static TRegionDateView QueryRegionDateDateView<TRegionDateView, TDistrictView, TTownView>(
+            this List<TTownView> townViews, DateTime initialDate,
+            Func<TTownView, TDistrictView> generateDistrictViewFunc)
+            where TRegionDateView : class, IRegionDateSpanView<TDistrictView, TTownView>, new()
+            where TDistrictView : ICityDistrict
+            where TTownView : class, ICityDistrictTown, IStatDate, new()
+        {
+            return new TRegionDateView
+            {
+                StatDate = townViews.Any() ? townViews.First().StatDate : initialDate,
                 TownViews = townViews,
                 DistrictViews = townViews.Merge(generateDistrictViewFunc)
             };

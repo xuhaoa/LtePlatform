@@ -389,6 +389,8 @@ namespace LtePlatform
             ninjectKernel.Bind<CqiQueryService>().ToSelf();
 
             ninjectKernel.Bind<MonthKpiService>().ToSelf();
+
+            ninjectKernel.Bind<MrsRegionStatService>().ToSelf();
         }
     }
 }

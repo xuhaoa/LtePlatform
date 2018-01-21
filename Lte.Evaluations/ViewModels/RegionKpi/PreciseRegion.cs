@@ -43,6 +43,15 @@ namespace Lte.Evaluations.ViewModels.RegionKpi
 
         public IEnumerable<TownFlowView> TownViews { get; set; }
     }
+
+    public class MrsRegionDateView : IRegionDateSpanView<DistrictMrsRsrpView, TownMrsRsrpView>
+    {
+        public DateTime StatDate { get; set; }
+
+        public IEnumerable<DistrictMrsRsrpView> DistrictViews { get; set; }
+
+        public IEnumerable<TownMrsRsrpView> TownViews { get; set; }
+    }
     
     public class DistrictComplainView
     {
