@@ -11,7 +11,7 @@ using Lte.Parameters.Entities.Kpi;
 namespace Lte.Evaluations.ViewModels.Precise
 {
     [AutoMapFrom(typeof(MrsRsrpStat))]
-    public class TownMrsRsrpDto : ICityDistrictTown, IStatDate
+    public class TownMrsRsrpDto : ICityDistrictTown, IStatDate, ITownId
     {
         public string District { get; set; }
 
@@ -139,5 +139,7 @@ namespace Lte.Evaluations.ViewModels.Precise
         public long Rsrp70To60 => RSRP_42 + RSRP_43 + RSRP_44 + RSRP_45 + RSRP_46;
 
         public long RsrpAbove60 => RSRP_47;
+
+        public int TownId { get; set; }
     }
 }

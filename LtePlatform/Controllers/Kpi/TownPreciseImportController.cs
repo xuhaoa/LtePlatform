@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Web.Http;
 using Lte.Evaluations.DataService.Kpi;
+using Lte.Evaluations.ViewModels.RegionKpi;
+using Lte.MySqlFramework.Entities;
 using Lte.Parameters.Entities.Kpi;
 using LtePlatform.Models;
 
@@ -20,9 +22,16 @@ namespace LtePlatform.Controllers.Kpi
         [ApiDoc("查询指定日期的精确覆盖率镇区统计指标")]
         [ApiParameterDoc("statTime", "查询指定日期")]
         [ApiResponse("镇区精确覆盖率统计指标")]
+        [HttpGet]
         public IEnumerable<TownPreciseView> Get(DateTime statTime)
         {
             return _service.GetMergeStats(statTime);
+        }
+
+        [HttpGet]
+        public IEnumerable<TownMrsRsrp> GetMrs(DateTime statDate)
+        {
+            return _service.GetMergeMrsStats(statDate);
         }
 
         [HttpPost]

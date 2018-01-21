@@ -13,6 +13,8 @@ namespace Lte.MySqlFramework.Entities
     {
         public DateTime StatDate { get; set; }
 
+        public long RsrpBelow120 { get; set; }
+
         public long Rsrp120To115 { get; set; }
 
         public long Rsrp115To110 { get; set; }

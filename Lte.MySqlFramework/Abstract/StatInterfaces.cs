@@ -5,10 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Lte.Domain.Common;
-using Lte.Domain.Common.Geo;
 using Lte.Domain.Regular;
 
 namespace Lte.MySqlFramework.Abstract
@@ -136,19 +134,6 @@ namespace Lte.MySqlFramework.Abstract
         
     }
 
-    public static class TownBoundaryQuery
-    {
-        public static bool IsInTownRange(this List<TownBoundary> coors, IGeoPoint<double> point)
-        {
-            return coors.Any(coor => point.IsInPolygon(coor.CoorList()));
-        }
-
-        public static bool IsInTownRange(this TownBoundary coor, IGeoPoint<double> point)
-        {
-            return point.IsInPolygon(coor.CoorList());
-        }
-    }
-
     public interface IPagingRepository<TEntity> : IRepository<TEntity>
         where TEntity : class, IEntity<int>
     {
@@ -159,40 +144,8 @@ namespace Lte.MySqlFramework.Abstract
             bool isAsc = true);
     }
 
-    public interface IWorkItemRepository : IPagingRepository<WorkItem>, ISaveChanges
+    public interface ITownMrsRsrpRepository : IRepository<TownMrsRsrp>, ISaveChanges
     {
-        Task<List<WorkItem>> GetAllListAsync(int eNodebId, byte sectorId);
-
-        Task<List<WorkItem>> GetAllListAsync(int eNodebId);
-
-        Task<List<WorkItem>> GetUnfinishedPreciseListAsync(DateTime begin, DateTime end);
-
-        Task<WorkItem> GetPreciseExistedAsync(int eNodebId, byte sectorId);
-    }
-
-    public interface ICellRepository : IRepository<Cell>, IMatchRepository<Cell, CellExcel>, ISaveChanges
-    {
-        void AddCells(IEnumerable<Cell> cells);
-
-        Cell GetBySectorId(int eNodebId, byte sectorId);
-
-        Cell GetByFrequency(int eNodebId, int frequency);
-
-        List<Cell> GetAllList(int eNodebId);
-
-        List<Cell> GetAllList(double west, double east, double south, double north);
-
-        List<Cell> GetAllInUseList();
-    }
-
-    public interface ICdmaCellRepository : IRepository<CdmaCell>, ISaveChanges
-    {
-        CdmaCell GetBySectorId(int btsId, byte sectorId);
-
-        CdmaCell GetBySectorIdAndCellType(int btsId, byte sectorId, string cellType);
-
-        List<CdmaCell> GetAllList(int btsId);
-
-        List<CdmaCell> GetAllInUseList();
+        
     }
 }

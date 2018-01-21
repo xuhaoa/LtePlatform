@@ -2461,13 +2461,20 @@ angular.module('region.precise', ['app.core'])
                         statTime: statTime
                     });
                 },
+                queryTownMrsStats: function (statTime) {
+                    return generalHttpService.getApiData('TownPreciseImport',
+                        {
+                            statDate: statTime
+                        });
+                },
                 clearImportItems: function() {
                     return generalHttpService.deleteApiData('PreciseImport', {});
                 },
-                dumpTownItems: function(views) {
+                dumpTownItems: function(views, mrsStats) {
                     return generalHttpService.postApiData('TownPreciseImport',
                     {
-                        views: views
+                        views: views,
+                        mrsRsrps: mrsStats
                     });
                 },
                 dumpTownAgpsItems: function(views) {

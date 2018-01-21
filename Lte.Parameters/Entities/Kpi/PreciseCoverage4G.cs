@@ -212,11 +212,6 @@ namespace Lte.Parameters.Entities.Kpi
         public int InterThirdNeighbors { get; set; }
     }
 
-    public class TownPreciseViewContainer
-    {
-        public IEnumerable<TownPreciseView> Views { get; set; }
-    }
-
     public class InterferenceMatrixStat : Entity
     {
         public int ENodebId => CellId.GetSplittedFields('-')[0].ConvertToInt(0);

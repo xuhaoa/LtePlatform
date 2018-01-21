@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Change_Agps_To_Kpi1 : IMigrationMetadata
+    public sealed partial class Add_Town_Mrs_Rsrp1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Change_Agps_To_Kpi1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Add_Town_Mrs_Rsrp1));
         
         string IMigrationMetadata.Id
         {
-            get { return "201712100117555_Change_Agps_To_Kpi1"; }
+            get { return "201801202330162_Add_Town_Mrs_Rsrp1"; }
         }
         
         string IMigrationMetadata.Source

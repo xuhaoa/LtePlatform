@@ -17,6 +17,7 @@
         };
         $scope.dumpHistory = [];
         $scope.townPreciseViews = [];
+        $scope.townMrsStats = [];
 
         $scope.clearItems = function() {
             preciseImportService.clearImportItems().then(function() {
@@ -27,8 +28,9 @@
             });
         };
         $scope.dumpTownItems = function() {
-            preciseImportService.dumpTownItems($scope.townPreciseViews).then(function() {
+            preciseImportService.dumpTownItems($scope.townPreciseViews, $scope.townMrsStats).then(function() {
                 $scope.townPreciseViews = [];
+                $scope.townMrsStats = [];
                 $scope.updateHistory();
             });
         };
@@ -67,9 +69,13 @@
             });
         };
         $scope.updateTownItems = function(date) {
-
             preciseImportService.queryTownPreciseViews(date).then(function(result) {
                 $scope.townPreciseViews = result;
+            });
+        };
+        $scope.updateTownMrsItems = function(date) {
+            preciseImportService.queryTownMrsStats(date).then(function (result) {
+                $scope.townMrsStats = result;
             });
         };
         $scope.updateMongoItems = function(date) {

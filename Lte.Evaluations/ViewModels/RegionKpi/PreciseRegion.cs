@@ -166,4 +166,12 @@ namespace Lte.Evaluations.ViewModels.RegionKpi
             return results;
         }
     }
+
+    public class TownPreciseViewContainer
+    {
+        public IEnumerable<TownPreciseView> Views { get; set; }
+
+        public IEnumerable<TownMrsRsrp> MrsRsrps { get; set; }
+    }
+
 }

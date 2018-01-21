@@ -164,6 +164,8 @@ namespace LtePlatform
 
             ninjectKernel.Bind<IMrsRsrpRepository>().To<MrsRsrpRepository>();
 
+            ninjectKernel.Bind<ITownMrsRsrpRepository>().To<TownMrsRsrpRepository>();
+
             ninjectKernel.Bind<IMrsSinrUlRepository>().To<MrsSinrUlRepository>();
 
             ninjectKernel.Bind<IMrsTadvRsrpRepository>().To<MrsTadvRsrpRepository>();

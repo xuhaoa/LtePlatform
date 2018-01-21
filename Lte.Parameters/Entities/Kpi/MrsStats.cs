@@ -2,6 +2,8 @@
 using Abp.EntityFramework.Dependency;
 using MongoDB.Bson;
 using System;
+using Lte.Domain.Common;
+using Lte.Domain.Regular;
 
 namespace Lte.Parameters.Entities.Kpi
 {
@@ -157,6 +159,8 @@ namespace Lte.Parameters.Entities.Kpi
         public ObjectId Id { get; set; }
 
         public string CellId { get; set; }
+
+        public int ENodebId => CellId.GetSplittedFields('-')[0].ConvertToInt(0);
 
         public DateTime StatDate { get; set; }
 
