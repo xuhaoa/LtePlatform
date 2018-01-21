@@ -92,6 +92,7 @@ namespace Lte.MySqlFramework.Entities
         public double CoverageRate100 => MrsBelow100 / TotalMrs;
     }
 
+    [AutoMapFrom(typeof(TownMrsRsrpView))]
     public class DistrictMrsRsrpView : ICityDistrict, IStatDate
     {
         public string District { get; set; }
