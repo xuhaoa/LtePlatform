@@ -148,13 +148,26 @@
   <ItemGroup>
     <Compile Include="Abstract\CollegeInterfaces.cs" />
     <Compile Include="Abstract\CustomerInterfaces.cs" />
+    <Compile Include="Abstract\ICdmaCellRepository.cs" />
+    <Compile Include="Abstract\ICellRepository.cs" />
+    <Compile Include="Abstract\IWorkItemRepository.cs" />
     <Compile Include="Abstract\StatInterfaces.cs" />
+    <Compile Include="Abstract\TownBoundaryQuery.cs" />
+    <Compile Include="Concrete\CdmaCellRepository.cs" />
+    <Compile Include="Concrete\CellRepository.cs" />
+    <Compile Include="Concrete\PagingRepositoryBase.cs" />
     <Compile Include="Concrete\RegionRepositories.cs" />
     <Compile Include="Concrete\CollegeRepositories.cs" />
     <Compile Include="Concrete\CustomerRepositories.cs" />
     <Compile Include="Concrete\FlowRepository.cs" />
     <Compile Include="Concrete\MySqlContext.cs" />
     <Compile Include="Concrete\StatRepositroies.cs" />
+    <Compile Include="Concrete\WorkItemRepository.cs" />
+    <Compile Include="Entities\AreaTestDate.cs" />
+    <Compile Include="Entities\AreaTestDateView.cs" />
+    <Compile Include="Entities\HotSpotView.cs" />
+    <Compile Include="Entities\IndoorDistribution.cs" />
+    <Compile Include="Entities\InfrastructureInfo.cs" />
     <Compile Include="Entities\MonthKpiStat.cs" />
     <Compile Include="Entities\BranchDemand.cs" />
     <Compile Include="Entities\RegionStats.cs" />
@@ -167,13 +180,14 @@
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
     <Compile Include="Entities\TownFlow.cs" />
-    <Compile Include="Migrations\201712100042468_Change_Agps_To_Kpi.cs" />
-    <Compile Include="Migrations\201712100042468_Change_Agps_To_Kpi.Designer.cs">
-      <DependentUpon>201712100042468_Change_Agps_To_Kpi.cs</DependentUpon>
+    <Compile Include="Entities\TownMrsRsrp.cs" />
+    <Compile Include="Migrations\201801200636039_Add_Town_Mrs_Rsrp.cs" />
+    <Compile Include="Migrations\201801200636039_Add_Town_Mrs_Rsrp.Designer.cs">
+      <DependentUpon>201801200636039_Add_Town_Mrs_Rsrp.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201712100117555_Change_Agps_To_Kpi1.cs" />
-    <Compile Include="Migrations\201712100117555_Change_Agps_To_Kpi1.Designer.cs">
-      <DependentUpon>201712100117555_Change_Agps_To_Kpi1.cs</DependentUpon>
+    <Compile Include="Migrations\201801202330162_Add_Town_Mrs_Rsrp1.cs" />
+    <Compile Include="Migrations\201801202330162_Add_Town_Mrs_Rsrp1.Designer.cs">
+      <DependentUpon>201801202330162_Add_Town_Mrs_Rsrp1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -184,11 +198,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201712100042468_Change_Agps_To_Kpi.resx">
-      <DependentUpon>201712100042468_Change_Agps_To_Kpi.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201801200636039_Add_Town_Mrs_Rsrp.resx">
+      <DependentUpon>201801200636039_Add_Town_Mrs_Rsrp.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712100117555_Change_Agps_To_Kpi1.resx">
-      <DependentUpon>201712100117555_Change_Agps_To_Kpi1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201801202330162_Add_Town_Mrs_Rsrp1.resx">
+      <DependentUpon>201801202330162_Add_Town_Mrs_Rsrp1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

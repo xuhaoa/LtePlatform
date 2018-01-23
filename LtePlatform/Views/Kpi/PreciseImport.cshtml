@@ -28,21 +28,37 @@
                         </div>
                     }
                 }
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            数据导入进度
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <p>
-                            <button class="btn btn-primary" ng-click="dumpItems()">一键导入</button>
-                            <button class="btn btn-info" ng-disabled="townPreciseViews.length === 0" ng-click="dumpTownItems()">导入镇区指标</button>
-                            <button class="btn btn-danger" ng-disabled="totalDumpItems.length === 0" ng-click="clearItems()">清除导入</button>
-                        </p>
-                        <div ng-include="'/appViews/Import/ImportProgress.html'"></div>
-                    </div>
-                </div>
+                <p>
+                    <button class="btn btn-primary" ng-click="dumpItems()">一键导入</button>
+                    <button class="btn btn-info" ng-disabled="townPreciseViews.length === 0 && townMrsStats.length ===0" 
+                            ng-click="dumpTownItems()">
+                        导入镇区指标
+                    </button>
+                    <button class="btn btn-danger" ng-disabled="totalDumpItems.length === 0" ng-click="clearItems()">
+                        清除导入
+                    </button>
+                </p>
+                <div ng-include="'/appViews/Import/ImportProgress.html'"></div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>镇区</th>
+                            <th>&lt;-120</th>
+                            <th>-120&le;RSRP&lt;-115</th>
+                            <th>-115&le;RSRP&lt;-110</th>
+                            <th>-110&le;RSRP&lt;-105</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="view in townMrsStats">
+                            <td>{{view.townId}}</td>
+                            <td>{{view.rsrpBelow120}}</td>
+                            <td>{{view.rsrp120To115}}</td>
+                            <td>{{view.rsrp115To110}}</td>
+                            <td>{{view.rsrp110To105}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="col-md-6">
                 <div class="panel panel-info">
@@ -62,8 +78,10 @@
                                 <tr>
                                     <th>日期</th>
                                     <th>小区统计数量</th>
-                                    <th>镇区统计数量</th>
-                                    <th>获取数据</th>
+                                    <th>镇区-精确覆盖</th>
+                                    <th>镇区-MRS覆盖</th>
+                                    <th style="width:150px">精确覆盖率数据</th>
+                                    <th>MRS数据</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -71,15 +89,21 @@
                                     <td>{{stat.dateString}}</td>
                                     <td>{{stat.preciseStats}}</td>
                                     <td>{{stat.townPreciseStats}}</td>
+                                    <td>{{stat.townMrsStats}}</td>
                                     <td>
                                         <div class="btn-group-sm">
                                             <button type="button" class="btn btn-sm btn-success" ng-click="updateMongoItems(stat.statDate)">
-                                                <i class="glyphicon glyphicon-search"></i>
                                                 Mongo
                                             </button>
-                                            <button class="btn btn-sm btn-default" ng-click="updateTownItems(stat.statDate)">镇区指标</button>
+                                            <button class="btn btn-sm btn-default" ng-click="updateTownItems(stat.statDate)">
+                                                镇区
+                                            </button>
                                         </div>
-
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-default" ng-click="updateTownMrsItems(stat.statDate)">
+                                            镇区
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>

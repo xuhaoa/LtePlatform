@@ -1646,7 +1646,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
         workItemDialog,
         downSwitchService,
         parametersDialogService,
-        appUrlService,
+        appUrlService
         ) {
         $scope.dialogTitle = dialogTitle;
         $scope.distincts = new Array('全市', '顺德', '南海', '禅城', '三水', '高明');
