@@ -330,7 +330,34 @@
             $scope.station = {};
             downSwitchService.getStationById(stationId).then(function(result) {
                 $scope.station = result.result[0];
+                $scope.station.TowerHeight = $scope.station.TowerHeight*1;
             });
+            var areaMap = {
+                'SD': '顺德',
+                'NH': '南海',
+                'CC': '禅城',
+                'SS': '三水',
+                'GM': '高明'
+            };
+            $scope.grades = new Array('A', 'B', 'C', 'D');
+            $scope.stationTypes = new Array('包含固网设备的无线机房', '电信机楼内无线机房', '一体化机柜', '拉远', '安装点', '微基站', '微峰窝', '接入网机房', '综合机房', '其它无线机房');
+            $scope.roomAttributions = new Array('电信', '联通', '铁塔');
+            $scope.isNewRooms = new Array('新建', '存量');
+            $scope.towerTypes = new Array('楼面抱杆', '普通楼面塔', '普通地面塔', '景观塔', '单管塔', '增高架', '楼面支撑杆', '屋顶抱杆',
+                '支撑杆', '通信杆', '落地塔', '楼面塔', '角钢塔', '美化杆', '路灯杆塔', '楼面增高架',
+                '铁塔', '美化天线', '抱杆', '抱杆天线', '排气管型', '楼面美化天线', '管型天线', '美化桶',
+                '方柱型天线', '地面通信杆', '楼面角钢塔', '楼面美化方柱', '楼面排气管', '射灯型', '楼面美化集束杆',
+                '地面美化树', '楼面美化水罐', '楼面笼架', '单杆塔', '租赁机房', '小灵通杆', '排气管');
+            $scope.towerAttributions = new Array('电信', '联通', '铁塔');
+            $scope.isNewTowers = new Array('新建', '存量');
+            $scope.attributionNatures = new Array('城市', '市区', '乡镇', '镇区', '农村');
+            $scope.isSimples = new Array('是', '否');
+            $scope.isDangerouss = new Array('是', '否');
+            $scope.isShares = new Array('是', '否');
+            $scope.isPowers = new Array('是', '否');
+            $scope.isBBUs = new Array('是', '否');
+            $scope.netTypes = new Array('C', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL', 'C+FL+TL+VL');
+
             $scope.ok = function() {
                 downSwitchService.updateStation({
                     "Station": JSON.stringify($scope.station)
@@ -746,41 +773,7 @@
         mapDialogService,
         $uibModalInstance) {
         $scope.dialogTitle = dialogTitle;
-
         $scope.assessment = assessment;
-        var Nowdate = new Date();
-        var vYear = Nowdate.getFullYear();
-        var vMon = Nowdate.getMonth();
-        if (vMon == 0) {
-            vMon = 12;
-            vYear = parseInt(vYear) - 1;
-        }
-        $scope.assessment.cycle = vYear + '年' + vMon + '月';
-        $scope.tab = 1;
-        $scope.jqf = 0;
-        $scope.xcccd = 100;
-        $scope.kpid = 100;
-        $scope.test = 1;
-        $scope.assessment.xccc1 = 0;
-        $scope.assessment.xccc2 = 0;
-        $scope.assessment.xccc3 = 0;
-        $scope.assessment.xccc4 = 0;
-        $scope.assessment.xccc5 = 0;
-        $scope.assessment.xccc6 = 0;
-        $scope.assessment.xccc7 = 0;
-        $scope.assessment.xccc8 = 0;
-        $scope.assessment.jqf1 = 0;
-        $scope.assessment.jqf2 = 0;
-        $scope.assessment.jqf3 = 0;
-        $scope.assessment.jqf4 = 0;
-        $scope.assessment.jqf5 = 0;
-        $scope.assessment.kpi1 = 0;
-        $scope.assessment.kpi2 = 0;
-        $scope.assessment.kpi3 = 0;
-
-
-
-        $scope.assessment.areaname = '顺德';
         $scope.distincts = new Array('顺德', '南海', '禅城', '三水', '高明');
         $scope.services = new Array('广东宜通世纪科技股份有限公司', '广东南方建设工程有限公司', '广东省电信工程有限公司');
 

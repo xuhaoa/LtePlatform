@@ -1,4 +1,4 @@
-﻿<div class="modal-header">
+﻿<!--<div class="modal-header">
 	<button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
 	<h4 class="modal-title text-primary">{{dialogTitle}}</h4>
 </div>
@@ -123,4 +123,145 @@
 <div class="modal-footer">
 	<button class="btn btn-warning" ng-click="ok()">保存更改</button>
 	<button class="btn btn-default" type="button" ng-click="cancel()">关闭窗口</button>
+</div>-->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
+    <h4 class="modal-title text-primary">{{dialogTitle}}</h4>
 </div>
+<div class="modal-body form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">站址ID</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.StationId" readonly />
+        </div>
+        <label class="col-sm-3 control-label">交维日期</label>
+        <div class="col-sm-3">
+            <input def-laydate placeholder="请输入日期" class="form-control"  id="IntersectionDate" ng-model="station.IntersectionDate">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">站址名称</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.StationName" readonly />
+        </div>
+        <label class="col-sm-3 control-label">区域</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.AreaName" readonly />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">镇区</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.Town" />
+        </div>
+        <label class="col-sm-3 control-label">机房</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.EngineRoom" required="required" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">机房类型</label>
+        <div class="col-sm-3">
+            <select class="form-control"  ng-model="station.StationType" ng-options="stationType for stationType in stationTypes"></select>
+        </div>
+        <label class="col-sm-3 control-label">系统站址ID</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.SysStationId" required="required" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">站点等级</label>
+        <div class="col-sm-2">
+            <select class="form-control"  ng-model="station.StationGrade" ng-options="grade for grade in grades"></select>
+        </div>
+        <label class="col-sm-3 control-label">安装地址</label>
+        <div class="col-sm-4">
+            <input class="form-control" ng-model="station.InstallAddr" readonly />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">经度</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.longtitute" readonly />
+        </div>
+        <label class="col-sm-3 control-label">纬度</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.lattitute" readonly />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">机房归属</label>
+        <div class="col-sm-3">
+            <select class="form-control" ng-model="station.RoomAttribution" ng-options="roomAttribution for roomAttribution in roomAttributions"></select>
+        </div>
+        <label class="col-sm-3 control-label">是否新建机房</label>
+        <div class="col-sm-3">
+            <select class="form-control"  ng-model="station.IsNewRoom" ng-options="isNewRoom for isNewRoom in isNewRooms"></select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">铁塔编号</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.TowerCode" required="required" />
+        </div>
+        <label class="col-sm-3 control-label">铁塔类型</label>
+        <div class="col-sm-3">
+            <select class="form-control" ng-init="station.TowerType" ng-model="station.TowerType" ng-options="towerType for towerType in towerTypes"></select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">铁塔高度</label>
+        <div class="col-sm-3">
+            <input class="form-control" ng-model="station.TowerHeight" type="number" min="0" max="1000" step="0.5" />
+        </div>
+        <label class="col-sm-3 control-label">铁塔归属</label>
+        <div class="col-sm-3">
+            <select class="form-control"  ng-model="station.TowerAttribution" ng-options="towerAttribution for towerAttribution in towerAttributions"></select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">是否新建铁塔</label>
+        <div class="col-sm-3">
+            <select class="form-control"  ng-model="station.IsNewTower" ng-options="isNewTower for isNewTower in isNewTowers"></select>
+        </div>
+        <label class="col-sm-3 control-label">属地性质</label>
+        <div class="col-sm-3">
+            <select class="form-control"  ng-model="station.AttributionNature" ng-options="attributionNature for attributionNature in attributionNatures"></select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">是否简易机房</label>
+        <div class="col-sm-3">
+            <select class="form-control" ng-model="station.IsSimple" ng-options="isSimple for isSimple in isSimples"></select>
+        </div>
+        <label class="col-sm-3 control-label">是否高危站点</label>
+        <div class="col-sm-3">
+            <select class="form-control" ng-model="station.IsDangerous" ng-options="isDangerous for isDangerous in isDangerouss"></select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">网络类型</label>
+        <div class="col-sm-3">
+            <select class="form-control"  ng-model="station.NetType" ng-options="netType for netType in netTypes"></select>
+        </div>
+        <label class="col-sm-3 control-label">CL网是否共用天线</label>
+        <div class="col-sm-3">
+            <select class="form-control"  ng-model="station.IsShare" ng-options="isShare for isShare in isShares"></select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">是否动力配套</label>
+        <div class="col-sm-3">
+            <select class="form-control"  ng-model="station.IsPower" ng-options="isPower for isPower in isPowers"></select>
+        </div>
+        <label class="col-sm-3 control-label">是否BBU</label>
+        <div class="col-sm-3">
+            <select class="form-control"  ng-model="station.IsBBU" ng-options="isBBU for isBBU in isBBUs"></select>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="ok()">保存</button>
+    <button class="btn btn-default" type="button" ng-click="cancel()">关闭窗口</button>
+</div>
+

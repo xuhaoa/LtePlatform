@@ -269,7 +269,7 @@
                         }
                     });
                 },
-                showAssessmentEdit: function () {
+                showAssessmentEdit: function (assessment) {
                     menuItemService.showGeneralDialog({
                         templateUrl: '/appViews/Evaluation/Dialog/AssessmentEditDialog.html',
                         controller: 'map.assessmentEdit.dialog',
