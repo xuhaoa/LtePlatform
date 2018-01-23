@@ -2178,6 +2178,131 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             $scope.selectTab(0);
             $scope.change();
     })
+    .controller('map.assessmentEdit.dialog',
+    function ($scope,
+        $http,
+        dialogTitle,
+        assessment,
+        downSwitchService,
+        mapDialogService,
+        $uibModalInstance) {
+        $scope.dialogTitle = dialogTitle;
+
+        $scope.assessment = assessment;
+        var Nowdate = new Date();
+        var vYear = Nowdate.getFullYear();
+        var vMon = Nowdate.getMonth();
+        if (vMon == 0) {
+            vMon = 12;
+            vYear = parseInt(vYear) - 1;
+        }
+        $scope.assessment.cycle = vYear + '年' + vMon + '月';
+        $scope.tab = 1;
+        $scope.jqf = 0;
+        $scope.xcccd = 100;
+        $scope.kpid = 100;
+        $scope.test = 1;
+        $scope.assessment.xccc1 = 0;
+        $scope.assessment.xccc2 = 0;
+        $scope.assessment.xccc3 = 0;
+        $scope.assessment.xccc4 = 0;
+        $scope.assessment.xccc5 = 0;
+        $scope.assessment.xccc6 = 0;
+        $scope.assessment.xccc7 = 0;
+        $scope.assessment.xccc8 = 0;
+        $scope.assessment.jqf1 = 0;
+        $scope.assessment.jqf2 = 0;
+        $scope.assessment.jqf3 = 0;
+        $scope.assessment.jqf4 = 0;
+        $scope.assessment.jqf5 = 0;
+        $scope.assessment.kpi1 = 0;
+        $scope.assessment.kpi2 = 0;
+        $scope.assessment.kpi3 = 0;
+
+
+
+        $scope.assessment.areaname = '顺德';
+        $scope.distincts = new Array('顺德', '南海', '禅城', '三水', '高明');
+        $scope.services = new Array('广东宜通世纪科技股份有限公司', '广东南方建设工程有限公司', '广东省电信工程有限公司');
+
+
+        $scope.change = function () {
+            downSwitchService.getStationCnt($scope.assessment.areaname, $scope.assessment.cycle).then(function (result) {
+                if ($scope.assessment.areaname == '顺德') {
+                    $scope.assessment.service = '广东宜通世纪科技股份有限公司';
+                } else if ($scope.assessment.areaname == '南海') {
+                    $scope.assessment.service = '广东南方建设工程有限公司';
+                } else {
+                    $scope.assessment.service = '广东省电信工程有限公司';
+                }
+                $scope.assessment.jzn1 = result.result.jzn1;
+                $scope.assessment.jzn2 = result.result.jzn2;
+                $scope.assessment.jzn3 = result.result.jzn3;
+                $scope.assessment.jzn4 = result.result.jzn4;
+                $scope.assessment.jzzd = result.result.jzzd;
+                $scope.assessment.jzw1 = result.result.jzw1;
+                $scope.assessment.jzw2 = result.result.jzw2;
+                $scope.assessment.jzw3 = result.result.jzw3;
+                $scope.assessment.jzw4 = result.result.jzw4;
+                $scope.assessment.xxnw = result.result.xxnw;
+                $scope.assessment.zxnw = result.result.zxnw;
+                $scope.assessment.dxnw = result.result.dxnw;
+                $scope.assessment.cdxnw = result.result.cdxnw;
+                $scope.assessment.snwfbxt = result.result.snwfbxt;
+                $scope.assessment.wlxfbxt = result.result.wlxfbxt;
+            });
+        };
+
+        $scope.getAssessment = function (areaName) {
+            downSwitchService.getAssessment(areaName, cycle).then(function (result) {
+                mapDialogService.showCommonStationInfo(result.result[0]);
+            });
+        };
+
+
+
+        $scope.changejqf = function () {
+            $scope.jqf = 0 + $scope.assessment.jqf1 + $scope.assessment.jqf2 + $scope.assessment.jqf3 + $scope.assessment.jqf4 + $scope.assessment.jqf5;
+            $scope.zf = $scope.jqf + $scope.kpid * 0.3 + $scope.xcccd * 0.7;
+        };
+
+        $scope.changecxcc = function () {
+            $scope.xcccd = 100 +
+                $scope.assessment.xccc1 +
+                $scope.assessment.xccc2 +
+                $scope.assessment.xccc3 +
+                $scope.assessment.xccc4 +
+                $scope.assessment.xccc5 +
+                $scope.assessment.xccc6 +
+                $scope.assessment.xccc7 +
+                $scope.assessment.xccc8;
+            $scope.zf = $scope.jqf + $scope.kpid * 0.3 + $scope.xcccd * 0.7;
+        };
+        $scope.changekpi = function () {
+            $scope.kpi = 0 + $scope.assessment.kpi1 + $scope.assessment.kpi2 + $scope.assessment.kpi3;
+            $scope.kpid = 100 + $scope.kpi;
+            $scope.zf = $scope.jqf + $scope.kpid * 0.3 + $scope.xcccd * 0.7;
+        };
+        $scope.ok = function () {
+            downSwitchService.updateAssessment({
+                "Assessment": JSON.stringify($scope.assessment)
+            }).then(function (result) {
+                alert(result.description);
+            });
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+        $scope.selectTab = function (setTab) {
+            $scope.tab = setTab;
+        }
+        $scope.isSelectTab = function (checkTab) {
+            return $scope.tab === checkTab
+        }
+        $scope.selectTab(0);
+        $scope.change();
+    })
     .controller('map.assessmentDetails.dialog',
     function ($scope,
         $http,
@@ -2281,8 +2406,10 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
         $scope.hidePic = function () {
             document.getElementById('oImg').style.display = "none";
         }  
-        $scope.edit = function (stationId) {
-            parametersDialogService.showStationEdit(stationId);
+        $scope.edit = function (id) {
+            downSwitchService.getAssessmentById(id).then(function (result) {
+                parametersDialogService.showAssessmentEdit(result.result[0]);
+            });
         }
         $scope.download = function (id) {
             location.href = appUrlService.getPhpHost() + "LtePlatForm/lte/index.php/Assessment/download/id/" + id;
@@ -2595,6 +2722,20 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                         resolve: {
                             dialogTitle: function() {
                                 return "考核评分";
+                            }
+                        }
+                    });
+                },
+                showAssessmentEdit: function () {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Evaluation/Dialog/AssessmentEditDialog.html',
+                        controller: 'map.assessmentEdit.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "修改评分";
+                            },
+                            assessment: function () {
+                                return assessment;
                             }
                         }
                     });

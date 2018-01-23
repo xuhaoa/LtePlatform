@@ -1194,6 +1194,11 @@
                         .postPhpUrlData(appUrlService.getPhpHost() +
                         'LtePlatForm/lte/index.php/Assessment/add', assessment);
                 },
+                updateAssessment: function (assessment) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/Assessment/update', assessment);
+                },
                 queryDwgList: function(btsId) {
                     return generalHttpService.getApiData('DwgQuery',
                     {

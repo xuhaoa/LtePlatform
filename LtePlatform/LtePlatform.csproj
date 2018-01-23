@@ -484,6 +484,7 @@
     <Content Include="appViews\Customer\Dialog\Recent.html" />
     <Content Include="appViews\Evaluation\Dialog\AssessmentAddDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\AssessmentDialog.html" />
+    <Content Include="appViews\Evaluation\Dialog\AssessmentEditDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\AssessmentListDialog.html" />
     <Content Include="appViews\Evaluation\Dialog\CheckDetails.html" />
     <Content Include="appViews\Evaluation\Dialog\CheckIndoorDetails.html" />
