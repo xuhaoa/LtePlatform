@@ -1797,6 +1797,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             $scope.isShares = new Array('是', '否');
             $scope.isPowers = new Array('是', '否');
             $scope.isBBUs = new Array('是', '否');
+            $scope.isSelfs = new Array('是', '否');
             $scope.netTypes = new Array('C', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL', 'C+FL+TL+VL');
 
             $scope.ok = function() {
@@ -1920,6 +1921,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
             $scope.isShares = new Array('是', '否');
             $scope.isPowers = new Array('是', '否');
             $scope.isBBUs = new Array('是', '否');
+            $scope.isSelfs = new Array('是', '否');
             $scope.netTypes = new Array('C', 'FL', 'VL', 'C+FL', 'C+VL', 'FL+VL', 'C+FL+VL', 'C+FL+TL','C+FL+TL+VL');
       
             var areaCode = station.id.substr(0, 2);
@@ -2217,6 +2219,41 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
         $scope.assessment = assessment;
         $scope.distincts = new Array('顺德', '南海', '禅城', '三水', '高明');
         $scope.services = new Array('广东宜通世纪科技股份有限公司', '广东南方建设工程有限公司', '广东省电信工程有限公司');
+        $scope.assessment.xccc1 = $scope.assessment.xccc1 * 1;
+        $scope.assessment.xccc2 = $scope.assessment.xccc2 * 1;
+        $scope.assessment.xccc3 = $scope.assessment.xccc3 * 1;
+        $scope.assessment.xccc4 = $scope.assessment.xccc4 * 1;
+        $scope.assessment.xccc5 = $scope.assessment.xccc5 * 1;
+        $scope.assessment.xccc6 = $scope.assessment.xccc6 * 1;
+        $scope.assessment.xccc7 = $scope.assessment.xccc7 * 1;
+        $scope.assessment.xccc8 = $scope.assessment.xccc8 * 1;
+
+        $scope.assessment.kpi1 = $scope.assessment.kpi1 * 1;
+        $scope.assessment.kpi2 = $scope.assessment.kpi2 * 1;
+        $scope.assessment.kpi3 = $scope.assessment.kpi3 * 1;
+
+        $scope.assessment.jqf1 = $scope.assessment.jqf1 * 1;
+        $scope.assessment.jqf2 = $scope.assessment.jqf2 * 1;
+        $scope.assessment.jqf3 = $scope.assessment.jqf3 * 1;
+        $scope.assessment.jqf4 = $scope.assessment.jqf4 * 1;
+        $scope.assessment.jqf5 = $scope.assessment.jqf5 * 1;
+
+        $scope.jqf = $scope.assessment.jqf1 * 1 + $scope.assessment.jqf2 * 1 + $scope.assessment.jqf3 * 1 + $scope.assessment.jqf4 * 1 + $scope.assessment.jqf5 * 1;
+
+        $scope.xcccd = 100 +
+            $scope.assessment.xccc1 * 1 +
+            $scope.assessment.xccc2 * 1 +
+            $scope.assessment.xccc3 * 1 +
+            $scope.assessment.xccc4 * 1 +
+            $scope.assessment.xccc5 * 1 +
+            $scope.assessment.xccc6 * 1 +
+            $scope.assessment.xccc7 * 1 +
+            $scope.assessment.xccc8 * 1;
+
+        $scope.kpi = 0 + $scope.assessment.kpi1 * 1 + $scope.assessment.kpi2 * 1 + $scope.assessment.kpi3 * 1;
+        $scope.kpid = 100 + $scope.kpi * 1;
+
+        $scope.zf = $scope.jqf * 1 + $scope.kpid * 0.3 + $scope.xcccd * 0.7;
 
 
         $scope.change = function () {

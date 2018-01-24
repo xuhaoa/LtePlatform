@@ -34,7 +34,7 @@
 
                 <tr><td colspan="16">中国电信股份有限公司佛山分公司</td></tr>
                 <tr><td colspan="16">移动网基站维护服务考核确认表</td></tr>
-                <tr><td>考核周期</td><td colspan="6">{{assessment.cycle}}</td><td colspan="3">考核日期</td><td colspan="6"><input def-laydate placeholder="请输入日期" type="text" id="markdate" ng-model="assessment.markdate" /></td></tr>
+                <tr><td>考核周期</td><td colspan="6">{{assessment.cycle}}</td><td colspan="3">考核日期</td><td colspan="6"><input def-laydate placeholder="请输入日期"  id="markdate" ng-model="assessment.markdate" /></td></tr>
                 <tr><td>服务区域</td><td colspan="15"><select  ng-model="assessment.areaname" ng-options="distinct for distinct in distincts" ng-change="change()"></select></td></tr>
                 <tr><td>服务商</td><td colspan="15">{{assessment.service}}</td></tr>
                 <tr><td rowspan="2"></td><td>单网基站</td><td>双网基站</td><td>三网基站</td><td>四网基站</td><td>单网基站</td><td>双网基站</td><td>三网基站</td><td>四网基站</td><td>基站站点</td><td rowspan="2">小型室内外覆盖延伸系统（有源设备≤2）</td><td rowspan="2">中型室内外覆盖延伸系统（3≤有源设备≤5）</td><td rowspan="2">大型室内外覆盖延伸系统（6≤有源设备≤9）</td><td rowspan="2">超大型室内外覆盖延伸系统（10≤有源设备）</td><td rowspan="2">室内分布系统（不含有源）</td><td rowspan="2">五类线分布系统</td></tr>

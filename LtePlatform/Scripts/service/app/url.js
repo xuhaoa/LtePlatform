@@ -845,6 +845,13 @@ angular.module('app.format', [])
                                     value: station.TowerCode
                                 }
                             ]
+                        }, {
+                            items: [
+                                {
+                                    key: '是否自维',
+                                    value: station.IsSelf
+                                }
+                            ]
                         }
                     ];
                 },
@@ -1721,6 +1728,12 @@ angular.module('app.format', [])
                                 {
                                     key: '地址',
                                     value: station.address
+                                }, {
+                                    key: '系统分类',
+                                    value: station.systemclassify
+                                }, {
+                                    key: '交维日期',
+                                    value: station.IntersectionDate
                                 }
                             ]
                         }

@@ -33,17 +33,17 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">站点等级</label>
         <div class="col-sm-3">
-            <select class="form-control" ng-init="station.grade=station.grade" ng-model="station.grade" ng-options="grade for grade in grades"></select>
+            <select class="form-control"  ng-model="station.grade" ng-options="grade for grade in grades"></select>
         </div>
         <label class="col-sm-3 control-label">是否新建站点</label>
         <div class="col-sm-3">
-            <select class="form-control" ng-init="station.isNew=station.isNew" ng-model="station.isNew" ng-options="isNew for isNew in isNews"></select>
+            <select class="form-control"  ng-model="station.isNew" ng-options="isNew for isNew in isNews"></select>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label">站点类型</label>
         <div class="col-sm-3">
-            <select class="form-control" ng-init="station.indoortype=station.indoortype" ng-model="station.indoortype" ng-options="indoortype for indoortype in indoortypes"></select>
+            <select class="form-control"  ng-model="station.indoortype" ng-options="indoortype for indoortype in indoortypes"></select>
         </div>
         <label class="col-sm-3 control-label">覆盖范围</label>
         <div class="col-sm-3">
@@ -53,7 +53,7 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">设备类型</label>
         <div class="col-sm-3">
-            <select class="form-control" ng-init="station.deviceType=station.deviceType" ng-model="station.deviceType" ng-options="deviceType for deviceType in deviceTypes"></select>
+            <select class="form-control"  ng-model="station.deviceType" ng-options="deviceType for deviceType in deviceTypes"></select>
         </div>
         <label class="col-sm-3 control-label">设备数目</label>
         <div class="col-sm-3">
@@ -63,11 +63,11 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">网络类型</label>
         <div class="col-sm-3">
-            <select class="form-control" ng-init="station.netType=station.netType" ng-model="station.netType" ng-options="netType for netType in netTypes"></select>
+            <select class="form-control"  ng-model="station.netType" ng-options="netType for netType in netTypes"></select>
         </div>
         <label class="col-sm-3 control-label">系统分类</label>
         <div class="col-sm-3">
-            <select class="form-control" ng-init="station.systemClassify=station.systemClassify" ng-model="station.systemClassify" ng-options="systemClassify for systemClassify in systemClassifies"></select>
+            <select class="form-control"  ng-model="station.systemclassify" ng-options="systemClassify for systemClassify in systemClassifies"></select>
         </div>
     </div>
     <div class="form-group">
@@ -78,7 +78,7 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-warning" ng-click="ok()">确定添加</button>
+    <button class="btn btn-warning" ng-click="ok()">保存</button>
     <button class="btn btn-default" type="button" ng-click="cancel()">关闭窗口</button>
 </div>
 

@@ -133,6 +133,12 @@
             <select class="form-control" ng-init="station.IsBBU=isBBUs[0]" ng-model="station.IsBBU" ng-options="isBBU for isBBU in isBBUs"></select>
         </div>
     </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">是否自维</label>
+        <div class="col-sm-3">
+            <select class="form-control" ng-init="station.IsSelf=isSelfs[0]" ng-model="station.IsSelf" ng-options="isSelf for isSelf in isSelfs"></select>
+        </div>
+    </div>
 </div>
 <div class="modal-footer">
 	<button class="btn btn-warning" ng-click="ok()">确定添加</button>
