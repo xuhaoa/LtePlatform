@@ -2,41 +2,10 @@
 using Abp.EntityFramework.Repositories;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
-using System.Collections.Generic;
 using Lte.Domain.Common;
 
 namespace Lte.MySqlFramework.Concrete
 {
-    public class PreciseWorkItemCellRepositroy : EfRepositorySave<MySqlContext, PreciseWorkItemCell>, IPreciseWorkItemCellRepository
-    {
-        public PreciseWorkItemCellRepositroy(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
-        {
-        }
-
-        public List<PreciseWorkItemCell> GetAllList(string serialNumber)
-        {
-            return GetAllList(x => x.WorkItemNumber == serialNumber);
-        }
-
-        public PreciseWorkItemCell Get(string serialNumber, int eNodebId, byte sectorId)
-        {
-            return
-                FirstOrDefault(x => x.WorkItemNumber == serialNumber && x.ENodebId == eNodebId && x.SectorId == sectorId);
-        }
-    }
-    
-    public class PlanningSiteRepository : EfRepositorySave<MySqlContext, PlanningSite>, IPlanningSiteRepository
-    {
-        public PlanningSiteRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
-        {
-        }
-
-        public PlanningSite Match(PlanningSiteExcel stat)
-        {
-            return FirstOrDefault(x => x.PlanNum == stat.PlanNum);
-        }
-    }
-
     public class AgisDtPointRepository : EfRepositorySave<MySqlContext, AgisDtPoint>, IAgisDtPointRepository
     {
         public AgisDtPointRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
@@ -142,6 +111,13 @@ namespace Lte.MySqlFramework.Concrete
     public class TownMrsRsrpRepository : EfRepositorySave<MySqlContext, TownMrsRsrp>, ITownMrsRsrpRepository
     {
         public TownMrsRsrpRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+    }
+
+    public class TopMrsRsrpRepository : EfRepositorySave<MySqlContext, TopMrsRsrp>, ITopMrsRsrpRepository
+    {
+        public TopMrsRsrpRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
     }

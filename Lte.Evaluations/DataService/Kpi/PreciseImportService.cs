@@ -25,6 +25,7 @@ namespace Lte.Evaluations.DataService.Kpi
         private readonly IPreciseMongoRepository _mongoRepository;
         private readonly IMrsRsrpRepository _mrsRsrpRepository;
         private readonly ITownMrsRsrpRepository _townMrsRsrpRepository;
+        private readonly ITopMrsRsrpRepository _topMrsRsrpRepository;
 
         public static Stack<PreciseCoverage4G> PreciseCoverage4Gs { get; set; } 
         
@@ -32,7 +33,7 @@ namespace Lte.Evaluations.DataService.Kpi
             ITownPreciseCoverage4GStatRepository regionRepository,
             IENodebRepository eNodebRepository, ITownRepository townRepository,
             IPreciseMongoRepository mongoRepository, IMrsRsrpRepository mrsRsrpRepository,
-            ITownMrsRsrpRepository townMrsRsrpRepository)
+            ITownMrsRsrpRepository townMrsRsrpRepository, ITopMrsRsrpRepository topMrsRsrpRepository)
         {
             _repository = repository;
             _regionRepository = regionRepository;
@@ -41,6 +42,7 @@ namespace Lte.Evaluations.DataService.Kpi
             _mongoRepository = mongoRepository;
             _mrsRsrpRepository = mrsRsrpRepository;
             _townMrsRsrpRepository = townMrsRsrpRepository;
+            _topMrsRsrpRepository = topMrsRsrpRepository;
             if (PreciseCoverage4Gs == null)
                 PreciseCoverage4Gs = new Stack<PreciseCoverage4G>();
         }
@@ -125,6 +127,14 @@ namespace Lte.Evaluations.DataService.Kpi
                                  RsrpBelow120 = g.Sum(x => x.RsrpBelow120)
                              };
             return mergeStats;
+        }
+
+        public IEnumerable<TopMrsRsrp> GetTopMrsRsrps(DateTime statTime)
+        {
+            var end = statTime.AddDays(1);
+            var stats = _mrsRsrpRepository.GetAllList(x => x.StatDate >= statTime && x.StatDate < end);
+            var dtos = stats.Where(x => x.RSRP_00 > 2000).MapTo<List<CellMrsRsrpDto>>();
+            return dtos.MapTo<IEnumerable<TopMrsRsrp>>();
         }
 
         private IEnumerable<TownPreciseCoverage4GStat> GetTownStats(List<PreciseCoverage4G> stats)

@@ -251,6 +251,8 @@ namespace LtePlatform
             ninjectKernel.Bind<IAreaTestInfoRepository>().To<AreaTestInfoRepository>();
 
             ninjectKernel.Bind<IRasterFileDtRepository>().To<RasterFileDtRepository>();
+
+            ninjectKernel.Bind<ITopMrsRsrpRepository>().To<TopMrsRsrpRepository>();
             
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 

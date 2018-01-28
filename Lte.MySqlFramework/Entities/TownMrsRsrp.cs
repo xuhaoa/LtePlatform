@@ -77,19 +77,19 @@ namespace Lte.MySqlFramework.Entities
 
         public double MrsBelow115 => RsrpBelow120 + Rsrp120To115;
 
-        public double CoverageRate115 => MrsBelow115 / TotalMrs;
+        public double CoverageRate115 => 100 - 100 * MrsBelow115 / TotalMrs;
 
         public double MrsBelow110 => MrsBelow115 + Rsrp115To110;
 
-        public double CoverageRate110 => MrsBelow110 / TotalMrs;
+        public double CoverageRate110 => 100 - 100 * MrsBelow110 / TotalMrs;
 
         public double MrsBelow105 => MrsBelow110 + Rsrp110To105;
 
-        public double CoverageRate105 => MrsBelow105 / TotalMrs;
+        public double CoverageRate105 => 100 - 100 * MrsBelow105 / TotalMrs;
 
         public double MrsBelow100 => MrsBelow105 + Rsrp105To100;
 
-        public double CoverageRate100 => MrsBelow100 / TotalMrs;
+        public double CoverageRate100 => 100 - 100 * MrsBelow100 / TotalMrs;
     }
 
     [AutoMapFrom(typeof(TownMrsRsrpView))]
@@ -128,19 +128,19 @@ namespace Lte.MySqlFramework.Entities
 
         public double MrsBelow115 => RsrpBelow120 + Rsrp120To115;
 
-        public double CoverageRate115 => MrsBelow115 / TotalMrs;
+        public double CoverageRate115 => 100 - 100 * MrsBelow115 / TotalMrs;
 
         public double MrsBelow110 => MrsBelow115 + Rsrp115To110;
 
-        public double CoverageRate110 => MrsBelow110 / TotalMrs;
+        public double CoverageRate110 => 100 - 100 * MrsBelow110 / TotalMrs;
 
         public double MrsBelow105 => MrsBelow110 + Rsrp110To105;
 
-        public double CoverageRate105 => MrsBelow105 / TotalMrs;
+        public double CoverageRate105 => 100 - 100 * MrsBelow105 / TotalMrs;
 
         public double MrsBelow100 => MrsBelow105 + Rsrp105To100;
 
-        public double CoverageRate100 => MrsBelow100 / TotalMrs;
+        public double CoverageRate100 => 100 - 100 * MrsBelow100 / TotalMrs;
 
         public static DistrictMrsRsrpView ConstructView(TownMrsRsrpView townView)
         {

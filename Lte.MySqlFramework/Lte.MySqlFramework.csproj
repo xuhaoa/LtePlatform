@@ -150,12 +150,16 @@
     <Compile Include="Abstract\CustomerInterfaces.cs" />
     <Compile Include="Abstract\ICdmaCellRepository.cs" />
     <Compile Include="Abstract\ICellRepository.cs" />
+    <Compile Include="Abstract\IPagingRepository.cs" />
+    <Compile Include="Abstract\IPreciseWorkItemCellRepository.cs" />
     <Compile Include="Abstract\IWorkItemRepository.cs" />
     <Compile Include="Abstract\StatInterfaces.cs" />
     <Compile Include="Abstract\TownBoundaryQuery.cs" />
     <Compile Include="Concrete\CdmaCellRepository.cs" />
     <Compile Include="Concrete\CellRepository.cs" />
     <Compile Include="Concrete\PagingRepositoryBase.cs" />
+    <Compile Include="Concrete\PlanningSiteRepository.cs" />
+    <Compile Include="Concrete\PreciseWorkItemCellRepositroy.cs" />
     <Compile Include="Concrete\RegionRepositories.cs" />
     <Compile Include="Concrete\CollegeRepositories.cs" />
     <Compile Include="Concrete\CustomerRepositories.cs" />
@@ -179,15 +183,16 @@
     <Compile Include="Entities\PlanningSite.cs" />
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
+    <Compile Include="Entities\TopMrsRsrp.cs" />
     <Compile Include="Entities\TownFlow.cs" />
     <Compile Include="Entities\TownMrsRsrp.cs" />
-    <Compile Include="Migrations\201801200636039_Add_Town_Mrs_Rsrp.cs" />
-    <Compile Include="Migrations\201801200636039_Add_Town_Mrs_Rsrp.Designer.cs">
-      <DependentUpon>201801200636039_Add_Town_Mrs_Rsrp.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201801202330162_Add_Town_Mrs_Rsrp1.cs" />
     <Compile Include="Migrations\201801202330162_Add_Town_Mrs_Rsrp1.Designer.cs">
       <DependentUpon>201801202330162_Add_Town_Mrs_Rsrp1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801280036570_Top_Mrs_Rsrp.cs" />
+    <Compile Include="Migrations\201801280036570_Top_Mrs_Rsrp.Designer.cs">
+      <DependentUpon>201801280036570_Top_Mrs_Rsrp.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -198,11 +203,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201801200636039_Add_Town_Mrs_Rsrp.resx">
-      <DependentUpon>201801200636039_Add_Town_Mrs_Rsrp.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801202330162_Add_Town_Mrs_Rsrp1.resx">
       <DependentUpon>201801202330162_Add_Town_Mrs_Rsrp1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801280036570_Top_Mrs_Rsrp.resx">
+      <DependentUpon>201801280036570_Top_Mrs_Rsrp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

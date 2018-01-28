@@ -1,6 +1,4 @@
-﻿using Lte.Domain.Regular;
-using Lte.Evaluations.ViewModels.RegionKpi;
-using Lte.Parameters.Abstract.Infrastructure;
+﻿using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.Parameters.Abstract.Kpi;
 using Lte.Parameters.Entities.Kpi;
 using System;
@@ -8,8 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Abp.EntityFramework.Dependency;
 using Abp.EntityFramework.Extensions;
-using Lte.Domain.Common.Geo;
-using Lte.Domain.Common.Wireless;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
 
