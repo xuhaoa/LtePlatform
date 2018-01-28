@@ -212,6 +212,26 @@ namespace Lte.Evaluations.DataService.Kpi
                 }
             }
             _townMrsRsrpRepository.SaveChanges();
+
+            var topMrsStats = container.TopMrsRsrps;
+            foreach (var stat in topMrsStats)
+            {
+                var endTime = stat.StatDate.AddDays(1);
+                var item =
+                    _topMrsRsrpRepository.FirstOrDefault(
+                        x =>
+                            x.ENodebId == stat.ENodebId && x.SectorId == stat.SectorId && x.StatDate >= stat.StatDate &&
+                            x.StatDate < endTime);
+                if (item == null)
+                {
+                    _topMrsRsrpRepository.Insert(stat);
+                }
+                else
+                {
+                    stat.MapTo(item);
+                }
+            }
+            _topMrsRsrpRepository.SaveChanges();
         }
 
         public bool DumpOneStat()
@@ -264,13 +284,15 @@ namespace Lte.Evaluations.DataService.Kpi
                 var townItems = _regionRepository.GetAllList(x => x.StatTime >= beginDate && x.StatTime < endDate);
                 var townMrsItems =
                     _townMrsRsrpRepository.GetAllList(x => x.StatDate >= beginDate && x.StatDate < endDate);
+                var topMrsItems = _topMrsRsrpRepository.GetAllList(x => x.StatDate >= beginDate && x.StatDate < endDate);
                 results.Add(new PreciseHistory
                 {
                     DateString = begin.ToShortDateString(),
                     StatDate = begin.Date,
                     PreciseStats = items.Count,
                     TownPreciseStats = townItems.Count,
-                    TownMrsStats = townMrsItems.Count
+                    TownMrsStats = townMrsItems.Count,
+                    TopMrsStats = topMrsItems.Count
                 });
                 begin = begin.AddDays(1);
             }

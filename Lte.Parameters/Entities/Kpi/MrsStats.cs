@@ -162,7 +162,7 @@ namespace Lte.Parameters.Entities.Kpi
 
         public int ENodebId => CellId.GetSplittedFields('-')[0].ConvertToInt(0);
 
-        public byte SectorId => CellId.GetSplittedFields('-')[0].ConvertToByte(0);
+        public byte SectorId => CellId.GetSplittedFields('-')[1].ConvertToByte(0);
 
         public DateTime StatDate { get; set; }
 
