@@ -393,6 +393,8 @@ namespace LtePlatform
             ninjectKernel.Bind<MonthKpiService>().ToSelf();
 
             ninjectKernel.Bind<MrsRegionStatService>().ToSelf();
+
+            ninjectKernel.Bind<TopMrsRsrpService>().ToSelf();
         }
     }
 }

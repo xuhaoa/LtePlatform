@@ -134,6 +134,7 @@
     <Compile Include="DataService\Basic\ENodebQueryService.cs" />
     <Compile Include="DataService\Kpi\FlowQueryService.cs" />
     <Compile Include="DataService\Kpi\FlowService.cs" />
+    <Compile Include="DataService\Kpi\TopMrsRsrpService.cs" />
     <Compile Include="DataService\Mr\AgpsService.cs" />
     <Compile Include="DataService\Mr\InterferenceMatrixService.cs" />
     <Compile Include="DataService\Mr\MonthKpiService.cs" />

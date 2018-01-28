@@ -198,6 +198,15 @@ namespace Lte.Domain.Common.Wireless
                 }
             },
             {
+                "OrderMrsRsrpPolicy", new []
+                {
+                    new Tuple<object, string>(OrderMrsRsrpPolicy.OrderBy110Rate, "按照-110dBm覆盖率升序"),
+                    new Tuple<object, string>(OrderMrsRsrpPolicy.OrderBy105Rate, "按照-105dBm覆盖率升序"),
+                    new Tuple<object, string>(OrderMrsRsrpPolicy.OrderBy110TimesDescending, "按照-110dBm以下MR数降序"),
+                    new Tuple<object, string>(OrderMrsRsrpPolicy.OrderBy105TimesDescending, "按照-105dBm以下MR数降序"),
+                }
+            },
+            {
                 "OrderTopConnection3GPolicy", new[]
                 {
                     new Tuple<object, string>(OrderTopConnection3GPolicy.OrderByConnectionFailsDescending,
