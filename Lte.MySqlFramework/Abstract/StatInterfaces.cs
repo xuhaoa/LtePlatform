@@ -3,21 +3,10 @@ using Abp.EntityFramework.Repositories;
 using Lte.MySqlFramework.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using Abp.Domain.Entities;
 using Lte.Domain.Common;
-using Lte.Domain.Regular;
 
 namespace Lte.MySqlFramework.Abstract
 {
-    public interface IPreciseWorkItemCellRepository : IRepository<PreciseWorkItemCell>, ISaveChanges
-    {
-        List<PreciseWorkItemCell> GetAllList(string serialNumber);
-
-        PreciseWorkItemCell Get(string serialNumber, int eNodebId, byte sectorId);
-    }
-
     public interface IFlowHuaweiRepository : IRepository<FlowHuawei>, ISaveChanges, IMatchRepository<FlowHuawei>
     {
         List<FlowHuawei> GetAllList(DateTime begin, DateTime end);
@@ -134,17 +123,12 @@ namespace Lte.MySqlFramework.Abstract
         
     }
 
-    public interface IPagingRepository<TEntity> : IRepository<TEntity>
-        where TEntity : class, IEntity<int>
+    public interface ITownMrsRsrpRepository : IRepository<TownMrsRsrp>, ISaveChanges
     {
-        IQueryable<TEntity> Get<TKey>(Expression<Func<TEntity, bool>> predicate, int pageIndex, int pageSize,
-            Expression<Func<TEntity, TKey>> sortKeySelector, bool isAsc = true);
-
-        IQueryable<TEntity> GetAll<TKey>(int pageIndex, int pageSize, Expression<Func<TEntity, TKey>> sortKeySelector,
-            bool isAsc = true);
+        
     }
 
-    public interface ITownMrsRsrpRepository : IRepository<TownMrsRsrp>, ISaveChanges
+    public interface ITopMrsRsrpRepository : IRepository<TopMrsRsrp>, ISaveChanges
     {
         
     }

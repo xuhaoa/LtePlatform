@@ -426,6 +426,7 @@
     <Compile Include="Controllers\Kpi\TopCqiController.cs" />
     <Compile Include="Controllers\Kpi\TopDownSwitchController.cs" />
     <Compile Include="Controllers\Kpi\TopDrop2GController.cs" />
+    <Compile Include="Controllers\Kpi\TopMrsRsrpController.cs" />
     <Compile Include="Controllers\Kpi\TopRank2Controller.cs" />
     <Compile Include="Controllers\Kpi\TopRrcFailController.cs" />
     <Compile Include="Controllers\Kpi\TownFlowController.cs" />

@@ -704,6 +704,15 @@ namespace Lte.Domain.Common.Wireless
         OrderByPoorCqiDescending
     }
 
+    [EnumTypeDescription(typeof(OrderMrsRsrpPolicy), OrderBy110Rate)]
+    public enum OrderMrsRsrpPolicy : byte
+    {
+        OrderBy110Rate,
+        OrderBy105Rate,
+        OrderBy110TimesDescending,
+        OrderBy105TimesDescending
+    }
+
     public class OrderCqiPolicyDescriptionTransform : DescriptionTransform<OrderCqiPolicy>
     {
         

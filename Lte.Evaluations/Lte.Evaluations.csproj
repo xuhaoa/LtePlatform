@@ -123,6 +123,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataService\AreaTestDateService.cs" />
+    <Compile Include="DataService\Basic\BasicImportContainer.cs" />
+    <Compile Include="DataService\Basic\BasicImportService.cs" />
     <Compile Include="DataService\Basic\BasicServices.cs" />
     <Compile Include="DataService\College\CustomerServices.cs" />
     <Compile Include="DataService\Kpi\CdmaRegionStatService.cs" />
@@ -134,6 +136,7 @@
     <Compile Include="DataService\Basic\ENodebQueryService.cs" />
     <Compile Include="DataService\Kpi\FlowQueryService.cs" />
     <Compile Include="DataService\Kpi\FlowService.cs" />
+    <Compile Include="DataService\Kpi\TopMrsRsrpService.cs" />
     <Compile Include="DataService\Mr\AgpsService.cs" />
     <Compile Include="DataService\Mr\InterferenceMatrixService.cs" />
     <Compile Include="DataService\Mr\MonthKpiService.cs" />

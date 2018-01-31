@@ -251,6 +251,8 @@ namespace LtePlatform
             ninjectKernel.Bind<IAreaTestInfoRepository>().To<AreaTestInfoRepository>();
 
             ninjectKernel.Bind<IRasterFileDtRepository>().To<RasterFileDtRepository>();
+
+            ninjectKernel.Bind<ITopMrsRsrpRepository>().To<TopMrsRsrpRepository>();
             
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
@@ -391,6 +393,8 @@ namespace LtePlatform
             ninjectKernel.Bind<MonthKpiService>().ToSelf();
 
             ninjectKernel.Bind<MrsRegionStatService>().ToSelf();
+
+            ninjectKernel.Bind<TopMrsRsrpService>().ToSelf();
         }
     }
 }
