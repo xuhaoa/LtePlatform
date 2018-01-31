@@ -214,8 +214,8 @@
         $scope.stationName = '';
         $scope.totolPage = 1;
 
-        $scope.addCheckResult = function (StationId, StationName) {
-
+        $scope.addCheckResult = function (station) {
+            parametersDialogService.showCheckingResultsStationAdd(station);
         }
 
         $scope.cancel = function () {
@@ -364,6 +364,7 @@
                     "Station": JSON.stringify($scope.station)
                 }).then(function(result) {
                     alert(result.description);
+                    $uibModalInstance.dismiss('cancel');
                 });
             }
             $scope.cancel = function() {
@@ -421,8 +422,13 @@
     })
     .controller('map.addCheckPlan.dialog',
     function ($scope, dialogTitle, $uibModalInstance, downSwitchService, stationId, name) {
+
         $scope.dialogTitle = dialogTitle;
+        var timestamp = new Date().getTime();
+        var id = stationId + timestamp;
+        $scope.dialogTitle = dialogTitle + "  单号:" + id;
         $scope.station = {};
+        $scope.station.id = id;
         var areaMap = {
             'SD': '顺德',
             'NH': '南海',
@@ -446,6 +452,7 @@
                 "Station": JSON.stringify($scope.station)
             }).then(function (result) {
                 alert(result.description);
+                $uibModalInstance.dismiss('cancel');
             });
         }
         $scope.cancel = function () {
@@ -498,6 +505,7 @@
                     "Station": JSON.stringify($scope.station)
                 }).then(function(result) {
                     alert(result.description);
+                    $uibModalInstance.dismiss('cancel');
                 });
             }
             $scope.cancel = function() {
@@ -540,6 +548,7 @@
                 "Indoor": JSON.stringify($scope.station)
             }).then(function (result) {
                 alert(result.description);
+                $uibModalInstance.dismiss('cancel');
             });
         }
         $scope.cancel = function () {
@@ -569,6 +578,7 @@
                     "Station": JSON.stringify($scope.station)
                 }).then(function(result) {
                     alert(result.description);
+                    $uibModalInstance.dismiss('cancel');
                 });
             }
 
@@ -751,6 +761,7 @@
                     "Assessment": JSON.stringify($scope.assessment)
                 }).then(function (result) {
                     alert(result.description);
+                    $uibModalInstance.dismiss('cancel');
                 });
             };
 
@@ -877,6 +888,7 @@
                 "Assessment": JSON.stringify($scope.assessment)
             }).then(function (result) {
                 alert(result.description);
+                $uibModalInstance.dismiss('cancel');
             });
         };
 

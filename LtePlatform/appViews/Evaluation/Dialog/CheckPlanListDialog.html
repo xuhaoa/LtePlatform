@@ -15,6 +15,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <td>巡检编号</td>
                     <td>站址ID</td>
                     <td>站址名称</td>
                     <td>巡检开始时间</td>
@@ -28,6 +29,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="station in stationList">
+                    <td>{{station.id}}</td>
                     <td>{{station.StationId}}</td>
                     <td>{{station.StationName}}</td>
                     <td>{{station.starttime}}</td>
@@ -36,7 +38,7 @@
                     <td>{{station.service}}</td>
                     <td>{{station.poster}}</td>
                     <td>{{station.status}}</td>
-                    <td align="center"><a href="javascript:void(0);" ng-click="addCheckResult(station.StationId,station.StationName)">录入巡检结果</a></td>
+                    <td align="center"><a href="javascript:void(0);" ng-click="addCheckResult(station)">录入巡检结果</a></td>
                 </tr>
             </tbody>
         </table>

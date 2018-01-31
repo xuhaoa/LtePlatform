@@ -1655,8 +1655,8 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
         $scope.stationName = '';
         $scope.totolPage = 1;
 
-        $scope.addCheckResult = function (StationId, StationName) {
-
+        $scope.addCheckResult = function (station) {
+            parametersDialogService.showCheckingResultsStationAdd(station);
         }
 
         $scope.cancel = function () {
@@ -1805,6 +1805,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                     "Station": JSON.stringify($scope.station)
                 }).then(function(result) {
                     alert(result.description);
+                    $uibModalInstance.dismiss('cancel');
                 });
             }
             $scope.cancel = function() {
@@ -1862,8 +1863,13 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
     })
     .controller('map.addCheckPlan.dialog',
     function ($scope, dialogTitle, $uibModalInstance, downSwitchService, stationId, name) {
+
         $scope.dialogTitle = dialogTitle;
+        var timestamp = new Date().getTime();
+        var id = stationId + timestamp;
+        $scope.dialogTitle = dialogTitle + "  单号:" + id;
         $scope.station = {};
+        $scope.station.id = id;
         var areaMap = {
             'SD': '顺德',
             'NH': '南海',
@@ -1887,6 +1893,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                 "Station": JSON.stringify($scope.station)
             }).then(function (result) {
                 alert(result.description);
+                $uibModalInstance.dismiss('cancel');
             });
         }
         $scope.cancel = function () {
@@ -1939,6 +1946,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                     "Station": JSON.stringify($scope.station)
                 }).then(function(result) {
                     alert(result.description);
+                    $uibModalInstance.dismiss('cancel');
                 });
             }
             $scope.cancel = function() {
@@ -1981,6 +1989,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                 "Indoor": JSON.stringify($scope.station)
             }).then(function (result) {
                 alert(result.description);
+                $uibModalInstance.dismiss('cancel');
             });
         }
         $scope.cancel = function () {
@@ -2010,6 +2019,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                     "Station": JSON.stringify($scope.station)
                 }).then(function(result) {
                     alert(result.description);
+                    $uibModalInstance.dismiss('cancel');
                 });
             }
 
@@ -2192,6 +2202,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                     "Assessment": JSON.stringify($scope.assessment)
                 }).then(function (result) {
                     alert(result.description);
+                    $uibModalInstance.dismiss('cancel');
                 });
             };
 
@@ -2318,6 +2329,7 @@ angular.module('topic.parameters.station', ['myApp.url', 'myApp.region', 'myApp.
                 "Assessment": JSON.stringify($scope.assessment)
             }).then(function (result) {
                 alert(result.description);
+                $uibModalInstance.dismiss('cancel');
             });
         };
 
@@ -2726,6 +2738,20 @@ angular.module('topic.parameters', ['app.menu', 'app.core', 'topic.basic'])
                                 return "巡检信息:" + station.name;
                             },
                             station: function() {
+                                return station;
+                            }
+                        }
+                    });
+                },
+                showCheckingResultsStationAdd: function (station) {
+                    menuItemService.showGeneralDialog({
+                        templateUrl: '/appViews/Evaluation/Dialog/CheckResultsStationAdd.html',
+                        controller: 'map.checkingResultsStationAdd.dialog',
+                        resolve: {
+                            dialogTitle: function () {
+                                return "巡检结果录入:" + station.StationName + ' '+ station.id;
+                            },
+                            station: function () {
                                 return station;
                             }
                         }
@@ -4555,6 +4581,38 @@ angular.module('topic.dialog.station', ['myApp.url', 'myApp.region', 'myApp.kpi'
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
+    })
+    .controller('map.checkingResultsStationAdd.dialog', function ($scope, $uibModalInstance, station, dialogTitle,
+        appFormatService, networkElementService, downSwitchService) {
+        $scope.station = {};
+        $scope.station.stationId = station.StationId;
+        $scope.station.WYMC003 = station.StationName;
+        $scope.station.WYBH002 = station.StationId;
+        $scope.station.XJLSH001 = station.id;
+        $scope.station.KSSJ008 = station.starttime;
+        $scope.station.JSSJ009 = station.endtime;
+        $scope.station.XJDW005 = station.service;
+        $scope.station.WGMC007 = 'FS'+station.AreaName;
+        $scope.tab = 1;
+        $scope.dialogTitle = dialogTitle;
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+        $scope.ok = function () {
+            downSwitchService.addCheckResults({
+                "Station": JSON.stringify($scope.station)
+            }).then(function (result) {
+                alert(result.description);
+                $uibModalInstance.dismiss('cancel');
+            });
+        }
+        $scope.selectTab = function (setTab) {
+            $scope.tab = setTab;
+        }
+        $scope.isSelectTab = function (checkTab) {
+            return $scope.tab === checkTab
+        }
+        $scope.selectTab(0);
     })
     .controller('map.resourceStation.dialog', function ($scope, $uibModalInstance, station, dialogTitle, downSwitchService,
         appFormatService, networkElementService) {

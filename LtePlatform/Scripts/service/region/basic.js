@@ -848,6 +848,11 @@
                         .postPhpUrlData(appUrlService.getPhpHost() +
                         'LtePlatForm/lte/index.php/Checking/addCheckPlan', station);
                 },
+                addCheckResults: function (station) {
+                    return generalHttpService
+                        .postPhpUrlData(appUrlService.getPhpHost() +
+                        'LtePlatForm/lte/index.php/Checking/addCheckResults', station);
+                },
                 addIndoor: function (indoor) {
                     return generalHttpService
                         .postPhpUrlData(appUrlService.getPhpHost() +
