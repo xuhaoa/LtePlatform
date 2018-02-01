@@ -44,10 +44,8 @@ namespace Lte.MySqlFramework.Entities
     }
 
     [AutoMapFrom(typeof(TopMrsRsrp))]
-    public class TopMrsRsrpView : IStatDate, ILteCellQuery
+    public class TopMrsRsrpView : ILteCellQuery
     {
-        public DateTime StatDate { get; set; }
-
         public int ENodebId { get; set; }
 
         public byte SectorId { get; set; }

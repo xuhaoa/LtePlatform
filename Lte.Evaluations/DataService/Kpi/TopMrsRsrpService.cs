@@ -33,7 +33,12 @@ namespace Lte.Evaluations.DataService.Kpi
                 var stats = queryFunc(beginDate, endDate);
                 if (stats.Any())
                 {
-                    orderResult.AddRange(stats.Order(policy, topCount));
+                    orderResult.AddRange(stats.Where(x => (double)(x.RsrpBelow120 + x.Rsrp120To115 + x.Rsrp115To110)
+                                                     /
+                                                     (x.RsrpBelow120 + x.Rsrp120To115 + x.Rsrp115To110 + x.Rsrp110To105 +
+                                                      x.Rsrp105To100 + x.Rsrp100To95
+                                                      + x.Rsrp95To90 + x.Rsrp90To80 + x.Rsrp90To80 + x.Rsrp80To70 +
+                                                      x.Rsrp70To60 + x.RsrpAbove60) > 0.2).Order(policy, topCount));
                 }
                 beginDate = beginDate.AddDays(1);
                 endDate = beginDate.AddDays(1);

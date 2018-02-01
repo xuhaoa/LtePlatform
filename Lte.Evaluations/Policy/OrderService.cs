@@ -104,7 +104,7 @@ namespace Lte.Evaluations.Policy
             {
                 case OrderMrsRsrpPolicy.OrderBy105Rate:
                     return
-                        stats.OrderByDescending(x => (x.RsrpBelow120 + x.Rsrp120To115 + x.Rsrp115To110 + x.Rsrp110To105)
+                        stats.OrderByDescending(x => (double)(x.RsrpBelow120 + x.Rsrp120To115 + x.Rsrp115To110 + x.Rsrp110To105)
                                                      /
                                                      (x.RsrpBelow120 + x.Rsrp120To115 + x.Rsrp115To110 + x.Rsrp110To105 +
                                                       x.Rsrp105To100 + x.Rsrp100To95
@@ -117,7 +117,7 @@ namespace Lte.Evaluations.Policy
                             .ToList();
                 case OrderMrsRsrpPolicy.OrderBy110Rate:
                     return
-                        stats.OrderByDescending(x => (x.RsrpBelow120 + x.Rsrp120To115 + x.Rsrp115To110)
+                        stats.OrderByDescending(x => (double)(x.RsrpBelow120 + x.Rsrp120To115 + x.Rsrp115To110)
                                                      /
                                                      (x.RsrpBelow120 + x.Rsrp120To115 + x.Rsrp115To110 + x.Rsrp110To105 +
                                                       x.Rsrp105To100 + x.Rsrp100To95
