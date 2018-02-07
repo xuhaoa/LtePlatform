@@ -42,5 +42,6 @@ namespace LtePlatform.Controllers.Parameters
         {
             return _service.UpdateTownInfo(eNodebId, townId);
         }
+
     }
 }

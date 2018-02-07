@@ -181,6 +181,7 @@
     <Compile Include="ViewModels\Precise\PreciseViews.cs" />
     <Compile Include="ViewModels\Precise\TopPreciseViewContainer.cs" />
     <Compile Include="ViewModels\Precise\TownMrsRsrpView.cs" />
+    <Compile Include="ViewModels\RegionKpi\ENodebView.cs" />
     <Compile Include="ViewModels\RegionKpi\PreciseRegion.cs" />
     <Compile Include="ViewModels\RegionKpi\StatViews.cs" />
   </ItemGroup>
