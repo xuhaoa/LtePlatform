@@ -344,6 +344,7 @@
     <Compile Include="Controllers\AdminitrativeRegion\CityListController.cs" />
     <Compile Include="Controllers\AdminitrativeRegion\DistrictBandCellsController.cs" />
     <Compile Include="Controllers\AdminitrativeRegion\DistrictIndoorCellsController.cs" />
+    <Compile Include="Controllers\AdminitrativeRegion\LteProblemController.cs" />
     <Compile Include="Controllers\AdminitrativeRegion\RegionStatsController.cs" />
     <Compile Include="Controllers\AdminitrativeRegion\TownBoundaryController.cs" />
     <Compile Include="Controllers\AdminitrativeRegion\TownController.cs" />

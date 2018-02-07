@@ -121,4 +121,11 @@ namespace Lte.MySqlFramework.Concrete
         {
         }
     }
+
+    public class LteProblemRepository : EfRepositorySave<MySqlContext, LteProblem>, ILteProblemRepository
+    {
+        public LteProblemRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        {
+        }
+    }
 }

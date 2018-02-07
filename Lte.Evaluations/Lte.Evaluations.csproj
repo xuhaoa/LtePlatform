@@ -127,6 +127,8 @@
     <Compile Include="DataService\Basic\BasicImportService.cs" />
     <Compile Include="DataService\Basic\BasicServices.cs" />
     <Compile Include="DataService\College\CustomerServices.cs" />
+    <Compile Include="DataService\Dump\CdmaCellDumpService.cs" />
+    <Compile Include="DataService\Dump\LteProblemService.cs" />
     <Compile Include="DataService\Kpi\CdmaRegionStatService.cs" />
     <Compile Include="DataService\Basic\CellService.cs" />
     <Compile Include="DataService\College\InfrastructureServices.cs" />

@@ -172,6 +172,7 @@
     <Compile Include="Entities\HotSpotView.cs" />
     <Compile Include="Entities\IndoorDistribution.cs" />
     <Compile Include="Entities\InfrastructureInfo.cs" />
+    <Compile Include="Entities\LteProblem.cs" />
     <Compile Include="Entities\MonthKpiStat.cs" />
     <Compile Include="Entities\BranchDemand.cs" />
     <Compile Include="Entities\RegionStats.cs" />
@@ -186,13 +187,13 @@
     <Compile Include="Entities\TopMrsRsrp.cs" />
     <Compile Include="Entities\TownFlow.cs" />
     <Compile Include="Entities\TownMrsRsrp.cs" />
-    <Compile Include="Migrations\201801202330162_Add_Town_Mrs_Rsrp1.cs" />
-    <Compile Include="Migrations\201801202330162_Add_Town_Mrs_Rsrp1.Designer.cs">
-      <DependentUpon>201801202330162_Add_Town_Mrs_Rsrp1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201801280036570_Top_Mrs_Rsrp.cs" />
     <Compile Include="Migrations\201801280036570_Top_Mrs_Rsrp.Designer.cs">
       <DependentUpon>201801280036570_Top_Mrs_Rsrp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802072243400_Lte_Problem.cs" />
+    <Compile Include="Migrations\201802072243400_Lte_Problem.Designer.cs">
+      <DependentUpon>201802072243400_Lte_Problem.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -203,11 +204,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201801202330162_Add_Town_Mrs_Rsrp1.resx">
-      <DependentUpon>201801202330162_Add_Town_Mrs_Rsrp1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801280036570_Top_Mrs_Rsrp.resx">
       <DependentUpon>201801280036570_Top_Mrs_Rsrp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802072243400_Lte_Problem.resx">
+      <DependentUpon>201802072243400_Lte_Problem.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
