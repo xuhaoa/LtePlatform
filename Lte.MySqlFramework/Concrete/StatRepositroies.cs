@@ -127,5 +127,10 @@ namespace Lte.MySqlFramework.Concrete
         public LteProblemRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
+        
+        public LteProblem Match(StandarProblemExcel stat)
+        {
+            return FirstOrDefault(x => x.Body == stat.Body);
+        }
     }
 }

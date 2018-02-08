@@ -22,5 +22,12 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
         {
             return _service.QueryProblems(type);
         }
+
+
+        [HttpGet]
+        public IEnumerable<LteProblem> Get(string type, int count)
+        {
+            return _service.QueryRandomProblems(type, count);
+        }
     }
 }

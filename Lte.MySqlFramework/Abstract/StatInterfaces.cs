@@ -133,7 +133,7 @@ namespace Lte.MySqlFramework.Abstract
         
     }
 
-    public interface ILteProblemRepository : IRepository<LteProblem>, ISaveChanges
+    public interface ILteProblemRepository : IRepository<LteProblem>, ISaveChanges, IMatchRepository<LteProblem, StandarProblemExcel>
     {
         
     }
