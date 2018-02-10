@@ -28,6 +28,17 @@ namespace LtePlatform.Controllers.Parameters
         }
 
         [HttpGet]
+        [ApiDoc("根据行政区域条件查询CDMA基站簇")]
+        [ApiParameterDoc("city", "城市")]
+        [ApiParameterDoc("district", "区域")]
+        [ApiParameterDoc("town", "镇区")]
+        [ApiResponse("查询得到的CDMA基站簇结果，如果没有则会报错")]
+        public IEnumerable<CdmaBtsCluster> GetCluster(string cityName, string districtName, string townName)
+        {
+            return _service.GetClustersByTownNames(cityName, districtName, townName);
+        }
+
+        [HttpGet]
         public CdmaBts Get(int btsId, int townId)
         {
             return _service.UpdateTownInfo(btsId, townId);

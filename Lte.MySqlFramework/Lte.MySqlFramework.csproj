@@ -169,6 +169,7 @@
     <Compile Include="Concrete\WorkItemRepository.cs" />
     <Compile Include="Entities\AreaTestDate.cs" />
     <Compile Include="Entities\AreaTestDateView.cs" />
+    <Compile Include="Entities\CdmaBts.cs" />
     <Compile Include="Entities\HotSpotView.cs" />
     <Compile Include="Entities\IndoorDistribution.cs" />
     <Compile Include="Entities\InfrastructureInfo.cs" />
