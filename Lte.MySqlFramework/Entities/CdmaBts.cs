@@ -46,6 +46,8 @@ namespace Lte.MySqlFramework.Entities
         [MemberDoc("¾­¶È")]
         public double Longtitute { get; set; }
 
+        public string CityName { get; set; }
+
         [MemberDoc("ÇøÓò")]
         public string DistrictName { get; set; }
 
