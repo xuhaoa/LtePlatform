@@ -696,7 +696,7 @@
 
             $scope.assessment.areaname = '顺德';
             $scope.distincts = new Array('顺德', '南海', '禅城', '三水', '高明');
-            $scope.services = new Array('广东宜通世纪科技股份有限公司', '广东南方建设工程有限公司', '广东省电信工程有限公司');
+            $scope.services = new Array('广东宜通世纪科技股份有限公司', '广东南方建设工程有限公司', '中通服建设有限公司');
            
             
             $scope.change = function () {
@@ -706,7 +706,7 @@
                     } else if ($scope.assessment.areaname == '南海') {
                         $scope.assessment.service = '广东南方建设工程有限公司';
                     } else {
-                        $scope.assessment.service = '广东省电信工程有限公司';
+                        $scope.assessment.service = '中通服建设有限公司';
                     }
                     $scope.assessment.jzn1 = result.result.jzn1;
                     $scope.assessment.jzn2 = result.result.jzn2;
@@ -788,7 +788,7 @@
         $scope.dialogTitle = dialogTitle;
         $scope.assessment = assessment;
         $scope.distincts = new Array('顺德', '南海', '禅城', '三水', '高明');
-        $scope.services = new Array('广东宜通世纪科技股份有限公司', '广东南方建设工程有限公司', '广东省电信工程有限公司');
+        $scope.services = new Array('广东宜通世纪科技股份有限公司', '广东南方建设工程有限公司', '中通服建设有限公司');
         $scope.assessment.xccc1 = $scope.assessment.xccc1 * 1;
         $scope.assessment.xccc2 = $scope.assessment.xccc2 * 1;
         $scope.assessment.xccc3 = $scope.assessment.xccc3 * 1;
@@ -833,7 +833,7 @@
                 } else if ($scope.assessment.areaname == '南海') {
                     $scope.assessment.service = '广东南方建设工程有限公司';
                 } else {
-                    $scope.assessment.service = '广东省电信工程有限公司';
+                    $scope.assessment.service = '中通服建设有限公司';
                 }
                 $scope.assessment.jzn1 = result.result.jzn1;
                 $scope.assessment.jzn2 = result.result.jzn2;
