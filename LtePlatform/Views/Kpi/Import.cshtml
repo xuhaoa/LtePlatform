@@ -50,24 +50,32 @@
             <div class="col-md-6">
                 <h4>客服有关文件导入</h4>
                 @using (Html.BeginForm("ComplainImport", "Kpi",
-                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+                    FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
                 {
                     <div dump-file-selector file-title="抱怨量工单文件选择：" tag="complain" file-type=".xls, .xlsx"></div>
                 }
                 @using (Html.BeginForm("VipDemandImport", "Kpi",
-                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+                    FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
                 {
                     <div dump-file-selector file-title="政企客户需求文件选择：" tag="vipDemand" file-type=".xls, .xlsx"></div>
                 }
                 @using (Html.BeginForm("BranchImport", "Kpi",
-                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+                    FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
                 {
                     <div dump-file-selector file-title="分公司需求文件选择：" tag="branch" file-type=".xls, .xlsx"></div>
                 }
                 @using (Html.BeginForm("OnlineImport", "Kpi",
-                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+                    FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
                 {
                     <div dump-file-selector file-title="在线支撑文件选择：" tag="online" file-type=".xls, .xlsx"></div>
+                }
+            </div>
+            <div class="col-md-6">
+                <h4>考试题目导入</h4>
+                @using (Html.BeginForm("StandarProblemImport", "Kpi",
+                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+                {
+                    <div dump-file-selector file-title="标准考试题目选择：" tag="standardProblem" file-type=".xls, .xlsx"></div>
                 }
             </div>
         </div>

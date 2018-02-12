@@ -392,9 +392,31 @@ namespace Lte.Evaluations.DataService.Basic
         {
             var townItem = _townRepository.GetAllList()
                     .FirstOrDefault(x => x.CityName == city && x.DistrictName == district && x.TownName == town);
+            var viewList = _btsRepository.GetAllList(x => x.TownId == townItem.Id).MapTo<List<CdmaBtsView>>();
+            viewList.ForEach(x =>
+            {
+                x.CityName = city;
+                x.DistrictName = district;
+                x.TownName = town;
+            });
             return townItem == null
-                ? null
-                : _btsRepository.GetAll().Where(x => x.TownId == townItem.Id).ToList().MapTo<IEnumerable<CdmaBtsView>>();
+                ? new List<CdmaBtsView>()
+                : viewList;
+        }
+
+        public IEnumerable<CdmaBtsCluster> GetClustersByTownNames(string city, string district, string town)
+        {
+            var views = GetByTownNames(city, district, town).Where(x => x.IsInUse);
+            return views.GroupBy(x => new
+            {
+                LongtituteGrid = (int) (x.Longtitute * 100000),
+                LattituteGrid = (int) (x.Lattitute * 100000)
+            }).Select(g => new CdmaBtsCluster
+            {
+                LongtituteGrid = g.Key.LongtituteGrid,
+                LattituteGrid = g.Key.LattituteGrid,
+                CdmaBtsViews = g
+            });
         }
 
         public IEnumerable<CdmaBtsView> GetByTownArea(string city, string district, string town)

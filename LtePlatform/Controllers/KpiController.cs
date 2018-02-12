@@ -237,6 +237,29 @@ namespace LtePlatform.Controllers
             return View("Import");
         }
 
+        [HttpPost]
+        public ViewResult StandarProblemImport()
+        {
+            var httpPostedFileBase = Request.Files["standardProblem"];
+            if (httpPostedFileBase == null || httpPostedFileBase.FileName == "")
+            {
+                ViewBag.ErrorMessage = "上传文件为空！请先上传文件。";
+            }
+            else
+            {
+                try
+                {
+                    var path = httpPostedFileBase.UploadKpiFile();
+                    ViewBag.Message = _importService.ImportStandardProblem(path);
+                }
+                catch (Exception e)
+                {
+                    ViewBag.ErrorMessage = "读取文件出错，信息为：" + e.Message;
+                }
+            }
+            return View("Import");
+        }
+
         public ActionResult PreciseImport()
         {
             return View();

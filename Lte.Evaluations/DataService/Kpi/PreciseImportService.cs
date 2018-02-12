@@ -133,7 +133,7 @@ namespace Lte.Evaluations.DataService.Kpi
         {
             var end = statTime.AddDays(1);
             var stats = _mrsRsrpRepository.GetAllList(x => x.StatDate >= statTime && x.StatDate < end);
-            var dtos = stats.Where(x => x.RSRP_00 > 2000).MapTo<List<CellMrsRsrpDto>>();
+            var dtos = stats.Where(x => x.RSRP_00 + x.RSRP_01 > 5000).MapTo<List<CellMrsRsrpDto>>();
             return dtos.MapTo<IEnumerable<TopMrsRsrp>>();
         }
 

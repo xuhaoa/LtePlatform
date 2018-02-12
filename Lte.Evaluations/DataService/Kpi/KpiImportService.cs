@@ -36,6 +36,7 @@ namespace Lte.Evaluations.DataService.Kpi
         private readonly IFileRecordRepository _fileRecordRepository;
         private readonly IDtFileInfoRepository _dtFileInfoRepository;
         private readonly IRasterTestInfoRepository _rasterTestInfoRepository;
+        private readonly ILteProblemRepository _lteProblemRepository;
         private readonly List<Town> _towns; 
 
         public KpiImportService(ICdmaRegionStatRepository regionStatRepository,
@@ -45,7 +46,7 @@ namespace Lte.Evaluations.DataService.Kpi
             IOnlineSustainRepository onlineSustainRepository, IPlanningSiteRepository planningSiteRepository, 
             IComplainProcessRepository processRepository, ITownRepository townRepository,
             IFileRecordRepository fileRecordRepository, IDtFileInfoRepository dtFileInfoRepository,
-            IRasterTestInfoRepository rasterTestInfoRepository)
+            IRasterTestInfoRepository rasterTestInfoRepository, ILteProblemRepository lteProblemRepository)
         {
             _regionStatRepository = regionStatRepository;
             _top2GRepository = top2GRepository;
@@ -60,6 +61,7 @@ namespace Lte.Evaluations.DataService.Kpi
             _fileRecordRepository = fileRecordRepository;
             _dtFileInfoRepository = dtFileInfoRepository;
             _rasterTestInfoRepository = rasterTestInfoRepository;
+            _lteProblemRepository = lteProblemRepository;
             _towns = townRepository.GetAllList();
         }
         public List<string> Import(string path, IEnumerable<string> regions)
@@ -299,6 +301,15 @@ namespace Lte.Evaluations.DataService.Kpi
             _rasterTestInfoRepository.UpdateRasterInfo(stats, tableName, "4G");
             var count = _fileRecordRepository.InsertFileRecord4Gs(stats, tableName);
             return "完成4G路测文件导入：" + path + "(" + tableName + ")" + count + "条";
+        }
+
+        public string ImportStandardProblem(string path)
+        {
+            var factory = new ExcelQueryFactory { FileName = path };
+            var stats = (from c in factory.Worksheet<StandarProblemExcel>("标准题目") select c).ToList();
+            var count =
+                _lteProblemRepository.Import<ILteProblemRepository, LteProblem, StandarProblemExcel>(stats);
+            return "完成标准考试题目导入" + count + "条";
         }
     }
 
