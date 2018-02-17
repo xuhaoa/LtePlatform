@@ -132,5 +132,10 @@ namespace Lte.MySqlFramework.Concrete
         {
             return FirstOrDefault(x => x.Body == stat.Body);
         }
+
+        public LteProblem Match(ChoiceProblemExcel stat)
+        {
+            return FirstOrDefault(x => x.Body == stat.Body);
+        }
     }
 }

@@ -311,6 +311,15 @@ namespace Lte.Evaluations.DataService.Kpi
                 _lteProblemRepository.Import<ILteProblemRepository, LteProblem, StandarProblemExcel>(stats);
             return "完成标准考试题目导入" + count + "条";
         }
+
+        public string ImportChoiceProblem(string path)
+        {
+            var factory = new ExcelQueryFactory { FileName = path };
+            var stats = (from c in factory.Worksheet<ChoiceProblemExcel>("标准题目") select c).ToList();
+            var count =
+                _lteProblemRepository.Import<ILteProblemRepository, LteProblem, ChoiceProblemExcel>(stats);
+            return "完成不定项选择题目导入" + count + "条";
+        }
     }
 
     public static class DtQuery
