@@ -132,9 +132,8 @@ namespace Lte.Evaluations.DataService.Basic
         {
             if (item == null) return null;
             var town = _townRepository.Get(item.TownId);
-            var result = item.MapTo<ENodebView>();
-            town.MapTo(result);
-            return result;
+            var result = town.MapTo<ENodebView>();
+            return item.MapTo(result);
         }
 
         public ENodebView GetByPlanNum(string planNum)

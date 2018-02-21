@@ -170,6 +170,8 @@
     <Compile Include="Entities\AreaTestDate.cs" />
     <Compile Include="Entities\AreaTestDateView.cs" />
     <Compile Include="Entities\CdmaBts.cs" />
+    <Compile Include="Entities\CdmaCellView.cs" />
+    <Compile Include="Entities\CdmaCompoundCellView.cs" />
     <Compile Include="Entities\HotSpotView.cs" />
     <Compile Include="Entities\IndoorDistribution.cs" />
     <Compile Include="Entities\InfrastructureInfo.cs" />
@@ -177,6 +179,7 @@
     <Compile Include="Entities\MonthKpiStat.cs" />
     <Compile Include="Entities\BranchDemand.cs" />
     <Compile Include="Entities\RegionStats.cs" />
+    <Compile Include="Entities\SectorView.cs" />
     <Compile Include="Entities\TestInfos.cs" />
     <Compile Include="Entities\ComplainItem.cs" />
     <Compile Include="Entities\DownSwitchFlow.cs" />

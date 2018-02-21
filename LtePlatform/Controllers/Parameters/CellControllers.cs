@@ -24,7 +24,7 @@ namespace LtePlatform.Controllers.Parameters
         [ApiParameterDoc("south", "南边纬度")]
         [ApiParameterDoc("north", "北边纬度")]
         [ApiResponse("经纬度范围内的小区列表")]
-        public IEnumerable<Cell> Get(double west, double east, double south, double north)
+        public IEnumerable<SectorView> Get(double west, double east, double south, double north)
         {
             return _service.GetCells(west, east, south, north);
         }
@@ -67,20 +67,18 @@ namespace LtePlatform.Controllers.Parameters
         [ApiParameterDoc("eNodebId", "基站编号")]
         [ApiParameterDoc("sectorId", "扇区编号（模糊匹配）")]
         [ApiResponse("LTE小区，如果找不到则会返回错误")]
-        public IHttpActionResult GetLocal(int eNodebId, byte localSector)
+        public CellView GetLocal(int eNodebId, byte localSector)
         {
-            var item = _service.GetCell(eNodebId, localSector) ?? _service.GetCell(eNodebId, (byte)(localSector + 48));
-            return item == null ? (IHttpActionResult)BadRequest("The cell cannot be found!") : Ok(item);
+            return _service.GetCell(eNodebId, localSector) ?? _service.GetCell(eNodebId, (byte) (localSector + 48));
         }
 
         [HttpGet]
         [ApiDoc("给定基站名对应的小区扇区编号列表")]
         [ApiParameterDoc("eNodebName", "基站名")]
         [ApiResponse("对应的小区扇区编号列表，如果找不到则会返回错误")]
-        public IHttpActionResult Get(string eNodebName)
+        public List<byte> Get(string eNodebName)
         {
-            var query = _service.GetSectorIds(eNodebName);
-            return query == null ? (IHttpActionResult)BadRequest("Wrong ENodeb Name!") : Ok(query);
+            return _service.GetSectorIds(eNodebName);
         }
         
         [HttpGet]

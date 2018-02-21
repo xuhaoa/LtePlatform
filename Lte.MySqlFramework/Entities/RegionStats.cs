@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Abp.EntityFramework.Dependency;
+using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
@@ -198,8 +199,10 @@ namespace Lte.MySqlFramework.Entities
         [MaxLength(20)]
         public string TownName { get; set; }
 
+        [IgnoreMap]
         public double Longtitute { get; set; }
 
+        [IgnoreMap]
         public double Lattitute { get; set; }
 
         public ComplainScene AreaType { get; set; }
