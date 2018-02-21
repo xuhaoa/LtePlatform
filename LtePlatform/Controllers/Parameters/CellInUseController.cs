@@ -25,5 +25,15 @@ namespace LtePlatform.Controllers.Parameters
             return _service.QuerySectorsInUse(eNodebId);
         }
 
+        [HttpGet]
+        [ApiDoc("给定基站编号和扇区编号查询LTE小区，包含RRU信息")]
+        [ApiParameterDoc("eNodebId", "基站编号")]
+        [ApiParameterDoc("sectorId", "扇区编号")]
+        [ApiResponse("LTE小区，如果找不到则会返回错误，包含RRU信息")]
+        public CellRruView Get(int eNodebId, byte sectorId)
+        {
+            return _service.GetCellRruView(eNodebId, sectorId);
+        }
+
     }
 }

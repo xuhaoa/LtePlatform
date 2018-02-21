@@ -34,6 +34,12 @@ namespace Lte.Evaluations.DataService.Basic
             return cell == null ? null : CellView.ConstructView(cell, _eNodebRepository);
         }
 
+        public CellRruView GetCellRruView(int eNodebId, byte sectorId)
+        {
+            var cell = _repository.GetBySectorId(eNodebId, sectorId);
+            return cell == null ? null : cell.ConstructCellRruView(_eNodebRepository, _rruRepository);
+        }
+
         public IEnumerable<SectorView> GetCells(double west, double east, double south, double north)
         {
             var cells = _repository.GetAllList(west, east, south, north);
