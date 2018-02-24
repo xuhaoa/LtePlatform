@@ -262,5 +262,24 @@ namespace Lte.Evaluations.DataService.Switch
 
             return zteViews.Concat(huaweiViews).ToList();
         }
+
+        public static IEnumerable<TView> QueryAllFlowViews<TView, TZte, THuawei>(this ICellRepository huaweiCellRepository,
+            List<TZte> zteStats, List<THuawei> huaweiStats,
+            IENodebRepository eNodebRepository)
+            where TZte : ILteCellQuery
+            where THuawei : ILocalCellQuery
+            where TView : class, IENodebName, ILteCellQuery, new()
+        {
+            var eNodebs = eNodebRepository.GetAllList();
+            if (!eNodebs.Any())
+            {
+                return new List<TView>();
+            }
+
+            var zteViews = eNodebs.QueryZteViews<TView, TZte>(zteStats);
+            var huaweiViews = eNodebs.QueryHuaweiViews<TView, THuawei>(huaweiStats, huaweiCellRepository);
+
+            return zteViews.Concat(huaweiViews).ToList();
+        }
     }
 }

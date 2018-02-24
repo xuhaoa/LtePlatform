@@ -131,9 +131,14 @@ namespace Lte.Evaluations.DataService.Basic
         private ENodebView GenerateENodebView(ENodeb item)
         {
             if (item == null) return null;
-            var town = _townRepository.Get(item.TownId);
-            var result = town.MapTo<ENodebView>();
-            return item.MapTo(result);
+            var town = _townRepository.FirstOrDefault(x => x.Id == item.TownId);
+            if (town != null)
+            {
+                var result = town.MapTo<ENodebView>();
+                return item.MapTo(result);
+            }
+            else
+                return item.MapTo<ENodebView>();
         }
 
         public ENodebView GetByPlanNum(string planNum)

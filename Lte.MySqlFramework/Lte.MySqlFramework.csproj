@@ -179,6 +179,7 @@
     <Compile Include="Entities\MonthKpiStat.cs" />
     <Compile Include="Entities\BranchDemand.cs" />
     <Compile Include="Entities\RegionStats.cs" />
+    <Compile Include="Entities\RrcView.cs" />
     <Compile Include="Entities\SectorView.cs" />
     <Compile Include="Entities\TestInfos.cs" />
     <Compile Include="Entities\ComplainItem.cs" />

@@ -73,13 +73,24 @@ namespace Lte.Evaluations.DataService.Kpi
             int topCount)
         {
             var results = HuaweiCellRepository.QueryDistrictFlowViews<FlowView, FlowZte, FlowHuawei>(city, district,
-                ZteRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.SchedulingTm3 > 10000000),
+                ZteRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.SchedulingTm3 -x.SchedulingTm3Rank2 > 10000000),
                 HuaweiRepository.GetAllList(
-                    x => x.StatTime >= begin && x.StatTime < end && x.SchedulingRank1 + x.SchedulingRank2 > 20000000),
+                    x => x.StatTime >= begin && x.StatTime < end && x.SchedulingRank1 > 20000000),
                 TownRepository, ENodebRepository);
             return results.OrderBy(x => x.Rank2Rate).Take(topCount);
         }
-        
+
+        public IEnumerable<FlowView> QueryAllTopRank2Views(DateTime begin, DateTime end,
+            int topCount)
+        {
+            var results = HuaweiCellRepository.QueryAllFlowViews<FlowView, FlowZte, FlowHuawei>(
+                ZteRepository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.SchedulingTm3 - x.SchedulingTm3Rank2 > 10000000),
+                HuaweiRepository.GetAllList(
+                    x => x.StatTime >= begin && x.StatTime < end && x.SchedulingRank1 > 20000000),
+                ENodebRepository);
+            return results.OrderBy(x => x.Rank2Rate).Take(topCount);
+        }
+
         public FlowQueryService(IFlowHuaweiRepository huaweiRepository, IFlowZteRepository zteRepository,
             IENodebRepository eNodebRepository, ICellRepository huaweiCellRepository, ITownRepository townRepository)
             : base(huaweiRepository, zteRepository, eNodebRepository, huaweiCellRepository, townRepository)
