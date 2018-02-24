@@ -82,7 +82,10 @@ namespace LtePlatform.Controllers.Kpi
             results.ForEach(x =>
             {
                 var view = _eNodebQueryService.GetByENodebId(x.ENodebId);
-                view?.MapTo(x);
+                x.ENodebName = x?.ENodebName;
+                x.City = city;
+                x.District = district;
+                x.Town = view?.TownName;
             });
             return results;
         }
