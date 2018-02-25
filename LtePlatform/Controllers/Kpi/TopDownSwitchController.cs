@@ -37,7 +37,7 @@ namespace LtePlatform.Controllers.Kpi
             results.ForEach(x =>
             {
                 var view = _eNodebQueryService.GetByENodebId(x.ENodebId);
-                x.ENodebName = x?.ENodebName;
+                x.ENodebName = view?.Name;
                 x.City = city;
                 x.District = district;
                 x.Town = view?.TownName;
@@ -58,7 +58,7 @@ namespace LtePlatform.Controllers.Kpi
             results.ForEach(x =>
             {
                 var view = _eNodebQueryService.GetByENodebId(x.ENodebId);
-                x.ENodebName = x?.ENodebName;
+                x.ENodebName = view?.Name;
                 x.City = view?.CityName;
                 x.District = view?.DistrictName;
                 x.Town = view?.TownName;
@@ -82,7 +82,7 @@ namespace LtePlatform.Controllers.Kpi
             results.ForEach(x =>
             {
                 var view = _eNodebQueryService.GetByENodebId(x.ENodebId);
-                x.ENodebName = x?.ENodebName;
+                x.ENodebName = view?.Name;
                 x.City = city;
                 x.District = district;
                 x.Town = view?.TownName;
