@@ -172,12 +172,14 @@
     <Compile Include="Entities\CdmaBts.cs" />
     <Compile Include="Entities\CdmaCellView.cs" />
     <Compile Include="Entities\CdmaCompoundCellView.cs" />
+    <Compile Include="Entities\FlowView.cs" />
     <Compile Include="Entities\HotSpotView.cs" />
     <Compile Include="Entities\IndoorDistribution.cs" />
     <Compile Include="Entities\InfrastructureInfo.cs" />
     <Compile Include="Entities\LteProblem.cs" />
     <Compile Include="Entities\MonthKpiStat.cs" />
     <Compile Include="Entities\BranchDemand.cs" />
+    <Compile Include="Entities\QciView.cs" />
     <Compile Include="Entities\RegionStats.cs" />
     <Compile Include="Entities\RrcView.cs" />
     <Compile Include="Entities\SectorView.cs" />

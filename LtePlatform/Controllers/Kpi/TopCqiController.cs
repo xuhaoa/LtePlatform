@@ -35,7 +35,11 @@ namespace LtePlatform.Controllers.Kpi
             var results = _service.QueryTopCqiViews(city, district, begin, end, topCount);
             results.ForEach(x =>
             {
-                x.ENodebName = _eNodebQueryService.GetByENodebId(x.ENodebId)?.Name;
+                var view = _eNodebQueryService.GetByENodebId(x.ENodebId);
+                x.ENodebName = view?.Name;
+                x.City = city;
+                x.District = district;
+                x.Town = view?.TownName;
             });
             return results;
         }
@@ -52,7 +56,11 @@ namespace LtePlatform.Controllers.Kpi
             var results = _service.QueryTopCqiViews(begin, end, topCount, orderSelection.GetEnumType<OrderCqiPolicy>());
             results.ForEach(x =>
             {
-                x.ENodebName = _eNodebQueryService.GetByENodebId(x.ENodebId)?.Name;
+                var view = _eNodebQueryService.GetByENodebId(x.ENodebId);
+                x.ENodebName = view?.Name;
+                x.City = view?.CityName;
+                x.District = view?.DistrictName;
+                x.Town = view?.TownName;
             });
             return results;
         }
@@ -72,7 +80,11 @@ namespace LtePlatform.Controllers.Kpi
                 orderSelection.GetEnumType<OrderCqiPolicy>());
             results.ForEach(x =>
             {
-                x.ENodebName = _eNodebQueryService.GetByENodebId(x.ENodebId)?.Name;
+                var view = _eNodebQueryService.GetByENodebId(x.ENodebId);
+                x.ENodebName = view?.Name;
+                x.City = city;
+                x.District = district;
+                x.Town = view?.TownName;
             });
             return results;
         }
