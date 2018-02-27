@@ -9,9 +9,9 @@ namespace LtePlatform.Controllers.Parameters
     [ApiControl("小区站址查询控制器")]
     public class CellStationController : ApiController
     {
-        private readonly CellService _service;
+        private readonly CellRruService _service;
 
-        public CellStationController(CellService service)
+        public CellStationController(CellRruService service)
         {
             _service = service;
         }

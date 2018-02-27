@@ -399,6 +399,12 @@ namespace LtePlatform
             ninjectKernel.Bind<TopMrsRsrpService>().ToSelf();
 
             ninjectKernel.Bind<LteProblemService>().ToSelf();
+
+            ninjectKernel.Bind<BandCellService>().ToSelf();
+
+            ninjectKernel.Bind<CellRruService>().ToSelf();
+
+            ninjectKernel.Bind<ENodebFlowService>().ToSelf();
         }
     }
 }

@@ -11,9 +11,9 @@ namespace LtePlatform.Controllers.Kpi
     [ApiControl("基站级流量查询控制器")]
     public class ENodebFlowController : ApiController
     {
-        private readonly FlowService _service;
+        private readonly ENodebFlowService _service;
 
-        public ENodebFlowController(FlowService service)
+        public ENodebFlowController(ENodebFlowService service)
         {
             _service = service;
         }

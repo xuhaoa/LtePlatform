@@ -11,10 +11,12 @@ namespace LtePlatform.Controllers.Parameters
     public class CellController : ApiController
     {
         private readonly CellService _service;
+        private readonly CellRruService _rruService;
 
-        public CellController(CellService service)
+        public CellController(CellService service, CellRruService rruService)
         {
             _service = service;
+            _rruService = rruService;
         }
 
         [HttpGet]
@@ -87,7 +89,7 @@ namespace LtePlatform.Controllers.Parameters
         [ApiResponse("基站编号对应的小区视图列表")]
         public IEnumerable<CellRruView> GetViews(int cellId)
         {
-            return _service.GetCellViews(cellId);
+            return _rruService.GetCellViews(cellId);
         }
 
         [HttpGet]

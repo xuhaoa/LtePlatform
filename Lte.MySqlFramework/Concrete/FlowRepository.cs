@@ -15,21 +15,7 @@ namespace Lte.MySqlFramework.Concrete
         public FlowZteRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public List<FlowZte> GetAllList(DateTime begin, DateTime end)
-        {
-            return GetAllList(x => x.StatTime >= begin && x.StatTime < end);
-        }
-
-        public List<FlowZte> GetAllList(DateTime begin, DateTime end, int eNodebId, byte sectorId)
-        {
-            return
-                GetAllList(
-                    x =>
-                        x.StatTime >= begin && x.StatTime < end && x.ENodebId == eNodebId &&
-                        x.SectorId == sectorId);
-        }
-
+        
         public FlowZte Match(FlowZte stat)
         {
             return FirstOrDefault(x =>
@@ -85,21 +71,7 @@ namespace Lte.MySqlFramework.Concrete
         public FlowHuaweiRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public List<FlowHuawei> GetAllList(DateTime begin, DateTime end)
-        {
-            return GetAllList(x => x.StatTime >= begin && x.StatTime < end);
-        }
-
-        public List<FlowHuawei> GetAllList(DateTime begin, DateTime end, int eNodebId, byte localCellId)
-        {
-            return
-                GetAllList(
-                    x =>
-                        x.StatTime >= begin && x.StatTime < end && x.ENodebId == eNodebId &&
-                        x.LocalCellId == localCellId);
-        }
-
+        
         public FlowHuawei Match(FlowHuawei stat)
         {
             return FirstOrDefault(x =>

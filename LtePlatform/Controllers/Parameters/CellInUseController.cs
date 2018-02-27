@@ -10,10 +10,12 @@ namespace LtePlatform.Controllers.Parameters
     public class CellInUseController : ApiController
     {
         private readonly CellService _service;
+        private readonly CellRruService _rruService;
 
-        public CellInUseController(CellService service)
+        public CellInUseController(CellService service, CellRruService rruService)
         {
             _service = service;
+            _rruService = rruService;
         }
 
         [HttpGet]
@@ -32,7 +34,7 @@ namespace LtePlatform.Controllers.Parameters
         [ApiResponse("LTE小区，如果找不到则会返回错误，包含RRU信息")]
         public CellRruView Get(int eNodebId, byte sectorId)
         {
-            return _service.GetCellRruView(eNodebId, sectorId);
+            return _rruService.GetCellRruView(eNodebId, sectorId);
         }
 
     }

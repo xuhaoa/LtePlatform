@@ -9,16 +9,10 @@ namespace Lte.MySqlFramework.Abstract
 {
     public interface IFlowHuaweiRepository : IRepository<FlowHuawei>, ISaveChanges, IMatchRepository<FlowHuawei>
     {
-        List<FlowHuawei> GetAllList(DateTime begin, DateTime end);
-
-        List<FlowHuawei> GetAllList(DateTime begin, DateTime end, int eNodebId, byte localCellId);
     }
 
     public interface IFlowZteRepository : IRepository<FlowZte>, ISaveChanges, IMatchRepository<FlowZte>
     {
-        List<FlowZte> GetAllList(DateTime begin, DateTime end);
-
-        List<FlowZte> GetAllList(DateTime begin, DateTime end, int eNodebId, byte sectorId);
     }
 
     public interface IRrcHuaweiRepository : IRepository<RrcHuawei>, ISaveChanges, IMatchRepository<RrcHuawei>

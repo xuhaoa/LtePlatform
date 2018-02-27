@@ -9,9 +9,9 @@ namespace LtePlatform.Controllers.Parameters
     [ApiControl("LTE RRU ²éÑ¯¿ØÖÆÆ÷")]
     public class LteRruCellController : ApiController
     {
-        private readonly CellService _service;
+        private readonly CellRruService _service;
 
-        public LteRruCellController(CellService service)
+        public LteRruCellController(CellRruService service)
         {
             _service = service;
         }

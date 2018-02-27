@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using Lte.Domain.Common;
-using Lte.Domain.Regular;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Entities.Basic;
 using System.Collections.Generic;
 using System.Linq;
 using Lte.Domain.Common.Geo;
@@ -16,28 +13,17 @@ namespace Lte.Evaluations.DataService.Basic
     {
         private readonly ICellRepository _repository;
         private readonly IENodebRepository _eNodebRepository;
-        private readonly ILteRruRepository _rruRepository;
-        private readonly IStationDictionaryRepository _stationDictionaryRepository;
 
-        public CellService(ICellRepository repository, IENodebRepository eNodebRepository, ILteRruRepository rruRepository,
-            IStationDictionaryRepository stationDictionaryRepository)
+        public CellService(ICellRepository repository, IENodebRepository eNodebRepository)
         {
             _repository = repository;
             _eNodebRepository = eNodebRepository;
-            _rruRepository = rruRepository;
-            _stationDictionaryRepository = stationDictionaryRepository;
         }
 
         public CellView GetCell(int eNodebId, byte sectorId)
         {
             var cell = _repository.GetBySectorId(eNodebId, sectorId);
             return cell == null ? null : CellView.ConstructView(cell, _eNodebRepository);
-        }
-
-        public CellRruView GetCellRruView(int eNodebId, byte sectorId)
-        {
-            var cell = _repository.GetBySectorId(eNodebId, sectorId);
-            return cell == null ? null : cell.ConstructCellRruView(_eNodebRepository, _rruRepository);
         }
 
         public IEnumerable<SectorView> GetCells(double west, double east, double south, double north)
@@ -47,49 +33,6 @@ namespace Lte.Evaluations.DataService.Basic
                 ? Mapper.Map<IEnumerable<CellView>, IEnumerable<SectorView>>(
                     cells.Select(x => CellView.ConstructView(x, _eNodebRepository)))
                 : new List<SectorView>();
-        }
-
-        public IEnumerable<CellRruView> GetCellViews(int eNodebId)
-        {
-            var cells = _repository.GetAllList(eNodebId);
-            return cells.Any()
-                ? cells.Select(x => x.ConstructCellRruView(_eNodebRepository, _rruRepository))
-                : new List<CellRruView>();
-        }
-
-        public IEnumerable<CellRruView> GetByStationNum(string stationNum)
-        {
-            var station =
-                _stationDictionaryRepository.FirstOrDefault(x => x.StationNum == stationNum);
-            if (station == null) return null;
-            var item = _eNodebRepository.FirstOrDefault(x => x.ENodebId == station.ENodebId) ??
-                       _eNodebRepository.FirstOrDefault(x => x.PlanNum == station.PlanNum);
-            if (item == null) return new List<CellRruView>();
-            return GetCellViews(item.ENodebId);
-        }
-
-        public IEnumerable<CellRruView> GetByPlanNum(string planNum)
-        {
-            var rrus = _rruRepository.GetAllList(x => x.PlanNum == planNum);
-            if (!rrus.Any()) return new List<CellRruView>();
-            return rrus.Select(rru =>
-            {
-                var cell =
-                    _repository.FirstOrDefault(x => x.ENodebId == rru.ENodebId && x.LocalSectorId == rru.LocalSectorId);
-                return cell == null ? null : cell.ConstructCellRruView(_eNodebRepository, rru);
-            }).Where(rru => rru != null);
-        }
-
-        public IEnumerable<CellRruView> GetByRruName(string rruName)
-        {
-            var rrus = _rruRepository.GetAllList(x => x.RruName == rruName);
-            if (!rrus.Any()) return new List<CellRruView>();
-            return rrus.Select(rru =>
-            {
-                var cell =
-                    _repository.FirstOrDefault(x => x.ENodebId == rru.ENodebId && x.LocalSectorId == rru.LocalSectorId);
-                return cell == null ? null : cell.ConstructCellRruView(_eNodebRepository, rru);
-            }).Where(rru => rru != null);
         }
 
         public IEnumerable<CellView> GetNearbyCellsWithPci(int eNodebId, byte sectorId, short pci)
@@ -181,28 +124,6 @@ namespace Lte.Evaluations.DataService.Basic
             return container.Views.Select(x => x.ConstructSector(_repository));
         }
 
-        public LteRru QueryRru(string cellName)
-        {
-            var fields = cellName.GetSplittedFields('-');
-            if (fields.Length < 2) return null;
-            var eNodebName = fields[0];
-            var sectorId = fields[1].ConvertToByte(0);
-            var eNodeb = _eNodebRepository.GetByName(eNodebName);
-            if (eNodeb == null) return null;
-            var cell = _repository.GetBySectorId(eNodeb.ENodebId, sectorId);
-            if (cell == null) return null;
-            return _rruRepository.Get(eNodeb.ENodebId, cell.LocalSectorId);
-        }
-
-        public IEnumerable<CellView> QueryByRruName(string rruName)
-        {
-            var rrus = _rruRepository.GetAllList(x => x.RruName.Contains(rruName));
-            return from rru in rrus
-                   select _repository.FirstOrDefault(x => x.ENodebId == rru.ENodebId && x.LocalSectorId == rru.LocalSectorId) 
-                   into cell where cell != null
-                   select CellView.ConstructView(cell, _eNodebRepository);
-        }
-
         public IEnumerable<GeoPoint> QueryOutdoorCellSites(IEnumerable<ENodeb> eNodebs, NetworkType type = NetworkType.With4G)
         {
             var cellList = type == NetworkType.With4G
@@ -235,17 +156,6 @@ namespace Lte.Evaluations.DataService.Basic
                           select new GeoPoint(e.Longtitute, e.Lattitute);
             return results;
         }
-    }
 
-    public interface ICellPowerService
-    {
-        CellPower Query(int eNodebId, byte sectorId);
-    }
-
-    public class HuaweiLocalCellDef
-    {
-        public int ENodebId { get; set; }
-
-        public Dictionary<int, int> LocalCellDict { get; set; }
     }
 }

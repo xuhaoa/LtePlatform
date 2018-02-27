@@ -24,7 +24,6 @@ namespace Lte.Evaluations.MapperService
     {
         private readonly Mock<ICellRepository> _repository = new Mock<ICellRepository>();
         private readonly Mock<IENodebRepository> _eNodebRepository = new Mock<IENodebRepository>();
-        private readonly Mock<ILteRruRepository> _rruRepository = new Mock<ILteRruRepository>();
         private CellService _service;
         private readonly ITypeFinder _typeFinder = new TypeFinder(new MyAssemblyFinder());
 
@@ -35,7 +34,7 @@ namespace Lte.Evaluations.MapperService
             module.PostInitialize();
             _eNodebRepository.MockThreeENodebs();
             _repository.MockRangeCells();
-            _service = new CellService(_repository.Object, _eNodebRepository.Object, _rruRepository.Object, null);
+            _service = new CellService(_repository.Object, _eNodebRepository.Object);
         }
 
         [Test]
