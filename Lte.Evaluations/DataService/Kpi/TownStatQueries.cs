@@ -36,12 +36,12 @@ namespace Lte.Evaluations.DataService.Kpi
         }
 
         public static IEnumerable<TENodebStat> GetENodebStats<TStat, TENodebStat>(this IEnumerable<TStat> stats,
-            IEnumerable<ENodeb> eNodebs)
+            IEnumerable<ENodeb> eNodebs, Func<IGrouping<int, TStat>, TStat> filterFlow)
             where TStat : IENodebId
             where TENodebStat : IENodebId, IGeoPoint<double>
         {
-            var query = from stat in stats
-                join eNodeb in eNodebs on stat.ENodebId equals eNodeb.ENodebId
+            var query = from stat in stats.GroupBy(x => x.ENodebId)
+                join eNodeb in eNodebs on stat.Key equals eNodeb.ENodebId
                 select
                 new
                 {
@@ -51,7 +51,7 @@ namespace Lte.Evaluations.DataService.Kpi
                 };
             var eNodebStats = query.Select(x =>
             {
-                var eNodebStat = Mapper.Map<TStat, TENodebStat>(x.Stat);
+                var eNodebStat = Mapper.Map<TStat, TENodebStat>(filterFlow(x.Stat));
                 eNodebStat.Longtitute = x.Longtitute;
                 eNodebStat.Lattitute = x.Lattitute;
                 return eNodebStat;

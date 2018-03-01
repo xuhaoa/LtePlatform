@@ -50,7 +50,7 @@ namespace Lte.Evaluations.DataService.Kpi
             _townQciRepository = townQciRepository;
             _townPrbRepository = townPrbRepository;
         }
-
+        
         public IEnumerable<ENodebFlowView> GetENodebFlowViews(DateTime begin, DateTime end,
             FrequencyBandType frequency = FrequencyBandType.All)
         {
@@ -67,8 +67,21 @@ namespace Lte.Evaluations.DataService.Kpi
             }
             var eNodebs = _eNodebRepository.GetAllList();
             eNodebStatList.AddRange(
-                huaweiFlows.GetENodebStats<FlowHuawei, ENodebFlowView>(eNodebs));
-            eNodebStatList.AddRange(zteFlows.GetENodebStats<FlowZte, ENodebFlowView>(eNodebs));
+                huaweiFlows.GetENodebStats<FlowHuawei, ENodebFlowView>(eNodebs,
+                stat =>
+                {
+                    var max = stat.Max(s => s.PdcpDownlinkFlow);
+                    return
+                        stat.FirstOrDefault(x => Math.Abs(x.PdcpDownlinkFlow - max) < 1);
+                }));
+            eNodebStatList.AddRange(
+                zteFlows.GetENodebStats<FlowZte, ENodebFlowView>(eNodebs,
+                stat =>
+                {
+                    var max = stat.Max(s => s.DownlinkPdcpFlow);
+                    return
+                        stat.FirstOrDefault(x => Math.Abs(x.DownlinkPdcpFlow - max) < 1);
+                }));
             return eNodebStatList.GetPositionMergeStats();
         }
 
