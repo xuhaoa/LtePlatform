@@ -405,6 +405,8 @@ namespace LtePlatform
             ninjectKernel.Bind<CellRruService>().ToSelf();
 
             ninjectKernel.Bind<ENodebFlowService>().ToSelf();
+
+            ninjectKernel.Bind<TownKpiService>().ToSelf();
         }
     }
 }

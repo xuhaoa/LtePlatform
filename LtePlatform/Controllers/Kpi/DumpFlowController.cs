@@ -13,12 +13,12 @@ namespace LtePlatform.Controllers.Kpi
     public class DumpFlowController : ApiController
     {
         private readonly FlowService _service;
-        private readonly ENodebFlowService _eNodebFlowService;
+        private readonly TownKpiService _kpiService;
 
-        public DumpFlowController(FlowService service, ENodebFlowService eNodebFlowService)
+        public DumpFlowController(FlowService service, TownKpiService kpiService)
         {
             _service = service;
-            _eNodebFlowService = eNodebFlowService;
+            _kpiService = kpiService;
         }
 
         [HttpGet]
@@ -34,7 +34,7 @@ namespace LtePlatform.Controllers.Kpi
         [HttpGet]
         public async Task<Tuple<int, int, int, int, int, int, int>> Get(DateTime statDate)
         {
-            return await _eNodebFlowService.GenerateTownStats(statDate);
+            return await _kpiService.GenerateTownStats(statDate);
         }
 
         [HttpGet]

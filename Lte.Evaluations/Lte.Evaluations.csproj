@@ -159,6 +159,7 @@
     <Compile Include="DataService\Kpi\RrcQueryService.cs" />
     <Compile Include="DataService\Kpi\TopMrsRsrpService.cs" />
     <Compile Include="DataService\Kpi\TownFlowService.cs" />
+    <Compile Include="DataService\Kpi\TownKpiService.cs" />
     <Compile Include="DataService\Kpi\TownStatQueries.cs" />
     <Compile Include="DataService\Kpi\ZteFlowQuery.cs" />
     <Compile Include="DataService\Kpi\ZteQciQuery.cs" />

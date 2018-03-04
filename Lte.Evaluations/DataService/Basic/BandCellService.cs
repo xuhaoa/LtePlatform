@@ -12,10 +12,15 @@ namespace Lte.Evaluations.DataService.Basic
     public class BandCellService
     {
         private readonly ICellRepository _repository;
+        private readonly IENodebRepository _eNodebRepository;
+        private readonly ITownRepository _townRepository;
 
-        public BandCellService(ICellRepository repository)
+        public BandCellService(ICellRepository repository, IENodebRepository eNodebRepository,
+            ITownRepository townRepository)
         {
             _repository = repository;
+            _eNodebRepository = eNodebRepository;
+            _townRepository = townRepository;
         }
 
         public List<Cell> GetHuaweiCellsByBandType(FrequencyBandType frequency)
@@ -42,6 +47,13 @@ namespace Lte.Evaluations.DataService.Basic
                                 ((x.ENodebId >= 499712 && x.ENodebId < 501248) || (x.ENodebId >= 552448 &&
                                 x.ENodebId < 552960) || (x.ENodebId >= 870144 && x.ENodebId < 870460)));
             }
+        }
+
+        public List<ENodeb> GetDistrictENodebs(string city, string district)
+        {
+            var towns = _townRepository.GetAllList(x => x.CityName == city && x.DistrictName == district);
+            var eNodebs = _eNodebRepository.GetAllList();
+            return (from t in towns join e in eNodebs on t.Id equals e.TownId select e).ToList();
         }
         
     }
