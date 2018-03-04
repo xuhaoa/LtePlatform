@@ -28,10 +28,25 @@ namespace Lte.Evaluations.DataService.Kpi
         {
             var stats = _repository.QueryLastDate(initialDate,
                 (repository, beginDate, endDate) =>
-                    Enumerable.OrderBy<TownFlowStat, DateTime>(repository.GetAllList(
-                            x => x.StatTime >= beginDate && x.StatTime < endDate && x.FrequencyBandType == frequency), x => x.StatTime)
+                    repository.GetAllList(x => x.StatTime >= beginDate && x.StatTime < endDate 
+                    && x.FrequencyBandType == frequency)
+                            .OrderBy(x => x.StatTime)
                         .ToList());
             return stats.Select(x => x.ConstructView<TownFlowStat, TownFlowView>(_townRepository));
+        }
+
+        public IEnumerable<TownFlowView> QueryLastDateView(DateTime initialDate, string city, string district,
+            FrequencyBandType frequency = FrequencyBandType.All)
+        {
+            var towns = _townRepository.GetAllList(x => x.CityName == city && x.DistrictName == district);
+            var stats = _repository.QueryLastDate(initialDate,
+                (repository, beginDate, endDate) =>
+                    repository.GetAllList(x => x.StatTime >= beginDate && x.StatTime < endDate
+                    && x.FrequencyBandType == frequency)
+                            .OrderBy(x => x.StatTime)
+                        .ToList());
+            var filterStats = from s in stats join t in towns on s.TownId equals t.Id select s;
+            return filterStats.Select(x => x.ConstructView<TownFlowStat, TownFlowView>(_townRepository));
         }
 
         public IEnumerable<TownFlowStat> QueryCurrentDateStats(DateTime currentDate, FrequencyBandType frequency)
