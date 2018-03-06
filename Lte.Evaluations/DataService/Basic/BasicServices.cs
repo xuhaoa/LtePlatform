@@ -55,7 +55,8 @@ namespace Lte.Evaluations.DataService.Basic
             return items.Select(town => new TownBoundariesView
             {
                 Town = town.TownName,
-                BoundaryGeoPoints = _boundaryRepository.GetAllList(x => x.TownId == town.Id).Select(coor => coor.CoorList())
+                BoundaryGeoPoints = _boundaryRepository.GetAllList(x => x.TownId == town.Id)
+                .Select(coor => coor.CoorList())
             });
         }
 

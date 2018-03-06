@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Lte.Domain.Common;
 using Lte.Domain.Regular;
 using Lte.Parameters.Abstract.Basic;
@@ -9,7 +8,6 @@ using Lte.Parameters.Entities.Basic;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Abp.EntityFramework.AutoMapper;
 using Lte.Domain.Common.Geo;
 using Lte.Domain.Common.Wireless;
 using Lte.Evaluations.DataService.Basic;
@@ -17,8 +15,6 @@ using Lte.Evaluations.ViewModels.Precise;
 using Lte.Evaluations.ViewModels.RegionKpi;
 using Lte.MySqlFramework.Abstract;
 using Lte.MySqlFramework.Entities;
-using Lte.Parameters.Abstract.Kpi;
-using Lte.Parameters.Entities.Kpi;
 
 namespace Lte.Evaluations.DataService.College
 {
@@ -317,88 +313,4 @@ namespace Lte.Evaluations.DataService.College
             return distributions;
         }
     }
-
-    public class HotSpotService
-    {
-        private readonly IInfrastructureRepository _repository;
-
-        public HotSpotService(IInfrastructureRepository repository)
-        {
-            _repository = repository;
-        }
-
-        public async Task<int> SaveBuildingHotSpot(HotSpotView dto)
-        {
-            var info =
-                _repository.FirstOrDefault(
-                    x => x.HotspotName == dto.HotspotName && x.InfrastructureType == InfrastructureType.HotSpot);
-            if (info == null)
-            {
-                info = dto.MapTo<InfrastructureInfo>();
-                info.InfrastructureType = InfrastructureType.HotSpot;
-                await _repository.InsertAsync(info);
-            }
-            else
-            {
-                dto.MapTo(info);
-            }
-            
-            return _repository.SaveChanges();
-        }
-
-        public IEnumerable<HotSpotView> QueryHotSpotViews()
-        {
-            var results =
-                _repository.GetAllList(x => x.InfrastructureType == InfrastructureType.HotSpot)
-                    .MapTo<IEnumerable<HotSpotView>>();
-            return results;
-        }
-
-        public IEnumerable<HotSpotView> QueryHotSpotViews(string typeDescription)
-        {
-            var type = typeDescription.GetEnumType<HotspotType>();
-            return
-                _repository.GetAllList(
-                    x =>
-                        x.InfrastructureType == InfrastructureType.HotSpot &&
-                        x.HotspotType == type).MapTo<IEnumerable<HotSpotView>>();
-        }
-
-        public InfrastructureInfo QueryHotSpot(string name, HotspotType type)
-        {
-            return
-                _repository.FirstOrDefault(
-                    x =>
-                        x.InfrastructureType == InfrastructureType.HotSpot && x.HotspotName == name &&
-                        x.HotspotType == type);
-        }
-    }
-
-    public class CollegeAlarmService
-    {
-        private readonly IInfrastructureRepository _infrastructureRepository;
-        private readonly IENodebRepository _eNodebRepository;
-        private readonly IAlarmRepository _alarmRepository;
-
-        public CollegeAlarmService(IInfrastructureRepository infrastructureRepository,
-            IENodebRepository eNodebRepository, IAlarmRepository alarmRepository)
-        {
-            _infrastructureRepository = infrastructureRepository;
-            _eNodebRepository = eNodebRepository;
-            _alarmRepository = alarmRepository;
-        }
-
-        public IEnumerable<Tuple<string, IEnumerable<AlarmStat>>> QueryCollegeENodebAlarms(string collegeName,
-            DateTime begin, DateTime end)
-        {
-            var ids = _infrastructureRepository.GetCollegeInfrastructureIds(collegeName, InfrastructureType.ENodeb);
-            return (from id in ids
-                    select _eNodebRepository.Get(id)
-                into eNodeb
-                    where eNodeb != null
-                    let stats = _alarmRepository.GetAllList(begin, end, eNodeb.ENodebId)
-                    select new Tuple<string, IEnumerable<AlarmStat>>(eNodeb.Name, stats)).ToList();
-        }
-    }
-
 }

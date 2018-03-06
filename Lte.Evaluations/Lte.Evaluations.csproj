@@ -138,7 +138,9 @@
     <Compile Include="DataService\Basic\ICellPowerService.cs" />
     <Compile Include="DataService\Basic\ZteCellPowerQuery.cs" />
     <Compile Include="DataService\Basic\ZteCellQuery.cs" />
+    <Compile Include="DataService\College\CollegeAlarmService.cs" />
     <Compile Include="DataService\College\CustomerServices.cs" />
+    <Compile Include="DataService\College\HotSpotService.cs" />
     <Compile Include="DataService\Dump\CdmaCellDumpService.cs" />
     <Compile Include="DataService\Dump\LteProblemService.cs" />
     <Compile Include="DataService\Kpi\CdmaRegionStatService.cs" />
