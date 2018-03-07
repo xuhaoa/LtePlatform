@@ -192,6 +192,7 @@
     <Compile Include="Entities\RruEntities.cs" />
     <Compile Include="Entities\TopKpis.cs" />
     <Compile Include="Entities\TopMrsRsrp.cs" />
+    <Compile Include="Entities\Town.cs" />
     <Compile Include="Entities\TownFlow.cs" />
     <Compile Include="Entities\TownMrsRsrp.cs" />
     <Compile Include="Migrations\201801280036570_Top_Mrs_Rsrp.cs" />

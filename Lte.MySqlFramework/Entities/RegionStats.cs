@@ -2,13 +2,9 @@
 using Abp.EntityFramework.AutoMapper;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Abp.EntityFramework.Dependency;
-using AutoMapper;
 using Lte.Domain.Common;
-using Lte.Domain.Common.Geo;
-using Lte.Domain.Common.Wireless;
 using Lte.Domain.Regular;
 
 namespace Lte.MySqlFramework.Entities
@@ -186,26 +182,6 @@ namespace Lte.MySqlFramework.Entities
         public List<string> RegionList { get; set; }
 
         public List<IEnumerable<CdmaRegionStatView>> ViewList { get; set; }
-    }
-
-    public class Town : Entity, ITown, IGeoPoint<double>
-    {
-        [MaxLength(20)]
-        public string CityName { get; set; }
-
-        [MaxLength(20)]
-        public string DistrictName { get; set; }
-
-        [MaxLength(20)]
-        public string TownName { get; set; }
-
-        [IgnoreMap]
-        public double Longtitute { get; set; }
-
-        [IgnoreMap]
-        public double Lattitute { get; set; }
-
-        public ComplainScene AreaType { get; set; }
     }
 
     public class OptimizeRegion : Entity

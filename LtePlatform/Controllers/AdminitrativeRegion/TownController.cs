@@ -30,7 +30,7 @@ namespace LtePlatform.Controllers.AdminitrativeRegion
         [ApiParameterDoc("district", "区")]
         [ApiParameterDoc("town", "镇")]
         [ApiResponse("指定镇区信息")]
-        public Town Get(string city, string district, string town)
+        public TownView Get(string city, string district, string town)
         {
             return _service.GetTown(city, district, town);
         }

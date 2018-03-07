@@ -4,6 +4,7 @@ using Lte.Parameters.Abstract.Basic;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Abp.EntityFramework.AutoMapper;
 using Abp.EntityFramework.Repositories;
 using AutoMapper;
 using Lte.Domain.Common.Geo;
@@ -253,7 +254,8 @@ namespace Lte.Evaluations.DataService.Basic
 
         public LteCellStat QueryLteCellStat(string city, string district, string town, bool isIndoor)
         {
-            var townId = GetTown(city, district, town)?.Id;
+            var townId = _repository.GetAllList().FirstOrDefault(
+                    x => x.CityName == city && x.DistrictName == district && x.TownName == town)?.Id;
             if (townId == null) return null;
             var eNodebs = _eNodebRepository.GetAllList(x => x.TownId == townId);
             var cells =
@@ -270,13 +272,14 @@ namespace Lte.Evaluations.DataService.Basic
             };
         }
 
-        public Town GetTown(string city, string district, string town)
+        public TownView GetTown(string city, string district, string town)
         {
             return
                 _repository.GetAllList().FirstOrDefault(
-                    x => x.CityName == city && x.DistrictName == district && x.TownName == town);
+                    x => x.CityName == city && x.DistrictName == district && x.TownName == town)
+                    .MapTo<TownView>();
         }
-
+        
         public Tuple<string, string, string> GetTownNamesByENodebId(int eNodebId)
         {
             var item = _eNodebRepository.FirstOrDefault(x => x.ENodebId == eNodebId);
