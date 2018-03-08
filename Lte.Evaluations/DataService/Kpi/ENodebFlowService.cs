@@ -47,6 +47,17 @@ namespace Lte.Evaluations.DataService.Kpi
             return GenerateENodebFlowViews(eNodebStatList, huaweiFlows, eNodebs, zteFlows);
         }
 
+        public IEnumerable<ENodebFlowView> GetENodebFlowViews(DateTime begin, DateTime end,
+            string city, string district, string town,
+            FrequencyBandType frequency = FrequencyBandType.All)
+        {
+            var eNodebStatList = new List<ENodebFlowView>();
+            var zteFlows = QueryZteFlows(frequency, begin, end);
+            var huaweiFlows = QueryHuaweiFlows(begin, end, frequency);
+            var eNodebs = _cellService.GetTownENodebs(city, district, town);
+            return GenerateENodebFlowViews(eNodebStatList, huaweiFlows, eNodebs, zteFlows);
+        }
+
         private static IEnumerable<ENodebFlowView> GenerateENodebFlowViews(
             List<ENodebFlowView> eNodebStatList, List<FlowHuawei> huaweiFlows, 
             List<ENodeb> eNodebs, List<FlowZte> zteFlows)

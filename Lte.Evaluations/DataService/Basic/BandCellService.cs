@@ -55,6 +55,14 @@ namespace Lte.Evaluations.DataService.Basic
             var eNodebs = _eNodebRepository.GetAllList();
             return (from t in towns join e in eNodebs on t.Id equals e.TownId select e).ToList();
         }
-        
+
+        public List<ENodeb> GetTownENodebs(string city, string district, string town)
+        {
+            var towns = _townRepository
+                .GetAllList(x => x.CityName == city && x.DistrictName == district && x.TownName == town);
+            var eNodebs = _eNodebRepository.GetAllList();
+            return (from t in towns join e in eNodebs on t.Id equals e.TownId select e).ToList();
+        }
+
     }
 }
