@@ -28,16 +28,7 @@ namespace Lte.MySqlFramework.Abstract
 
         List<CollegeYearInfo> GetAllList(int year);
     }
-
-    public interface ICollegeKpiRepository : IRepository<CollegeKpi>, ISaveChanges
-    {
-        List<CollegeKpi> GetAllList(DateTime time);
-
-        CollegeKpi GetByCollegeIdAndTime(int collegeId, DateTime time);
-
-        List<CollegeKpi> GetAllList(DateTime begin, DateTime end);
-    }
-
+    
     public interface ICollege3GTestRepository : IRepository<College3GTestResults>, ISaveChanges
     {
         List<College3GTestResults> GetAllList(DateTime begin, DateTime end);

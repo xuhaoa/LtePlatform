@@ -57,7 +57,20 @@ namespace LtePlatform.Controllers
             }
             return View("AlarmImport");
         }
-        
+
+        [HttpPost]
+        public ActionResult CoveragePost(HttpPostedFileBase[] alarmHw)
+        {
+            if (alarmHw == null || alarmHw.Length <= 0 || string.IsNullOrEmpty(alarmHw[0]?.FileName))
+                return View("AlarmImport");
+            ViewBag.Message = "共上传三网覆盖小区信息文件" + alarmHw.Length + "个！";
+            foreach (var file in alarmHw)
+            {
+                _alarmsService.UploadHwAlarms(new StreamReader(file.InputStream, Encoding.GetEncoding("GB2312")));
+            }
+            return View("AlarmImport");
+        }
+
         public ActionResult BasicImport()
         {
             return View();

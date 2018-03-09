@@ -13,35 +13,50 @@
 <div class="row">
     <div class="col-md-4">
         @using (Html.BeginForm("ZteAlarmPost", "Parameters",
-                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
-        {
-            <label>中兴4G告警导入：</label>
-            <div class="form-group">
-                <div class="col-md-8">
-                    <input name="alarmZte" class="form-control" type="file" multiple accept=".csv"/>
-                </div>
-                <div class="col-md-4">
-                    <button type="submit" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-save"></span>导入
-                    </button>
-                </div>
+            FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+    {
+        <label>中兴4G告警导入：</label>
+        <div class="form-group">
+            <div class="col-md-8">
+                <input name="alarmZte" class="form-control" type="file" multiple accept=".csv" />
             </div>
-        }
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-save"></span>导入
+                </button>
+            </div>
+        </div>
+}
         @using (Html.BeginForm("HwAlarmPost", "Parameters",
-                FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
-        {
-            <label>华为4G告警导入：</label>
-            <div class="form-group">
-                <div class="col-md-8">
-                    <input name="alarmHw" class="form-control" type="file" multiple accept=".csv"/>
-                </div>
-                <div class="col-md-4">
-                    <button type="submit" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-save"></span>导入
-                    </button>
-                </div>
+            FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+    {
+        <label>华为4G告警导入：</label>
+        <div class="form-group">
+            <div class="col-md-8">
+                <input name="alarmHw" class="form-control" type="file" multiple accept=".csv" />
             </div>
-        }
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-save"></span>导入
+                </button>
+            </div>
+        </div>
+}
+        @using (Html.BeginForm("HwAlarmPost", "Parameters",
+            FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+    {
+        <label>三网覆盖小区导入：</label>
+        <div class="form-group">
+            <div class="col-md-8">
+                <input name="alarmHw" class="form-control" type="file" multiple accept=".xlsx" />
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-save"></span>导入
+                </button>
+            </div>
+        </div>
+}
     </div>
     <div class="col-md-8" ng-controller="alarm.import">
         <div ng-include="'/appViews/Import/Alarm/Import.html'"></div>

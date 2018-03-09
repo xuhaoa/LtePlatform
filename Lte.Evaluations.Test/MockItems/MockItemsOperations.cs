@@ -93,13 +93,7 @@ namespace Lte.Evaluations.MockItems
                 .Returns<DateTime, DateTime>(
                     (begin, end) => repository.Object.GetAll().Where(x => x.TestTime > begin && x.TestTime <= end).ToList());
         }
-
-        public static void MockOperations(this Mock<ICollegeKpiRepository> repository)
-        {
-            repository.Setup(x => x.GetAllList(It.IsAny<DateTime>()))
-                .Returns<DateTime>(time => repository.Object.GetAll().Where(x => x.TestTime == time).ToList());
-        }
-
+        
         public static void MockOperations(this Mock<IENodebRepository> repository)
         {
             repository.Setup(x => x.FirstOrDefault(e => e.ENodebId == It.IsAny<int>()))

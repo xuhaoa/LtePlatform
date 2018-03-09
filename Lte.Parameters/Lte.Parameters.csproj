@@ -196,6 +196,7 @@
     <Compile Include="Entities\Channel\CellUlpcComm.cs" />
     <Compile Include="Entities\Channel\Pdsch.cs" />
     <Compile Include="Entities\Channel\PowerControl.cs" />
+    <Compile Include="Entities\Kpi\FlowHistory.cs" />
     <Compile Include="Entities\Kpi\MrsStats.cs" />
     <Compile Include="Concrete\Switch\CellMeasGroupZteRepository.cs" />
     <Compile Include="Concrete\Switch\InterFreqHoGroupRepository.cs" />

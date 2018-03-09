@@ -178,31 +178,4 @@ namespace Lte.Parameters.Entities.Kpi
         [MemberDoc("当日告警数")]
         public int Alarms { get; set; }
     }
-
-    public class FlowHistory
-    {
-        public string DateString { get; set; }
-
-        public int HuaweiItems { get; set; }
-
-        public int HuaweiRrcs { get; set; }
-
-        public int ZteItems { get; set; }
-
-        public int ZteRrcs { get; set; }
-
-        public int TownStats { get; set; }
-
-        public int TownStats2100 { get; set; }
-
-        public int TownStats1800 { get; set; }
-
-        public int TownStats800VoLte { get; set; }
-        
-        public int TownRrcs { get; set; }
-
-        public int TownQcis { get; set; }
-
-        public int TownPrbs { get; set; }
-    }
 }

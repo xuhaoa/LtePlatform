@@ -167,11 +167,24 @@
     <Compile Include="Concrete\MySqlContext.cs" />
     <Compile Include="Concrete\StatRepositroies.cs" />
     <Compile Include="Concrete\WorkItemRepository.cs" />
+    <Compile Include="Entities\AreaBoundaryView.cs" />
     <Compile Include="Entities\AreaTestDate.cs" />
     <Compile Include="Entities\AreaTestDateView.cs" />
+    <Compile Include="Entities\AreaTestFileView.cs" />
+    <Compile Include="Entities\AreaTestInfo.cs" />
+    <Compile Include="Entities\AreaTestInfoQuery.cs" />
     <Compile Include="Entities\CdmaBts.cs" />
     <Compile Include="Entities\CdmaCellView.cs" />
     <Compile Include="Entities\CdmaCompoundCellView.cs" />
+    <Compile Include="Entities\College3GTestResults.cs" />
+    <Compile Include="Entities\College3GTestView.cs" />
+    <Compile Include="Entities\College4GTestResults.cs" />
+    <Compile Include="Entities\College4GTestView.cs" />
+    <Compile Include="Entities\CollegeInfo.cs" />
+    <Compile Include="Entities\CollegeRegion.cs" />
+    <Compile Include="Entities\CollegeYearInfo.cs" />
+    <Compile Include="Entities\CollegeYearView.cs" />
+    <Compile Include="Entities\CsvFilesInfo.cs" />
     <Compile Include="Entities\FlowView.cs" />
     <Compile Include="Entities\HotSpotView.cs" />
     <Compile Include="Entities\IndoorDistribution.cs" />
@@ -193,15 +206,18 @@
     <Compile Include="Entities\TopKpis.cs" />
     <Compile Include="Entities\TopMrsRsrp.cs" />
     <Compile Include="Entities\Town.cs" />
+    <Compile Include="Entities\TownBoundariesView.cs" />
+    <Compile Include="Entities\TownBoundary.cs" />
+    <Compile Include="Entities\TownBoundaryView.cs" />
     <Compile Include="Entities\TownFlow.cs" />
     <Compile Include="Entities\TownMrsRsrp.cs" />
-    <Compile Include="Migrations\201801280036570_Top_Mrs_Rsrp.cs" />
-    <Compile Include="Migrations\201801280036570_Top_Mrs_Rsrp.Designer.cs">
-      <DependentUpon>201801280036570_Top_Mrs_Rsrp.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201802072243400_Lte_Problem.cs" />
     <Compile Include="Migrations\201802072243400_Lte_Problem.Designer.cs">
       <DependentUpon>201802072243400_Lte_Problem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803092207303_Delete_College_Kpi.cs" />
+    <Compile Include="Migrations\201803092207303_Delete_College_Kpi.Designer.cs">
+      <DependentUpon>201803092207303_Delete_College_Kpi.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -212,11 +228,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201801280036570_Top_Mrs_Rsrp.resx">
-      <DependentUpon>201801280036570_Top_Mrs_Rsrp.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802072243400_Lte_Problem.resx">
       <DependentUpon>201802072243400_Lte_Problem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803092207303_Delete_College_Kpi.resx">
+      <DependentUpon>201803092207303_Delete_College_Kpi.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

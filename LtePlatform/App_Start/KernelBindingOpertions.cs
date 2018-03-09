@@ -51,9 +51,7 @@ namespace LtePlatform
             ninjectKernel.Bind<ICollege3GTestRepository>().To<EFCollege3GTestRepository>();
 
             ninjectKernel.Bind<ICollege4GTestRepository>().To<EFCollege4GTestRepository>();
-
-            ninjectKernel.Bind<ICollegeKpiRepository>().To<EFCollegeKpiRepository>();
-
+            
             ninjectKernel.Bind<IENodebRepository>().To<ENodebRepository>();
 
             ninjectKernel.Bind<IBtsRepository>().To<BtsRepository>();
@@ -281,8 +279,6 @@ namespace LtePlatform
             ninjectKernel.Bind<College4GTestService>().ToSelf();
 
             ninjectKernel.Bind<CollegeLteDistributionService>().ToSelf();
-
-            ninjectKernel.Bind<CollegeKpiService>().ToSelf();
 
             ninjectKernel.Bind<CollegePreciseService>().ToSelf();
             

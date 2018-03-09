@@ -55,9 +55,7 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<College3GTestResults> College3GTestResultses { get; set; }
 
         public DbSet<College4GTestResults> College4GTestResultses { get; set; }
-
-        public DbSet<CollegeKpi> CollegeKpis { get; set; }
-
+        
         public DbSet<PlanningSite> PlanningSites { get; set; }
 
         public DbSet<TownFlowStat> TownFlowStats { get; set; }

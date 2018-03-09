@@ -7,13 +7,13 @@ namespace Lte.MySqlFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Top_Mrs_Rsrp : IMigrationMetadata
+    public sealed partial class Delete_College_Kpi : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Top_Mrs_Rsrp));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Delete_College_Kpi));
         
         string IMigrationMetadata.Id
         {
-            get { return "201801280036570_Top_Mrs_Rsrp"; }
+            get { return "201803092207303_Delete_College_Kpi"; }
         }
         
         string IMigrationMetadata.Source
