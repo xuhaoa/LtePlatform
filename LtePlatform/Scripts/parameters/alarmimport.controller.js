@@ -55,10 +55,21 @@
             });
         };
 
+        $scope.clearCoverageItems = function() {
+
+        };
+
+        $scope.dumpCoverageItems = function() {
+
+        };
+
         $scope.progressInfo = {
             totalDumpItems: 0,
             totalSuccessItems: 0,
-            totalFailItems: 0
+            totalFailItems: 0,
+            totalCoverageDumpItems: 0,
+            totalCoverageSuccessItems: 0,
+            totalCoverageFailItems: 0
         };
         $scope.updateDumpHistory();
     });

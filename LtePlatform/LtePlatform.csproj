@@ -1422,7 +1422,6 @@
     <Content Include="appViews\College\Infrastructure\DistributionDialog.html" />
     <None Include="Views\Parameters\BasicImport.cshtml" />
     <None Include="Views\Parameters\NeighborImport.cshtml" />
-    <Content Include="appViews\Import\Alarm\Import.html" />
     <Content Include="appViews\Parameters\Import\Index.html" />
     <Content Include="appViews\Parameters\Import\ENodebLonLatTable.html" />
     <Content Include="appViews\Parameters\Import\BtsLonLatTable.html" />
