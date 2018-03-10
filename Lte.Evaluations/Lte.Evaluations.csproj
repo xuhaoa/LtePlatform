@@ -123,10 +123,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataService\AreaTestDateService.cs" />
+    <Compile Include="DataService\Basic\AlarmsService.cs" />
     <Compile Include="DataService\Basic\BandCellService.cs" />
     <Compile Include="DataService\Basic\BasicImportContainer.cs" />
     <Compile Include="DataService\Basic\BasicImportService.cs" />
-    <Compile Include="DataService\Basic\BasicServices.cs" />
+    <Compile Include="DataService\Basic\TownBoundaryService.cs" />
     <Compile Include="DataService\Basic\CdmaCellService.cs" />
     <Compile Include="DataService\Basic\CellHuaweiMongoService.cs" />
     <Compile Include="DataService\Basic\CellPowerService.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="DataService\Basic\HuaweiCellQuery.cs" />
     <Compile Include="DataService\Basic\HuaweiLocalCellDef.cs" />
     <Compile Include="DataService\Basic\ICellPowerService.cs" />
+    <Compile Include="DataService\Basic\TownQueryService.cs" />
     <Compile Include="DataService\Basic\ZteCellPowerQuery.cs" />
     <Compile Include="DataService\Basic\ZteCellQuery.cs" />
     <Compile Include="DataService\College\CollegeAlarmService.cs" />
@@ -150,6 +152,7 @@
     <Compile Include="DataService\Dump\CellDumpService.cs" />
     <Compile Include="DataService\Dump\ENodebDumpService.cs" />
     <Compile Include="DataService\Basic\ENodebQueryService.cs" />
+    <Compile Include="DataService\Kpi\CoverageStatService.cs" />
     <Compile Include="DataService\Kpi\CqiQueryService.cs" />
     <Compile Include="DataService\Kpi\DownSwitchFlowService.cs" />
     <Compile Include="DataService\Kpi\ENodebFlowService.cs" />

@@ -70,6 +70,11 @@ namespace Lte.MySqlFramework.Abstract
         
     }
 
+    public interface ICoverageStatRepository : IRepository<CoverageStat>, IMatchRepository<CoverageStat>, ISaveChanges
+    {
+        
+    }
+
     public interface IAgisDtPointRepository : IRepository<AgisDtPoint>, ISaveChanges
     {
         
@@ -100,18 +105,6 @@ namespace Lte.MySqlFramework.Abstract
         
     }
 
-    public interface IStationDictionaryRepository : IRepository<StationDictionary>,
-        IMatchRepository<StationDictionary, StationDictionaryExcel>, ISaveChanges
-    {
-        
-    }
-
-    public interface IDistributionRepository : IRepository<DistributionSystem>,
-        IMatchRepository<DistributionSystem, IndoorDistributionExcel>, ISaveChanges
-    {
-        
-    }
-
     public interface ITownBoundaryRepository : IRepository<TownBoundary>, ISaveChanges
     {
         
@@ -123,13 +116,6 @@ namespace Lte.MySqlFramework.Abstract
     }
 
     public interface ITopMrsRsrpRepository : IRepository<TopMrsRsrp>, ISaveChanges
-    {
-        
-    }
-
-    public interface ILteProblemRepository : IRepository<LteProblem>, ISaveChanges, 
-        IMatchRepository<LteProblem, StandarProblemExcel>,
-        IMatchRepository<LteProblem, ChoiceProblemExcel>
     {
         
     }

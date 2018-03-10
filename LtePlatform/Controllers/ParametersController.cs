@@ -17,14 +17,16 @@ namespace LtePlatform.Controllers
         private readonly AlarmsService _alarmsService;
         private readonly NearestPciCellService _neighborService;
         private readonly FlowService _flowService;
+        private readonly CoverageStatService _coverageService;
 
         public ParametersController(BasicImportService basicImportService, AlarmsService alarmsService,
-            NearestPciCellService neighborService, FlowService flowService)
+            NearestPciCellService neighborService, FlowService flowService, CoverageStatService coverageService)
         {
             _basicImportService = basicImportService;
             _alarmsService = alarmsService;
             _neighborService = neighborService;
             _flowService = flowService;
+            _coverageService = coverageService;
         }
         
         public ActionResult AlarmImport()
@@ -61,12 +63,16 @@ namespace LtePlatform.Controllers
         [HttpPost]
         public ActionResult CoveragePost(HttpPostedFileBase[] alarmHw)
         {
-            if (alarmHw == null || alarmHw.Length <= 0 || string.IsNullOrEmpty(alarmHw[0]?.FileName))
-                return View("AlarmImport");
-            ViewBag.Message = "共上传三网覆盖小区信息文件" + alarmHw.Length + "个！";
-            foreach (var file in alarmHw)
+
+            var httpPostedFileBase = Request.Files["coverage"];
+            if (httpPostedFileBase == null || httpPostedFileBase.FileName == "")
             {
-                _alarmsService.UploadHwAlarms(new StreamReader(file.InputStream, Encoding.GetEncoding("GB2312")));
+                ViewBag.ErrorMessage = "上传文件为空！请先上传文件。";
+            }
+            else
+            {
+                var path = httpPostedFileBase.UploadKpiFile();
+                _coverageService.UploadStats(path, "sheetName1");
             }
             return View("AlarmImport");
         }

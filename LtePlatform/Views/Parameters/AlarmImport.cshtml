@@ -42,13 +42,13 @@
             </div>
         </div>
 }
-        @using (Html.BeginForm("HwAlarmPost", "Parameters",
+        @using (Html.BeginForm("CoveragePost", "Parameters",
             FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
     {
         <label>三网覆盖小区导入：</label>
         <div class="form-group">
             <div class="col-md-8">
-                <input name="alarmHw" class="form-control" type="file" multiple accept=".xlsx" />
+                <input name="coverage" class="form-control" type="file" accept=".xlsx" />
             </div>
             <div class="col-md-4">
                 <button type="submit" class="btn btn-primary">

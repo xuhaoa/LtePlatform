@@ -34,15 +34,17 @@
         </div>
         <table class="table table-hover">
             <thead>
-            <tr>
-                <th>日期</th>
-                <th>告警数量</th>
-            </tr>
+                <tr>
+                    <th>日期</th>
+                    <th>告警数量</th>
+                    <th>覆盖指标数量</th>
+                </tr>
             </thead>
             <tbody>
             <tr ng-repeat="stat in dumpHistory">
                 <td>{{stat.dateString}}</td>
                 <td>{{stat.alarms}}</td>
+                <td>{{stat.coverageStats}}</td>
             </tr>
             </tbody>
         </table>

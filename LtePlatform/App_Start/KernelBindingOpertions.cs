@@ -253,6 +253,8 @@ namespace LtePlatform
             ninjectKernel.Bind<ITopMrsRsrpRepository>().To<TopMrsRsrpRepository>();
 
             ninjectKernel.Bind<ILteProblemRepository>().To<LteProblemRepository>();
+
+            ninjectKernel.Bind<ICoverageStatRepository>().To<CoverageStatRepository>();
             
             ninjectKernel.Bind<CdmaRegionStatService>().ToSelf();
 
@@ -403,6 +405,8 @@ namespace LtePlatform
             ninjectKernel.Bind<ENodebFlowService>().ToSelf();
 
             ninjectKernel.Bind<TownKpiService>().ToSelf();
+
+            ninjectKernel.Bind<CoverageStatService>().ToSelf();
         }
     }
 }

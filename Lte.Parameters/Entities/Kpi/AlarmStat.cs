@@ -177,5 +177,7 @@ namespace Lte.Parameters.Entities.Kpi
 
         [MemberDoc("当日告警数")]
         public int Alarms { get; set; }
+
+        public int CoverageStats { get; set; }
     }
 }

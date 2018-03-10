@@ -53,43 +53,9 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
-    public class StationDictionaryRepository : EfRepositorySave<MySqlContext, StationDictionary>,
-        IStationDictionaryRepository
-    {
-        public StationDictionaryRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
-        {
-        }
-
-        public StationDictionary Match(StationDictionaryExcel stat)
-        {
-            return FirstOrDefault(x => x.StationNum == stat.StationNum);
-        }
-    }
-
-    public class DistributionRepository : EfRepositorySave<MySqlContext, DistributionSystem>, IDistributionRepository
-    {
-        public DistributionRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
-        {
-        }
-
-        public DistributionSystem Match(IndoorDistributionExcel stat)
-        {
-            return FirstOrDefault(x => x.Name == stat.Name);
-        }
-    }
-
     public class TownBoundaryRepository : EfRepositorySave<MySqlContext, TownBoundary>, ITownBoundaryRepository
     {
         public TownBoundaryRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
-        {
-        }
-    }
-
-    public class ConstructionInformationRepository : EfRepositorySave<MySqlContext, ConstructionInformation>,
-        IConstructionInformationRepository
-    {
-        public ConstructionInformationRepository(IDbContextProvider<MySqlContext> dbContextProvider)
-            : base(dbContextProvider)
         {
         }
     }
@@ -122,20 +88,17 @@ namespace Lte.MySqlFramework.Concrete
         }
     }
 
-    public class LteProblemRepository : EfRepositorySave<MySqlContext, LteProblem>, ILteProblemRepository
+    public class CoverageStatRepository : EfRepositorySave<MySqlContext, CoverageStat>, ICoverageStatRepository
     {
-        public LteProblemRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
+        public CoverageStatRepository(IDbContextProvider<MySqlContext> dbContextProvider) : base(dbContextProvider)
         {
-        }
-        
-        public LteProblem Match(StandarProblemExcel stat)
-        {
-            return FirstOrDefault(x => x.Body == stat.Body);
         }
 
-        public LteProblem Match(ChoiceProblemExcel stat)
+        public CoverageStat Match(CoverageStat stat)
         {
-            return FirstOrDefault(x => x.Body == stat.Body);
+            return
+                FirstOrDefault(
+                    x => x.ENodebId == stat.ENodebId && x.SectorId == stat.SectorId && x.StatDate == stat.StatDate);
         }
     }
 }
