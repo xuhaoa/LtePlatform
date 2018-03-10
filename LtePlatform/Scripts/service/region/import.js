@@ -294,11 +294,20 @@
                 queryDumpItems: function() {
                     return generalHttpService.getApiData('DumpAlarm', {});
                 },
+                queryCoverageDumpItems: function () {
+                    return generalHttpService.getApiData('DumpCoverage', {});
+                },
                 dumpSingleItem: function() {
                     return generalHttpService.putApiData('DumpAlarm', {});
                 },
+                dumpSingleCoverageItem: function () {
+                    return generalHttpService.putApiData('DumpCoverage', {});
+                },
                 clearImportItems: function() {
                     return generalHttpService.deleteApiData('DumpAlarm');
+                },
+                clearCoverageImportItems: function () {
+                    return generalHttpService.deleteApiData('DumpCoverage');
                 },
                 updateHuaweiAlarmInfos: function(cellDef) {
                     return generalHttpService.postApiData('Alarms', cellDef);

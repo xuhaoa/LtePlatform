@@ -17,6 +17,9 @@
             alarmImportService.queryDumpItems().then(function(result) {
                 $scope.progressInfo.totalDumpItems = result;
             });
+            alarmImportService.queryCoverageDumpItems().then(function (result) {
+                $scope.progressInfo.totalCoverageDumpItems = result;
+            });
         };
         $scope.dumpItems = function() {
             alarmImportService.dumpSingleItem().then(function(result) {
@@ -56,11 +59,43 @@
         };
 
         $scope.clearCoverageItems = function() {
-
+            alarmImportService.clearCoverageImportItems().then(function () {
+                $scope.progressInfo.totalCoverageDumpItems = 0;
+                $scope.progressInfo.totalCoverageSuccessItems = 0;
+                $scope.progressInfo.totalCoverageFailItems = 0;
+            });
         };
 
         $scope.dumpCoverageItems = function() {
+            alarmImportService.dumpSingleCoverageItem().then(function (result) {
+                if (result) {
+                    $scope.progressInfo.totalCoverageSuccessItems = $scope.progressInfo.totalCoverageSuccessItems + 1;
+                } else {
+                    $scope.progressInfo.totalCoverageFailItems = $scope.progressInfo.totalCoverageFailItems + 1;
+                }
+                if ($scope.progressInfo.totalCoverageSuccessItems + $scope.progressInfo.totalCoverageFailItems
+                    < $scope.progressInfo.totalCoverageDumpItems) {
+                    $scope.dumpCoverageItems();
+                } else {
+                    $scope.updateDumpHistory();
 
+                    $scope.progressInfo.totalCoverageDumpItems = 0;
+                    $scope.progressInfo.totalCoverageSuccessItems = 0;
+                    $scope.progressInfo.totalCoverageFailItems = 0;
+                }
+            }, function () {
+                $scope.progressInfo.totalCoverageFailItems = $scope.progressInfo.totalCoverageFailItems + 1;
+                if ($scope.progressInfo.totalCoverageSuccessItems + $scope.progressInfo.totalCoverageFailItems
+                    < $scope.progressInfo.totalCoverageDumpItems) {
+                    $scope.dumpCoverageItems();
+                } else {
+                    $scope.updateDumpHistory();
+
+                    $scope.progressInfo.totalCoverageDumpItems = 0;
+                    $scope.progressInfo.totalCoverageSuccessItems = 0;
+                    $scope.progressInfo.totalCoverageFailItems = 0;
+                }
+            });
         };
 
         $scope.progressInfo = {

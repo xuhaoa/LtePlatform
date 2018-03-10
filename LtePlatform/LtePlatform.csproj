@@ -456,6 +456,7 @@
     <Compile Include="Controllers\Parameters\DumpCdmaCellExcelController.cs" />
     <Compile Include="Controllers\Parameters\DumpCdmaRruController.cs" />
     <Compile Include="Controllers\Parameters\DumpCellExcelController.cs" />
+    <Compile Include="Controllers\Parameters\DumpCoverageController.cs" />
     <Compile Include="Controllers\Parameters\DumpENodebExcelController.cs" />
     <Compile Include="Controllers\Parameters\DumpExcelControllers.cs" />
     <Compile Include="Controllers\Parameters\DumpLteRruController.cs" />
