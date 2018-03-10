@@ -192,7 +192,11 @@
     <Compile Include="Entities\CollegeYearInfo.cs" />
     <Compile Include="Entities\CollegeYearView.cs" />
     <Compile Include="Entities\CoverageStat.cs" />
+    <Compile Include="Entities\CoverageStatView.cs" />
     <Compile Include="Entities\CsvFilesInfo.cs" />
+    <Compile Include="Entities\DistrictFlowView.cs" />
+    <Compile Include="Entities\DistrictQciView.cs" />
+    <Compile Include="Entities\DistrictRrcView.cs" />
     <Compile Include="Entities\FlowView.cs" />
     <Compile Include="Entities\HotSpotView.cs" />
     <Compile Include="Entities\IndoorDistribution.cs" />
@@ -217,15 +221,19 @@
     <Compile Include="Entities\TownBoundariesView.cs" />
     <Compile Include="Entities\TownBoundary.cs" />
     <Compile Include="Entities\TownBoundaryView.cs" />
+    <Compile Include="Entities\TownCoverageStat.cs" />
+    <Compile Include="Entities\TownCoverageView.cs" />
     <Compile Include="Entities\TownFlow.cs" />
+    <Compile Include="Entities\TownFlowView.cs" />
     <Compile Include="Entities\TownMrsRsrp.cs" />
-    <Compile Include="Migrations\201803092207303_Delete_College_Kpi.cs" />
-    <Compile Include="Migrations\201803092207303_Delete_College_Kpi.Designer.cs">
-      <DependentUpon>201803092207303_Delete_College_Kpi.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803100125349_Add_CoverageStat.cs" />
-    <Compile Include="Migrations\201803100125349_Add_CoverageStat.Designer.cs">
-      <DependentUpon>201803100125349_Add_CoverageStat.cs</DependentUpon>
+    <Compile Include="Entities\TownPrbStat.cs" />
+    <Compile Include="Entities\TownQciStat.cs" />
+    <Compile Include="Entities\TownQciView.cs" />
+    <Compile Include="Entities\TownRrcStat.cs" />
+    <Compile Include="Entities\TownRrcView.cs" />
+    <Compile Include="Migrations\201803101908306_Add_TownCoverageStat.cs" />
+    <Compile Include="Migrations\201803101908306_Add_TownCoverageStat.Designer.cs">
+      <DependentUpon>201803101908306_Add_TownCoverageStat.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -236,11 +244,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201803092207303_Delete_College_Kpi.resx">
-      <DependentUpon>201803092207303_Delete_College_Kpi.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803100125349_Add_CoverageStat.resx">
-      <DependentUpon>201803100125349_Add_CoverageStat.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201803101908306_Add_TownCoverageStat.resx">
+      <DependentUpon>201803101908306_Add_TownCoverageStat.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

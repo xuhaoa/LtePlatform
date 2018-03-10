@@ -147,11 +147,11 @@ namespace Lte.Evaluations.DataService.Basic
             var results = new List<AlarmHistory>();
             while (begin < end.AddDays(1))
             {
-                var beginDate = begin;
-                var endDate = begin.AddDays(1);
+                var beginDate = begin.Date;
+                var endDate = begin.Date.AddDays(1);
                 results.Add(new AlarmHistory
                 {
-                    DateString = begin.ToShortDateString(),
+                    DateString = beginDate.ToShortDateString(),
                     Alarms = _repository.Count(x => x.HappenTime >= beginDate && x.HappenTime < endDate),
                     CoverageStats = _coverageStatRepository.Count(x => x.StatDate >= beginDate && x.StatDate < endDate)
                 });

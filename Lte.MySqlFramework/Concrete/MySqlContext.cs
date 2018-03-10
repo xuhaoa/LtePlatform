@@ -161,5 +161,7 @@ namespace Lte.MySqlFramework.Concrete
         public DbSet<LteProblem> LteProblems { get; set; }
 
         public DbSet<CoverageStat> CoverageStats { get; set; }
+
+        public DbSet<TownCoverageStat> TownCoverageStats { get; set; }
     }
 }

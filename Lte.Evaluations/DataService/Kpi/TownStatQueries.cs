@@ -79,6 +79,27 @@ namespace Lte.Evaluations.DataService.Kpi
             });
         }
 
+
+        public static IEnumerable<TTownStat> GetDateMergeStats<TTownStat>(this IEnumerable<TTownStat> townStats, DateTime statTime)
+            where TTownStat : class, ITownId, IStatDate, new()
+        {
+            var mergeStats = from stat in townStats
+                             group stat by stat.TownId
+                into g
+                             select new
+                             {
+                                 TownId = g.Key,
+                                 Value = g.ArraySum()
+                             };
+            return mergeStats.Select(x =>
+            {
+                var stat = x.Value;
+                stat.TownId = x.TownId;
+                stat.StatDate = statTime;
+                return stat;
+            });
+        }
+
         public static IEnumerable<ENodebFlowView> GetPositionMergeStats(this IEnumerable<ENodebFlowView> eNodebStats)
         {
             var mergeStats = from stat in eNodebStats
