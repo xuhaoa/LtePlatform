@@ -17,11 +17,14 @@ namespace Lte.Evaluations.DataService.Basic
     {
         private readonly IAlarmRepository _repository;
         private readonly ICoverageStatRepository _coverageStatRepository;
+        private readonly ITownCoverageRepository _townCoverageRepository;
 
-        public AlarmsService(IAlarmRepository repository, ICoverageStatRepository coverageStatRepository)
+        public AlarmsService(IAlarmRepository repository, ICoverageStatRepository coverageStatRepository,
+            ITownCoverageRepository townCoverageRepository)
         {
             _repository = repository;
             _coverageStatRepository = coverageStatRepository;
+            _townCoverageRepository = townCoverageRepository;
             if (AlarmStats == null)
                 AlarmStats = new Stack<AlarmStat>();
         }
@@ -153,7 +156,8 @@ namespace Lte.Evaluations.DataService.Basic
                 {
                     DateString = beginDate.ToShortDateString(),
                     Alarms = _repository.Count(x => x.HappenTime >= beginDate && x.HappenTime < endDate),
-                    CoverageStats = _coverageStatRepository.Count(x => x.StatDate >= beginDate && x.StatDate < endDate)
+                    CoverageStats = _coverageStatRepository.Count(x => x.StatDate >= beginDate && x.StatDate < endDate),
+                    TownCoverageStats = _townCoverageRepository.Count(x => x.StatDate >= beginDate && x.StatDate < endDate)
                 });
                 begin = begin.AddDays(1);
             }

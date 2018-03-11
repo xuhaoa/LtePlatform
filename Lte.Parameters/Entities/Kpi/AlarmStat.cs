@@ -179,5 +179,7 @@ namespace Lte.Parameters.Entities.Kpi
         public int Alarms { get; set; }
 
         public int CoverageStats { get; set; }
+
+        public int TownCoverageStats { get; set; }
     }
 }

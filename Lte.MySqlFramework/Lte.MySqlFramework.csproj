@@ -153,6 +153,7 @@
     <Compile Include="Abstract\IDistributionRepository.cs" />
     <Compile Include="Abstract\ILteProblemRepository.cs" />
     <Compile Include="Abstract\IPagingRepository.cs" />
+    <Compile Include="Abstract\IPlanningSiteRepository.cs" />
     <Compile Include="Abstract\IPreciseWorkItemCellRepository.cs" />
     <Compile Include="Abstract\IStationDictionaryRepository.cs" />
     <Compile Include="Abstract\IWorkItemRepository.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Concrete\CdmaCellRepository.cs" />
     <Compile Include="Concrete\CellRepository.cs" />
     <Compile Include="Concrete\ConstructionInformationRepository.cs" />
+    <Compile Include="Concrete\CoverageStatRepository.cs" />
     <Compile Include="Concrete\DistributionRepository.cs" />
     <Compile Include="Concrete\LteProblemRepository.cs" />
     <Compile Include="Concrete\PagingRepositoryBase.cs" />

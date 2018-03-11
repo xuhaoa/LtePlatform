@@ -163,6 +163,7 @@
     <Compile Include="DataService\Kpi\HuaweiRrcQuery.cs" />
     <Compile Include="DataService\Kpi\RrcQueryService.cs" />
     <Compile Include="DataService\Kpi\TopMrsRsrpService.cs" />
+    <Compile Include="DataService\Kpi\TownCoverageService.cs" />
     <Compile Include="DataService\Kpi\TownFlowService.cs" />
     <Compile Include="DataService\Kpi\TownKpiService.cs" />
     <Compile Include="DataService\Kpi\TownStatQueries.cs" />

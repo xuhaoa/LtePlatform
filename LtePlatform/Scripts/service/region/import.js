@@ -291,6 +291,12 @@
                         end: end
                     });
                 },
+                updateTownCoverageStats: function(statDate) {
+                    return generalHttpService.getApiData('DumpCoverage',
+                    {
+                        statDate: statDate
+                    });
+                },
                 queryDumpItems: function() {
                     return generalHttpService.getApiData('DumpAlarm', {});
                 },

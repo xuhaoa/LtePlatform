@@ -13,10 +13,12 @@ namespace LtePlatform.Controllers.Parameters
     public class DumpCoverageController : ApiController
     {
         private readonly CoverageStatService _service;
+        private readonly TownCoverageService _townService;
 
-        public DumpCoverageController(CoverageStatService service)
+        public DumpCoverageController(CoverageStatService service, TownCoverageService townService)
         {
             _service = service;
+            _townService = townService;
         }
 
 
@@ -34,6 +36,12 @@ namespace LtePlatform.Controllers.Parameters
         public int Get()
         {
             return _service.GetStatsToBeDump();
+        }
+
+        [HttpGet]
+        public int Get(DateTime statDate)
+        {
+            return _townService.GenerateTownStats(statDate);
         }
 
         [HttpDelete]

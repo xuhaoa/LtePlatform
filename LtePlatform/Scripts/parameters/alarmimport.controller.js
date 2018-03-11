@@ -13,6 +13,13 @@
         $scope.updateDumpHistory = function() {
             alarmImportService.queryDumpHistory($scope.beginDate.value, $scope.endDate.value).then(function(result) {
                 $scope.dumpHistory = result;
+                angular.forEach(result, function (stat) {
+                    if (stat.coverageStats > 20000 && stat.townCoverageStats === 0) {
+                        alarmImportService.updateTownCoverageStats(stat.dateString).then(function(count) {
+                            stat.townCoverageStats = count;
+                        });
+                    }
+                });
             });
             alarmImportService.queryDumpItems().then(function(result) {
                 $scope.progressInfo.totalDumpItems = result;

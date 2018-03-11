@@ -3,7 +3,6 @@ using Abp.EntityFramework.Repositories;
 using Lte.MySqlFramework.Entities;
 using System;
 using System.Collections.Generic;
-using Lte.Domain.Common;
 
 namespace Lte.MySqlFramework.Abstract
 {
@@ -63,9 +62,8 @@ namespace Lte.MySqlFramework.Abstract
     {
         
     }
-    
-    public interface IPlanningSiteRepository : IRepository<PlanningSite>,
-        IMatchRepository<PlanningSite, PlanningSiteExcel>, ISaveChanges
+
+    public interface ITownCoverageRepository : IRepository<TownCoverageStat>, ISaveChanges
     {
         
     }
