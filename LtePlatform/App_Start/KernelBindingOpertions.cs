@@ -411,6 +411,8 @@ namespace LtePlatform
             ninjectKernel.Bind<CoverageStatService>().ToSelf();
 
             ninjectKernel.Bind<TownCoverageService>().ToSelf();
+
+            ninjectKernel.Bind<CoverageRegionStatService>().ToSelf();
         }
     }
 }

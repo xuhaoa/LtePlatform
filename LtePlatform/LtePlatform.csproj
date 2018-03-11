@@ -403,6 +403,7 @@
     <Compile Include="Controllers\Kpi\AlarmCountController.cs" />
     <Compile Include="Controllers\Kpi\AlarmsController.cs" />
     <Compile Include="Controllers\Kpi\CollegeFlowController.cs" />
+    <Compile Include="Controllers\Kpi\CoverageRegionController.cs" />
     <Compile Include="Controllers\Kpi\CqiRegionController.cs" />
     <Compile Include="Controllers\Kpi\DumpFlowController.cs" />
     <Compile Include="Controllers\Kpi\DumpHuaweiFlowController.cs" />

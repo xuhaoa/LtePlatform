@@ -152,6 +152,7 @@
     <Compile Include="DataService\Dump\CellDumpService.cs" />
     <Compile Include="DataService\Dump\ENodebDumpService.cs" />
     <Compile Include="DataService\Basic\ENodebQueryService.cs" />
+    <Compile Include="DataService\Kpi\CoverageRegionStatService.cs" />
     <Compile Include="DataService\Kpi\CoverageStatService.cs" />
     <Compile Include="DataService\Kpi\CqiQueryService.cs" />
     <Compile Include="DataService\Kpi\DownSwitchFlowService.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="DataService\Kpi\HuaweiFlowQuery.cs" />
     <Compile Include="DataService\Kpi\HuaweiQciQuery.cs" />
     <Compile Include="DataService\Kpi\HuaweiRrcQuery.cs" />
+    <Compile Include="DataService\Kpi\MrsRegionStatService.cs" />
     <Compile Include="DataService\Kpi\RrcQueryService.cs" />
     <Compile Include="DataService\Kpi\TopMrsRsrpService.cs" />
     <Compile Include="DataService\Kpi\TownCoverageService.cs" />
@@ -214,9 +216,12 @@
     <Compile Include="ViewModels\Precise\PreciseViews.cs" />
     <Compile Include="ViewModels\Precise\TopPreciseViewContainer.cs" />
     <Compile Include="ViewModels\Precise\TownMrsRsrpView.cs" />
+    <Compile Include="ViewModels\RegionKpi\DistrictComplainDateView.cs" />
+    <Compile Include="ViewModels\RegionKpi\DistrictComplainView.cs" />
     <Compile Include="ViewModels\RegionKpi\ENodebView.cs" />
     <Compile Include="ViewModels\RegionKpi\PreciseRegion.cs" />
     <Compile Include="ViewModels\RegionKpi\StatViews.cs" />
+    <Compile Include="ViewModels\RegionKpi\TownPreciseViewContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Abp.EntityFramework\Abp.EntityFramework.Customize.csproj">
