@@ -290,7 +290,7 @@ namespace Lte.Evaluations.DataService
             return info?.NetworkType;
         }
 
-        public IEnumerable<CsvFilesInfo> QureyFileNames(DateTime begin, DateTime end)
+        public IEnumerable<CsvFilesInfo> QueryFileNames(DateTime begin, DateTime end)
         {
             return _dtFileInfoRepository.GetAllList(x => x.TestDate >= begin && x.TestDate < end);
         }

@@ -169,6 +169,17 @@ namespace Lte.MySqlFramework.Abstract
             return view;
         }
 
+        public static TView ConstructView<TStat, TView>(this TStat stat, Town town)
+            where TStat : ITownId
+            where TView : ICityDistrictTown
+        {
+            var view = Mapper.Map<TStat, TView>(stat);
+            view.City = town.CityName;
+            view.District = town.DistrictName;
+            view.Town = town.TownName;
+            return view;
+        }
+
         public static List<TView> ConstructViews<TStat, TView>(this IEnumerable<TStat> stats, ITownRepository townRepository)
             where TStat : ITownId
             where TView : ICityDistrictTown
@@ -190,13 +201,15 @@ namespace Lte.MySqlFramework.Abstract
             return view;
         }
 
-        public static List<TTownStat> QueryTownStat<TTownStat>(this IEnumerable<TTownStat> query,
+        public static List<TView> QueryTownStat<TTownStat, TView>(this IEnumerable<TTownStat> query,
             ITownRepository townRepository, string city)
             where TTownStat : ITownId
+            where TView : ICityDistrictTown
         {
+            var towns = townRepository.GetAllList(x => x.CityName == city);
             return (from q in query
-                join t in townRepository.GetAllList().Where(x => x.CityName == city) on q.TownId equals t.Id
-                select q).ToList();
+                join t in towns on q.TownId equals t.Id
+                select q.ConstructView<TTownStat, TView>(t)).ToList();
         }
     }
 

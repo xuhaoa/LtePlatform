@@ -8,7 +8,6 @@ using LtePlatform.Models;
 namespace LtePlatform.Controllers.Dt
 {
     [ApiControl("网格测试文件信息查询控制器")]
-    [Cors("http://132.110.60.94:2018", "http://218.13.12.242:2018")]
     public class RasterFileController : ApiController
     {
         private readonly RasterInfoService _service;
@@ -77,7 +76,7 @@ namespace LtePlatform.Controllers.Dt
         [ApiResponse("包含指定日期范围内的测试文件信息")]
         public IEnumerable<CsvFilesInfo> Get(DateTime begin, DateTime end)
         {
-            return _service.QureyFileNames(begin, end);
+            return _service.QueryFileNames(begin, end);
         }
 
         [HttpGet]

@@ -36,8 +36,7 @@ namespace Lte.Evaluations.DataService.Kpi
         public IEnumerable<MrsRegionDateView> QueryDateViews(DateTime begin, DateTime end, string city)
         {
             var query = _statRepository.GetAllList(x => x.StatDate >= begin & x.StatDate < end);
-            var result = query.QueryTownStat(_townRepository, city);
-            var townViews = result.Select(x => x.ConstructView<TownMrsRsrp, TownMrsRsrpView>(_townRepository)).ToList();
+            var townViews = query.QueryTownStat<TownMrsRsrp, TownMrsRsrpView>(_townRepository, city);
             return
                 townViews.QueryDateDateViews<MrsRegionDateView, DistrictMrsRsrpView, TownMrsRsrpView>(
                     DistrictMrsRsrpView.ConstructView);

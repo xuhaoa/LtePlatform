@@ -38,8 +38,7 @@ namespace Lte.Evaluations.DataService.Kpi
         public IEnumerable<CoverageRegionDateView> QueryDateViews(DateTime begin, DateTime end, string city)
         {
             var query = _statRepository.GetAllList(x => x.StatDate >= begin & x.StatDate < end);
-            var result = query.QueryTownStat(_townRepository, city);
-            var townViews = result.Select(x => x.ConstructView<TownCoverageStat, TownCoverageView>(_townRepository)).ToList();
+            var townViews = query.QueryTownStat<TownCoverageStat, TownCoverageView>(_townRepository, city);
             return
                 townViews.QueryDateDateViews<CoverageRegionDateView, DistrictCoverageView, TownCoverageView>(
                     DistrictCoverageView.ConstructView);

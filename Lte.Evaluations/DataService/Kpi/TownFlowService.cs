@@ -91,8 +91,7 @@ namespace Lte.Evaluations.DataService.Kpi
                 _repository.GetAllList(x => x.StatTime >= begin && x.StatTime < end && x.FrequencyBandType == frequency)
                     .OrderBy(x => x.StatTime)
                     .ToList();
-            var result = query.QueryTownStat(_townRepository, city);
-            var townViews = result.Select(x => x.ConstructView<TownFlowStat, TownFlowView>(_townRepository)).ToList();
+            var townViews = query.QueryTownStat<TownFlowStat, TownFlowView>(_townRepository, city);
             return townViews;
         }
 

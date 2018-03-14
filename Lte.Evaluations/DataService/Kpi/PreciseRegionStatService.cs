@@ -39,8 +39,7 @@ namespace Lte.Evaluations.DataService.Kpi
         public IEnumerable<PreciseRegionDateView> QueryDateViews(DateTime begin, DateTime end, string city)
         {
             var query = _statRepository.GetAllList(x => x.StatTime >= begin & x.StatTime < end);
-            var result = query.QueryTownStat(_townRepository, city);
-            var townViews = result.Select(x => x.ConstructView<TownPreciseCoverage4GStat, TownPreciseView>(_townRepository)).ToList();
+            var townViews = query.QueryTownStat<TownPreciseCoverage4GStat, TownPreciseView>(_townRepository, city);
             return
                 townViews.QueryDateSpanViews<PreciseRegionDateView, DistrictPreciseView, TownPreciseView>(
                     DistrictPreciseView.ConstructView);
@@ -74,8 +73,7 @@ namespace Lte.Evaluations.DataService.Kpi
         public IEnumerable<RrcRegionDateView> QueryDateViews(DateTime begin, DateTime end, string city)
         {
             var query = _statRepository.GetAllList(x => x.StatTime >= begin & x.StatTime < end);
-            var result = query.QueryTownStat(_townRepository, city);
-            var townViews = result.Select(x => x.ConstructView<TownRrcStat, TownRrcView>(_townRepository)).ToList();
+            var townViews = query.QueryTownStat<TownRrcStat, TownRrcView>(_townRepository, city);
             return
                 townViews.QueryDateSpanViews<RrcRegionDateView, DistrictRrcView, TownRrcView>(
                     DistrictRrcView.ConstructView);
@@ -109,8 +107,7 @@ namespace Lte.Evaluations.DataService.Kpi
         public IEnumerable<QciRegionDateView> QueryDateViews(DateTime begin, DateTime end, string city)
         {
             var query = _statRepository.GetAllList(x => x.StatTime >= begin & x.StatTime < end);
-            var result = query.QueryTownStat(_townRepository, city);
-            var townViews = result.Select(x => x.ConstructView<TownQciStat, TownQciView>(_townRepository)).ToList();
+            var townViews = query.QueryTownStat<TownQciStat, TownQciView>(_townRepository, city);
             return
                 townViews.QueryDateSpanViews<QciRegionDateView, DistrictQciView, TownQciView>(
                     DistrictQciView.ConstructView);
